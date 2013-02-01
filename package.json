@@ -1,0 +1,22 @@
+{
+    "name": "click-that-hood",
+    "version": "0.0.1",
+    "private": false,
+    "dependencies": {
+        "compound": "1.1.4-17",
+        "express": "3.0.6",
+        "ejs-ext": "0.1.4-2",
+        "jugglingdb": "0.2.0-17",
+        "seedjs": "0.0.4",
+        "ejs": "0.8.3",
+        "stylus": "0.32.0"
+    },
+    "devDependencies": {
+        "mocha": "1.8.0"
+    },
+    "engines": {
+        "node": "0.8.x",
+        "npm": "1.1.x"
+    },
+    "license": "MIT"
+}
