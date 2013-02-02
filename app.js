@@ -7,7 +7,8 @@ app.use(express.compress());
 
 app.use(lessMiddleware({
     src: __dirname + '/public',
-    once: true
+    compress: true,
+    once: (process.env.NODE_ENV == 'production')
 }));
 
 app.use(express.static(__dirname + '/public'));
