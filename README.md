@@ -19,8 +19,8 @@ Please follow the instructions below to setup your development environment. In c
 
     $ npm install
 
-4) Start the Web Application (default on port 3000)
+4) Start the Web Application (default on port 8000)
 
-    $ ./node_modules/compound/bin/compound server
+    $ node app.js
 
-5) Open your website at http://localhost:3000
+5) Open your website at http://localhost:8000
