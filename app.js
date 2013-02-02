@@ -1,11 +1,17 @@
-var express = require('express')
+var express = require('express'),
+    lessMiddleware = require('less-middleware');
 
 var app = express();
+
 app.use(express.compress());
 
-// Serve all other URIs as static files from the "public" directory.
-app.use(express.static(__dirname + '/public'));
+app.use(lessMiddleware({
+    src: __dirname + '/public',
+    once: true
+}));
 
+app.use(express.static(__dirname + '/public'));
+    
 var port = process.env.PORT || 8000;
 app.listen(port, null, null, function() {
     console.log("Listening on port " + port);
