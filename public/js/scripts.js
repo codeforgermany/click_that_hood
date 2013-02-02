@@ -19,6 +19,10 @@ var LONG_STEP = .2195;
 
 var EASY_MODE_COUNT = 20;
 
+var MAP_OVERLAY_TILES_COUNT_X = 2;
+var MAP_OVERLAY_TILES_COUNT_Y = 2;
+var MAP_OVERLAY_OVERLAP_RATIO = .95;
+
 var startTime = 0;
 var timerIntervalId;
 
@@ -29,30 +33,42 @@ var neighborhoodsGuessed = [];
 var mapClickable = false;
 
 var easyMode = false;
+var mainMenu = false;
 
-// TODO unhardcode this
 var CITY_DATA = {
-  'louisville': { 
-    cartoDbQueryWhereClause: "city = 'Louisville'",
-    mapSize: [ 1507, 1196 ],
+  'lexington': { 
+    // TODO unhardcode this
+    mapSize: [ 1507, 1507 ],
+    googleMapsQuery: 'Lexington, KY',
     dataUrl: 'http://www.zillow.com/howto/api/neighborhood-boundaries.htm',
     dataTitle: 'Zillow'
   },
-  'lexington': { 
-    cartoDbQueryWhereClause: "city = 'Lexington'",
-    mapSize: [ 1507, 1507 ],
+  'louisville': {
+    mapSize: [ 1507, 1196 ],
+    googleMapsQuery: 'Louisville, KY',
     dataUrl: 'http://www.zillow.com/howto/api/neighborhood-boundaries.htm',
     dataTitle: 'Zillow'
   },
   'oakland': { 
     cartoDbQueryWhereClause: "city = 'Oakland'",
     mapSize: [ 1507, 1796 ],
+    googleMapsQuery: 'Oakland, CA',
     dataUrl: 'http://data.openoakland.org/dataset/zillow-neighborhoods',
     dataTitle: 'OpenOakland'
+  },
+  'san-francisco': { 
+    mapSize: [ 1207, 1207 ],
+    optQuery: 'SELECT * FROM cth_sf_neighborhoods',
+    optCartoDbUser: 'mwichary',
+    googleMapsQuery: 'San Francisco, CA',
+    dataUrl: 'https://data.sfgov.org/Geography/Planning-Neighborhoods/qc6m-r4ih',
+    dataTitle: 'San Francisco Data'
   },
 };
 
 var SMALL_NEIGHBORHOOD_THRESHOLD = 4;
+
+var pixelRatio;
 
 var cityId = 'louisville';
 
@@ -136,11 +152,23 @@ function prepareMap() {
       .attr('width', canvasWidth)
       .attr('height', canvasHeight);    
 
-  var query = "SELECT * FROM neighborhoods WHERE " + CITY_DATA[cityId].cartoDbQueryWhereClause;
+  if (!CITY_DATA[cityId].optQuery) {
+    var query = "SELECT * FROM neighborhoods WHERE city = '" + cityName + "'";
+  } else {
+    var query = CITY_DATA[cityId].optQuery;
+  }
+
+  if (!CITY_DATA[cityId].optCartoDbUser) {
+    var site = 'http://cfa.cartodb.com';
+  } else {
+    var site = 'http://' + CITY_DATA[cityId].optCartoDbUser + '.cartodb.com';
+  }
+
+  var url = site + '/api/v2/sql?q=' + encodeURIComponent(query) + 
+      ' &format=GeoJSON';
 
   queue()  
-      .defer(d3.json, 'http://cfa.cartodb.com/api/v2/sql?q=' + 
-      encodeURIComponent(query) + ' &format=GeoJSON')
+      .defer(d3.json, url)
       .await(mapIsReady);
 }
 
@@ -447,24 +475,18 @@ function updateTimer() {
     minutes + ':' + seconds + '.' + tenthsOfSeconds;
 }
 
-function getGoogleMapsUrl(lat, lon, zoom, scale, type) {
+function getGoogleMapsUrl(lat, lon, zoom, type) {
   var url = 'http://maps.googleapis.com/maps/api/staticmap' +
       '?center=' + lat + ',' + lon +
       '&zoom=' + zoom + '&size=640x640' +
-      '&sensor=false&scale=' + scale + '&maptype=' + type + '&format=jpg';
+      '&sensor=false&scale=' + pixelRatio + '&maptype=' + type + '&format=jpg';
 
   return url;
 }
 
-var MAP_OVERLAY_TILES_COUNT_X = 2;
-var MAP_OVERLAY_TILES_COUNT_Y = 2;
-var MAP_OVERLAY_OVERLAP_RATIO = .95;
-
 function prepareMapOverlay() {
   var lat = centerLat - LAT_STEP / 2;
   var lon = centerLon - LONG_STEP / 2;
-
-  var pixelRatio = window.devicePixelRatio || 1;
 
   for (var x = 0; x < MAP_OVERLAY_TILES_COUNT_X; x++) {
     for (var y = 0; y < MAP_OVERLAY_TILES_COUNT_Y; y++) {
@@ -472,7 +494,6 @@ function prepareMapOverlay() {
           lat + y * LAT_STEP * MAP_OVERLAY_OVERLAP_RATIO, 
           lon + x * LONG_STEP * MAP_OVERLAY_OVERLAP_RATIO, 
           12, 
-          pixelRatio, 
           'satellite');
 
       var imgEl = document.createElement('img');
@@ -522,8 +543,12 @@ function onResize() {
     .attr('d', mapPath);
 }
 
+function capitalizeName(name) {
+  return name.replace(/-/g, ' ').replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+}
+
 function getCityName() {
-  cityId = 'louisville';
+  cityId = '';
 
   var cityMatch = location.href.match(/[\?\&]city=([^&]*)/);
 
@@ -533,7 +558,11 @@ function getCityName() {
     }
   }      
 
-  cityName = cityId.charAt(0).toUpperCase() + cityId.slice(1);
+  if (cityId) {
+    cityName = capitalizeName(cityId);
+  } else {
+    mainMenu = true;
+  }
 }
 
 function updateFooter() {
@@ -543,7 +572,7 @@ function updateFooter() {
 }
 
 function prepareLogo() {
-  document.querySelector('#logo').src = '/images/logo-' + cityId + '.png';
+  document.querySelector('#city-name').src = 'images/city-name/' + cityId + '.png';
 
   var els = document.querySelectorAll('.city-name');
   for (var i = 0, el; el = els[i]; i++) {
@@ -551,16 +580,43 @@ function prepareLogo() {
   }
 }
 
+function prepareMainMenu() {
+  document.body.classList.add('main-menu');
+
+  for (var id in CITY_DATA) {
+    var cityData = CITY_DATA[id];
+
+    var el = document.createElement('li');
+    el.innerHTML = 
+        '<a href="?city=' + id + '">' +
+        '<img class="map" src="http://maps.googleapis.com/maps/api/staticmap?center=' + 
+        encodeURIComponent(cityData.googleMapsQuery) + 
+        '&zoom=11&maptype=terrain&size=200x200&sensor=false&scale=' + pixelRatio + '">' +
+        '<img class="name" src="images/city-name/' + id + '.png"></a>';
+
+    document.querySelector('#main-menu .cities').appendChild(el);
+  }
+
+  document.querySelector('#main-menu').classList.add('visible');
+}
+
+function prepare() {
+  pixelRatio = window.devicePixelRatio || 1;
+}
+
 function main() {
+  prepare();
+
   getCityName();
-  updateFooter();
 
-  prepareLogo();
-
-  document.querySelector('#cover').classList.add('visible');
-  document.querySelector('#loading').classList.add('visible');
-
-  prepareMap();
-
-  window.addEventListener('resize', onResize, false);
+  if (mainMenu) {
+    prepareMainMenu();
+  } else {
+    prepareLogo();
+    updateFooter();
+    document.querySelector('#cover').classList.add('visible');
+    document.querySelector('#loading').classList.add('visible');
+    prepareMap();
+    window.addEventListener('resize', onResize, false);
+  }
 }

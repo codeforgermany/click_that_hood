@@ -24,6 +24,7 @@
   <script src='http://d3js.org/topojson.v0.min.js'></script>
 
   <script src='/js/scripts.js'></script>
+  <script src='/js/data.js'></script>
 
   <script type="text/javascript">
     var _gaq = _gaq || [];
@@ -40,7 +41,8 @@
 
 <body>
   <header>
-    <img id='logo'>
+    <a href='/click-that-hood'><img alt='Click that ’hood' class='logo' src='/images/logo.png'></a>
+    <img id='city-name'>
     <h2 id='count'></h3>
     <h2 id='time'></h3>
   </header>
@@ -49,10 +51,30 @@
     <img id='cfa' src='/images/cfa-flagtag.svg'>
     <a href='http://www.codeforamerica.org'>Code for America</a>, 2013.
     <a target='_blank' href='https://github.com/codeforamerica/colonel-clark/tree/master/public/click-that-hood'>Source code</a>.
-    Neighboorhood data from <a target='_blank' href='#' id='data-source'></a>.
-    <span id='neighborhoods-removed'>(Some neighborhoods removed due to small size.)</span>
-    Map imagery &copy; 2013 Google and TerraMetrics.
+    <span class='data'>    
+      Neighboorhood data from <a target='_blank' href='#' id='data-source'></a>.
+      <span id='neighborhoods-removed'>(Some neighborhoods removed due to small size.)</span>
+      Map imagery &copy; 2013 Google and TerraMetrics.
+    </span>
+    <span class='main-menu'>
+      <a href='mailto:louisville@codeforamerica.org'>Contact via email</a>.
+      <a href='http://twitter.com/mwichary'>Contact via Twitter</a>.
+      <a href='https://github.com/codeforamerica/colonel-clark/issues?labels=click-that-hood'>File a bug</a>.
+    </span>
   </footer>
+
+  <div id='main-menu'>
+    <p>
+      A simple game built by <a href='http://codeforamerica.org'>Code 
+      for America</a>’s 2013 Louisville fellowship team.
+    </p>
+    <p>
+      Choose your city!
+    </p>
+    <ul class='cities'>
+    </ul>
+  </div>
+
 
   <div id='map'>
     <div id='svg-container'></div>
@@ -122,26 +144,6 @@
       </div>    
     </div>
   </div>
-
-  <div id='what-is-this-content' style='display: none'>
-    <p>
-      This is a simple game built by <a href='http://codeforamerica.org'>Code 
-      for America</a>’s 2013 fellowship team for Louisville.
-    </p>
-    <p>
-      Let us know whether you’d want to extend it to your city.
-    </p>
-    <p>
-      <a href='mailto:louisville@codeforamerica.org'>Contact via email</a>
-      ·
-      <a href='http://twitter.com/mwichary'>Contact via Twitter</a>
-      ·
-      <a href='https://github.com/codeforamerica/colonel-clark/tree/master/public/click-that-hood'>View source code</a>
-      ·
-      <a href='https://github.com/codeforamerica/colonel-clark/issues?labels=click-that-hood'>File a bug</a>
-    </p>
-  </div>
-  <script src='../what-is-this.js'></script>  
 
   <script>
     main();

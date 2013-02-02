@@ -2,6 +2,7 @@
 
 @headerWidth: 320px;
 @footerHeight: 30px;
+@narrowHeaderWidth: 150px;
 
 @bodyMargin: 15px;
 
@@ -51,6 +52,15 @@ body > header {
 
   text-align: center;
 }
+body.main-menu > header {
+  top: 0;
+  margin-top: 0;
+  width: @narrowHeaderWidth;
+}
+
+body.main-menu #map {
+  display: none;
+}
 
 body > footer {
   font-size: 12px;
@@ -69,10 +79,14 @@ body > footer {
 
   text-align: center;
 }
-body > footer > a {
-  color: inherit;
+body > footer a,
+body > footer a:visited {
   text-decoration: none;
   border-bottom: 1px solid rgba(0, 0, 0, .25);
+}
+
+body:not(.main-menu) > footer .main-menu {
+  display: none;
 }
 
 
@@ -85,10 +99,23 @@ body > footer #cfa {
   margin-right: -5px;
 }
 
-body > header #logo {
+body.main-menu > footer .data {
+  display: none;
+}
+
+.logo {
   margin-top: 20px;
+  width: 126px;
+  height: 143px;
+  max-width: 100%;
+}
+body > header #city-name {
+  margin-top: 30px;
   width: 284px;
   max-width: 100%;
+}
+body.main-menu > header #city-name {
+  display: none;
 }
 
 body > header > h2 {
@@ -100,6 +127,7 @@ body > header > h2 {
 body > header > h3 {
   font-weight: 600;
 }
+
 
 #map {
   border-radius: @borderRadius;
@@ -283,6 +311,7 @@ body.no-hover #neighborhood-hover {
   50%, 100% { fill: rgba(0, 0, 0, .6); }
 }
 
+
 #cover {
   position: absolute;
   z-index: 100;
@@ -293,8 +322,9 @@ body.no-hover #neighborhood-hover {
 
   text-align: center;
   letter-spacing: 0;
-  font-size: @fontSize * 2;
   background: fadeout(@mainBackgroundColour, 10%);
+
+  font-size: @fontSize * 2;
   font-weight: 300;
 
   display: none;
@@ -305,12 +335,11 @@ body.no-hover #neighborhood-hover {
 
   &.visible {
     display: block;
-    outline: 1px solid red;
     display: -moz-box;
     display: -webkit-box;  
   }
 }
-#cover button {
+button {
   font-size: @fontSize * 2;
   font-weight: 600;
   padding: 10px 50px;
@@ -321,16 +350,15 @@ body.no-hover #neighborhood-hover {
 
   cursor: pointer;
 }
-#cover button:not(.smaller) > span {
+button:not(.smaller) > span {
   font-size: 70%;
   display: block;
 }
-#cover button.smaller {
+button.smaller {
   font-weight: 400;
   padding: 10px 20px;
   font-size: 60%;
 }
-
 
 #cover > div {
   display: none;
@@ -361,10 +389,68 @@ body.no-hover #neighborhood-hover {
   margin: 0 5px;
   outline: 1px solid rgba(0, 0, 0, .5);
 }
-.small a {
+a {
   color: inherit;
 }
 
+#main-menu {
+  display: none;
+
+  position: absolute;
+  top: @bodyMargin;
+  bottom: @bodyMargin + @footerHeight;
+  left: @bodyMargin * 2 + @narrowHeaderWidth;
+  right: @bodyMargin;
+
+  font-size: @fontSize * 1.5;
+  overflow-y: auto;
+  max-height: 100%;
+
+  text-align: center;
+}
+#main-menu.visible {
+  display: block;
+}
+#main-menu .logo {
+  float: left;
+}
+#main-menu .cities {
+  list-style: none;
+  padding: 0 50px;
+  margin: 0;
+}
+#main-menu .cities li {
+  display: inline-block;
+  width: 220px;
+  height: 280px;
+  margin: 15px 10px;
+  position: relative;
+}
+#main-menu .cities li a {
+  display: block;
+  
+  border-radius: @borderRadius;
+  background: rgba(0, 0, 0, .15);
+}
+#main-menu .cities li a:hover {
+  background: rgba(0, 0, 0, .2);
+}
+#main-menu .cities li .map {
+  margin-top: 80px;
+  width: 200px;
+  height: 200px;
+  opacity: .8;
+}
+#main-menu .cities li a:hover .map {
+  opacity: 1;
+}
+
+#main-menu .cities li .name {
+  position: absolute;
+  top: 5px;
+  left: 20px;
+  width: 180px;
+}
 q {
   font-style: italic;
   
