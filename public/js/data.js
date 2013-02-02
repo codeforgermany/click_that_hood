@@ -1,4 +1,12 @@
 var CITY_DATA = {
+/*  'chicago': {
+    mapSize: [ 1500, 1500 ],
+    optQuery: 'SELECT * FROM cth_chi_neighborhoods',
+    optCartoDbUser: 'mwichary',
+    googleMapsQuery: 'Chicago, IL',
+    dataUrl: 'https://data.cityofchicago.org/Facilities-Geographic-Boundaries/Boundaries-Neighborhoods/9wp7-iasj',
+    dataTitle: 'City of Chicago Data Portal'
+  },*/
   'lexington': { 
     // TODO unhardcode this
     mapSize: [ 1507, 1507 ],
