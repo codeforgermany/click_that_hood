@@ -17,7 +17,7 @@ var MAP_VERT_PADDING = 50;
 var LAT_STEP = -.1725;
 var LONG_STEP = .2195;
 
-var EASY_MODE_COUNT = 20;
+var EASY_MODE_COUNT = 3;
 
 var MAP_OVERLAY_TILES_COUNT_X = 2;
 var MAP_OVERLAY_TILES_COUNT_Y = 2;
@@ -27,6 +27,7 @@ var startTime = 0;
 var timerIntervalId;
 
 var totalNeighborhoodsCount;
+var neighborhoods = [];
 var neighborhoodsToBeGuessed = [];
 var neighborhoodsGuessed = [];
 
@@ -184,7 +185,7 @@ function removeSmallNeighborhoods() {
         (boundingBox.height < SMALL_NEIGHBORHOOD_THRESHOLD)) {
       var name = el.getAttribute('name');
 
-      neighborhoodsToBeGuessed.splice(neighborhoodsToBeGuessed.indexOf(name), 1);
+      neighborhoods.splice(neighborhoods.indexOf(name), 1);
 
       someSmallNeighborhoodsRemoved = true;
     }
@@ -225,15 +226,15 @@ function mapIsReady(error, data) {
 }
 
 function prepareNeighborhoods() {
-  var neighborhoods = [];
+  neighborhoods = [];
 
   for (var i in mapData.features) {
-    neighborhoodsToBeGuessed.push(mapData.features[i].properties.name);
+    neighborhoods.push(mapData.features[i].properties.name);
   }
 
-  neighborhoodsToBeGuessed.sort();
+  neighborhoods.sort();
 
-  totalNeighborhoodsCount = neighborhoodsToBeGuessed.length;
+  totalNeighborhoodsCount = neighborhoods.length;
 }
 
 function createMap() {
@@ -416,10 +417,6 @@ function startIntro() {
   document.querySelector('#intro').classList.add('visible');
 }
 
-function playAgain() {
-  location.reload();
-}
-
 function removeNeighborhoodsForEasyMode() {
   while (neighborhoodsToBeGuessed.length > EASY_MODE_COUNT) {
     var pos = Math.floor(Math.random() * neighborhoodsToBeGuessed.length);
@@ -427,21 +424,26 @@ function removeNeighborhoodsForEasyMode() {
     var name = neighborhoodsToBeGuessed[pos];
 
     var el = document.querySelector('#map svg [name="' + name + '"]');
-    //el.parentNode.removeChild(el);
     el.setAttribute('inactive', true);
 
     neighborhoodsToBeGuessed.splice(pos, 1);
   }
+}
 
+function reloadPage() {
+  location.reload();
 }
 
 function startGame(useEasyMode) {
   document.querySelector('#intro').classList.remove('visible');  
   document.querySelector('#cover').classList.remove('visible');
-  window.setTimeout(nextGuess, NEXT_GUESS_DELAY);
+
+  neighborhoodsToBeGuessed = [];
+  for (var i in neighborhoods) {
+    neighborhoodsToBeGuessed.push(neighborhoods[i]);
+  }
 
   easyMode = useEasyMode;
-
   if (easyMode) {
     removeNeighborhoodsForEasyMode();
   }
@@ -450,6 +452,8 @@ function startGame(useEasyMode) {
 
   startTime = new Date().getTime();
   timerIntervalId = window.setInterval(updateTimer, 100);
+
+  window.setTimeout(nextGuess, NEXT_GUESS_DELAY);
 }
 
 function gameOver() {
