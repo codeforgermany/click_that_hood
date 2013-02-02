@@ -63,8 +63,6 @@ function calculateMapSize() {
   var maxLon = -99999999;
 
   for (var i in mapData.features) {
-    console.log(mapData.features[i]);
-
     for (var j in mapData.features[i].geometry.coordinates[0]) {
       for (var k in mapData.features[i].geometry.coordinates[0][j]) {
         var lon = mapData.features[i].geometry.coordinates[0][j][k][0];
