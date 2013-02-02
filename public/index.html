@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+
+<head>
+<!--
+/*
+ * Click That ’Hood
+ *
+ * Front-end (mostly) by Marcin Wichary, Code for America fellow in 2013.
+ *
+ * Note: This code is really gnarly. It’s been done under a lot of time 
+ * pressure and there’s a lot of shortcut and tech debt. It might be improved
+ * later if there’s time later.
+ */
+-->
+
+  <title>Click that ’hood!</title>
+  <meta charset='utf-8'>
+
+  <link href='/css/styles.less' rel='stylesheet/less' type='text/css'>
+  <script src='/js/less-1.3.0.min.js'></script>
+
+  <script src='http://d3js.org/d3.v3.min.js'></script>
+  <script src='http://d3js.org/queue.v1.min.js'></script>
+  <script src='http://d3js.org/topojson.v0.min.js'></script>
+
+  <script src='/js/scripts.js'></script>
+
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-37861999-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+</head>
+
+<body>
+  <header>
+    <img id='logo'>
+    <h2 id='count'></h3>
+    <h2 id='time'></h3>
+  </header>
+
+  <footer>
+    <img id='cfa' src='/images/cfa-flagtag.svg'>
+    <a href='http://www.codeforamerica.org'>Code for America</a>, 2013.
+    <a target='_blank' href='https://github.com/codeforamerica/colonel-clark/tree/master/public/click-that-hood'>Source code</a>.
+    Neighboorhood data from <a target='_blank' href='#' id='data-source'></a>.
+    <span id='neighborhoods-removed'>(Some neighborhoods removed due to small size.)</span>
+    Map imagery &copy; 2013 Google and TerraMetrics.
+  </footer>
+
+  <div id='map'>
+    <div id='svg-container'></div>
+    <div id='google-maps-overlay'></div>
+  
+    <div id='neighborhood-hover'>
+      <span></span>
+    </div>    
+
+    <div id='cover'>
+      <div id='loading'>
+        Loading…
+      </div>
+      <div id='intro'>
+        <p>
+          Click on the proper <span class='city-name'></span> neighborhood
+          as soon as its name comes up. The faster, the better!
+        </p>
+        <p>
+          <button onclick='startGame(true)'>Start the game<br><span>(<span class='easy-mode-count'></span> random neighborhoods)</span></button>
+          <br>
+          or
+          <br>
+          <button onclick='startGame(false)' class='smaller'>Start a difficult game (all <span class='hard-mode-count'></span> neighborhoods)</button>
+        </p>
+        <p class='small'>
+          <q>I think I just spent 1½ hours playing this.</q>—<nobr>Mick Thompson</nobr>
+        </p>
+      </div>
+      <div id='congrats-easy'>
+        <h1>
+          Congratulations! 
+        </h1>
+        <p>
+          You correctly identified <span class='easy-mode-count'></span> <span class='city-name'></span>
+          neighborhoods!
+        </p>
+        <p>
+          <button onclick='startGame(true)'>Play again<br><span>(<span class='easy-mode-count'></span> random neighborhoods)</span></button>
+          <br>
+          or
+          <br>
+          <button onclick='startGame(false)' class='smaller'>Play again on difficult mode (all <span class='hard-mode-count'></span> neighborhoods)</button>
+        </p>
+      </div>
+      <div id='congrats-hard'>
+        <h1>
+          Congratulations! 
+        </h1>
+        <p>
+          You correctly identified all <span class='city-name'></span>
+          neighborhoods!
+        </p>
+        <p>
+          <button onclick='startGame(true)'>Play again<br><span>(<span class='easy-mode-count'></span> random neighborhoods)</span></button>
+          <br>
+          or
+          <br>
+          <button onclick='startGame(false)' class='smaller'>Play again on difficult mode (all <span class='hard-mode-count'></span> neighborhoods)</button>
+        </p>
+      </div>
+    </div>
+    <div id='neighborhood-guess-wrapper'>
+      <div id='neighborhood-guess'>
+        Click on
+        <span></span>
+      </div>    
+    </div>
+  </div>
+
+  <div id='what-is-this-content' style='display: none'>
+    <p>
+      This is a simple game built by <a href='http://codeforamerica.org'>Code 
+      for America</a>’s 2013 fellowship team for Louisville.
+    </p>
+    <p>
+      Let us know whether you’d want to extend it to your city.
+    </p>
+    <p>
+      <a href='mailto:louisville@codeforamerica.org'>Contact via email</a>
+      ·
+      <a href='http://twitter.com/mwichary'>Contact via Twitter</a>
+      ·
+      <a href='https://github.com/codeforamerica/colonel-clark/tree/master/public/click-that-hood'>View source code</a>
+      ·
+      <a href='https://github.com/codeforamerica/colonel-clark/issues?labels=click-that-hood'>File a bug</a>
+    </p>
+  </div>
+  <script src='../what-is-this.js'></script>  
+
+  <script>
+    main();
+  </script>
+</body>

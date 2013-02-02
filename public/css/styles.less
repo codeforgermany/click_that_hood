@@ -1,0 +1,384 @@
+@import 'http://fonts.googleapis.com/css?family=Open+Sans:400,300,600';
+
+@headerWidth: 320px;
+@footerHeight: 30px;
+
+@bodyMargin: 15px;
+
+@highlightColour: rgb(247, 148, 29);
+@secondaryColour: rgb(0, 200, 0);
+
+@chartColour: darken(@secondaryColour, 10);
+
+@selectedFilterColour: lighten(@highlightColour, 30);
+@hoverFilterColour: lighten(@highlightColour, 40);
+
+@mainBackgroundColour: rgb(235, 240, 220);
+
+@heatMapColour1: @highlightColour;
+@heatMapColour2: rgb(0, 100, 0);
+
+@dataTransitionDelay: 150ms;
+
+@fontSize: 14px;
+@borderRadius: 7px;
+
+@hoverNeighborhoodFillColour: fadeout(@highlightColour, 50%);
+@guessedNeighborhoodFillColour: rgba(0, 255, 0, .25);
+@unguessedNeighborhoodFillColour: rgba(0, 0, 0, .6);
+@inactiveNeighborhoodFillColour: rgba(128, 128, 128, .75);
+
+body {
+  background: @mainBackgroundColour;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+
+  font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+  font-size: @fontSize;
+}
+
+body > header {
+  position: absolute;
+
+  top: 50%;
+  bottom: @bodyMargin;
+
+  margin-top: -220px;
+
+  left: @bodyMargin;
+  width: @headerWidth;
+
+  text-align: center;
+}
+
+body > footer {
+  font-size: 12px;
+
+  opacity: .75;
+
+  z-index: 1000;
+
+  position: absolute;
+
+  left: @bodyMargin;
+  right: @bodyMargin;
+
+  bottom: 0;
+  height: @footerHeight;
+
+  text-align: center;
+}
+body > footer > a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0, 0, 0, .25);
+}
+
+
+body > footer #cfa {
+  width: 48px;
+  vertical-align: middle;
+
+  position: relative;
+  top: -1px;
+  margin-right: -5px;
+}
+
+body > header #logo {
+  margin-top: 20px;
+  width: 284px;
+  max-width: 100%;
+}
+
+body > header > h2 {
+  color: @highlightColour;
+  font-size: 200%;
+  font-weight: 600;
+}
+
+body > header > h3 {
+  font-weight: 600;
+}
+
+#map {
+  border-radius: @borderRadius;
+
+  position: absolute;
+  left: @bodyMargin * 2 + @headerWidth;
+  right: @bodyMargin;
+  top: @bodyMargin;
+  bottom: @footerHeight + @bodyMargin;
+
+  overflow: hidden;
+}
+
+#svg-container {
+  z-index: 50;
+  position: absolute;
+  top: 50px;
+  bottom: 50px;
+  left: 0;
+  right: 0;
+}
+#map svg {
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+#google-maps-overlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  opacity: 1;
+}
+#google-maps-overlay img {
+  position: absolute;
+}
+
+
+/* Click that hood */
+
+#neighborhood-guess-wrapper {
+  float: left;
+  left: 50%;
+  position: relative;
+}
+
+#neighborhood-guess {
+  background: @mainBackgroundColour;
+
+  border-radius: @borderRadius;
+
+  float: left;
+  position: relative;
+  right: 50%;
+
+  top: -10px;
+  padding: 10px 20px;
+  z-index: 1000;
+  text-align: center;
+
+  pointer-events: none;
+
+  font-size: @fontSize * 1.5;
+  font-weight: 300;
+
+  display: none;
+  
+  &.visible {
+    display: block;
+  }
+}
+
+#neighborhood-guess span {
+  font-weight: 600;
+  font-size: @fontSize * 2.5;
+  letter-spacing: -1px;
+  line-height: 1;
+  display: block;
+}
+
+body.no-hover #neighborhood-hover {
+  display: none;
+}
+
+#neighborhood-hover {
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  border-radius: @borderRadius;
+
+  z-index: 2000;
+  pointer-events: none;
+
+  text-align: center;
+
+  border: 1px solid white;
+  margin: -1px;
+
+  background: rgba(0, 0, 0, .8);
+
+  white-space: nowrap;
+
+  background: fadeout(lighten(@highlightColour, 10%), 20%);
+
+  box-shadow: 0 2px 3px rgba(0, 0, 0, .5);
+
+  padding: 8px 16px;
+  box-sizing: border-box;
+
+  color: black;
+
+  pointer-events: none;
+
+  opacity: 0;
+
+  margin-top: 50px + 20px;
+
+  font-weight: 600;
+  font-size: @fontSize * 1.5;
+  letter-spacing: 0;
+  line-height: 1;
+
+  &.visible {
+    opacity: 1;
+  }
+}
+
+#map .neighborhood-boundary {
+  fill: none;
+}
+
+#map .neighborhood {
+  &.unguessed {
+    stroke-width: 1;
+    stroke: white;
+
+    fill: @unguessedNeighborhoodFillColour;
+  }
+  &[inactive] {
+    fill: @inactiveNeighborhoodFillColour;
+  }
+  &:not([inactive]):hover {
+    fill: fadeout(@highlightColour, 50%);
+    cursor: pointer;
+  }
+  &.guessed {
+    stroke: transparent;
+    fill: @guessedNeighborhoodFillColour;
+  }
+  &.guessed:hover {
+    stroke: white;
+
+    fill: mix(@guessedNeighborhoodFillColour, @hoverNeighborhoodFillColour, 50%);
+  }
+  &.right-guess {
+    -webkit-animation-name: blink;
+    -webkit-animation-duration: 500ms;
+    -webkit-animation-iteration-count: infinite;
+
+    -moz-animation-name: blink;
+    -moz-animation-duration: 500ms;
+    -moz-animation-iteration-count: infinite;
+  }
+  &.wrong-guess {
+    fill: rgba(255, 0, 0, .7);
+
+    stroke: white;
+  }
+}
+
+@-webkit-keyframes blink {
+  0%, 49.99% { fill: rgba(0, 255, 0, .25); }
+  50%, 100% { fill: rgba(0, 0, 0, .6); }
+}
+@keyframes blink {
+  0%, 49.99% { fill: rgba(0, 255, 0, .25); }
+  50%, 100% { fill: rgba(0, 0, 0, .6); }
+}
+
+#cover {
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+
+  text-align: center;
+  letter-spacing: 0;
+  font-size: @fontSize * 2;
+  background: fadeout(@mainBackgroundColour, 10%);
+  font-weight: 300;
+
+  display: none;
+  -webkit-box-pack: center;
+  -webkit-box-align: center;
+
+  color: black;
+
+  &.visible {
+    display: block;
+    outline: 1px solid red;
+    display: -moz-box;
+    display: -webkit-box;  
+  }
+}
+#cover button {
+  font-size: @fontSize * 2;
+  font-weight: 600;
+  padding: 10px 50px;
+
+  font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+
+  box-shadow: 0 0 5px @highlightColour;
+
+  cursor: pointer;
+}
+#cover button:not(.smaller) > span {
+  font-size: 70%;
+  display: block;
+}
+#cover button.smaller {
+  font-weight: 400;
+  padding: 10px 20px;
+  font-size: 60%;
+}
+
+
+#cover > div {
+  display: none;
+
+  margin: 0 auto;
+
+  max-width: 500px;
+ 
+  &.visible {
+    display: block;
+  }
+}
+#cover h1 {
+  font-size: 100%;
+  padding: 0;
+  margin: 0;
+  font-weight: 500;
+}
+
+.small {
+  font-size: 60%;
+}
+
+.small img {
+  width: 30px;
+  height: 30px;
+  vertical-align: middle;
+  margin: 0 5px;
+  outline: 1px solid rgba(0, 0, 0, .5);
+}
+.small a {
+  color: inherit;
+}
+
+q {
+  font-style: italic;
+  
+  &::before {
+    content: '“';
+  }
+  &::after {
+    content: '”';
+  }
+}
+
+#neighborhoods-removed {
+  display: none;
+}
+#neighborhoods-removed.visible {
+  display: inline;
+}
