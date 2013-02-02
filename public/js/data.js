@@ -34,4 +34,12 @@ var CITY_DATA = {
     dataUrl: 'https://data.sfgov.org/Geography/Planning-Neighborhoods/qc6m-r4ih',
     dataTitle: 'San Francisco Data'
   },
+/*  'seattle': { 
+    mapSize: [ 2207, 2807 ],
+    optQuery: 'SELECT * FROM cth_sea_neighborhoods',
+    optCartoDbUser: 'mwichary',
+    googleMapsQuery: 'Seattle, WA',
+    dataUrl: 'https://data.seattle.gov/dataset/Neighborhoods/2mbt-aqqx',
+    dataTitle: 'Data.Seattle.Gov'
+  },*/
 };
