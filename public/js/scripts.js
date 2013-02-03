@@ -22,8 +22,9 @@ var EASY_MODE_COUNT = 20;
 var MAP_OVERLAY_TILES_COUNT_X = 2;
 var MAP_OVERLAY_TILES_COUNT_Y = 2;
 var MAP_OVERLAY_OVERLAP_RATIO = .95;
+var MAP_OVERLAY_SIZE_THRESHOLD = 400;
 
-var SMALL_NEIGHBORHOOD_THRESHOLD = 4;
+var SMALL_NEIGHBORHOOD_THRESHOLD = 8;
 
 var startTime = 0;
 var timerIntervalId;
@@ -154,6 +155,10 @@ function removeSmallNeighborhoods() {
     if ((boundingBox.width < SMALL_NEIGHBORHOOD_THRESHOLD) || 
         (boundingBox.height < SMALL_NEIGHBORHOOD_THRESHOLD)) {
       var name = el.getAttribute('name');
+
+/*    if (el.getAttribute('name') == 'Printers Row') {
+      alert(boundingBox.width + ' ' + boundingBox.height);
+    }*/
 
       neighborhoods.splice(neighborhoods.indexOf(name), 1);
 
@@ -459,19 +464,9 @@ function getGoogleMapsUrl(lat, lon, zoom, type) {
 }
 
 function prepareMapOverlay() {
-  var lat = centerLat - LAT_STEP / 2;
-  var lon = centerLon - LONG_STEP / 2;
-
   for (var x = 0; x < MAP_OVERLAY_TILES_COUNT_X; x++) {
     for (var y = 0; y < MAP_OVERLAY_TILES_COUNT_Y; y++) {
-      var url = getGoogleMapsUrl(
-          lat + y * LAT_STEP * MAP_OVERLAY_OVERLAP_RATIO, 
-          lon + x * LONG_STEP * MAP_OVERLAY_OVERLAP_RATIO, 
-          12, 
-          'satellite');
-
       var imgEl = document.createElement('img');
-      imgEl.src = url;
 
       document.querySelector('#google-maps-overlay').appendChild(imgEl);
     }
@@ -485,16 +480,38 @@ function resizeMapOverlay() {
   var size = globalScale * 0.0012238683395795992;
   size = size * 0.995 / 2;
 
+  var latStep = LAT_STEP;
+  var longStep = LONG_STEP;
+
+  // TODO remove global
+  zoom = 12;
+
+  if (size < MAP_OVERLAY_SIZE_THRESHOLD) {
+    size *= 2;
+    zoom--;
+    latStep *= 2;
+    longStep *= 2;
+  }
+
+  var lat = centerLat - latStep / 2;
+  var lon = centerLon - longStep / 2;
+
   var offsetX = canvasWidth / 2 - size;
   var offsetY = canvasHeight / 2 - size + 50;
 
   var els = document.querySelectorAll('#google-maps-overlay img');
-
   var elCount = 0;
   for (var x = 0; x < MAP_OVERLAY_TILES_COUNT_X; x++) {
     for (var y = 0; y < MAP_OVERLAY_TILES_COUNT_Y; y++) {
       var el = els[elCount];
       elCount++;
+
+      var url = getGoogleMapsUrl(
+          lat + y * latStep * MAP_OVERLAY_OVERLAP_RATIO, 
+          lon + x * longStep * MAP_OVERLAY_OVERLAP_RATIO, 
+          zoom, 
+          'satellite');
+      el.src = url;
 
       el.style.width = size + 'px';
       el.style.height = size + 'px';
