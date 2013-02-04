@@ -398,6 +398,7 @@ function startIntro() {
 
 function makeNeighborhoodInactive(name) {
   var el = document.querySelector('#map svg [name="' + name + '"]');
+
   el.setAttribute('inactive', true);
 }
 
