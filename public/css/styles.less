@@ -118,12 +118,6 @@ body.main-menu > header #city-name {
   display: none;
 }
 
-body > header > h2 {
-  color: @highlightColour;
-  font-size: 200%;
-  font-weight: 600;
-}
-
 body > header > h3 {
   font-weight: 600;
 }
@@ -171,6 +165,37 @@ body > header > h3 {
 
 /* Click that hood */
 
+#count {
+  background: @mainBackgroundColour;
+  border-radius: 0 @borderRadius 0 0;
+
+  padding: 10px 20px 10px 10px;
+
+  position: absolute;
+  left: 0;
+  bottom: -40px;
+
+  font-weight: 600;
+  font-size: @fontSize * 2.5;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+#time {
+  background: @mainBackgroundColour;
+  border-radius: @borderRadius 0 0 0;
+
+  padding: 10px 10px 10px 20px;
+
+  position: absolute;
+  right: 0;
+  bottom: -40px;
+
+  font-weight: 600;
+  font-size: @fontSize * 2.5;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
 #neighborhood-guess-wrapper {
   float: left;
   left: 50%;
@@ -179,7 +204,6 @@ body > header > h3 {
 
 #neighborhood-guess {
   background: @mainBackgroundColour;
-
   border-radius: @borderRadius;
 
   float: left;
