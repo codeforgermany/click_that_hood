@@ -162,6 +162,8 @@ function removeSmallNeighborhoods() {
 
       neighborhoods.splice(neighborhoods.indexOf(name), 1);
 
+      makeNeighborhoodInactive(name);
+
       totalNeighborhoodsCount--;
 
       someSmallNeighborhoodsRemoved = true;
@@ -394,14 +396,18 @@ function startIntro() {
   document.querySelector('#intro').classList.add('visible');
 }
 
+function makeNeighborhoodInactive(name) {
+  var el = document.querySelector('#map svg [name="' + name + '"]');
+  el.setAttribute('inactive', true);
+}
+
 function removeNeighborhoodsForEasyMode() {
   while (neighborhoodsToBeGuessed.length > EASY_MODE_COUNT) {
     var pos = Math.floor(Math.random() * neighborhoodsToBeGuessed.length);
 
     var name = neighborhoodsToBeGuessed[pos];
 
-    var el = document.querySelector('#map svg [name="' + name + '"]');
-    el.setAttribute('inactive', true);
+    makeNeighborhoodInactive(name);
 
     neighborhoodsToBeGuessed.splice(pos, 1);
   }
