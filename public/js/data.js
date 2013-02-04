@@ -1,14 +1,13 @@
 var CITY_DATA = {
   'chicago': {
+    // TODO unhardcode this
     mapSize: [ 2500, 3850 ],
-    optQuery: 'SELECT * FROM cth_chi_neighborhoods',
-    optCartoDbUser: 'mwichary',
+    optDataFile: 'data/chicago.geojson',
     googleMapsQuery: 'Chicago, IL',
     dataUrl: 'https://data.cityofchicago.org/Facilities-Geographic-Boundaries/Boundaries-Neighborhoods/9wp7-iasj',
     dataTitle: 'City of Chicago Data Portal'
   },
   'lexington': { 
-    // TODO unhardcode this
     mapSize: [ 1507, 1507 ],
     googleMapsQuery: 'Lexington, KY',
     dataUrl: 'http://www.zillow.com/howto/api/neighborhood-boundaries.htm',
@@ -36,8 +35,7 @@ var CITY_DATA = {
   },
   'seattle': { 
     mapSize: [ 2207, 2807 ],
-    optQuery: 'SELECT * FROM cth_sea_neighborhoods',
-    optCartoDbUser: 'mwichary',
+    optDataFile: 'data/seattle.geojson',
     googleMapsQuery: 'Seattle, WA',
     dataUrl: 'https://data.seattle.gov/dataset/Neighborhoods/2mbt-aqqx',
     dataTitle: 'Data.Seattle.Gov'

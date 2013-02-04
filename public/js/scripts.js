@@ -120,22 +120,29 @@ function prepareMap() {
       .attr('width', canvasWidth)
       .attr('height', canvasHeight);    
 
-  if (!CITY_DATA[cityId].optQuery) {
-    // TODO do not require all?
-    var query = "SELECT * FROM neighborhoods WHERE city = '" + cityName + "'";
+  if (CITY_DATA[cityId].optDataFile) {
+    // Read from local GeoJSON file
+    var url = CITY_DATA[cityId].optDataFile;
   } else {
-    var query = CITY_DATA[cityId].optQuery;
+    // Read from CartoDB
+
+    if (!CITY_DATA[cityId].optQuery) {
+      // TODO do not require all?
+      var query = "SELECT * FROM neighborhoods WHERE city = '" + cityName + "'";
+    } else {
+      var query = CITY_DATA[cityId].optQuery;
+    }
+
+    if (!CITY_DATA[cityId].optCartoDbUser) {
+      var site = 'http://cfa.cartodb.com';
+    } else {
+      var site = 'http://' + CITY_DATA[cityId].optCartoDbUser + '.cartodb.com';
+    }
+
+    var url = site + '/api/v2/sql?q=' + encodeURIComponent(query) + 
+        ' &format=GeoJSON';
   }
-
-  if (!CITY_DATA[cityId].optCartoDbUser) {
-    var site = 'http://cfa.cartodb.com';
-  } else {
-    var site = 'http://' + CITY_DATA[cityId].optCartoDbUser + '.cartodb.com';
-  }
-
-  var url = site + '/api/v2/sql?q=' + encodeURIComponent(query) + 
-      ' &format=GeoJSON';
-
+  
   queue()  
       .defer(d3.json, url)
       .await(mapIsReady);
