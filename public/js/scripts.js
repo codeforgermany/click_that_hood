@@ -142,7 +142,7 @@ function prepareMap() {
     var url = site + '/api/v2/sql?q=' + encodeURIComponent(query) + 
         ' &format=GeoJSON';
   }
-  
+
   queue()  
       .defer(d3.json, url)
       .await(mapIsReady);
@@ -160,11 +160,9 @@ function removeSmallNeighborhoods() {
         (boundingBox.height < SMALL_NEIGHBORHOOD_THRESHOLD)) {
       var name = el.getAttribute('name');
 
-/*    if (el.getAttribute('name') == 'Printers Row') {
-      alert(boundingBox.width + ' ' + boundingBox.height);
-    }*/
-
       neighborhoods.splice(neighborhoods.indexOf(name), 1);
+
+      totalNeighborhoodsCount--;
 
       someSmallNeighborhoodsRemoved = true;
     }
@@ -196,10 +194,10 @@ function mapIsReady(error, data) {
   resizeMapOverlay();
 
   prepareNeighborhoods();
-  updateCount();
   createMap();
 
   removeSmallNeighborhoods();
+  updateCount();
 
   startIntro();
 }
