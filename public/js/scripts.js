@@ -14,9 +14,6 @@ var NEXT_GUESS_DELAY = 1000;
 
 var MAP_VERT_PADDING = 50;
 
-var LAT_STEP = -.1725;
-var LONG_STEP = .2195;
-
 var EASY_MODE_COUNT = 20;
 
 var MAP_OVERLAY_TILES_COUNT_X = 2;
@@ -473,25 +470,44 @@ function prepareMapOverlay() {
   }
 }
 
+function long2tile(lon, zoom) { 
+  return (Math.floor((lon + 180) / 360 * Math.pow(2, zoom))); 
+}
+
+function lat2tile(lat, zoom) { 
+  return (Math.floor((1 - Math.log(Math.tan(lat * Math.PI / 180) + 
+      1 / Math.cos(lat * Math.PI / 180)) / Math.PI) / 2 * Math.pow(2, zoom))); 
+}
+
+function tile2long(x, zoom) {
+  return (x / Math.pow(2, zoom) * 360 - 180);
+}
+
+function tile2lat(y, zoom) {
+  var n = Math.PI - 2 * Math.PI * y / Math.pow(2, zoom);
+  return (180 / Math.PI * Math.atan(.5 * (Math.exp(n) - Math.exp(-n))));
+}
+
 function resizeMapOverlay() {
   var canvasWidth = document.querySelector('#map').offsetWidth;
   var canvasHeight = document.querySelector('#map').offsetHeight - MAP_VERT_PADDING * 2;
 
+  // TODO unhardcode
   var size = globalScale * 0.0012238683395795992;
   size = size * 0.995 / 2;
-
-  var latStep = LAT_STEP;
-  var longStep = LONG_STEP;
 
   // TODO remove global
   zoom = 12;
 
-  if (size < MAP_OVERLAY_SIZE_THRESHOLD) {
+  while (size < MAP_OVERLAY_SIZE_THRESHOLD) {
     size *= 2;
     zoom--;
-    latStep *= 2;
-    longStep *= 2;
   }
+
+  var tile = lat2tile(centerLat, zoom);
+
+  var longStep = (tile2long(1, zoom) - tile2long(0, zoom)) / 256 * 640;
+  var latStep = (tile2lat(tile + 1, zoom) - tile2lat(tile, zoom)) / 256 * 640;
 
   var lat = centerLat - latStep / 2;
   var lon = centerLon - longStep / 2;
