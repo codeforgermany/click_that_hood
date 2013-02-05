@@ -19,6 +19,13 @@ var CITY_DATA = {
     dataUrl: 'http://www.zillow.com/howto/api/neighborhood-boundaries.htm',
     dataTitle: 'Zillow'
   },
+  'macon': {
+    mapSize: [ 1507, 1196 ],
+    optDataFile: 'data/macon.geojson',
+    googleMapsQuery: 'Macon, GA',
+    dataUrl: 'http://www.maconmaps.com',
+    dataTitle: 'MaconMaps.com'
+  },
   'oakland': { 
     mapSize: [ 1507, 1796 ],
     googleMapsQuery: 'Oakland, CA',
