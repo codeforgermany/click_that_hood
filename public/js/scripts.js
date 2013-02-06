@@ -62,9 +62,27 @@ function calculateMapSize() {
 
   for (var i in mapData.features) {
     for (var j in mapData.features[i].geometry.coordinates[0]) {
-      for (var k in mapData.features[i].geometry.coordinates[0][j]) {
-        var lon = mapData.features[i].geometry.coordinates[0][j][k][0];
-        var lat = mapData.features[i].geometry.coordinates[0][j][k][1];
+      if(mapData.features[i].geometry.coordinates[0][j].length && typeof mapData.features[i].geometry.coordinates[0][j][0] != 'number'){
+        for (var k in mapData.features[i].geometry.coordinates[0][j]) {
+          var lon = mapData.features[i].geometry.coordinates[0][j][k][0];
+          var lat = mapData.features[i].geometry.coordinates[0][j][k][1];
+
+          if (lat > maxLat) {
+            maxLat = lat;
+          }
+          if (lat < minLat) {
+            minLat = lat;
+          }
+          if (lon > maxLon) {
+            maxLon = lon;
+          }
+          if (lon < minLon) {
+            minLon = lon;
+          }
+        }
+      } else if ( mapData.features[i].geometry.coordinates[0][j].length ) {
+        var lon = mapData.features[i].geometry.coordinates[0][j][0];
+        var lat = mapData.features[i].geometry.coordinates[0][j][1];
 
         if (lat > maxLat) {
           maxLat = lat;

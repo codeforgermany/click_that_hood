@@ -23,8 +23,8 @@ var CITY_DATA = {
     mapSize: [ 1507, 1196 ],
     optDataFile: 'data/macon.geojson',
     googleMapsQuery: 'Macon, GA',
-    dataUrl: 'http://www.maconmaps.com',
-    dataTitle: 'MaconMaps.com'
+    dataUrl: 'http://datahub.io/dataset/macon-neighborhoods',
+    dataTitle: 'Macon Police Dept'
   },
   'oakland': { 
     mapSize: [ 1507, 1796 ],
