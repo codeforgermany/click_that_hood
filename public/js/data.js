@@ -1,3 +1,4 @@
+// TODO re-sort by addition, sort by name automatically
 var CITY_DATA = {
   'chicago': {
     // TODO unhardcode this
@@ -21,6 +22,7 @@ var CITY_DATA = {
   },
   'macon': {
     mapSize: [ 1507, 1196 ],
+    author: 'mapmeld',
     optDataFile: 'data/macon.geojson',
     googleMapsQuery: 'Macon, GA',
     dataUrl: 'http://datahub.io/dataset/macon-neighborhoods',

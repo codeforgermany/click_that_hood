@@ -60,42 +60,36 @@ function calculateMapSize() {
   var minLon = 99999999;
   var maxLon = -99999999;
 
+  function findMinMax(lon, lat) {
+    if (lat > maxLat) {
+      maxLat = lat;
+    }
+    if (lat < minLat) {
+      minLat = lat;
+    }
+    if (lon > maxLon) {
+      maxLon = lon;
+    }
+    if (lon < minLon) {
+      minLon = lon;
+    }
+  }
+
   for (var i in mapData.features) {
     for (var j in mapData.features[i].geometry.coordinates[0]) {
-      if(mapData.features[i].geometry.coordinates[0][j].length && typeof mapData.features[i].geometry.coordinates[0][j][0] != 'number'){
+      if (mapData.features[i].geometry.coordinates[0][j].length && 
+          typeof mapData.features[i].geometry.coordinates[0][j][0] != 'number') {
         for (var k in mapData.features[i].geometry.coordinates[0][j]) {
           var lon = mapData.features[i].geometry.coordinates[0][j][k][0];
           var lat = mapData.features[i].geometry.coordinates[0][j][k][1];
 
-          if (lat > maxLat) {
-            maxLat = lat;
-          }
-          if (lat < minLat) {
-            minLat = lat;
-          }
-          if (lon > maxLon) {
-            maxLon = lon;
-          }
-          if (lon < minLon) {
-            minLon = lon;
-          }
+          findMinMax(lon, lat);
         }
-      } else if ( mapData.features[i].geometry.coordinates[0][j].length ) {
+      } else if (mapData.features[i].geometry.coordinates[0][j].length) {
         var lon = mapData.features[i].geometry.coordinates[0][j][0];
         var lat = mapData.features[i].geometry.coordinates[0][j][1];
 
-        if (lat > maxLat) {
-          maxLat = lat;
-        }
-        if (lat < minLat) {
-          minLat = lat;
-        }
-        if (lon > maxLon) {
-          maxLon = lon;
-        }
-        if (lon < minLon) {
-          minLon = lon;
-        }
+        findMinMax(lon, lat);
       }
     }
   }
@@ -606,6 +600,15 @@ function updateFooter() {
   document.querySelector('#data-source').href = CITY_DATA[cityId].dataUrl;
   document.querySelector('#data-source').innerHTML = 
       CITY_DATA[cityId].dataTitle;
+
+  if (CITY_DATA[cityId].author) {
+    document.querySelector('footer .author a').href = 
+        'http://twitter.com/' + CITY_DATA[cityId].author;
+    document.querySelector('footer .author a').innerHTML = 
+        '@' + CITY_DATA[cityId].author;
+  } else {
+    document.querySelector('footer .author').style.display = 'none';
+  }
 }
 
 function prepareLogo() {
