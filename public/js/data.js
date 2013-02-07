@@ -25,6 +25,12 @@ var CITY_DATA = {
     dataUrl: 'http://data.openoakland.org/dataset/zillow-neighborhoods',
     dataTitle: 'OpenOakland'
   },
+    'milwaukee': {
+    mapSize: [ 1507, 1796 ], //Confirm mapSize
+    googleMapsQuery: 'Milwaukee, WI',
+    dataUrl: 'http://www.zillow.com/howto/api/neighborhood-boundaries.htm',
+    dataTitle: 'Zillow'
+  },
   'san-francisco': { 
     mapSize: [ 1207, 1207 ],
     optQuery: 'SELECT * FROM cth_sf_neighborhoods',
