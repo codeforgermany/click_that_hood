@@ -612,7 +612,8 @@ function updateFooter() {
 }
 
 function prepareLogo() {
-  document.querySelector('#city-name').src = 'images/city-name/' + cityId + '.png';
+  document.querySelector('header .state-abbreviation').innerHTML = 
+      CITY_DATA[cityId].stateName;
 
   var els = document.querySelectorAll('.city-name');
   for (var i = 0, el; el = els[i]; i++) {
@@ -632,7 +633,10 @@ function prepareMainMenu() {
         '<img class="map" src="http://maps.googleapis.com/maps/api/staticmap?center=' + 
         encodeURIComponent(cityData.googleMapsQuery) + 
         '&zoom=11&maptype=terrain&size=200x200&sensor=false&scale=' + pixelRatio + '">' +
-        '<img class="name" src="images/city-name/' + id + '.png"></a>';
+        '<header>' + 
+        '<span class="city-name">' + capitalizeName(id) + '</span>' +
+        '<span class="state-abbreviation">' + cityData.stateName + '</span>' +
+        '</header></a>';
 
     document.querySelector('#main-menu .cities').appendChild(el);
   }

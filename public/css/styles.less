@@ -1,5 +1,13 @@
 @import 'http://fonts.googleapis.com/css?family=Open+Sans:400,300,600';
 
+@font-face {
+  font-family: 'Homestead';
+  src: url('../fonts/Homestead-Regular.ttf');
+}
+@font-face {
+  font-family: 'Wisdom Script';
+  src: url('../fonts/Wisdom-Script.otf');
+}
 @headerWidth: 320px;
 @footerHeight: 30px;
 @narrowHeaderWidth: 150px;
@@ -57,6 +65,48 @@ body.main-menu > header {
   margin-top: 0;
   width: @narrowHeaderWidth;
 }
+body.main-menu > header .city-name,
+body.main-menu > header .state-abbreviation {
+  display: none;
+}
+
+header .city-name,
+#main-menu .cities .city-name {
+  display: block;
+  font-weight: normal;
+  font-family: 'Homestead';
+  font-size: 48px;
+  line-height: .9;
+  letter-spacing: 1px;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+  margin-top: 40px;
+}
+header .city-name::after,
+#main-menu .cities .city-name::after {
+  content: ',';
+  position: absolute;
+}
+header .state-abbreviation,
+#main-menu .cities .state-abbreviation {
+  display: block;
+  font-weight: normal;
+  font-family: 'Wisdom Script';
+  letter-spacing: -1px;
+  font-size: 42px;
+  padding: 0;
+  margin: 0;
+  margin-top: 5px;
+  -webkit-font-smoothing: antialiased;
+}
+#main-menu .cities .city-name {
+  font-size: 48px * 2 / 3;
+}
+#main-menu .cities .state-abbreviation {
+  font-size: 42px * 2 / 3;
+}
+
 
 body.main-menu #map {
   display: none;
@@ -442,6 +492,15 @@ a {
   list-style: none;
   padding: 0 50px;
   margin: 0;
+}
+#main-menu .cities a {
+  text-decoration: none;
+}
+#main-menu .cities header {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -28px;
 }
 #main-menu .cities li {
   display: inline-block;
