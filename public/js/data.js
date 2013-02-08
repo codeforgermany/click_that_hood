@@ -29,8 +29,8 @@ var CITY_DATA = {
     mapSize: [ 1507, 1796 ], //Confirm mapSize
     optDataFile: 'data/milwaukee.geojson',
     googleMapsQuery: 'Milwaukee, WI',
-    dataUrl: 'http://www.zillow.com/howto/api/neighborhood-boundaries.htm',
-    dataTitle: 'Zillow'
+    dataUrl: 'http://city.milwaukee.gov/DownloadMapData3497.htm',
+    dataTitle: 'City of Milwaukee Map Data'
   },
   'san-francisco': { 
     mapSize: [ 1207, 1207 ],
