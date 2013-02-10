@@ -26,7 +26,7 @@ var CITY_DATA = {
     dataTitle: 'OpenOakland'
   },
   'milwaukee': {
-    mapSize: [ 1507, 1796 ], //Confirm mapSize
+    mapSize: [ 2900, 2900 ],
     optDataFile: 'data/milwaukee.geojson',
     googleMapsQuery: 'Milwaukee, WI',
     dataUrl: 'http://city.milwaukee.gov/DownloadMapData3497.htm',
