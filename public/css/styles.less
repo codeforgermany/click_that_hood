@@ -85,11 +85,11 @@ header .city-name,
   text-rendering: optimizeLegibility;
 }
 header .city-name::after,
-#main-menu .cities .city-name:not(.add)::after {
+#main-menu .cities .city-name::after {
   content: ',';
   position: absolute;
 }
-#main-menu .cities .city-name.add::after {
+#main-menu .cities :not(.add) .city-name::after {
   content: '…';
 }
 header .state-abbreviation,
@@ -535,7 +535,16 @@ a {
   opacity: 1;
 }
 
-#main-menu .cities .add.city-name {
+#main-menu .cities li.add a {
+  color: rgba(0, 0, 0, .15);
+  border: 5px dotted rgba(0, 0, 0, .15);
+  background: transparent;
+}
+#main-menu .cities li.add a:hover {
+  color: rgba(0, 0, 0, .2);
+  border-color: rgba(0, 0, 0, .2);
+}
+#main-menu .cities .add .city-name {
   margin-top: 140px;
 }
 

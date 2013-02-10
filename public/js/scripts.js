@@ -649,7 +649,8 @@ function prepareMainMenu() {
   }
 
   var el = document.createElement('li');
-  el.innerHTML = '<a target="_blank" href="https://docs.google.com/document/d/1ePUmeH1jgsnjiByGfToIU1DTGqn6OPFWgkRC9m03IqE/edit?usp=sharing"><header><span class="city-name add">Add your city</span></header></a>';
+  el.classList.add('add');
+  el.innerHTML = '<a target="_blank" href="https://docs.google.com/document/d/1ePUmeH1jgsnjiByGfToIU1DTGqn6OPFWgkRC9m03IqE/edit?usp=sharing"><header><span class="city-name">Add your city</span></header></a>';
   document.querySelector('#main-menu .cities').appendChild(el);
 
   document.querySelector('#main-menu').classList.add('visible');
