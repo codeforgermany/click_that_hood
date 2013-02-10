@@ -54,4 +54,16 @@ var CITY_DATA = {
     stateName: 'Colo.',
     googleMapsQuery: 'Denver, CO',
   },
+  /*
+
+  To add a new city, make a copy of the structure below, and fill it out.
+
+  '': { 
+    dataFile: 'data/.geojson',
+    dataUrl: '',
+    dataTitle: '',
+    stateName: '',
+    googleMapsQuery: '',
+  },
+  */
 };

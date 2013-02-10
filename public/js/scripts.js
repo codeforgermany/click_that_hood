@@ -638,6 +638,7 @@ function prepareMainMenu() {
         '<a href="?city=' + ids[id] + '">' +
         '<img class="map" src="http://maps.googleapis.com/maps/api/staticmap?center=' + 
         encodeURIComponent(cityData.googleMapsQuery) + 
+        '&key=AIzaSyCMwHPyd0ntfh2RwROQmp_ozu1EoYo9AXk' +
         '&zoom=11&maptype=terrain&size=200x200&sensor=false&scale=' + pixelRatio + '">' +
         '<header>' + 
         '<span class="city-name">' + capitalizeName(ids[id]) + '</span>' +
@@ -646,6 +647,10 @@ function prepareMainMenu() {
 
     document.querySelector('#main-menu .cities').appendChild(el);
   }
+
+  var el = document.createElement('li');
+  el.innerHTML = '<a target="_blank" href="https://docs.google.com/document/d/1ePUmeH1jgsnjiByGfToIU1DTGqn6OPFWgkRC9m03IqE/edit?usp=sharing"><header><span class="city-name add">Add your city</span></header></a>';
+  document.querySelector('#main-menu .cities').appendChild(el);
 
   document.querySelector('#main-menu').classList.add('visible');
 }

@@ -85,9 +85,12 @@ header .city-name,
   text-rendering: optimizeLegibility;
 }
 header .city-name::after,
-#main-menu .cities .city-name::after {
+#main-menu .cities .city-name:not(.add)::after {
   content: ',';
   position: absolute;
+}
+#main-menu .cities .city-name.add::after {
+  content: '…';
 }
 header .state-abbreviation,
 #main-menu .cities .state-abbreviation {
@@ -151,7 +154,8 @@ body > footer #cfa {
   margin-right: -5px;
 }
 
-body.main-menu > footer .data {
+body.main-menu > footer .data,
+body.main-menu > footer .author {
   display: none;
 }
 
@@ -455,7 +459,7 @@ button.smaller {
 }
 
 .small {
-  font-size: 60%;
+  font-size: 80%;
 }
 
 .small img {
@@ -513,6 +517,7 @@ a {
 }
 #main-menu .cities li a {
   display: block;
+  height: 290px;
   
   border-radius: @borderRadius;
   background: rgba(0, 0, 0, .15);
@@ -530,12 +535,10 @@ a {
   opacity: 1;
 }
 
-#main-menu .cities li .name {
-  position: absolute;
-  top: 5px;
-  left: 20px;
-  width: 180px;
+#main-menu .cities .add.city-name {
+  margin-top: 140px;
 }
+
 q {
   font-style: italic;
   
