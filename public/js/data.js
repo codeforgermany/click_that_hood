@@ -70,7 +70,7 @@ var CITY_DATA = {
     dataUrl: '',
     dataTitle: '',
     stateName: '',
-    author: '', // Twitter id
+    author: '',
     googleMapsQuery: '',
   },
   */
