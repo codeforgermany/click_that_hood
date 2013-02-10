@@ -636,10 +636,11 @@ function prepareMainMenu() {
     var el = document.createElement('li');
     el.innerHTML = 
         '<a href="?city=' + ids[id] + '">' +
-        '<img class="map" src="http://maps.googleapis.com/maps/api/staticmap?center=' + 
+        '<span class="map">' +
+        '<img src="http://maps.googleapis.com/maps/api/staticmap?center=' + 
         encodeURIComponent(cityData.googleMapsQuery) + 
         '&key=AIzaSyCMwHPyd0ntfh2RwROQmp_ozu1EoYo9AXk' +
-        '&zoom=11&maptype=terrain&size=200x200&sensor=false&scale=' + pixelRatio + '">' +
+        '&zoom=11&maptype=terrain&size=200x240&sensor=false&scale=' + pixelRatio + '"></span>' +
         '<header>' + 
         '<span class="city-name">' + capitalizeName(ids[id]) + '</span>' +
         '<span class="state-abbreviation">' + cityData.stateName + '</span>' +
