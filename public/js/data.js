@@ -58,6 +58,7 @@ var CITY_DATA = {
     dataUrl: 'http://data.dc.gov/Metadata.aspx?id=163',
     dataTitle: 'Neighborhood clusters',
     stateName: 'D.C.',
+    author: 'monfresh',
     googleMapsQuery: 'Washington, DC',
   },
   /*
@@ -69,6 +70,7 @@ var CITY_DATA = {
     dataUrl: '',
     dataTitle: '',
     stateName: '',
+    author: '', // Twitter id
     googleMapsQuery: '',
   },
   */
