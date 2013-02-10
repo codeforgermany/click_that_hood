@@ -54,7 +54,7 @@ var CITY_DATA = {
     googleMapsQuery: 'Denver, CO',
   },
   'washington': { 
-    dataFile: 'data/washington_dc.geojson',
+    dataFile: 'data/washington.geojson',
     dataUrl: 'http://data.dc.gov/Metadata.aspx?id=163',
     dataTitle: 'Neighborhood clusters',
     stateName: 'D.C.',
@@ -70,7 +70,7 @@ var CITY_DATA = {
     dataUrl: '',
     dataTitle: '',
     stateName: '',
-    author: '',
+    author: '', // Twitter id
     googleMapsQuery: '',
   },
   */
