@@ -623,17 +623,23 @@ function prepareLogo() {
 function prepareMainMenu() {
   document.body.classList.add('main-menu');
 
+  var ids = [];
   for (var id in CITY_DATA) {
-    var cityData = CITY_DATA[id];
+    ids.push(id);
+  }
+  ids.sort();
+
+  for (var id in ids) {
+    var cityData = CITY_DATA[ids[id]];
 
     var el = document.createElement('li');
     el.innerHTML = 
-        '<a href="?city=' + id + '">' +
+        '<a href="?city=' + ids[id] + '">' +
         '<img class="map" src="http://maps.googleapis.com/maps/api/staticmap?center=' + 
         encodeURIComponent(cityData.googleMapsQuery) + 
         '&zoom=11&maptype=terrain&size=200x200&sensor=false&scale=' + pixelRatio + '">' +
         '<header>' + 
-        '<span class="city-name">' + capitalizeName(id) + '</span>' +
+        '<span class="city-name">' + capitalizeName(ids[id]) + '</span>' +
         '<span class="state-abbreviation">' + cityData.stateName + '</span>' +
         '</header></a>';
 
