@@ -83,13 +83,14 @@ header .city-name,
   margin: 0;
   margin-top: 40px;
   text-rendering: optimizeLegibility;
+  word-wrap: break-word;
 }
 header .city-name::after,
 #main-menu .cities .city-name::after {
   content: ',';
   position: absolute;
 }
-#main-menu .cities :not(.add) .city-name::after {
+#main-menu .cities li.add .city-name::after {
   content: '…';
 }
 header .state-abbreviation,
@@ -107,6 +108,8 @@ header .state-abbreviation,
 }
 #main-menu .cities .city-name {
   font-size: 48px * 2 / 3;
+  word-wrap: break-word;
+  padding: 0 10px;
 }
 #main-menu .cities .state-abbreviation {
   font-size: 42px * 2 / 3;
@@ -312,7 +315,7 @@ body.no-hover #neighborhood-hover {
 
   background: rgba(0, 0, 0, .8);
 
-  white-space: nowrap;
+  max-width: 400px;
 
   background: fadeout(lighten(@highlightColour, 10%), 20%);
 
@@ -332,7 +335,7 @@ body.no-hover #neighborhood-hover {
   font-weight: 600;
   font-size: @fontSize * 1.5;
   letter-spacing: 0;
-  line-height: 1;
+  line-height: 1.2;
 
   &.visible {
     opacity: 1;
@@ -544,7 +547,7 @@ a {
   color: rgba(0, 0, 0, .2);
   border-color: rgba(0, 0, 0, .2);
 }
-#main-menu .cities .add .city-name {
+#main-menu .cities li.add .city-name {
   margin-top: 140px;
 }
 

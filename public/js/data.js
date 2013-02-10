@@ -58,7 +58,7 @@ var CITY_DATA = {
     dataFile: 'data/washington_dc.geojson',
     dataUrl: 'http://data.dc.gov/Metadata.aspx?id=163',
     dataTitle: 'Neighborhood clusters',
-    stateName: 'DC',
+    stateName: 'D.C.',
     googleMapsQuery: 'Washington, DC',
   },
   /*
