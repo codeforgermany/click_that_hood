@@ -18,11 +18,10 @@ var CITY_DATA = {
     dataTitle: 'OpenOakland'
   },
   'san-francisco': { 
+    dataFile: 'data/san-francisco.geojson',
     dataUrl: 'https://data.sfgov.org/Geography/Planning-Neighborhoods/qc6m-r4ih',
     dataTitle: 'San Francisco Data',
     stateName: 'Calif.',
-    optQuery: 'SELECT * FROM cth_sf_neighborhoods',
-    optCartoDbUser: 'mwichary',
     googleMapsQuery: 'San Francisco, CA',
   },  
   'chicago': {
