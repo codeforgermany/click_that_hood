@@ -69,6 +69,14 @@ var CITY_DATA = {
     author: 'plural',
     googleMapsQuery: 'Milwaukee, WI',
   },
+  'las-vegas': {
+    dataFile: 'data/las-vegas.geojson',
+    dataUrl: 'http://www.zillow.com/howto/api/neighborhood-boundaries.htm',
+    dataTitle: 'Zillow',
+    stateName: 'Nev.',
+    author: 'saikofish',
+    googleMapsQuery: 'Las Vegas, NV',
+  },
   /*
 
   To add a new city, make a copy of the structure below, and fill it out.
