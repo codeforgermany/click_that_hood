@@ -54,6 +54,13 @@ var CITY_DATA = {
     stateName: 'Colo.',
     googleMapsQuery: 'Denver, CO',
   },
+  'washington': { 
+    dataFile: 'data/washington_dc.geojson',
+    dataUrl: 'http://data.dc.gov/Metadata.aspx?id=163',
+    dataTitle: 'Neighborhood clusters',
+    stateName: 'DC',
+    googleMapsQuery: 'Washington, DC',
+  },
   /*
 
   To add a new city, make a copy of the structure below, and fill it out.
