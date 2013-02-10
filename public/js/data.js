@@ -61,6 +61,14 @@ var CITY_DATA = {
     author: 'monfresh',
     googleMapsQuery: 'Washington, DC',
   },
+  'milwaukee': {
+    dataFile: 'data/milwaukee.geojson',
+    dataUrl: 'http://city.milwaukee.gov/DownloadMapData3497.htm',
+    dataTitle: 'City of Milwaukee Map Data',
+    stateName: 'Wis.',
+    author: 'plural',
+    googleMapsQuery: 'Milwaukee, WI',
+  },
   /*
 
   To add a new city, make a copy of the structure below, and fill it out.

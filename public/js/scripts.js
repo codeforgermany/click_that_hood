@@ -204,9 +204,11 @@ function mapIsReady(error, data) {
   calculateMapSize();
 
   prepareMapOverlay();
+
   resizeMapOverlay();
 
   prepareNeighborhoods();
+
   createMap();
 
   removeSmallNeighborhoods();
