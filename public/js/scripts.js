@@ -131,9 +131,9 @@ function prepareMap() {
       .attr('width', canvasWidth)
       .attr('height', canvasHeight);    
 
-  if (CITY_DATA[cityId].optDataFile) {
+  if (CITY_DATA[cityId].dataFile) {
     // Read from local GeoJSON file
-    var url = CITY_DATA[cityId].optDataFile;
+    var url = CITY_DATA[cityId].dataFile;
   } else {
     // Read from CartoDB
 
@@ -478,6 +478,7 @@ function getGoogleMapsUrl(lat, lon, zoom, type) {
   var url = 'http://maps.googleapis.com/maps/api/staticmap' +
       '?center=' + lat + ',' + lon +
       '&zoom=' + zoom + '&size=640x640' +
+      '&key=AIzaSyCMwHPyd0ntfh2RwROQmp_ozu1EoYo9AXk' +
       '&sensor=false&scale=' + pixelRatio + '&maptype=' + type + '&format=jpg';
 
   return url;
