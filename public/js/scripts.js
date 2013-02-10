@@ -101,24 +101,23 @@ function calculateMapSize() {
   latSpread = maxLat - minLat;
   lonSpread = maxLon - minLon;
 
-  var mapWidth = CITY_DATA[cityId].mapSize[0] / 2500000;
-  var mapHeight = CITY_DATA[cityId].mapSize[1] / 2500000;
-
-  var mapRatio = mapWidth / mapHeight;
-
   getCanvasSize();
 
-  var desiredWidth = canvasWidth;
-  var desiredHeight = canvasWidth / mapRatio;
+  var zoom = 12;
+  var tile = lat2tile(centerLat, zoom);
+  var latStep = (tile2lat(tile + 1, zoom) - tile2lat(tile, zoom));
 
-  if (desiredHeight > canvasHeight) {
-    var desiredHeight = canvasHeight;
-    var desiredWidth = canvasHeight * mapRatio;
+  // Calculate for height first
+  // TODO: not entirely sure where these magic numbers are coming from
+  globalScale = 
+      ((500 * 180) / latSpread * (canvasHeight - 50)) / 512 / 0.045 * (-latStep);
+
+  // Calculate width according to that scale
+  var width = globalScale / (500 * 360) * lonSpread * 512;
+
+  if (width > canvasWidth) {
+    globalScale = ((500 * 360) / lonSpread * canvasWidth) / 512;
   }
-
-  var scale = desiredWidth / mapWidth;
-  // TODO not top-level variable
-  globalScale = scale; 
 
   mapPath = d3.geo.path().projection(
       d3.geo.mercator().center([centerLon, centerLat]).

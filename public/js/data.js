@@ -1,8 +1,6 @@
 // TODO re-sort by addition, sort by name automatically
 var CITY_DATA = {
   'chicago': {
-    // TODO unhardcode this
-    mapSize: [ 2500, 3850 ],
     stateName: 'Ill.',
     optDataFile: 'data/chicago.geojson',
     googleMapsQuery: 'Chicago, IL',
@@ -10,21 +8,18 @@ var CITY_DATA = {
     dataTitle: 'City of Chicago Data Portal'
   },
   'lexington': { 
-    mapSize: [ 1507, 1507 ],
     stateName: 'Ky.',
     googleMapsQuery: 'Lexington, KY',
     dataUrl: 'http://www.zillow.com/howto/api/neighborhood-boundaries.htm',
     dataTitle: 'Zillow'
   },
   'louisville': {
-    mapSize: [ 1507, 1196 ],
     stateName: 'Ky.',
     googleMapsQuery: 'Louisville, KY',
     dataUrl: 'http://www.zillow.com/howto/api/neighborhood-boundaries.htm',
     dataTitle: 'Zillow'
   },
   'macon': {
-    mapSize: [ 1507, 1196 ],
     stateName: 'Ga.',
     author: 'mapmeld',
     optDataFile: 'data/macon.geojson',
@@ -33,14 +28,12 @@ var CITY_DATA = {
     dataTitle: 'Macon Police Dept'
   },
   'oakland': { 
-    mapSize: [ 1507, 1796 ],
     stateName: 'Calif.',
     googleMapsQuery: 'Oakland, CA',
     dataUrl: 'http://data.openoakland.org/dataset/zillow-neighborhoods',
     dataTitle: 'OpenOakland'
   },
   'san-francisco': { 
-    mapSize: [ 1207, 1207 ],
     stateName: 'Calif.',
     optQuery: 'SELECT * FROM cth_sf_neighborhoods',
     optCartoDbUser: 'mwichary',
@@ -49,7 +42,6 @@ var CITY_DATA = {
     dataTitle: 'San Francisco Data'
   },
   'seattle': { 
-    mapSize: [ 2207, 2807 ],
     stateName: 'Wa.',
     optDataFile: 'data/seattle.geojson',
     googleMapsQuery: 'Seattle, WA',
