@@ -85,6 +85,14 @@ var CITY_DATA = {
     author: 'ahhrrr',
     googleMapsQuery: 'Brooklyn, NY',
   },
+  'portland': {
+    dataFile: 'data/portland_or.geojson',
+    dataUrl: 'http://www.zillow.com/howto/api/neighborhood-boundaries.htm',
+    dataTitle: 'Zillow',
+    stateName: 'Ore.',
+    author: 'rclosner',
+    googleMapsQuery: 'Portland, OR',
+  },
   /*
 
   To add a new city, make a copy of the structure below, and fill it out.
