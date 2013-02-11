@@ -88,9 +88,9 @@ var CITY_DATA = {
   'san-antonio': {
     dataFile: 'data/san_antonio.geojson',
     dataUrl: 'https://gis.sanantonio.gov/gis/downloaddata.aspx',
-    dataTitle: 'CIty of San Antonio GIS',
-    stateName: 'TX',
-    author: 'spara', // Twitter id
+    dataTitle: 'City of San Antonio GIS',
+    stateName: 'Texas',
+    author: 'spara', 
     googleMapsQuery: 'San Antonio, TX',
   },
 
