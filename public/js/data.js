@@ -77,6 +77,14 @@ var CITY_DATA = {
     author: 'saikofish',
     googleMapsQuery: 'Las Vegas, NV',
   },
+  'brooklyn': {
+    dataFile: 'data/brooklyn.geojson',
+    dataUrl: 'http://www.nyc.gov/html/dcp/html/bytes/dwn_nynta.shtml',
+    dataTitle: 'New York City Department of City Planning',
+    stateName: 'N.Y.',
+    author: 'ahhrrr',
+    googleMapsQuery: 'Brooklyn, NY',
+  },
   /*
 
   To add a new city, make a copy of the structure below, and fill it out.
