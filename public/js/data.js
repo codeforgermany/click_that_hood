@@ -77,6 +77,15 @@ var CITY_DATA = {
     author: 'saikofish',
     googleMapsQuery: 'Las Vegas, NV',
   },
+  'portland': {
+    dataFile: 'data/portland_or.geojson',
+    dataUrl: 'http://www.zillow.com/howto/api/neighborhood-boundaries.htm',
+    dataTitle: 'Zillow',
+    stateName: 'Or.',
+    author: 'rclosner',
+    googleMapsQuery: 'Portland, OR',
+  },
+
   /*
 
   To add a new city, make a copy of the structure below, and fill it out.
