@@ -77,22 +77,23 @@ var CITY_DATA = {
     author: 'saikofish',
     googleMapsQuery: 'Las Vegas, NV',
   },
-  'brooklyn': {
-    dataFile: 'data/brooklyn.geojson',
-    dataUrl: 'http://www.nyc.gov/html/dcp/html/bytes/dwn_nynta.shtml',
-    dataTitle: 'New York City Department of City Planning',
-    stateName: 'N.Y.',
-    author: 'ahhrrr',
-    googleMapsQuery: 'Brooklyn, NY',
-  },
   'portland': {
     dataFile: 'data/portland_or.geojson',
     dataUrl: 'http://www.zillow.com/howto/api/neighborhood-boundaries.htm',
     dataTitle: 'Zillow',
-    stateName: 'Ore.',
+    stateName: 'Or.',
     author: 'rclosner',
     googleMapsQuery: 'Portland, OR',
   },
+  'san-antonio': {
+    dataFile: 'data/san_antonio.geojson',
+    dataUrl: 'https://gis.sanantonio.gov/gis/downloaddata.aspx',
+    dataTitle: 'CIty of San Antonio GIS',
+    stateName: 'TX',
+    author: 'spara', // Twitter id
+    googleMapsQuery: 'San Antonio, TX',
+  },
+
   /*
 
   To add a new city, make a copy of the structure below, and fill it out.
