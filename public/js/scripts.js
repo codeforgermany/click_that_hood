@@ -300,6 +300,18 @@ function handleNeighborhoodClick(el, name) {
     if (el.classList) {
       el.classList.remove('unguessed');
       el.classList.add('guessed');
+
+      var animEl = el.cloneNode(true);
+      el.parentNode.appendChild(animEl);
+
+      animEl.classList.remove('guessed');
+      animEl.classList.add('guessed-animation');
+
+      window.setTimeout(function() {
+        animEl.classList.add('animate');
+      }, 0);
+
+      window.setTimeout(function() { animEl.parentNode.removeChild(animEl); }, 2000);
     } else {
       // Fix for early Safari 6 not supporting classes on SVG objects
       el.style.fill = 'rgba(0, 255, 0, .25)';

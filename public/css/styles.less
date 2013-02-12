@@ -383,6 +383,22 @@ body.no-hover #neighborhood-hover {
 
     stroke: white;
   }
+  &.guessed-animation {
+    stroke: transparent;
+    fill: @guessedNeighborhoodFillColour;
+
+    pointer-events: none;
+    z-index: 99999;
+    -webkit-transform-origin: 50% 50%;
+    -webkit-transition: -webkit-transform 500ms, fill 500ms;
+    -moz-transform-origin: 50% 50%;
+    -moz-transition: -moz-transform 500ms, fill 500ms;
+  }
+  &.guessed-animation.animate {
+    -webkit-transform: scale(3);
+    -moz-transform: scale(3);
+    fill: transparent;
+  }
 }
 
 @-webkit-keyframes blink {
