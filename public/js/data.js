@@ -101,6 +101,13 @@ var CITY_DATA = {
     author: 'spara', 
     googleMapsQuery: 'San Antonio, TX',
   },
+  'st-louis': {
+    dataFile: 'data/st-louis.geojson',
+    dataUrl: 'http://www.zillow.com/howto/api/neighborhood-boundaries.htm',
+    dataTitle: 'Zillow',
+    stateName: 'Mo.',
+    googleMapsQuery: 'St. Louis, MO',
+  },  
 
   /*
 
