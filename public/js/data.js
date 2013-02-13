@@ -123,12 +123,13 @@ var CITY_DATA = {
   To add a new city, make a copy of the structure below, and fill it out.
 
   '': { 
-    dataFile: 'data/.geojson',
-    dataUrl: '',
-    dataTitle: '',
-    stateName: '',
-    author: '', // Twitter id
-    googleMapsQuery: '',
+    dataFile: 'data/???.geojson',
+    dataUrl: '???',
+    dataTitle: '???',
+    stateName: '???', // State abbreviation according to A.P. guidelines
+                   // http://en.wikipedia.org/wiki/List_of_U.S._state_abbreviations
+    author: '???', // Twitter id, without @
+    googleMapsQuery: '???',
   },
   */
 };
