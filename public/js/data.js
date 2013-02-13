@@ -111,10 +111,10 @@ var CITY_DATA = {
   'akron': { 
     dataFile: 'data/akron.geojson',
     dataUrl: 'http://www.zillow.com/howto/api/neighborhood-boundaries.htm',
-    dataTitle: 'Zill',
-    stateName: 'Oh.',
-    author: '@pzula', // Twitter id
-    googleMapsQuery: '',
+    dataTitle: 'Zillow',
+    stateName: 'Ohio',
+    author: 'pzula',
+    googleMapsQuery: 'Akron, OH',
   },
 
 
