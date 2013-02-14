@@ -1,0 +1,8 @@
+{
+    "dataFile": "data/macon.geojson",
+    "dataUrl": "http://datahub.io/dataset/macon-neighborhoods",
+    "dataTitle": "Macon Police Dept",
+    "stateName": "Ga.",
+    "author": "mapmeld",
+    "googleMapsQuery": "Macon, GA"
+}
