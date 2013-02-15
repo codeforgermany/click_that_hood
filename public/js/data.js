@@ -116,6 +116,31 @@ var CITY_DATA = {
     author: 'pzula',
     googleMapsQuery: 'Akron, OH',
   },
+  'cleveland': { 
+    dataFile: 'data/cleveland.geojson',
+    dataUrl: 'http://www.zillow.com/howto/api/neighborhood-boundaries.htm',
+    dataTitle: 'Zillow',
+    stateName: 'Ohio',
+    author: 'pzula',
+    googleMapsQuery: 'Cleveland, OH',
+  },
+  'columbus': { 
+    dataFile: 'data/columbus.geojson',
+    dataUrl: 'http://www.zillow.com/howto/api/neighborhood-boundaries.htm',
+    dataTitle: 'Zillow',
+    stateName: 'Ohio',
+    author: 'pzula',
+    googleMapsQuery: 'Columbus, OH',
+  },
+  'cincinnati': { 
+    dataFile: 'data/cincinnati.geojson',
+    dataUrl: 'http://www.zillow.com/howto/api/neighborhood-boundaries.htm',
+    dataTitle: 'Zillow',
+    stateName: 'Ohio',
+    author: 'pzula',
+    googleMapsQuery: 'Cincinnati, OH',
+  },
+
 
 
   /*
