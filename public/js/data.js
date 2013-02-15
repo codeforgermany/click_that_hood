@@ -116,6 +116,14 @@ var CITY_DATA = {
     author: 'pzula',
     googleMapsQuery: 'Akron, OH',
   },
+  'philadelphia': { 
+    dataFile: 'data/philadelphia.geojson',
+    dataUrl: 'http://www.azavea.com/about-us/giving-back/azavea-commons/',
+    dataTitle: 'Azavea',
+    stateName: 'Penn.',
+    author: 'mishmosh',
+    googleMapsQuery: 'Philadelphia, PA',
+  },
 
 
   /*
