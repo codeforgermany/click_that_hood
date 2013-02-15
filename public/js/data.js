@@ -117,13 +117,13 @@ var CITY_DATA = {
     googleMapsQuery: 'Akron, OH',
   },
   'sacramento': {
-		dataFile: 'data/sacramento.geojson',
-		dataUrl: 'http://www.cityofsacramento.org/gis/zipdata/Neighborhood.zip',
-		dataTitle: 'City of Sacramento GIS',
-		stateName: 'Calif.',
-		author: 'rjulian57',
-		googleMapsQuery: 'Sacramento, CA', 
-	},
+    dataFile: 'data/sacramento.geojson',
+    dataUrl: 'http://www.cityofsacramento.org/gis/zipdata/Neighborhood.zip',
+    dataTitle: 'City of Sacramento GIS',
+    stateName: 'Calif.',
+    author: 'rjulian57',
+    googleMapsQuery: 'Sacramento, CA', 
+  },
 
   /*
 
