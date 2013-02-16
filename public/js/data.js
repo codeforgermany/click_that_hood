@@ -170,6 +170,13 @@ var CITY_DATA = {
     stateName: 'Ga.',
     googleMapsQuery: 'Atlanta, GA',
   },
+  'los-angeles': { 
+    dataFile: 'data/los-angeles.geojson',
+    dataUrl: 'http://projects.latimes.com/mapping-la/about/#the-data',
+    dataTitle: 'Los Angeles Times',
+    stateName: 'Calif.',
+    googleMapsQuery: 'Los Angeles, CA',
+  },
 
   /*
 
