@@ -86,7 +86,7 @@ var CITY_DATA = {
     googleMapsQuery: 'Brooklyn, NY',
   },
   'portland': {
-    dataFile: 'data/portland_or.geojson',
+    dataFile: 'data/portland.geojson',
     dataUrl: 'http://www.zillow.com/howto/api/neighborhood-boundaries.htm',
     dataTitle: 'Zillow',
     stateName: 'Ore.',
@@ -94,7 +94,7 @@ var CITY_DATA = {
     googleMapsQuery: 'Portland, OR',
   },  
   'san-antonio': {
-    dataFile: 'data/san_antonio.geojson',
+    dataFile: 'data/san-antonio.geojson',
     dataUrl: 'https://gis.sanantonio.gov/gis/downloaddata.aspx',
     dataTitle: 'City of San Antonio GIS',
     stateName: 'Texas',
