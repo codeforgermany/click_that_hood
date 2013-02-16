@@ -163,6 +163,13 @@ var CITY_DATA = {
     stateName: 'Md.',
     googleMapsQuery: 'Baltimore, MD',
   },
+  'atlanta': { 
+    dataFile: 'data/atlanta.geojson',
+    dataUrl: 'http://gis.atlantaga.gov/gishome/index.php?option=com_content&task=blogcategory&id=47&Itemid=114',
+    dataTitle: 'City of Atlanta GIS',
+    stateName: 'Ga.',
+    googleMapsQuery: 'Atlanta, GA',
+  },
 
   /*
 
