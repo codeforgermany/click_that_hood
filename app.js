@@ -33,13 +33,18 @@ fsTools.findSorted("public/data", /[^.]+\.metadata.json/, function(err, files) {
         var metadataFilePath = files[index];
         var locationName = metadataFilePath.match(/([^\/.]+)\.metadata.json/)[1];
 
-        // Flag error and exit if metadata is not found
-        if (!fs.existsSync(metadataFilePath)) {
-            console.error("Metadata file not found for '" + locationName + "'. Aborting server start.");
-            process.exit(1);
-        }
+        // Exclude template file
+        if (locationName != "TEMPLATE") {
 
-        metadata[locationName] = JSON.parse(fs.readFileSync(metadataFilePath, 'utf8'));
+            // Flag error and exit if metadata is not found
+            if (!fs.existsSync(metadataFilePath)) {
+                console.error("Metadata file not found for '" + locationName + "'. Aborting server start.");
+                process.exit(1);
+            }
+            
+            metadata[locationName] = JSON.parse(fs.readFileSync(metadataFilePath, 'utf8'));
+
+        }
 
     }
 
