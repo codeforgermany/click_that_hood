@@ -187,9 +187,17 @@ function removeSmallNeighborhoods() {
 }
 
 function updateCount() {
+  if (totalNeighborhoodsCount <= EASY_MODE_COUNT) {
+    easyModeCount = totalNeighborhoodsCount;
+
+    document.body.classList.add('no-difficult-game');
+  } else {
+    easyModeCount = EASY_MODE_COUNT;
+  }
+
   var els = document.querySelectorAll('.easy-mode-count');
   for (var i = 0, el; el = els[i]; i++) {
-    el.innerHTML = EASY_MODE_COUNT;
+    el.innerHTML = easyModeCount;
   }
 
   var els = document.querySelectorAll('.hard-mode-count');
@@ -283,6 +291,20 @@ function setMapClickable(newMapClickable) {
   }
 }
 
+function animateNeighborhood(el) {
+  var animEl = el.cloneNode(true);
+  el.parentNode.appendChild(animEl);
+
+  animEl.classList.remove('guessed');
+  animEl.classList.add('guessed-animation');
+
+  window.setTimeout(function() {
+    animEl.classList.add('animate');
+  }, 0);
+
+  window.setTimeout(function() { animEl.parentNode.removeChild(animEl); }, 2000);
+}
+
 function handleNeighborhoodClick(el, name) {
   if (!mapClickable) {
     return;
@@ -301,17 +323,7 @@ function handleNeighborhoodClick(el, name) {
       el.classList.remove('unguessed');
       el.classList.add('guessed');
 
-      var animEl = el.cloneNode(true);
-      el.parentNode.appendChild(animEl);
-
-      animEl.classList.remove('guessed');
-      animEl.classList.add('guessed-animation');
-
-      window.setTimeout(function() {
-        animEl.classList.add('animate');
-      }, 0);
-
-      window.setTimeout(function() { animEl.parentNode.removeChild(animEl); }, 2000);
+      animateNeighborhood(el);
     } else {
       // Fix for early Safari 6 not supporting classes on SVG objects
       el.style.fill = 'rgba(0, 255, 0, .25)';
@@ -465,9 +477,36 @@ function startGame(useEasyMode) {
   window.setTimeout(nextGuess, NEXT_GUESS_DELAY);
 }
 
+function createTimeout(fn, data, delay){
+  window.setTimeout(function() { fn.call(null, data); }, delay);
+}
+
 function gameOver() {
+  setMapClickable(false);
   window.clearInterval(timerIntervalId);
 
+  var els = document.querySelectorAll('#map .guessed');
+
+  var timer = 300;
+  var timerDelta = 100;
+  var timerDeltaDiff = 5;
+  var TIMER_DELTA_MIN = 10; 
+
+  for (var i = 0, el; el = els[i]; i++) {
+    createTimeout(function(el) { animateNeighborhood(el); }, el, timer);
+
+    timer += timerDelta;
+    timerDelta -= timerDeltaDiff;
+    if (timerDelta < TIMER_DELTA_MIN) {
+      timerDelta = TIMER_DELTA_MIN;
+    }
+
+  }
+
+  window.setTimeout(gameOverPart2, timer + 1000);
+}
+
+function gameOverPart2() {
   document.querySelector('#cover').classList.add('visible');
   document.querySelector(easyMode ? '#congrats-easy' : '#congrats-hard').classList.add('visible');  
 }

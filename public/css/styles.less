@@ -70,6 +70,10 @@ body.main-menu > header .state-abbreviation {
   display: none;
 }
 
+body.no-difficult-game .difficult-game {
+  display: none;
+}
+
 header .city-name,
 #main-menu .cities .city-name {
   display: block;
@@ -352,6 +356,8 @@ body.no-hover #neighborhood-hover {
     stroke: white;
 
     fill: @unguessedNeighborhoodFillColour;
+    -webkit-transition: fill 300ms;
+    -moz-transition: fill 300ms;
   }
   &[inactive] {
     fill: @inactiveNeighborhoodFillColour;
@@ -359,6 +365,8 @@ body.no-hover #neighborhood-hover {
   &:not([inactive]):hover {
     fill: fadeout(@highlightColour, 50%);
     cursor: pointer;
+    -webkit-transition: fill 50ms;
+    -moz-transition: fill 50ms;
   }
   &.guessed {
     stroke: transparent;
@@ -449,7 +457,8 @@ button {
 
   cursor: pointer;
 }
-button:not(.smaller) > span {
+button:not(.smaller) > span:not(.difficult-game),
+button:not(.smaller) > span.difficult-game > span {
   font-size: 70%;
   display: block;
 }
