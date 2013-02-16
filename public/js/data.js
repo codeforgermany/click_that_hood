@@ -156,6 +156,13 @@ var CITY_DATA = {
     author: 'pzula',
     googleMapsQuery: 'Cincinnati, OH',
   },
+  'baltimore': { 
+    dataFile: 'data/baltimore.geojson',
+    dataUrl: 'http://www.bniajfi.org/downloads/gis_shapefiles',
+    dataTitle: 'Baltimore Neighborhood Indicators Alliance',
+    stateName: 'Md.',
+    googleMapsQuery: 'Baltimore, MD',
+  },
 
   /*
 
