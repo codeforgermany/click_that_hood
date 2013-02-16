@@ -177,6 +177,13 @@ var CITY_DATA = {
     stateName: 'Calif.',
     googleMapsQuery: 'Los Angeles, CA',
   },
+  'detroit': { 
+    dataFile: 'data/detroit.geojson',
+    dataUrl: 'http://www.zillow.com/howto/api/neighborhood-boundaries.htm',
+    dataTitle: 'Zillow',
+    stateName: 'Mich.',
+    googleMapsQuery: 'Detroit, MI',
+  },
 
   /*
 
