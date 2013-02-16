@@ -184,6 +184,13 @@ var CITY_DATA = {
     stateName: 'Mich.',
     googleMapsQuery: 'Detroit, MI',
   },
+  'san-diego': { 
+    dataFile: 'data/san-diego.geojson',
+    dataUrl: 'http://www.sandag.org/index.asp?subclassid=100&fuseaction=home.subclasshome',
+    dataTitle: 'SANDAG',
+    stateName: 'Calif.',
+    googleMapsQuery: 'San Diego, CA',
+  },
 
   /*
 
