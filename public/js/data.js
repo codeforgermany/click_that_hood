@@ -120,7 +120,7 @@ var CITY_DATA = {
     dataFile: 'data/philadelphia.geojson',
     dataUrl: 'http://www.azavea.com/about-us/giving-back/azavea-commons/',
     dataTitle: 'Azavea',
-    stateName: 'Penn.',
+    stateName: 'Pa.',
     author: 'mishmosh',
     googleMapsQuery: 'Philadelphia, PA',
   },
