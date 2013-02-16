@@ -124,7 +124,14 @@ var CITY_DATA = {
     author: 'mishmosh',
     googleMapsQuery: 'Philadelphia, PA',
   },
-
+  'sacramento': {
+    dataFile: 'data/sacramento.geojson',
+    dataUrl: 'http://www.cityofsacramento.org/gis/',
+    dataTitle: 'City of Sacramento GIS',
+    stateName: 'Calif.',
+    author: 'rjulian57',
+    googleMapsQuery: 'Sacramento, CA', 
+  },
 
   /*
 
