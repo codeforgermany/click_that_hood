@@ -191,6 +191,38 @@ var CITY_DATA = {
     stateName: 'Calif.',
     googleMapsQuery: 'San Diego, CA',
   },
+  'bronx': {
+    dataFile: 'data/bronx.geojson',
+    dataUrl: 'http://www.nyc.gov/html/dcp/html/bytes/dwn_nynta.shtml',
+    dataTitle: 'New York City Department of City Planning',
+    stateName: 'N.Y.',
+    author: 'ahhrrr',
+    googleMapsQuery: 'The Bronx, NY',
+  },
+  'staten-island': {
+    dataFile: 'data/staten-island.geojson',
+    dataUrl: 'http://www.nyc.gov/html/dcp/html/bytes/dwn_nynta.shtml',
+    dataTitle: 'New York City Department of City Planning',
+    stateName: 'N.Y.',
+    author: 'ahhrrr',
+    googleMapsQuery: 'Staten Island, NY',
+  },
+  'queens': {
+    dataFile: 'data/queens.geojson',
+    dataUrl: 'http://www.nyc.gov/html/dcp/html/bytes/dwn_nynta.shtml',
+    dataTitle: 'New York City Department of City Planning',
+    stateName: 'N.Y.',
+    author: 'ahhrrr',
+    googleMapsQuery: 'Queens, NY',
+  },
+  'manhattan': {
+    dataFile: 'data/manhattan.geojson',
+    dataUrl: 'http://www.nyc.gov/html/dcp/html/bytes/dwn_nynta.shtml',
+    dataTitle: 'New York City Department of City Planning',
+    stateName: 'N.Y.',
+    author: 'ahhrrr',
+    googleMapsQuery: 'Manhattan, NY',
+  },
 
   /*
 
