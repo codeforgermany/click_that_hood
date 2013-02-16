@@ -70,6 +70,10 @@ body.main-menu > header .state-abbreviation {
   display: none;
 }
 
+body.no-difficult-game .difficult-game {
+  display: none;
+}
+
 header .city-name,
 #main-menu .cities .city-name {
   display: block;
@@ -453,7 +457,8 @@ button {
 
   cursor: pointer;
 }
-button:not(.smaller) > span {
+button:not(.smaller) > span:not(.difficult-game),
+button:not(.smaller) > span.difficult-game > span {
   font-size: 70%;
   display: block;
 }

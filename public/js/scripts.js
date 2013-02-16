@@ -187,9 +187,17 @@ function removeSmallNeighborhoods() {
 }
 
 function updateCount() {
+  if (totalNeighborhoodsCount <= EASY_MODE_COUNT) {
+    easyModeCount = totalNeighborhoodsCount;
+
+    document.body.classList.add('no-difficult-game');
+  } else {
+    easyModeCount = EASY_MODE_COUNT;
+  }
+
   var els = document.querySelectorAll('.easy-mode-count');
   for (var i = 0, el; el = els[i]; i++) {
-    el.innerHTML = EASY_MODE_COUNT;
+    el.innerHTML = easyModeCount;
   }
 
   var els = document.querySelectorAll('.hard-mode-count');

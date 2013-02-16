@@ -101,11 +101,13 @@
           as soon as its name comes up. The faster, the better!
         </p>
         <p>
-          <button onclick='startGame(true)'>Start the game<br><span>(<span class='easy-mode-count'></span> random neighborhoods)</span></button>
-          <br>
-          or
-          <br>
-          <button onclick='startGame(false)' class='smaller'>Start a difficult game (all <span class='hard-mode-count'></span> neighborhoods)</button>
+          <button onclick='startGame(true)'>Start the game<span class='difficult-game'><br><span>(<span class='easy-mode-count'></span> random neighborhoods)</span></span></button>
+          <span class='difficult-game'>
+            <br>
+            or
+            <br>
+            <button onclick='startGame(false)' class='smaller'>Start a difficult game (all <span class='hard-mode-count'></span> neighborhoods)</button>
+          </span>
         </p>
       </div>
 
