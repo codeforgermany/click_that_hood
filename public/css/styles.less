@@ -353,6 +353,7 @@ body.no-hover #neighborhood-hover {
 
     fill: @unguessedNeighborhoodFillColour;
     -webkit-transition: fill 300ms;
+    -moz-transition: fill 300ms;
   }
   &[inactive] {
     fill: @inactiveNeighborhoodFillColour;
@@ -361,6 +362,7 @@ body.no-hover #neighborhood-hover {
     fill: fadeout(@highlightColour, 50%);
     cursor: pointer;
     -webkit-transition: fill 50ms;
+    -moz-transition: fill 50ms;
   }
   &.guessed {
     stroke: transparent;
