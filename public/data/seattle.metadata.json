@@ -1,7 +1,7 @@
 { 
-    "dataFile": "data/seattle.geojson",
-    "dataUrl": "https://data.seattle.gov/dataset/Neighborhoods/2mbt-aqqx",
-    "dataTitle": "Data.Seattle.Gov",
-    "stateName": "Wa.",
-    "googleMapsQuery": "Seattle, WA"
+  "dataFile": "seattle.geojson",
+  "dataUrl": "https://data.seattle.gov/dataset/Neighborhoods/2mbt-aqqx",
+  "dataTitle": "Data.Seattle.Gov",
+  "stateName": "Wa.",
+  "googleMapsQuery": "Seattle, WA"
 }

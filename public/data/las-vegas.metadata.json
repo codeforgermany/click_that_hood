@@ -1,8 +1,8 @@
 {
-    "dataFile": "data/las-vegas.geojson",
-    "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
-    "dataTitle": "Zillow",
-    "stateName": "Nev.",
-    "author": "saikofish",
-    "googleMapsQuery": "Las Vegas, NV"
+  "dataFile": "las-vegas.geojson",
+  "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
+  "dataTitle": "Zillow",
+  "stateName": "Nev.",
+  "author": "saikofish",
+  "googleMapsQuery": "Las Vegas, NV"
 }

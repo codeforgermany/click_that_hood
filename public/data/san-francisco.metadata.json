@@ -1,7 +1,7 @@
 { 
-    "dataFile": "data/san-francisco.geojson",
-    "dataUrl": "https://data.sfgov.org/Geography/Planning-Neighborhoods/qc6m-r4ih",
-    "dataTitle": "San Francisco Data",
-    "stateName": "Calif.",
-    "googleMapsQuery": "San Francisco, CA"
+  "dataFile": "san-francisco.geojson",
+  "dataUrl": "https://data.sfgov.org/Geography/Planning-Neighborhoods/qc6m-r4ih",
+  "dataTitle": "San Francisco Data",
+  "stateName": "Calif.",
+  "googleMapsQuery": "San Francisco, CA"
 }

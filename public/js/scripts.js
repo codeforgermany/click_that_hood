@@ -133,7 +133,7 @@ function prepareMap() {
 
   if (CITY_DATA[cityId].dataFile) {
     // Read from local GeoJSON file
-    var url = CITY_DATA[cityId].dataFile;
+    var url = 'data/' + CITY_DATA[cityId].dataFile;
   } else {
     // Read from CartoDB
 

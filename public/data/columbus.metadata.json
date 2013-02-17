@@ -1,8 +1,8 @@
 { 
-    "dataFile": "data/columbus.geojson",
-    "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
-    "dataTitle": "Zillow",
-    "stateName": "Ohio",
-    "author": "pzula",
-    "googleMapsQuery": "Columbus, OH"
+  "dataFile": "columbus.geojson",
+  "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
+  "dataTitle": "Zillow",
+  "stateName": "Ohio",
+  "author": "pzula",
+  "googleMapsQuery": "Columbus, OH"
 }
