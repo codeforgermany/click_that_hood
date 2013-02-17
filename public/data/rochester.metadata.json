@@ -1,0 +1,8 @@
+{ 
+    "dataFile": "data/rochester.geojson",
+    "dataUrl": "http://www.cityofrochester.gov/maps/",
+    "dataTitle": "Joshua Artuso",
+    "stateName": "N.Y.",
+    "author": "jhkennedy",
+    "googleMapsQuery": "Rochester, NY"
+}
