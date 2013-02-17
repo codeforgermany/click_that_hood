@@ -1,5 +1,5 @@
 { 
-    "dataFile": "data/rochester.geojson",
+    "dataFile": "rochester.geojson",
     "dataUrl": "http://www.cityofrochester.gov/maps/",
     "dataTitle": "Joshua Artuso",
     "stateName": "N.Y.",
