@@ -1,0 +1,7 @@
+{ 
+    "dataFile": "data/austin.geojson",
+    "dataTitle": "City of Austin GIS with modifications from Clay Smalley",
+    "stateName": "Texas",
+    "author": "claysmalley",
+    "googleMapsQuery": "Austin, TX"
+}
