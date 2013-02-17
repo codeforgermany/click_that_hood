@@ -1,5 +1,5 @@
 { 
-    "dataFile": "data/austin.geojson",
+    "dataFile": "austin.geojson",
     "dataTitle": "City of Austin GIS with modifications from Clay Smalley",
     "stateName": "Texas",
     "author": "claysmalley",
