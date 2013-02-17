@@ -34,7 +34,7 @@ fsTools.findSorted("public/data", /[^.]+\.metadata.json/, function(err, files) {
         var locationName = metadataFilePath.match(/([^\/.]+)\.metadata.json/)[1];
 
         // Exclude template file
-        if (locationName != "TEMPLATE") {
+        if (locationName != "_TEMPLATE") {
 
             // Flag error and exit if metadata is not found
             if (!fs.existsSync(metadataFilePath)) {
