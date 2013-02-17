@@ -293,16 +293,19 @@ function setMapClickable(newMapClickable) {
 
 function animateNeighborhood(el) {
   var animEl = el.cloneNode(true);
-  el.parentNode.appendChild(animEl);
+  if (animEl.classList) {
+    el.parentNode.appendChild(animEl);
 
-  animEl.classList.remove('guessed');
-  animEl.classList.add('guessed-animation');
 
-  window.setTimeout(function() {
-    animEl.classList.add('animate');
-  }, 0);
+    animEl.classList.remove('guessed');
+    animEl.classList.add('guessed-animation');
 
-  window.setTimeout(function() { animEl.parentNode.removeChild(animEl); }, 2000);
+    window.setTimeout(function() {
+      animEl.classList.add('animate');
+    }, 0);
+
+    window.setTimeout(function() { animEl.parentNode.removeChild(animEl); }, 2000);
+  }
 }
 
 function handleNeighborhoodClick(el, name) {
@@ -500,7 +503,6 @@ function gameOver() {
     if (timerDelta < TIMER_DELTA_MIN) {
       timerDelta = TIMER_DELTA_MIN;
     }
-
   }
 
   window.setTimeout(gameOverPart2, timer + 1000);
