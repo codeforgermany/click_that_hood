@@ -1,0 +1,8 @@
+{ 
+  "dataFile": "honolulu.geojson",
+  "dataUrl": "http://gis.hicentral.com/PubWebsite/metadata.aspx",
+  "dataTitle": "Honolulu Department of Planning & Permitting (HoLIS)",
+  "stateName": "Hawaii",
+  "author": "donelizasays",
+  "googleMapsQuery": "Honolulu, HI"
+}
