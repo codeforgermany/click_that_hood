@@ -716,7 +716,18 @@ function prepare() {
   pixelRatio = window.devicePixelRatio || 1;
 }
 
+function testProtocol() {
+  // Gets out of HTTPS to do HTTP, because D3 doesn’t allow linking via 
+  // HTTPS. But there’s a better way to deal with all of this, I feel
+  // (hosting our own copy of D3?).
+  if (location.protocol == 'https:') {
+    location.replace(location.href.replace(/https:\/\//, 'http://'));
+  }
+}
+
 function main() {
+  testProtocol();
+
   prepare();
 
   getCityName();
