@@ -668,7 +668,7 @@ function updateFooter() {
 
 function prepareLogo() {
   document.querySelector('header .state-abbreviation').innerHTML = 
-      CITY_DATA[cityId].stateName;
+      CITY_DATA[cityId].stateName || CITY_DATA[cityId].countryName;
 
   var els = document.querySelectorAll('.city-name');
   for (var i = 0, el; el = els[i]; i++) {
@@ -698,7 +698,7 @@ function prepareMainMenu() {
         '&zoom=11&maptype=terrain&size=200x240&sensor=false&scale=' + pixelRatio + '"></span>' +
         '<header>' + 
         '<span class="city-name">' + capitalizeName(ids[id]) + '</span>' +
-        '<span class="state-abbreviation">' + cityData.stateName + '</span>' +
+        '<span class="state-abbreviation">' + (cityData.stateName || cityData.countryName) + '</span>' +
         '</header></a>';
 
     document.querySelector('#main-menu .cities').appendChild(el);
