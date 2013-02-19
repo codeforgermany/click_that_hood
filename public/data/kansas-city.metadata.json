@@ -1,0 +1,8 @@
+{ 
+  "dataFile": "kansas-city.geojson",
+  "dataUrl": "http://www.zillow.com/static/shp/ZillowNeighborhoods-MO.zip",
+  "dataTitle": "Zillow",
+  "stateName": "Mo.",
+  "author": "hackyourcity",
+  "googleMapsQuery": "Kansas City, MO"
+}
