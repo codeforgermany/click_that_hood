@@ -1,0 +1,8 @@
+{ 
+  "dataFile": "boston.geojson",
+  "dataUrl": "http://www.zillow.com/advice-thread/Updating-Boston-Neighborhoods-Boundaries-Data/421449/",
+  "dataTitle": "Boston Redevelopment Authority office of Digital Cartography and GIS",
+  "stateName": "Mass.",
+  "author": "allafarce",
+  "googleMapsQuery": "Boston, MA"
+}
