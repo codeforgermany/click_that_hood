@@ -5,7 +5,8 @@
     "dependencies": {
         "express": "3.0.6",
         "less-middleware": "0.1.9",
-        "fs-tools": "0.2.8"
+        "fs-tools": "0.2.8",
+        "config": "0.4.18"
     },
     "engines": {
         "node": "0.8.x",

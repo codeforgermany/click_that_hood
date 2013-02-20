@@ -1,7 +1,8 @@
 var express = require('express'),
     lessMiddleware = require('less-middleware'),
     fs = require('fs'),
-    fsTools = require('fs-tools');
+    fsTools = require('fs-tools'),
+    config = require('config');
 
 var startApp = function() {
 
@@ -14,6 +15,17 @@ var startApp = function() {
         compress: (process.env.NODE_ENV == 'production'),
         once: (process.env.NODE_ENV == 'production')
     }));
+
+    // Redirect to environment-appropriate domain, if necessary
+    app.all('*', function(req, res, next) {
+        if (config.app_host_port != req.headers.host) {
+            var redirectUrl = 'http://' + config.app_host_port + req.url;
+            console.log("Redirecting to " + redirectUrl + "...");
+            res.redirect(301, redirectUrl);
+        } else {
+            next('route');
+        }
+    });
 
     app.use(express.static(__dirname + '/public'));
     
