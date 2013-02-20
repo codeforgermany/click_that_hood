@@ -1,0 +1,7 @@
+{ 
+  "dataFile": "minneapolis.geojson",
+  "dataUrl": "http://www.crcworks.org/hennepin/censushome.htm#downloads",
+  "dataTitle": "Crossroads Resource Center",
+  "stateName": "Minn.",
+  "googleMapsQuery": "Minneapolis, MN"
+}
