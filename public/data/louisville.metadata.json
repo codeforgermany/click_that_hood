@@ -1,4 +1,5 @@
 {
+  "dataFile": "louisville.geojson",
   "stateName": "Ky.",
   "googleMapsQuery": "Louisville, KY",
   "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
