@@ -674,15 +674,6 @@ function prepareLogo() {
   for (var i = 0, el; el = els[i]; i++) {
     el.innerHTML = cityName;
   }
-  //Kansas City hack
-  if(cityId == 'kansas-city'){
-    header = document.querySelector('header').innerHTML;
-    document.querySelector('header').innerHTML = 
-        header + 
-        '<br/> Help us crowd source an open neighborhood dataset for Kansas City at <a href="http://bit.ly/W1Z9e5">http://bit.ly/W1Z9e5</a>';
-  }
-
-
 }
 
 function prepareMainMenu() {
