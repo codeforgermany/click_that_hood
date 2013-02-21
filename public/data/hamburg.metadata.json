@@ -1,0 +1,8 @@
+{ 
+  "dataFile": "Hamburg.geojson",
+  "dataUrl": "www.openstreetmap.org",
+  "dataTitle": "OpenStreetMap",
+  "stateName": "Germany",
+  "author": "MAPABLE",
+  "googleMapsQuery": "<https://maps.google.de/maps?q=hamburg&ie=UTF-8&ei=9XgmUaieAov4sgbL84CwDQ&ved=0CAsQ_AUoAg"
+}
