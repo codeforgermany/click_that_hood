@@ -1,0 +1,8 @@
+{ 
+  "dataFile": "birmingham.geojson",
+  "dataUrl": "http://line72.net/downloads/birmingham.geojson",
+  "dataTitle": "line72",
+  "stateName": "Ala.",
+  "author": "line72",
+  "googleMapsQuery": "Birmingham, AL"
+}
