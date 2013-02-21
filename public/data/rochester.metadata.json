@@ -1,0 +1,8 @@
+{ 
+  "dataFile": "rochester.geojson",
+  "dataUrl": "http://www.cityofrochester.gov/maps/",
+  "dataTitle": "City of Rochester GIS Maps",
+  "stateName": "N.Y.",
+  "author": "jhkennedy",
+  "googleMapsQuery": "Rochester, NY"
+}
