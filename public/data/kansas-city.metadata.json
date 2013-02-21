@@ -4,5 +4,6 @@
   "dataTitle": "Zillow",
   "stateName": "Mo.",
   "author": "hackyourcity",
-  "googleMapsQuery": "Kansas City, MO"
+  "googleMapsQuery": "Kansas City, MO",
+  "callToAction":"Help us crowd source a new <a href=\"http://bit.ly/W1Z9e5\">neighborhood dataset</a>!"
 }
