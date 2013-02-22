@@ -644,6 +644,12 @@ function updateFooter() {
   } else {
     document.querySelector('footer .author').style.display = 'none';
   }
+  if (CITY_DATA[cityId].calloutUrl) {
+    var el = document.querySelector('#callout');
+    el.innerHTML = CITY_DATA[cityId].calloutTitle;
+    el.href = CITY_DATA[cityId].calloutUrl;
+    el.classList.add('visible');
+  }
 }
 
 function prepareLogo() {

@@ -607,3 +607,27 @@ q {
 #neighborhoods-removed.visible {
   display: inline;
 }
+
+#callout {
+  display: none;
+  position: absolute;
+  right: 10px;
+  bottom: 20px;
+  font-size: 20px;
+  line-height: 1.2;
+  background: darken(@highlightColour, 10);
+  padding: 10px 15px;
+  border-radius: 40px;
+  color: white;
+  text-decoration: none;
+  max-width: 200px;
+
+  -webkit-transform: rotateZ(-6deg);
+  -moz-transform: rotateZ(-6deg);
+}
+#callout.visible {
+  display: block;
+}
+#callout:hover {
+  background: darken(@highlightColour, 15);
+} 
