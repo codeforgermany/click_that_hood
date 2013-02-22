@@ -1,0 +1,8 @@
+{ 
+  "dataFile": "berlin.geojson",
+  "dataUrl": "http://daten.berlin.de/datensaetze/ortsteil-geometrien-berlin",
+  "dataTitle": "Berlin Open Data",
+  "countryName": "Germany",
+  "author": "juliustroeger",
+  "googleMapsQuery": "Berlin, Germany"
+}
