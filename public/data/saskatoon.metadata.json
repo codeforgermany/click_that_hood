@@ -1,0 +1,8 @@
+{ 
+  "dataFile": "saskatoon.geojson.json",
+  "dataUrl": "http://www.saskatoon.ca/DEPARTMENTS/Corporate%20Services/Corporate%20Information%20Services/OpenData/Pages/OpenData.aspx",
+  "dataTitle": "City of Saskatoon Interim Open Data Catalogue",
+  "stateName": "Canada",
+  "author": "wlrealtygroup",
+  "googleMapsQuery": "en&sll=52.126017,-106.675931&sspn=0.044579,0.106516&hnear=Saskatoon"
+}
