@@ -644,6 +644,11 @@ function updateFooter() {
   } else {
     document.querySelector('footer .author').style.display = 'none';
   }
+  if(CITY_DATA[cityId].callToAction){
+    document.querySelector('footer .call-to-action').innerHTML = CITY_DATA[cityId].callToAction;
+  } else {
+    document.querySelector('footer .call-to-action').style.display = 'none';
+  }
 }
 
 function prepareLogo() {
