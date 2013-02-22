@@ -644,6 +644,10 @@ function updateFooter() {
   } else {
     document.querySelector('footer .author').style.display = 'none';
   }
+  if(CITY_DATA[cityId].callToAction){ // Temporary for Kansas City 
+    footerData = document.querySelector('footer .author').innerHTML;
+    document.querySelector('footer .author').innerHTML = footerData + CITY_DATA[cityId].callToAction;
+  }
 }
 
 function prepareLogo() {
