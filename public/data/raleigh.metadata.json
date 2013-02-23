@@ -1,0 +1,8 @@
+{ 
+  "dataFile": "raleigh.geojson",
+  "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
+  "dataTitle": "Zillow",
+  "stateName": "N.C.",
+  "author": "lizadams44",
+  "googleMapsQuery": "Raleigh, NC"
+}
