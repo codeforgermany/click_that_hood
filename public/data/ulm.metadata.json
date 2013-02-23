@@ -1,8 +1,8 @@
 { 
   "dataFile": "ulm.geojson",
-  "dataUrl": "http://daten.ulmapi.de/_utils/database.html?stadtviertel",
-  "dataTitle": "Ulm Open Data",
+  "dataUrl": "http://www.ulmapi.de/#datensaetze",
+  "dataTitle": "Stadt Ulm / datalove Uni Ulm",
   "countryName": "Germany",
-  "author": "ulmapi.de",
+  "author": "ulmAPI",
   "googleMapsQuery": "Ulm, Germany"
 }
