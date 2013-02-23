@@ -1,0 +1,8 @@
+{ 
+  "dataFile": "<<CITY>>.geojson",
+  "dataUrl": "<<URL OF DATA SOURCE>>",
+  "dataTitle": "<<NAME OF DATA SOURCE. EXAMPLE: Zillow>>",
+  "stateName": "<<STATE ABBREVIATION ACCORDING TO A.P. GUIDELINES. SEE http://en.wikipedia.org/wiki/List_of_U.S._state_abbreviations>>",
+  "author": "<<YOUR TWITTER ID, WITHOUT THE @>>",
+  "googleMapsQuery": "<<STRING TO SEARCH FOR YOUR CITY IN GOOGLE MAPS>>"
+}
