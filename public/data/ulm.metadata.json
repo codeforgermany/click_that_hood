@@ -1,0 +1,8 @@
+{ 
+  "dataFile": "ulm.geojson",
+  "dataUrl": "http://www.ulmapi.de/#datensaetze",
+  "dataTitle": "Stadt Ulm / datalove Uni Ulm",
+  "countryName": "Germany",
+  "author": "ulmAPI",
+  "googleMapsQuery": "Ulm, Germany"
+}
