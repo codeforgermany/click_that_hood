@@ -1,0 +1,8 @@
+{ 
+  "dataFile": "ulm.geojson",
+  "dataUrl": "http://daten.ulmapi.de/_utils/database.html?stadtviertel",
+  "dataTitle": "Ulm Open Data",
+  "countryName": "Germany",
+  "author": "ulmapi.de",
+  "googleMapsQuery": "Ulm, Germany"
+}
