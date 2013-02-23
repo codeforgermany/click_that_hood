@@ -1,0 +1,8 @@
+{ 
+  "dataFile": "cary.geojson",
+  "dataUrl": "http://pubfiles.townofcary.org/",
+  "dataTitle": "Town of Cary",
+  "stateName": "N.C.",
+  "author": "lizadams44",
+  "googleMapsQuery": "Cary, NC"
+}
