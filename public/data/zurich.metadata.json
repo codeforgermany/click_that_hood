@@ -1,8 +1,8 @@
 { 
   "dataFile": "zurich.geojson",
   "dataUrl": "http://www.swisstopo.admin.ch/internet/swisstopo/en/home/products/landscape/swissBOUNDARIES3D.html",
-  "dataTitle": "Bundesamt für Landestopografie swisstopo ",
+  "dataTitle": "Bundesamt für Landestopografie swisstopo",
   "countryName": "Switzerland",
   "author": "raskalnikow",
-  "googleMapsQuery": "Zürich, Switzerland"
+  "googleMapsQuery": "Zurich, Switzerland"
 }
