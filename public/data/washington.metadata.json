@@ -1,7 +1,7 @@
 { 
   "dataFile": "washington.geojson",
-  "dataUrl": "http://data.dc.gov/Metadata.aspx?id=163",
-  "dataTitle": "Neighborhood clusters",
+  "dataUrl": "http://data.dc.gov/Metadata.aspx?id=127",
+  "dataTitle": "Assessment Neighborhoods",
   "stateName": "D.C.",
   "author": "monfresh",
   "googleMapsQuery": "Washington, DC"
