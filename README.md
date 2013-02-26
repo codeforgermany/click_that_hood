@@ -4,7 +4,7 @@
 
 ## Development Setup
 
-Please follow the instructions below to setup your development environment. In case you run into issues, please consult the [FAQ](#faq).
+Please follow the instructions below to setup your development environment.
 
 ### For Mac OS X 10.8
 
