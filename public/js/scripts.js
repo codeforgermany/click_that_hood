@@ -632,9 +632,12 @@ function getCityName() {
 }
 
 function updateFooter() {
-  document.querySelector('#data-source').href = CITY_DATA[cityId].dataUrl;
-  document.querySelector('#data-source').innerHTML = 
-      CITY_DATA[cityId].dataTitle;
+  if (CITY_DATA[cityId].dataUrl) {
+    document.querySelector('#data-source').href = CITY_DATA[cityId].dataUrl;
+    document.querySelector('#data-source').innerHTML = 
+        CITY_DATA[cityId].dataTitle;
+    document.querySelector('#data-source-text').classList.add('visible');
+  }
 
   if (CITY_DATA[cityId].author) {
     document.querySelector('footer .author a').href = 
