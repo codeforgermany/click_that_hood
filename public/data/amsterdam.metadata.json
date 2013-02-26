@@ -1,0 +1,8 @@
+{
+  "dataFile": "amsterdam.geojson",
+  "dataUrl": "http://open-market.weogeo.com/datasets/open-neighborhoods-europe",
+  "dataTitle": "WeoGeo",
+  "countryName": "The Netherlands",
+  "author": "spara",
+  "googleMapsQuery": "Amsterdam, The Netherlands"
+}
