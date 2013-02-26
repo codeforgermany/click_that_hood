@@ -1,0 +1,8 @@
+{ 
+  "dataFile": "albany.geojson",
+  "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
+  "dataTitle": "Zillow",
+  "stateName": "N.Y.",
+  "author": "scottbirdsey",
+  "googleMapsQuery": "Albany, NY"
+}
