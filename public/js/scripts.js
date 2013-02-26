@@ -656,6 +656,9 @@ function prepareLogo() {
   document.querySelector('header .state-abbreviation').innerHTML = 
       CITY_DATA[cityId].stateName || CITY_DATA[cityId].countryName;
 
+  document.querySelector('header .annotation').innerHTML = 
+      CITY_DATA[cityId].annotation || '';
+
   var els = document.querySelectorAll('.city-name');
   for (var i = 0, el; el = els[i]; i++) {
     el.innerHTML = cityName;
@@ -685,6 +688,7 @@ function prepareMainMenu() {
         '<header>' + 
         '<span class="city-name">' + capitalizeName(ids[id]) + '</span>' +
         '<span class="state-abbreviation">' + (cityData.stateName || cityData.countryName) + '</span>' +
+        '<span class="annotation">' + (cityData.annotation || '') + '</span>' +
         '</header></a>';
 
     document.querySelector('#main-menu .cities').appendChild(el);

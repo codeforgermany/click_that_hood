@@ -110,6 +110,27 @@ header .state-abbreviation,
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
+header .annotation,
+#main-menu .cities .annotation {
+  display: inline-block;
+  font-weight: 900;
+  background: black;
+  color: @mainBackgroundColour;
+  font-size: 15px;
+  padding: 6px 12px 6px 16px;
+  border-radius: @borderRadius;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  margin: 0 auto;
+  margin-top: 5px;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+header .annotation:empty,
+#main-menu .cities .annotation:empty {
+  display: none;
+}
+
 #main-menu .cities .city-name {
   font-size: 48px * 2 / 3;
   word-wrap: break-word;
@@ -117,6 +138,13 @@ header .state-abbreviation,
 }
 #main-menu .cities .state-abbreviation {
   font-size: 42px * 2 / 3;
+}
+#main-menu .cities .annotation {
+  font-size: 15px * 2 / 3;
+  padding: 4px 7px 4px 10px;
+  position: relative;
+  letter-spacing: 2px;
+  top: -5px;
 }
 
 

@@ -1,4 +1,4 @@
-{ 
+{
   "dataFile": "akron.geojson",
   "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
   "dataTitle": "Zillow",
