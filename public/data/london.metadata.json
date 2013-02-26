@@ -1,0 +1,8 @@
+{ 
+  "dataFile": "london.geojson",
+  "dataUrl": "http://data.london.gov.uk/2011-boundary-files",
+  "dataTitle": "London Datastore",
+  "stateName": "U.K.",
+  "author": "ahhrrr",
+  "googleMapsQuery": "London, U.K."
+}
