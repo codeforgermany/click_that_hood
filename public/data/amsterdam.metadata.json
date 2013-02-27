@@ -1,8 +1,12 @@
 {
   "dataFile": "amsterdam.geojson",
-  "dataUrl": "http://www.cbs.nl/nl-NL/menu/themas/dossiers/nederland-regionaal/links/2013-wijk-en-buurtkaart-2012-versie-1.htm",
-  "dataTitle": "Centraal Bureau voor de Statistiek",
+
+  "locationName": "Amsterdam",
   "countryName": "The Netherlands",
+  "googleMapsQuery": "Amsterdam, The Netherlands",
+  
   "author": "spara",
-  "googleMapsQuery": "Amsterdam, The Netherlands"
+
+  "dataUrl": "http://www.cbs.nl/nl-NL/menu/themas/dossiers/nederland-regionaal/links/2013-wijk-en-buurtkaart-2012-versie-1.htm",
+  "dataTitle": "Centraal Bureau voor de Statistiek"
 }
