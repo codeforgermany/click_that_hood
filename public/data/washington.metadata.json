@@ -7,6 +7,6 @@
 
   "authorTwitter": "monfresh",
 
-  "dataUrl": "http://data.dc.gov/Metadata.aspx?id=163",
-  "dataTitle": "Neighborhood clusters"
+  "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
+  "dataTitle": "Zillow"
 }
