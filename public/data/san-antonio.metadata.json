@@ -1,8 +1,12 @@
 {
   "dataFile": "san-antonio.geojson",
-  "dataUrl": "https://gis.sanantonio.gov/gis/downloaddata.aspx",
-  "dataTitle": "City of San Antonio GIS",
+
+  "locationName": "San Antonio",
   "stateName": "Texas",
-  "author": "spara", 
-  "googleMapsQuery": "San Antonio, TX"
+  "googleMapsQuery": "San Antonio, TX",
+
+  "authorTwitter": "spara", 
+
+  "dataUrl": "https://gis.sanantonio.gov/gis/downloaddata.aspx",
+  "dataTitle": "City of San Antonio GIS"
 }

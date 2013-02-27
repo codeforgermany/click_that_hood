@@ -1,8 +1,12 @@
 {
   "dataFile": "queens.geojson",
-  "dataUrl": "http://www.nyc.gov/html/dcp/html/bytes/dwn_nynta.shtml",
-  "dataTitle": "New York City Department of City Planning",
+
+  "locationName": "Queens",
   "stateName": "N.Y.",
-  "author": "ahhrrr",
-  "googleMapsQuery": "Queens, NY"
+  "googleMapsQuery": "Queens, NY",
+
+  "authorTwitter": "ahhrrr",
+
+  "dataUrl": "http://www.nyc.gov/html/dcp/html/bytes/dwn_nynta.shtml",
+  "dataTitle": "New York City Department of City Planning"
 }

@@ -1,7 +1,10 @@
 {
   "dataFile": "chicago.geojson",
-  "dataUrl": "https://data.cityofchicago.org/Facilities-Geographic-Boundaries/Boundaries-Neighborhoods/9wp7-iasj",
-  "dataTitle": "City of Chicago Data Portal",
+
+  "locationName": "Chicago",
   "stateName": "Ill.",
-  "googleMapsQuery": "Chicago, IL"
+  "googleMapsQuery": "Chicago, IL",
+
+  "dataUrl": "https://data.cityofchicago.org/Facilities-Geographic-Boundaries/Boundaries-Neighborhoods/9wp7-iasj",
+  "dataTitle": "City of Chicago Data Portal"
 }

@@ -1,8 +1,12 @@
 { 
   "dataFile": "pittsburgh.geojson",
-  "dataUrl": "http://pittsburghpa.gov/dcp/gis/gis-data",
-  "dataTitle": "City of Pittsburgh Department of City Planning",
+  
+  "locationName": "Pittsburgh",
   "stateName": "Pa.",
-  "author": "allafarce",
-  "googleMapsQuery": "Pittsburgh, PA"
+  "googleMapsQuery": "Pittsburgh, PA",
+
+  "authorTwitter": "allafarce",
+
+  "dataUrl": "http://pittsburghpa.gov/dcp/gis/gis-data",
+  "dataTitle": "City of Pittsburgh Department of City Planning"
 }

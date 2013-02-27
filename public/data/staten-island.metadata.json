@@ -1,8 +1,12 @@
 {
   "dataFile": "staten-island.geojson",
-  "dataUrl": "http://www.nyc.gov/html/dcp/html/bytes/dwn_nynta.shtml",
-  "dataTitle": "New York City Department of City Planning",
+
+  "locationName": "Staten Island",
   "stateName": "N.Y.",
-  "author": "ahhrrr",
-  "googleMapsQuery": "Staten Island, NY"
+  "googleMapsQuery": "Staten Island, NY",
+
+  "authorTwitter": "ahhrrr",
+
+  "dataUrl": "http://www.nyc.gov/html/dcp/html/bytes/dwn_nynta.shtml",
+  "dataTitle": "New York City Department of City Planning"
 }

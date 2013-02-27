@@ -1,7 +1,11 @@
 { 
   "dataFile": "lexington.geojson",
+
+  "locationName": "Lexington",
   "stateName": "Ky.",
-  "googleMapsQuery": "Lexington, KY",
+
   "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
-  "dataTitle": "Zillow"
+  "dataTitle": "Zillow",
+
+  "googleMapsQuery": "Lexington, KY"
 }

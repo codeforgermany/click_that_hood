@@ -1,10 +1,15 @@
 { 
   "dataFile": "kansas-city.geojson",
+
+  "locationName": "Kansas City",
+  "stateName": "Mo.",
+  "googleMapsQuery": "Kansas City, MO",
+
+  "authorTwitter": "hackyourcity",
+
   "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
   "dataTitle": "Zillow",
-  "stateName": "Mo.",
-  "author": "hackyourcity",
-  "googleMapsQuery": "Kansas City, MO",
+
   "calloutUrl": "http://bit.ly/W1Z9e5",
   "calloutTitle": "Help us crowdsource a new neighborhood dataset!"
 }

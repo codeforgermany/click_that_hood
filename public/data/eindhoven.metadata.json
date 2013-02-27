@@ -1,7 +1,10 @@
 { 
   "dataFile": "eindhoven.geojson",
-  "dataUrl": "http://www.openeindhoven.nl/data-eindhoven/",
-  "dataTitle": "Open Eindhoven",
+
+  "locationName": "Eindhoven",
   "countryName": "The Netherlands",
-  "googleMapsQuery": "Eindhoven, The Netherlands"
+  "googleMapsQuery": "Eindhoven, The Netherlands",
+
+  "dataUrl": "http://www.openeindhoven.nl/data-eindhoven/",
+  "dataTitle": "Open Eindhoven"
 }

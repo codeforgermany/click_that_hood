@@ -1,7 +1,11 @@
 { 
   "dataFile": "vancouver.geojson",
-  "dataUrl": "http://data.vancouver.ca/datacatalogue/localAreaBoundary.htm",
-  "dataTitle": "City of Vancouver Open Data Catalogue",
+
+  "locationName": "Vancouver",
   "countryName": "Canada",
-  "googleMapsQuery": "Vancouver, Canada"
+
+  "googleMapsQuery": "Vancouver, Canada",
+
+  "dataUrl": "http://data.vancouver.ca/datacatalogue/localAreaBoundary.htm",
+  "dataTitle": "City of Vancouver Open Data Catalogue"
 }

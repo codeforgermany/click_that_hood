@@ -1,8 +1,12 @@
 { 
   "dataFile": "philadelphia.geojson",
-  "dataUrl": "http://www.azavea.com/about-us/giving-back/azavea-commons/",
-  "dataTitle": "Azavea",
+
+  "locationName": "Philadelphia",
   "stateName": "Pa.",
-  "author": "mishmosh",
-  "googleMapsQuery": "Philadelphia, PA"
+  "googleMapsQuery": "Philadelphia, PA",
+
+  "authorTwitter": "mishmosh",
+
+  "dataUrl": "http://www.azavea.com/about-us/giving-back/azavea-commons/",
+  "dataTitle": "Azavea"
 }

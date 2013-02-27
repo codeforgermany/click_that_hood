@@ -1,8 +1,12 @@
 { 
   "dataFile": "cleveland.geojson",
-  "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
-  "dataTitle": "Zillow",
+
+  "locationName": "Cleveland",
   "stateName": "Ohio",
-  "author": "pzula",
-  "googleMapsQuery": "Cleveland, OH"
+  "googleMapsQuery": "Cleveland, OH",
+
+  "authorTwitter": "pzula",
+
+  "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
+  "dataTitle": "Zillow"
 }

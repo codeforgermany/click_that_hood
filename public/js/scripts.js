@@ -613,7 +613,7 @@ function capitalizeName(name) {
   return name.replace(/-/g, ' ').replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
 }
 
-function getCityName() {
+function getCityId() {
   cityId = '';
 
   var cityMatch = location.href.match(/[\?\&]city=([^&]*)/);
@@ -624,9 +624,7 @@ function getCityName() {
     }
   }      
 
-  if (cityId) {
-    cityName = capitalizeName(cityId);
-  } else {
+  if (!cityId) {
     mainMenu = true;
   }
 }
@@ -639,11 +637,11 @@ function updateFooter() {
     document.querySelector('#data-source-text').classList.add('visible');
   }
 
-  if (CITY_DATA[cityId].author) {
+  if (CITY_DATA[cityId].authorTwitter) {
     document.querySelector('footer .author a').href = 
-        'http://twitter.com/' + CITY_DATA[cityId].author;
+        'http://twitter.com/' + CITY_DATA[cityId].authorTwitter;
     document.querySelector('footer .author a').innerHTML = 
-        '@' + CITY_DATA[cityId].author;
+        '@' + CITY_DATA[cityId].authorTwitter;
   } else {
     document.querySelector('footer .author').style.display = 'none';
   }
@@ -664,7 +662,7 @@ function prepareLogo() {
 
   var els = document.querySelectorAll('.city-name');
   for (var i = 0, el; el = els[i]; i++) {
-    el.innerHTML = cityName;
+    el.innerHTML = CITY_DATA[cityId].locationName;
   }
 }
 
@@ -689,7 +687,7 @@ function prepareMainMenu() {
         '&key=AIzaSyCMwHPyd0ntfh2RwROQmp_ozu1EoYo9AXk' +
         '&zoom=11&maptype=terrain&size=200x240&sensor=false&scale=' + pixelRatio + '"></span>' +
         '<header>' + 
-        '<span class="city-name">' + capitalizeName(ids[id]) + '</span>' +
+        '<span class="city-name">' + cityData.locationName + '</span>' +
         '<span class="state-abbreviation">' + (cityData.stateName || cityData.countryName) + '</span>' +
         '<span class="annotation">' + (cityData.annotation || '') + '</span>' +
         '</header></a>';
@@ -723,7 +721,7 @@ function main() {
 
   prepare();
 
-  getCityName();
+  getCityId();
 
   if (mainMenu) {
     prepareMainMenu();

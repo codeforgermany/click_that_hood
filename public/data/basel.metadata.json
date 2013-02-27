@@ -1,8 +1,13 @@
 { 
   "dataFile": "basel.geojson",
-  "dataUrl": "http://www.bfs.admin.ch/bfs/portal/de/index/dienstleistungen/geostat/datenbeschreibung/generalisierte_gemeindegrenzen.html",
-  "dataTitle": "Bundesamt für Statistik",
+
+  "locationName": "Basel",
   "countryName": "Switzerland",
-  "author": "davidbauer",
-  "googleMapsQuery": "Basel, Switzerland"
+  "googleMapsQuery": "Basel, Switzerland",
+  "annotation": "Canton",
+
+  "authorTwitter": "davidbauer",
+
+  "dataUrl": "http://www.bfs.admin.ch/bfs/portal/de/index/dienstleistungen/geostat/datenbeschreibung/generalisierte_gemeindegrenzen.html",
+  "dataTitle": "Bundesamt für Statistik"
 }

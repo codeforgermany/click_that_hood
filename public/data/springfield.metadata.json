@@ -1,8 +1,12 @@
 { 
   "dataFile": "springfield.geojson",
-  "dataUrl": "http://springfield-ma.gov/planning",
-  "dataTitle": "Springfield Office of Planning and Economic Development",
+
+  "locationName": "Springfield",
   "stateName": "Mass.",
-  "author": "waltz",
-  "googleMapsQuery": "Springfield, MA"
+  "googleMapsQuery": "Springfield, MA",
+
+  "authorTwitter": "waltz",
+
+  "dataUrl": "http://springfield-ma.gov/planning",
+  "dataTitle": "Springfield Office of Planning and Economic Development"
 }

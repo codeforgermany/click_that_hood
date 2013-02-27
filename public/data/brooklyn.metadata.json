@@ -1,8 +1,12 @@
 {
   "dataFile": "brooklyn.geojson",
-  "dataUrl": "http://www.nyc.gov/html/dcp/html/bytes/dwn_nynta.shtml",
-  "dataTitle": "New York City Department of City Planning",
+
+  "locationName": "Brooklyn",
   "stateName": "N.Y.",
-  "author": "ahhrrr",
-  "googleMapsQuery": "Brooklyn, NY"
+  "googleMapsQuery": "Brooklyn, NY",
+
+  "authorTwitter": "ahhrrr",
+
+  "dataUrl": "http://www.nyc.gov/html/dcp/html/bytes/dwn_nynta.shtml",
+  "dataTitle": "New York City Department of City Planning"
 }

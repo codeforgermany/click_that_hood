@@ -1,7 +1,10 @@
 { 
   "dataFile": "miami.geojson",
+
+  "locationName": "Miami",
   "stateName": "Fla.",
   "googleMapsQuery": "Miami, FL",
+
   "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
   "dataTitle": "Zillow"
 }

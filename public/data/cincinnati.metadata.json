@@ -1,8 +1,12 @@
 { 
   "dataFile": "cincinnati.geojson",
-  "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
-  "dataTitle": "Zillow",
+
+  "locationName": "Cincinnati",
   "stateName": "Ohio",
-  "author": "pzula",
-  "googleMapsQuery": "Cincinnati, OH"
+  "googleMapsQuery": "Cincinnati, OH",
+
+  "authorTwitter": "pzula",
+
+  "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
+  "dataTitle": "Zillow"
 }

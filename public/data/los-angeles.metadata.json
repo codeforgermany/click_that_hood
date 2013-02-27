@@ -1,7 +1,11 @@
 { 
   "dataFile": "los-angeles.geojson",
-  "dataUrl": "http://projects.latimes.com/mapping-la/about/#the-data",
-  "dataTitle": "Los Angeles Times",
+
+  "locationName": "Los Angeles",
   "stateName": "Calif.",
-  "googleMapsQuery": "Los Angeles, CA"
+
+  "googleMapsQuery": "Los Angeles, CA",
+
+  "dataUrl": "http://projects.latimes.com/mapping-la/about/#the-data",
+  "dataTitle": "Los Angeles Times"
 }

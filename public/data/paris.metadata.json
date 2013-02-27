@@ -1,8 +1,12 @@
 { 
   "dataFile": "paris.geojson",
-  "dataUrl": "http://maps.google.fr/maps/ms?ie=UTF8&oe=UTF8&msa=0&msid=107698874966682313812.0000011129fd5d904b6a8&output=kml",
-  "dataTitle": "Google Maps",
+
+  "locationName": "Paris",
   "countryName": "France",
-  "author": "monfresh",
-  "googleMapsQuery": "Paris, France"
+  "googleMapsQuery": "Paris, France",
+
+  "authorTwitter": "monfresh",
+
+  "dataUrl": "http://maps.google.fr/maps/ms?ie=UTF8&oe=UTF8&msa=0&msid=107698874966682313812.0000011129fd5d904b6a8&output=kml",
+  "dataTitle": "Google Maps"
 }

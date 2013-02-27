@@ -1,8 +1,12 @@
 {
   "dataFile": "portland.geojson",
-  "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
-  "dataTitle": "Zillow",
+
+  "locationName": "Portland",
   "stateName": "Ore.",
-  "author": "rclosner",
-  "googleMapsQuery": "Portland, OR"
+  "googleMapsQuery": "Portland, OR",
+
+  "authorTwitter": "rclosner",
+
+  "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
+  "dataTitle": "Zillow"
 }
