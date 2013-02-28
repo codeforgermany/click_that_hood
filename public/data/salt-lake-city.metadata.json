@@ -1,0 +1,12 @@
+{ 
+  "dataFile": "salt-lake-city.geojson",
+
+  "locationName": "Salt Lake City",
+  "stateName": "Utah",
+  "googleMapsQuery": "Salt Lake City, UT",
+
+  "authorTwitter": "mgadams3",
+
+  "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
+  "dataTitle": "Zillow"
+}
