@@ -1,0 +1,10 @@
+{ 
+  "dataFile": "des-moines.geojson",
+
+  "locationName": "Des Moines",
+  "stateName": "Iowa",
+  "googleMapsQuery": "Des Moines, IA",
+
+  "dataUrl": "ftp://ftpa.dmgov.org/Public/Data/",
+  "dataTitle": "City of Des Moines"
+}
