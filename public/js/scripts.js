@@ -240,17 +240,21 @@ function createMap() {
       // TODO make a function
       var el = d3.event.target || d3.event.toElement;
 
-      if (!el.getAttribute('inactive')) {
-        var boundingBox = el.getBBox();
+      var boundingBox = el.getBBox();
 
-        var hoverEl = document.querySelector('#neighborhood-hover');
+      var hoverEl = document.querySelector('#neighborhood-hover');
 
-        hoverEl.innerHTML = d.properties.name;  
+      hoverEl.innerHTML = d.properties.name;  
 
-        hoverEl.style.left = (boundingBox.x + boundingBox.width / 2 - hoverEl.offsetWidth / 2) + 'px';
-        hoverEl.style.top = (boundingBox.y + boundingBox.height) + 'px';
+      hoverEl.style.left = (boundingBox.x + boundingBox.width / 2 - hoverEl.offsetWidth / 2) + 'px';
+      hoverEl.style.top = (boundingBox.y + boundingBox.height) + 'px';
 
-        hoverEl.classList.add('visible');  
+      hoverEl.classList.add('visible');  
+
+      if (el.getAttribute('inactive')) {
+        hoverEl.classList.add('inactive');
+      } else {
+        hoverEl.classList.remove('inactive');
       }
     })
     .on('mouseout', function(d) {

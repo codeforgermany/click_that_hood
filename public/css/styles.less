@@ -353,7 +353,7 @@ body.no-hover #neighborhood-hover {
 
   box-shadow: 0 2px 3px rgba(0, 0, 0, .5);
 
-  padding: 8px 16px;
+  padding: .38em .75em;
   box-sizing: border-box;
 
   color: black;
@@ -371,6 +371,12 @@ body.no-hover #neighborhood-hover {
 
   &.visible {
     opacity: 1;
+  }
+
+  &.inactive {
+    background: fadein(@inactiveNeighborhoodFillColour, 10%);
+    border-color: black;
+    font-size: @fontSize * 1.5 * .75;
   }
 }
 
@@ -393,6 +399,11 @@ body.no-hover #neighborhood-hover {
   &:not([inactive]):hover {
     fill: fadeout(@highlightColour, 50%);
     cursor: pointer;
+    -webkit-transition: fill 50ms;
+    -moz-transition: fill 50ms;
+  }
+  &[inactive]:hover {
+    fill: mix(@inactiveNeighborhoodFillColour, black, 90%);
     -webkit-transition: fill 50ms;
     -moz-transition: fill 50ms;
   }
@@ -654,10 +665,11 @@ q {
 
   -webkit-transform: rotateZ(-6deg);
   -moz-transform: rotateZ(-6deg);
+
+  .visible {
+    display: block;
+  }
+  :hover {
+    background: darken(@highlightColour, 15);
+  }
 }
-#callout.visible {
-  display: block;
-}
-#callout:hover {
-  background: darken(@highlightColour, 15);
-} 
