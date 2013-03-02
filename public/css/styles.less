@@ -53,7 +53,7 @@ body > header {
   top: 50%;
   bottom: @bodyMargin;
 
-  margin-top: -220px;
+  margin-top: -150px;
 
   left: @bodyMargin;
   width: @headerWidth;
@@ -65,7 +65,7 @@ body.main-menu > header {
   margin-top: 0;
   width: @narrowHeaderWidth;
 }
-body.main-menu > header .city-name,
+body.main-menu > header .location-name,
 body.main-menu > header .state-or-country {
   display: none;
 }
@@ -74,12 +74,13 @@ body.no-difficult-game .difficult-game {
   display: none;
 }
 
-header .city-name,
-#main-menu .cities .city-name {
-  display: block;
+header .location-name,
+#main-menu .cities .location-name {
+  display: inline-block;
   font-weight: normal;
   font-family: 'Homestead';
   font-size: 48px;
+
   line-height: .9;
   letter-spacing: 1px;
   text-align: center;
@@ -87,14 +88,22 @@ header .city-name,
   margin: 0;
   margin-top: 40px;
   text-rendering: optimizeLegibility;
-  word-wrap: break-word;
 }
-header .city-name::after,
-#main-menu .cities .city-name::after {
+body > header .location-name {
+  //white-space: nowrap;
+  //padding-right: 15px; // To account for the comma
+}
+body > header .names {
+  -webkit-transform-origin-x: 0;
+}
+
+
+header .location-name::after,
+#main-menu .cities .location-name::after {
   content: ',';
   position: absolute;
 }
-#main-menu .cities li.add .city-name::after {
+#main-menu .cities li.add .location-name::after {
   content: '…';
 }
 header .state-or-country,
@@ -105,8 +114,9 @@ header .state-or-country,
   letter-spacing: -1px;
   font-size: 42px;
   padding: 0;
-  margin: 0;
+  margin: 0 auto;
   margin-top: 5px;
+  margin-left: -10px;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -131,7 +141,7 @@ header .annotation:empty,
   display: none;
 }
 
-#main-menu .cities .city-name {
+#main-menu .cities .location-name {
   font-size: 48px * 2 / 3;
   word-wrap: break-word;
   padding: 0 10px;
@@ -199,14 +209,6 @@ body.main-menu > footer .author {
   width: 126px;
   height: 143px;
   max-width: 100%;
-}
-body > header #city-name {
-  margin-top: 30px;
-  width: 284px;
-  max-width: 100%;
-}
-body.main-menu > header #city-name {
-  display: none;
 }
 
 body > header > h3 {
@@ -625,7 +627,7 @@ a {
   color: rgba(0, 0, 0, .2);
   border-color: rgba(0, 0, 0, .2);
 }
-#main-menu .cities li.add .city-name {
+#main-menu .cities li.add .location-name {
   margin-top: 140px;
 }
 

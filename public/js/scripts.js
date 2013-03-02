@@ -9,14 +9,16 @@
  * later if there’s time later.
  */
 
+var EASY_MODE_COUNT = 20;
+
 var HIGHLIGHT_DELAY = 1500;
 var NEXT_GUESS_DELAY = 1000;
 
 var REMOVE_NEIGHBORHOOD_ANIMATE_GUESS_DELAY = 2000;
 
-var MAP_VERT_PADDING = 50;
+var SMALL_NEIGHBORHOOD_THRESHOLD = 8;
 
-var EASY_MODE_COUNT = 20;
+var MAP_VERT_PADDING = 50;
 
 var MAP_OVERLAY_TILES_COUNT_X = 2;
 var MAP_OVERLAY_TILES_COUNT_Y = 2;
@@ -30,8 +32,6 @@ var GOOGLE_MAPS_DEFAULT_SCALE = 512;
 var D3_DEFAULT_SCALE = 500;
 
 var GOOGLE_MAPS_API_KEY = 'AIzaSyCMwHPyd0ntfh2RwROQmp_ozu1EoYo9AXk';
-
-var SMALL_NEIGHBORHOOD_THRESHOLD = 8;
 
 var startTime = 0;
 var timerIntervalId;
@@ -58,22 +58,25 @@ var latSpread, lonSpread;
 
 var cityId = '';
 
+var bodyLoaded = false;
+var geoDataLoaded = false;
+
 function lonToTile(lon, zoom) { 
-  return (Math.floor((lon + 180) / 360 * Math.pow(2, zoom))); 
+  return Math.floor((lon + 180) / 360 * Math.pow(2, zoom));
 }
 
 function latToTile(lat, zoom) { 
-  return (Math.floor((1 - Math.log(Math.tan(lat * Math.PI / 180) + 
-      1 / Math.cos(lat * Math.PI / 180)) / Math.PI) / 2 * Math.pow(2, zoom))); 
+  return Math.floor((1 - Math.log(Math.tan(lat * Math.PI / 180) + 
+      1 / Math.cos(lat * Math.PI / 180)) / Math.PI) / 2 * Math.pow(2, zoom));
 }
 
 function tileToLon(x, zoom) {
-  return (x / Math.pow(2, zoom) * 360 - 180);
+  return x / Math.pow(2, zoom) * 360 - 180;
 }
 
 function tileToLat(y, zoom) {
   var n = Math.PI - 2 * Math.PI * y / Math.pow(2, zoom);
-  return (180 / Math.PI * Math.atan(.5 * (Math.exp(n) - Math.exp(-n))));
+  return 180 / Math.PI * Math.atan(.5 * (Math.exp(n) - Math.exp(-n)));
 }
 
 function updateCanvasSize() {
@@ -137,13 +140,16 @@ function calculateMapSize() {
   // Calculate for height first
   // TODO: not entirely sure where these magic numbers are coming from
   globalScale = 
-      ((D3_DEFAULT_SCALE * 180) / latSpread * (canvasHeight - 50)) / GOOGLE_MAPS_DEFAULT_SCALE / 0.045 * (-latStep);
+      ((D3_DEFAULT_SCALE * 180) / latSpread * (canvasHeight - 50)) / 
+          GOOGLE_MAPS_DEFAULT_SCALE / 0.045 * (-latStep);
 
   // Calculate width according to that scale
-  var width = globalScale / (D3_DEFAULT_SCALE * 360) * lonSpread * GOOGLE_MAPS_DEFAULT_SCALE;
+  var width = globalScale / (D3_DEFAULT_SCALE * 360) * 
+      lonSpread * GOOGLE_MAPS_DEFAULT_SCALE;
 
   if (width > canvasWidth) {
-    globalScale = ((D3_DEFAULT_SCALE * 360) / lonSpread * canvasWidth) / GOOGLE_MAPS_DEFAULT_SCALE;
+    globalScale = ((D3_DEFAULT_SCALE * 360) / lonSpread * canvasWidth) / 
+        GOOGLE_MAPS_DEFAULT_SCALE;
   }
 
   geoMapPath = d3.geo.path().projection(
@@ -209,22 +215,30 @@ function updateCount() {
   }
 }
 
+function everythingLoaded() {
+  if (!mainMenu) {
+    calculateMapSize();
+
+    prepareMapOverlay();
+    resizeMapOverlay();
+
+    prepareNeighborhoods();
+
+    createMap();
+
+    removeSmallNeighborhoods();
+    updateCount();
+
+    startIntro();
+  }
+}
+
 function onGeoDataLoad(error, data) {
   geoData = data;
 
-  calculateMapSize();
+  geoDataLoaded = true;
 
-  prepareMapOverlay();
-  resizeMapOverlay();
-
-  prepareNeighborhoods();
-
-  createMap();
-
-  removeSmallNeighborhoods();
-  updateCount();
-
-  startIntro();
+  checkIfEverythingLoaded();
 }
 
 function prepareNeighborhoods() {
@@ -655,6 +669,21 @@ function updateFooter() {
   }
 }
 
+function resizeLogoIfNecessary() {
+  var headerEl = document.querySelector('header');
+  var el = document.querySelector('body > header .location-name');
+
+  var ratio = el.offsetWidth / headerEl.offsetWidth;
+
+  if (ratio > 1) {
+    var el = document.querySelector('body > header .names');
+
+    // TODO const
+    el.querySelector('.location-name').style.fontSize = (48 / ratio) + 'px';
+    el.querySelector('.state-or-country').style.fontSize = (42 / ratio) + 'px';
+  }
+}
+
 function prepareLogo() {
   document.querySelector('header .state-or-country').innerHTML = 
       CITY_DATA[cityId].stateName || CITY_DATA[cityId].countryName;
@@ -662,10 +691,12 @@ function prepareLogo() {
   document.querySelector('header .annotation').innerHTML = 
       CITY_DATA[cityId].annotation || '';
 
-  var els = document.querySelectorAll('.city-name');
+  var els = document.querySelectorAll('.location-name');
   for (var i = 0, el; el = els[i]; i++) {
     el.innerHTML = CITY_DATA[cityId].locationName;
   }
+
+  resizeLogoIfNecessary();
 }
 
 function prepareMainMenu() {
@@ -689,7 +720,7 @@ function prepareMainMenu() {
         '&key=AIzaSyCMwHPyd0ntfh2RwROQmp_ozu1EoYo9AXk' +
         '&zoom=11&maptype=terrain&size=200x240&sensor=false&scale=' + pixelRatio + '"></span>' +
         '<header>' + 
-        '<span class="city-name">' + cityData.locationName + '</span>' +
+        '<span class="location-name">' + cityData.locationName + '</span>' +
         '<span class="state-or-country">' + (cityData.stateName || cityData.countryName) + '</span>' +
         '<span class="annotation">' + (cityData.annotation || '') + '</span>' +
         '</header></a>';
@@ -699,7 +730,7 @@ function prepareMainMenu() {
 
   var el = document.createElement('li');
   el.classList.add('add');
-  el.innerHTML = '<a target="_blank" href="https://docs.google.com/document/d/1ePUmeH1jgsnjiByGfToIU1DTGqn6OPFWgkRC9m03IqE/edit?usp=sharing"><header><span class="city-name">Add your city</span></header></a>';
+  el.innerHTML = '<a target="_blank" href="https://docs.google.com/document/d/1ePUmeH1jgsnjiByGfToIU1DTGqn6OPFWgkRC9m03IqE/edit?usp=sharing"><header><span class="location-name">Add your city</span></header></a>';
   document.querySelector('#main-menu .cities').appendChild(el);
 
   document.querySelector('#main-menu').classList.add('visible');
@@ -718,7 +749,23 @@ function removeHttpsIfPresent() {
   }
 }
 
+function checkIfEverythingLoaded() {
+  if (geoDataLoaded && bodyLoaded) {
+    everythingLoaded();
+  }
+}
+
+function onBodyLoad() {
+  bodyLoaded = true;
+  checkIfEverythingLoaded();
+
+  // TODO DEBUG
+  prepareLogo();
+}
+
 function main() {
+  window.addEventListener('load', onBodyLoad, false);
+
   removeHttpsIfPresent();
 
   getEnvironmentInfo();
