@@ -21,6 +21,14 @@ var MAP_OVERLAY_TILES_COUNT_Y = 2;
 var MAP_OVERLAY_OVERLAP_RATIO = .95;
 var MAP_OVERLAY_SIZE_THRESHOLD = 500;
 
+var MAP_OVERLAY_DEFAULT_ZOOM = 12;
+
+var GOOGLE_MAPS_TILE_SIZE = 640;
+var GOOGLE_MAPS_DEFAULT_SCALE = 512;
+var D3_DEFAULT_SCALE = 500;
+
+var GOOGLE_MAPS_API_KEY = 'AIzaSyCMwHPyd0ntfh2RwROQmp_ozu1EoYo9AXk';
+
 var SMALL_NEIGHBORHOOD_THRESHOLD = 8;
 
 var startTime = 0;
@@ -47,13 +55,6 @@ var centerLat, centerLon;
 var latSpread, lonSpread;
 
 var cityId;
-
-function updateData() {
-  loadData();
-  updateNav();
-  updateCaption();
-  window.setTimeout(updateMap, 0);
-}
 
 function getCanvasSize() {
   canvasWidth = document.querySelector('#map').offsetWidth;
@@ -109,20 +110,20 @@ function calculateMapSize() {
 
   getCanvasSize();
 
-  var zoom = 12;
+  var zoom = MAP_OVERLAY_DEFAULT_ZOOM;
   var tile = lat2tile(centerLat, zoom);
   var latStep = (tile2lat(tile + 1, zoom) - tile2lat(tile, zoom));
 
   // Calculate for height first
   // TODO: not entirely sure where these magic numbers are coming from
   globalScale = 
-      ((500 * 180) / latSpread * (canvasHeight - 50)) / 512 / 0.045 * (-latStep);
+      ((D3_DEFAULT_SCALE * 180) / latSpread * (canvasHeight - 50)) / GOOGLE_MAPS_DEFAULT_SCALE / 0.045 * (-latStep);
 
   // Calculate width according to that scale
-  var width = globalScale / (500 * 360) * lonSpread * 512;
+  var width = globalScale / (D3_DEFAULT_SCALE * 360) * lonSpread * GOOGLE_MAPS_DEFAULT_SCALE;
 
   if (width > canvasWidth) {
-    globalScale = ((500 * 360) / lonSpread * canvasWidth) / 512;
+    globalScale = ((D3_DEFAULT_SCALE * 360) / lonSpread * canvasWidth) / GOOGLE_MAPS_DEFAULT_SCALE;
   }
 
   geoMapPath = d3.geo.path().projection(
@@ -515,9 +516,13 @@ function updateTimer() {
 function getGoogleMapsUrl(lat, lon, zoom, type) {
   var url = 'http://maps.googleapis.com/maps/api/staticmap' +
       '?center=' + lat + ',' + lon +
-      '&zoom=' + zoom + '&size=640x640' +
-      '&key=AIzaSyCMwHPyd0ntfh2RwROQmp_ozu1EoYo9AXk' +
-      '&sensor=false&scale=' + pixelRatio + '&maptype=' + type + '&format=jpg';
+      '&zoom=' + zoom + 
+      '&size=' + GOOGLE_MAPS_TILE_SIZE + 'x' + GOOGLE_MAPS_TILE_SIZE +
+      '&key=' + GOOGLE_MAPS_API_KEY +
+      '&sensor=false' +
+      '&scale=' + pixelRatio + 
+      '&maptype=' + type + 
+      '&format=jpg';
 
   return url;
 }
@@ -552,14 +557,15 @@ function tile2lat(y, zoom) {
 
 function resizeMapOverlay() {
   var canvasWidth = document.querySelector('#map').offsetWidth;
-  var canvasHeight = document.querySelector('#map').offsetHeight - MAP_VERT_PADDING * 2;
+  var canvasHeight = document.querySelector('#map').offsetHeight - 
+      MAP_VERT_PADDING * 2;
 
   // TODO unhardcode
   var size = globalScale * 0.0012238683395795992;
   size = size * 0.995 / 2;
 
   // TODO remove global
-  zoom = 12;
+  zoom = MAP_OVERLAY_DEFAULT_ZOOM;
 
   while (size < MAP_OVERLAY_SIZE_THRESHOLD) {
     size *= 2;
@@ -568,8 +574,10 @@ function resizeMapOverlay() {
 
   var tile = lat2tile(centerLat, zoom);
 
-  var longStep = (tile2long(1, zoom) - tile2long(0, zoom)) / 256 * 640;
-  var latStep = (tile2lat(tile + 1, zoom) - tile2lat(tile, zoom)) / 256 * 640;
+  var longStep = 
+      (tile2long(1, zoom) - tile2long(0, zoom)) / 256 * GOOGLE_MAPS_TILE_SIZE;
+  var latStep = 
+      (tile2lat(tile + 1, zoom) - tile2lat(tile, zoom)) / 256 * GOOGLE_MAPS_TILE_SIZE;
 
   var lat = centerLat - latStep / 2;
   var lon = centerLon - longStep / 2;
@@ -606,7 +614,6 @@ function onResize() {
 
   mapSvg.attr('width', canvasWidth);
   mapSvg.attr('height', canvasHeight);
-
   mapSvg.selectAll('path').attr('d', geoMapPath);
 }
 
@@ -640,9 +647,8 @@ function updateFooter() {
         'http://twitter.com/' + CITY_DATA[cityId].authorTwitter;
     document.querySelector('footer .author a').innerHTML = 
         '@' + CITY_DATA[cityId].authorTwitter;
-  } else {
-    document.querySelector('footer .author').style.display = 'none';
-  }
+    document.querySelector('footer .author').classList.add('visible');
+  } 
 
   if (CITY_DATA[cityId].calloutUrl) {
     var el = document.querySelector('#callout');
