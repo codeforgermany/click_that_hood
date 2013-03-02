@@ -131,7 +131,6 @@ function prepareMap() {
       .attr('width', canvasWidth)
       .attr('height', canvasHeight);    
 
-  // Read from local GeoJSON file
   var url = 'data/' + CITY_DATA[cityId].dataFile;
 
   queue()  
@@ -162,7 +161,7 @@ function removeSmallNeighborhoods() {
   }
 
   if (someSmallNeighborhoodsRemoved) {
-    document.querySelector('#neighborhoods-removed').classList.add('visible');
+    document.querySelector('footer .neighborhoods-removed').classList.add('visible');
   }
 }
 
@@ -280,7 +279,6 @@ function animateNeighborhood(el) {
   if (animEl.classList) {
     el.parentNode.appendChild(animEl);
 
-
     animEl.classList.remove('guessed');
     animEl.classList.add('guessed-animation');
 
@@ -392,7 +390,6 @@ function removeNeighborhoodHighlights() {
     el.style.stroke = 'white';
     el.style.fill = '';
   }
-
 }
 
 function updateNeighborhoodDisplay() {
@@ -464,7 +461,7 @@ function startGame(useEasyMode) {
   window.setTimeout(nextGuess, NEXT_GUESS_DELAY);
 }
 
-function createTimeout(fn, data, delay){
+function createTimeout(fn, data, delay) {
   window.setTimeout(function() { fn.call(null, data); }, delay);
 }
 
@@ -635,10 +632,10 @@ function getCityId() {
 
 function updateFooter() {
   if (CITY_DATA[cityId].dataUrl) {
-    document.querySelector('#data-source').href = CITY_DATA[cityId].dataUrl;
-    document.querySelector('#data-source').innerHTML = 
+    document.querySelector('footer .data-source a').href = CITY_DATA[cityId].dataUrl;
+    document.querySelector('footer .data-source a').innerHTML = 
         CITY_DATA[cityId].dataTitle;
-    document.querySelector('#data-source-text').classList.add('visible');
+    document.querySelector('footer .data-source').classList.add('visible');
   }
 
   if (CITY_DATA[cityId].authorTwitter) {
@@ -658,7 +655,7 @@ function updateFooter() {
 }
 
 function prepareLogo() {
-  document.querySelector('header .state-abbreviation').innerHTML = 
+  document.querySelector('header .state-or-country').innerHTML = 
       CITY_DATA[cityId].stateName || CITY_DATA[cityId].countryName;
 
   document.querySelector('header .annotation').innerHTML = 
@@ -692,7 +689,7 @@ function prepareMainMenu() {
         '&zoom=11&maptype=terrain&size=200x240&sensor=false&scale=' + pixelRatio + '"></span>' +
         '<header>' + 
         '<span class="city-name">' + cityData.locationName + '</span>' +
-        '<span class="state-abbreviation">' + (cityData.stateName || cityData.countryName) + '</span>' +
+        '<span class="state-or-country">' + (cityData.stateName || cityData.countryName) + '</span>' +
         '<span class="annotation">' + (cityData.annotation || '') + '</span>' +
         '</header></a>';
 
@@ -707,11 +704,11 @@ function prepareMainMenu() {
   document.querySelector('#main-menu').classList.add('visible');
 }
 
-function prepare() {
+function getEnvironmentInfo() {
   pixelRatio = window.devicePixelRatio || 1;
 }
 
-function testProtocol() {
+function removeHttpsIfPresent() {
   // Gets out of HTTPS to do HTTP, because D3 doesn’t allow linking via 
   // HTTPS. But there’s a better way to deal with all of this, I feel
   // (hosting our own copy of D3?).
@@ -721,9 +718,9 @@ function testProtocol() {
 }
 
 function main() {
-  testProtocol();
+  removeHttpsIfPresent();
 
-  prepare();
+  getEnvironmentInfo();
 
   getCityId();
 

@@ -43,23 +43,27 @@
   <header>
     <a href='/'><img alt='Click that ’hood' class='logo' src='/images/logo.png'></a>
     <span class='city-name'></span>
-    <span class='state-abbreviation'></span>
+    <span class='state-or-country'></span>
     <span class='annotation'></span>
   </header>
 
   <footer>
     <img id='cfa' src='/images/cfa-flagtag.svg'>
-    <a target='_blank' href='http://www.codeforamerica.org'>Code for America</a>, 2013.
-    <a target='_blank' href='https://github.com/codeforamerica/click_that_hood'>Source code</a>.
+    <a target='_blank' 
+        href='http://www.codeforamerica.org'>Code for America</a>, 2013.
+    <a target='_blank' 
+        href='https://github.com/codeforamerica/click_that_hood'>Source code</a>.
     <span class='main-menu'>
       Fonts from <a href='http://www.losttype.com/browse/'>Lost Type</a>.
       Map data &copy; 2013 Google.
     </span>
     <span class='data'>    
-      <span id='data-source-text'>
-        Data from <a target='_blank' href='#' id='data-source'></a>.
+      <span class='data-source'>
+        Data from <a target='_blank'></a>.
       </span>
-      <span id='neighborhoods-removed'>(Some neighborhoods removed due to small size.)</span>
+      <span class='neighborhoods-removed'>
+        (Some neighborhoods removed due to small size.)
+      </span>
       Map imagery &copy; 2013 Google and TerraMetrics.
     </span>
     <span class='author'>
@@ -120,7 +124,8 @@
           Congratulations! 
         </h1>
         <p>
-          You correctly identified <span class='easy-mode-count'></span> <span class='city-name'></span>
+          You correctly identified <span class='easy-mode-count'></span> 
+          <span class='city-name'></span>
           neighborhoods!
         </p>
         <p>
@@ -149,9 +154,8 @@
       </div>    
     </div>
 
-    <h2 id='count'></h3>
-    <h2 id='time'></h3>
-
+    <h2 id='count'></h2>
+    <h2 id='time'></h2>
   </div>
 
   <script>

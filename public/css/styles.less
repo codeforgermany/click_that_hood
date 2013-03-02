@@ -66,7 +66,7 @@ body.main-menu > header {
   width: @narrowHeaderWidth;
 }
 body.main-menu > header .city-name,
-body.main-menu > header .state-abbreviation {
+body.main-menu > header .state-or-country {
   display: none;
 }
 
@@ -97,8 +97,8 @@ header .city-name::after,
 #main-menu .cities li.add .city-name::after {
   content: '…';
 }
-header .state-abbreviation,
-#main-menu .cities .state-abbreviation {
+header .state-or-country,
+#main-menu .cities .state-or-country {
   display: block;
   font-weight: normal;
   font-family: 'Wisdom Script';
@@ -136,7 +136,7 @@ header .annotation:empty,
   word-wrap: break-word;
   padding: 0 10px;
 }
-#main-menu .cities .state-abbreviation {
+#main-menu .cities .state-or-country {
   font-size: 42px * 2 / 3;
 }
 #main-menu .cities .annotation {
@@ -553,9 +553,10 @@ a {
   max-height: 100%;
 
   text-align: center;
-}
-#main-menu.visible {
-  display: block;
+
+  &.visible {
+    display: block;
+  }
 }
 #main-menu .logo {
   float: left;
@@ -639,8 +640,8 @@ q {
   }
 }
 
-#neighborhoods-removed,
-#data-source-text {
+.neighborhoods-removed,
+.data-source {
   display: none;
   
   &.visible {
