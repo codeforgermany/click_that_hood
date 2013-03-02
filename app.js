@@ -32,12 +32,10 @@ var startApp = function() {
   app.listen(port, null, null, function() {
     console.log('Listening on port ' + port);
   });
+}
 
-  }
-
-  // Write combined metadata file from individual location metadata files
-  fsTools.findSorted("public/data", /[^.]+\.metadata.json/, function(err, files) {
-
+// Write combined metadata file from individual location metadata files
+fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
   var metadata = {};
 
   for (index in files) {
@@ -55,11 +53,36 @@ var startApp = function() {
       
       metadata[locationName] = 
           JSON.parse(fs.readFileSync(metadataFilePath, 'utf8'));
+
+      // Parse GeoJSON file, find the first available latitude/longitude,
+      // and add them to the metadata.
+
+      //geoJsonFilePath = 'public/data/' + locationName + '.geojson';
+      geoJsonFilePath = 'public/data/' + metadata[locationName].dataFile;
+      if (!fs.existsSync(geoJsonFilePath)) {
+        console.error("GeoJSON file not found for '" + locationName + 
+            "'. Aborting server start.");
+        process.exit(1);
+      }
+
+      var geoJsonData = JSON.parse(fs.readFileSync(geoJsonFilePath, 'utf8'));
+
+      var latLon = geoJsonData.features[0].geometry.coordinates[0][0];
+
+      if (latLon[0][0]) {
+        var lat = latLon[0][0];
+        var lon = latLon[0][1];
+      } else {
+        var lat = latLon[0];
+        var lon = latLon[1];
+      }
+
+      metadata[locationName].sampleLatLon = [lat, lon];
     }
   }
 
   var metadataFileContents = 
-      "//\n// This file is auto-generated each time the " +
+      "//\n// This file is AUTO-GENERATED each time the " +
       "application is restarted.\n//\n\nvar CITY_DATA = " + 
       JSON.stringify(metadata) + ";";
   fs.writeFileSync("public/js/data.js", metadataFileContents);
