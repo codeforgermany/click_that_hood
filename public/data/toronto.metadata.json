@@ -1,6 +1,4 @@
 { 
-  "dataFile": "toronto.geojson",
-
   "locationName": "Toronto",
   "countryName": "Canada",
   "googleMapsQuery": "Toronto, Ontario",

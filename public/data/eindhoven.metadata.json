@@ -1,6 +1,4 @@
 { 
-  "dataFile": "eindhoven.geojson",
-
   "locationName": "Eindhoven",
   "countryName": "The Netherlands",
   "googleMapsQuery": "Eindhoven, The Netherlands",

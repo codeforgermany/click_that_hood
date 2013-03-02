@@ -1,6 +1,4 @@
 { 
-  "dataFile": "seattle.geojson",
-
   "locationName": "Seattle",
   "stateName": "Wa.",
   "googleMapsQuery": "Seattle, WA",

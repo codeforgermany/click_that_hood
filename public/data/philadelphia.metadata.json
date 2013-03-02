@@ -1,6 +1,4 @@
 { 
-  "dataFile": "philadelphia.geojson",
-
   "locationName": "Philadelphia",
   "stateName": "Pa.",
   "googleMapsQuery": "Philadelphia, PA",

@@ -1,6 +1,4 @@
 {
-  "dataFile": "louisville.geojson",
-
   "locationName": "Louisville",
   "stateName": "Ky.",
   "googleMapsQuery": "Louisville, KY",

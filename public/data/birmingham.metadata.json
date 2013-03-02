@@ -1,6 +1,4 @@
 { 
-  "dataFile": "birmingham.geojson",
-
   "locationName": "Birmingham",
   "stateName": "Ala.",
   "googleMapsQuery": "Birmingham, AL",

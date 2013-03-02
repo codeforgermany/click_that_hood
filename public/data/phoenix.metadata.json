@@ -1,6 +1,4 @@
 { 
-  "dataFile": "phoenix.geojson",
-
   "locationName": "Phoenix",
   "stateName": "Ariz.",
   "googleMapsQuery": "Phoenix, AZ",

@@ -1,6 +1,4 @@
 { 
-  "dataFile": "london.geojson",
-
   "locationName": "London",
   "countryName": "U.K.",
   "googleMapsQuery": "London, U.K.",

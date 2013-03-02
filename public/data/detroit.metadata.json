@@ -1,6 +1,4 @@
 { 
-  "dataFile": "detroit.geojson",
-
   "locationName": "Detroit",
   "stateName": "Mich.",
   "googleMapsQuery": "Detroit, MI",

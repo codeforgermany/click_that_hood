@@ -1,6 +1,4 @@
 {
-  "dataFile": "sacramento.geojson",
-
   "locationName": "Sacramento",
   "stateName": "Calif.",
   "googleMapsQuery": "Sacramento, CA",

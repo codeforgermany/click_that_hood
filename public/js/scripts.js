@@ -131,7 +131,7 @@ function prepareMap() {
       .attr('width', canvasWidth)
       .attr('height', canvasHeight);    
 
-  var url = 'data/' + CITY_DATA[cityId].dataFile;
+  var url = 'data/' + cityId + '.geojson';
 
   queue()  
       .defer(d3.json, url)

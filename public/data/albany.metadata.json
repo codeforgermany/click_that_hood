@@ -1,6 +1,4 @@
 { 
-  "dataFile": "albany.geojson",
-
   "locationName": "Albany",
   "stateName": "N.Y.",
   "googleMapsQuery": "Albany, NY",

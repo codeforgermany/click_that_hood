@@ -1,6 +1,4 @@
 { 
-  "dataFile": "baltimore.geojson",
-
   "locationName": "Baltimore",
   "stateName": "Md.",
   "googleMapsQuery": "Baltimore, MD",

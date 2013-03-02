@@ -1,6 +1,4 @@
 {
-  "dataFile": "brooklyn.geojson",
-
   "locationName": "Brooklyn",
   "stateName": "N.Y.",
   "googleMapsQuery": "Brooklyn, NY",

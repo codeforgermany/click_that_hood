@@ -1,6 +1,4 @@
 {
-  "dataFile": "san-antonio.geojson",
-
   "locationName": "San Antonio",
   "stateName": "Texas",
   "googleMapsQuery": "San Antonio, TX",

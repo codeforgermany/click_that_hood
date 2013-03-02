@@ -1,6 +1,4 @@
 {
-  "dataFile": "chicago.geojson",
-
   "locationName": "Chicago",
   "stateName": "Ill.",
   "googleMapsQuery": "Chicago, IL",

@@ -1,6 +1,4 @@
 { 
-  "dataFile": "basel.geojson",
-
   "locationName": "Basel",
   "countryName": "Switzerland",
   "googleMapsQuery": "Basel, Switzerland",

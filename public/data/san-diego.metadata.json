@@ -1,6 +1,4 @@
 { 
-  "dataFile": "san-diego.geojson",
-
   "locationName": "San Diego",
   "stateName": "Calif.",
   "googleMapsQuery": "San Diego, CA",

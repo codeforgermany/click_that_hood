@@ -1,6 +1,4 @@
 { 
-  "dataFile": "geneva.geojson",
-
   "locationName": "Geneva",
   "countryName": "Switzerland",
   "googleMapsQuery": "Geneva, Switzerland",

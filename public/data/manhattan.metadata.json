@@ -1,6 +1,4 @@
 {
-  "dataFile": "manhattan.geojson",
-
   "locationName": "Manhattan",
   "stateName": "N.Y.",
   "googleMapsQuery": "Manhattan, NY",

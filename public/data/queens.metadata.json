@@ -1,6 +1,4 @@
 {
-  "dataFile": "queens.geojson",
-
   "locationName": "Queens",
   "stateName": "N.Y.",
   "googleMapsQuery": "Queens, NY",

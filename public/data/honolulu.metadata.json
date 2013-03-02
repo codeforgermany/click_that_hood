@@ -1,6 +1,4 @@
 { 
-  "dataFile": "honolulu.geojson",
-
   "locationName": "Honolulu",
   "stateName": "Hawaii",
   "googleMapsQuery": "Honolulu, HI",

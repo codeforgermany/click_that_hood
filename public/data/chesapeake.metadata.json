@@ -1,6 +1,4 @@
 { 
-  "dataFile": "chesapeake.geojson",
-
   "locationName": "Chesapeake",
   "stateName": "Va.",
   "googleMapsQuery": "Chesapeake, VA",

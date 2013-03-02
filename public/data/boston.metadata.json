@@ -1,6 +1,4 @@
 { 
-  "dataFile": "boston.geojson",
-
   "locationName": "Boston",
   "stateName": "Mass.",
   "googleMapsQuery": "Boston, MA",

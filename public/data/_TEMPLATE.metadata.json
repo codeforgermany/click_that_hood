@@ -1,6 +1,4 @@
 { 
-  "dataFile": "<<CITY>>.geojson",
-
   "locationName": "<<NAME OF THE LOCATION>>",
   "stateName": "<<IF USA, STATE ABBREVIATION ACCORDING TO A.P. GUIDELINES. SEE http://en.wikipedia.org/wiki/List_of_U.S._state_abbreviations>>",
   "countryName": "<<IF NOT USA, COUNTRY NAME>>",

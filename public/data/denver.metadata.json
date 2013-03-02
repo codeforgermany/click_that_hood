@@ -1,6 +1,4 @@
 { 
-  "dataFile": "denver.geojson",
-
   "locationName": "Denver",
   "stateName": "Colo.",
   "googleMapsQuery": "Denver, CO",

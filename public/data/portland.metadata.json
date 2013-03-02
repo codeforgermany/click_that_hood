@@ -1,6 +1,4 @@
 {
-  "dataFile": "portland.geojson",
-
   "locationName": "Portland",
   "stateName": "Ore.",
   "googleMapsQuery": "Portland, OR",

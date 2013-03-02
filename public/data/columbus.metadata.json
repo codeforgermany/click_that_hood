@@ -1,6 +1,4 @@
 { 
-  "dataFile": "columbus.geojson",
-
   "locationName": "Columbus",
   "stateName": "Ohio",
   "googleMapsQuery": "Columbus, OH",

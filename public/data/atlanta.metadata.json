@@ -1,6 +1,4 @@
 { 
-  "dataFile": "atlanta.geojson",
-
   "locationName": "Atlanta",
   "stateName": "Ga.",
   "googleMapsQuery": "Atlanta, GA",

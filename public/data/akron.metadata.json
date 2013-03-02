@@ -1,6 +1,4 @@
 {
-  "dataFile": "akron.geojson",
-
   "locationName": "Akron",
   "stateName": "Ohio",
   "googleMapsQuery": "Akron, OH",

@@ -1,6 +1,4 @@
 { 
-  "dataFile": "miami.geojson",
-
   "locationName": "Miami",
   "stateName": "Fla.",
   "googleMapsQuery": "Miami, FL",

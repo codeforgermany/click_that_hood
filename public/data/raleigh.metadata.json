@@ -1,6 +1,4 @@
 { 
-  "dataFile": "raleigh.geojson",
-
   "locationName": "Raleigh",
   "stateName": "N.C.",
   "googleMapsQuery": "Raleigh, NC",

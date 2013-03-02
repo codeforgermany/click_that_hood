@@ -1,6 +1,4 @@
 { 
-  "dataFile": "springfield.geojson",
-
   "locationName": "Springfield",
   "stateName": "Mass.",
   "googleMapsQuery": "Springfield, MA",

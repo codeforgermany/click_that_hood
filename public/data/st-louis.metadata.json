@@ -1,6 +1,4 @@
 {
-  "dataFile": "st-louis.geojson",
-
   "locationName": "St. Louis",
   "stateName": "Mo.",
   "googleMapsQuery": "St. Louis, MO",

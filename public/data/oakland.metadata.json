@@ -1,6 +1,4 @@
 { 
-  "dataFile": "oakland.geojson",
-
   "locationName": "Oakland",
   "stateName": "Calif.",
   "googleMapsQuery": "Oakland, CA",

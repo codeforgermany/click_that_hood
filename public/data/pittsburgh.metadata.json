@@ -1,6 +1,4 @@
 { 
-  "dataFile": "pittsburgh.geojson",
-  
   "locationName": "Pittsburgh",
   "stateName": "Pa.",
   "googleMapsQuery": "Pittsburgh, PA",

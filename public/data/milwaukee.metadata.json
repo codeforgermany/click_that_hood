@@ -1,6 +1,4 @@
 {
-  "dataFile": "milwaukee.geojson",
-
   "locationName": "Milwaukee",
   "stateName": "Wis.",
   "googleMapsQuery": "Milwaukee, WI",

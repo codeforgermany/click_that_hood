@@ -1,6 +1,4 @@
 { 
-  "dataFile": "austin.geojson",
-
   "locationName": "Austin",
   "stateName": "Texas",
   "googleMapsQuery": "Austin, TX",

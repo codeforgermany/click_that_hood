@@ -1,6 +1,4 @@
 { 
-  "dataFile": "hamburg.geojson",
-
   "locationName": "Hamburg",
   "countryName": "Germany",
   "googleMapsQuery": "Hamburg, Germany",

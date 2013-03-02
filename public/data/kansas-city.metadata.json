@@ -1,6 +1,4 @@
 { 
-  "dataFile": "kansas-city.geojson",
-
   "locationName": "Kansas City",
   "stateName": "Mo.",
   "googleMapsQuery": "Kansas City, MO",

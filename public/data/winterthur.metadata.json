@@ -1,6 +1,4 @@
 { 
-  "dataFile": "winterthur.geojson",
-
   "locationName": "Winterthur",
   "countryName": "Switzerland",
   "googleMapsQuery": "Winterthur, Switzerland",

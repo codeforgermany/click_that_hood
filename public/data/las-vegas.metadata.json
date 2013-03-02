@@ -1,6 +1,4 @@
 {
-  "dataFile": "las-vegas.geojson",
-  
   "locationName": "Las Vegas",
   "stateName": "Nev.",
   "googleMapsQuery": "Las Vegas, NV",

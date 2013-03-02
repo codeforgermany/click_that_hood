@@ -1,6 +1,4 @@
 {
-  "dataFile": "amsterdam.geojson",
-
   "locationName": "Amsterdam",
   "countryName": "The Netherlands",
   "googleMapsQuery": "Amsterdam, The Netherlands",

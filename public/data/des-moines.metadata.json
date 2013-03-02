@@ -1,6 +1,4 @@
 { 
-  "dataFile": "des-moines.geojson",
-
   "locationName": "Des Moines",
   "stateName": "Iowa",
   "googleMapsQuery": "Des Moines, IA",

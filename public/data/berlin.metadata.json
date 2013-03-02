@@ -1,6 +1,4 @@
 { 
-  "dataFile": "berlin.geojson",
-
   "locationName": "Berlin",
   "countryName": "Germany",
   "googleMapsQuery": "Berlin, Germany",

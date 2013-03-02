@@ -57,8 +57,7 @@ fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
       // Parse GeoJSON file, find the first available latitude/longitude,
       // and add them to the metadata.
 
-      //geoJsonFilePath = 'public/data/' + locationName + '.geojson';
-      geoJsonFilePath = 'public/data/' + metadata[locationName].dataFile;
+      geoJsonFilePath = 'public/data/' + locationName + '.geojson';
       if (!fs.existsSync(geoJsonFilePath)) {
         console.error("GeoJSON file not found for '" + locationName + 
             "'. Aborting server start.");

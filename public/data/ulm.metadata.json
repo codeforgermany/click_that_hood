@@ -1,6 +1,4 @@
 { 
-  "dataFile": "ulm.geojson",
-  
   "locationName": "Ulm",
   "countryName": "Germany",
   "googleMapsQuery": "Ulm, Germany",

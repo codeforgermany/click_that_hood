@@ -1,6 +1,4 @@
 { 
-  "dataFile": "washington.geojson",
-
   "locationName": "Washington",
   "stateName": "D.C.",
   "googleMapsQuery": "Washington, DC",

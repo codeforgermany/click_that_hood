@@ -1,6 +1,4 @@
 { 
-  "dataFile": "cleveland.geojson",
-
   "locationName": "Cleveland",
   "stateName": "Ohio",
   "googleMapsQuery": "Cleveland, OH",

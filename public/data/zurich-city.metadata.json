@@ -1,6 +1,4 @@
 { 
-  "dataFile": "zurich-city.geojson",
-
   "locationName": "Zürich",
   "countryName": "Switzerland",
   "googleMapsQuery": "Zurich, Switzerland",

@@ -1,6 +1,4 @@
 { 
-  "dataFile": "szczecin.geojson",
-
   "locationName": "Szczecin",
   "countryName": "Poland",
   "googleMapsQuery": "Szczecin, Poland",
