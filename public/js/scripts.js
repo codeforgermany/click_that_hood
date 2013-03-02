@@ -12,6 +12,8 @@
 var HIGHLIGHT_DELAY = 1500;
 var NEXT_GUESS_DELAY = 1000;
 
+var REMOVE_NEIGHBORHOOD_ANIMATE_GUESS_DELAY = 2000;
+
 var MAP_VERT_PADDING = 50;
 
 var EASY_MODE_COUNT = 20;
@@ -54,9 +56,27 @@ var canvasWidth, canvasHeight;
 var centerLat, centerLon;
 var latSpread, lonSpread;
 
-var cityId;
+var cityId = '';
 
-function getCanvasSize() {
+function lonToTile(lon, zoom) { 
+  return (Math.floor((lon + 180) / 360 * Math.pow(2, zoom))); 
+}
+
+function latToTile(lat, zoom) { 
+  return (Math.floor((1 - Math.log(Math.tan(lat * Math.PI / 180) + 
+      1 / Math.cos(lat * Math.PI / 180)) / Math.PI) / 2 * Math.pow(2, zoom))); 
+}
+
+function tileToLon(x, zoom) {
+  return (x / Math.pow(2, zoom) * 360 - 180);
+}
+
+function tileToLat(y, zoom) {
+  var n = Math.PI - 2 * Math.PI * y / Math.pow(2, zoom);
+  return (180 / Math.PI * Math.atan(.5 * (Math.exp(n) - Math.exp(-n))));
+}
+
+function updateCanvasSize() {
   canvasWidth = document.querySelector('#map').offsetWidth;
   canvasHeight = 
       document.querySelector('#map').offsetHeight - MAP_VERT_PADDING * 2;
@@ -68,6 +88,7 @@ function calculateMapSize() {
   var minLon = 99999999;
   var maxLon = -99999999;
 
+  // TODO move outside
   function findMinMax(lon, lat) {
     if (lat > maxLat) {
       maxLat = lat;
@@ -104,15 +125,14 @@ function calculateMapSize() {
 
   centerLat = (minLat + maxLat) / 2;
   centerLon = (minLon + maxLon) / 2;
-
   latSpread = maxLat - minLat;
   lonSpread = maxLon - minLon;
 
-  getCanvasSize();
+  updateCanvasSize();
 
   var zoom = MAP_OVERLAY_DEFAULT_ZOOM;
-  var tile = lat2tile(centerLat, zoom);
-  var latStep = (tile2lat(tile + 1, zoom) - tile2lat(tile, zoom));
+  var tile = latToTile(centerLat, zoom);
+  var latStep = (tileToLat(tile + 1, zoom) - tileToLat(tile, zoom));
 
   // Calculate for height first
   // TODO: not entirely sure where these magic numbers are coming from
@@ -132,14 +152,13 @@ function calculateMapSize() {
 }
 
 function loadGeoData() {
-  getCanvasSize();
+  updateCanvasSize();
 
   mapSvg = d3.select('#svg-container').append('svg')
       .attr('width', canvasWidth)
       .attr('height', canvasHeight);    
 
   var url = 'data/' + cityId + '.geojson';
-
   queue().defer(d3.json, url).await(onGeoDataLoad);
 }
 
@@ -248,7 +267,8 @@ function createMap() {
 
       hoverEl.innerHTML = d.properties.name;  
 
-      hoverEl.style.left = (boundingBox.x + boundingBox.width / 2 - hoverEl.offsetWidth / 2) + 'px';
+      hoverEl.style.left = 
+          (boundingBox.x + boundingBox.width / 2 - hoverEl.offsetWidth / 2) + 'px';
       hoverEl.style.top = (boundingBox.y + boundingBox.height) + 'px';
 
       hoverEl.classList.add('visible');  
@@ -277,7 +297,7 @@ function setMapClickable(newMapClickable) {
   }
 }
 
-function animateNeighborhood(el) {
+function animateNeighborhoodGuess(el) {
   var animEl = el.cloneNode(true);
   if (animEl.classList) {
     el.parentNode.appendChild(animEl);
@@ -289,7 +309,7 @@ function animateNeighborhood(el) {
       animEl.classList.add('animate');
     }, 0);
 
-    window.setTimeout(function() { animEl.parentNode.removeChild(animEl); }, 2000);
+    window.setTimeout(function() { animEl.parentNode.removeChild(animEl); }, REMOVE_NEIGHBORHOOD_ANIMATE_GUESS_DELAY);
   }
 }
 
@@ -311,7 +331,7 @@ function handleNeighborhoodClick(el, name) {
       el.classList.remove('unguessed');
       el.classList.add('guessed');
 
-      animateNeighborhood(el);
+      animateNeighborhoodGuess(el);
     } else {
       // Fix for early Safari 6 not supporting classes on SVG objects
       el.style.fill = 'rgba(0, 255, 0, .25)';
@@ -320,9 +340,7 @@ function handleNeighborhoodClick(el, name) {
 
     neighborhoodsGuessed.push(name);
 
-    var no = neighborhoodsToBeGuessed.indexOf(name);
-
-    neighborhoodsToBeGuessed.splice(no, 1);
+    neighborhoodsToBeGuessed.splice(neighborhoodsToBeGuessed.indexOf(name), 1);
 
     updateGameProgress();
 
@@ -474,13 +492,14 @@ function gameOver() {
 
   var els = document.querySelectorAll('#map .guessed');
 
+  // TODO constants
   var timer = 300;
   var timerDelta = 100;
   var timerDeltaDiff = 5;
   var TIMER_DELTA_MIN = 10; 
 
   for (var i = 0, el; el = els[i]; i++) {
-    createTimeout(function(el) { animateNeighborhood(el); }, el, timer);
+    createTimeout(function(el) { animateNeighborhoodGuess(el); }, el, timer);
 
     timer += timerDelta;
     timerDelta -= timerDeltaDiff;
@@ -489,6 +508,7 @@ function gameOver() {
     }
   }
 
+  // TODO constants
   window.setTimeout(gameOverPart2, timer + 1000);
 }
 
@@ -537,32 +557,11 @@ function prepareMapOverlay() {
   }
 }
 
-function long2tile(lon, zoom) { 
-  return (Math.floor((lon + 180) / 360 * Math.pow(2, zoom))); 
-}
-
-function lat2tile(lat, zoom) { 
-  return (Math.floor((1 - Math.log(Math.tan(lat * Math.PI / 180) + 
-      1 / Math.cos(lat * Math.PI / 180)) / Math.PI) / 2 * Math.pow(2, zoom))); 
-}
-
-function tile2long(x, zoom) {
-  return (x / Math.pow(2, zoom) * 360 - 180);
-}
-
-function tile2lat(y, zoom) {
-  var n = Math.PI - 2 * Math.PI * y / Math.pow(2, zoom);
-  return (180 / Math.PI * Math.atan(.5 * (Math.exp(n) - Math.exp(-n))));
-}
-
 function resizeMapOverlay() {
-  var canvasWidth = document.querySelector('#map').offsetWidth;
-  var canvasHeight = document.querySelector('#map').offsetHeight - 
-      MAP_VERT_PADDING * 2;
+  updateCanvasSize();
 
   // TODO unhardcode
-  var size = globalScale * 0.0012238683395795992;
-  size = size * 0.995 / 2;
+  var size = globalScale * 0.0012238683395795992 * 0.995 / 2;
 
   // TODO remove global
   zoom = MAP_OVERLAY_DEFAULT_ZOOM;
@@ -572,15 +571,15 @@ function resizeMapOverlay() {
     zoom--;
   }
 
-  var tile = lat2tile(centerLat, zoom);
+  var tile = latToTile(centerLat, zoom);
 
   var longStep = 
-      (tile2long(1, zoom) - tile2long(0, zoom)) / 256 * GOOGLE_MAPS_TILE_SIZE;
+      (tileToLon(1, zoom) - tileToLon(0, zoom)) / 256 * GOOGLE_MAPS_TILE_SIZE;
   var latStep = 
-      (tile2lat(tile + 1, zoom) - tile2lat(tile, zoom)) / 256 * GOOGLE_MAPS_TILE_SIZE;
+      (tileToLat(tile + 1, zoom) - tileToLat(tile, zoom)) / 256 * GOOGLE_MAPS_TILE_SIZE;
 
-  var lat = centerLat - latStep / 2;
-  var lon = centerLon - longStep / 2;
+  var startLat = centerLat - latStep / 2;
+  var startLon = centerLon - longStep / 2;
 
   var offsetX = canvasWidth / 2 - size;
   var offsetY = canvasHeight / 2 - size + 50;
@@ -593,8 +592,8 @@ function resizeMapOverlay() {
       elCount++;
 
       var url = getGoogleMapsUrl(
-          lat + y * latStep * MAP_OVERLAY_OVERLAP_RATIO, 
-          lon + x * longStep * MAP_OVERLAY_OVERLAP_RATIO, 
+          startLat + y * latStep * MAP_OVERLAY_OVERLAP_RATIO, 
+          startLon + x * longStep * MAP_OVERLAY_OVERLAP_RATIO, 
           zoom, 
           'satellite');
       el.src = url;
@@ -618,8 +617,6 @@ function onResize() {
 }
 
 function getCityId() {
-  cityId = '';
-
   var cityMatch = location.href.match(/[\?\&]city=([^&]*)/);
 
   if (cityMatch && cityMatch[1]) {
@@ -725,7 +722,6 @@ function main() {
   removeHttpsIfPresent();
 
   getEnvironmentInfo();
-
   getCityId();
 
   if (mainMenu) {
