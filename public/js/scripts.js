@@ -31,12 +31,20 @@ var neighborhoods = [];
 var neighborhoodsToBeGuessed = [];
 var neighborhoodsGuessed = [];
 
+var geoData;
+var geoMapPath;
+
 var mapClickable = false;
 
 var easyMode = false;
 var mainMenu = false;
 
 var pixelRatio;
+
+var canvasWidth, canvasHeight;
+
+var centerLat, centerLon;
+var latSpread, lonSpread;
 
 var cityId;
 
@@ -48,7 +56,6 @@ function updateData() {
 }
 
 function getCanvasSize() {
-  // TODO better const
   canvasWidth = document.querySelector('#map').offsetWidth;
   canvasHeight = 
       document.querySelector('#map').offsetHeight - MAP_VERT_PADDING * 2;
@@ -75,26 +82,25 @@ function calculateMapSize() {
     }
   }
 
-  for (var i in mapData.features) {
-    for (var j in mapData.features[i].geometry.coordinates[0]) {
-      if (mapData.features[i].geometry.coordinates[0][j].length && 
-          typeof mapData.features[i].geometry.coordinates[0][j][0] != 'number') {
-        for (var k in mapData.features[i].geometry.coordinates[0][j]) {
-          var lon = mapData.features[i].geometry.coordinates[0][j][k][0];
-          var lat = mapData.features[i].geometry.coordinates[0][j][k][1];
+  for (var i in geoData.features) {
+    for (var j in geoData.features[i].geometry.coordinates[0]) {
+      if (geoData.features[i].geometry.coordinates[0][j].length && 
+          typeof geoData.features[i].geometry.coordinates[0][j][0] != 'number') {
+        for (var k in geoData.features[i].geometry.coordinates[0][j]) {
+          var lon = geoData.features[i].geometry.coordinates[0][j][k][0];
+          var lat = geoData.features[i].geometry.coordinates[0][j][k][1];
 
           findMinMax(lon, lat);
         }
-      } else if (mapData.features[i].geometry.coordinates[0][j].length) {
-        var lon = mapData.features[i].geometry.coordinates[0][j][0];
-        var lat = mapData.features[i].geometry.coordinates[0][j][1];
+      } else if (geoData.features[i].geometry.coordinates[0][j].length) {
+        var lon = geoData.features[i].geometry.coordinates[0][j][0];
+        var lat = geoData.features[i].geometry.coordinates[0][j][1];
 
         findMinMax(lon, lat);
       }
     }
   }
 
-  // TODO no global variables
   centerLat = (minLat + maxLat) / 2;
   centerLon = (minLon + maxLon) / 2;
 
@@ -119,12 +125,12 @@ function calculateMapSize() {
     globalScale = ((500 * 360) / lonSpread * canvasWidth) / 512;
   }
 
-  mapPath = d3.geo.path().projection(
+  geoMapPath = d3.geo.path().projection(
       d3.geo.mercator().center([centerLon, centerLat]).
       scale(globalScale).translate([canvasWidth / 2, canvasHeight / 2]));
 }
 
-function prepareMap() {
+function loadGeoData() {
   getCanvasSize();
 
   mapSvg = d3.select('#svg-container').append('svg')
@@ -133,9 +139,7 @@ function prepareMap() {
 
   var url = 'data/' + cityId + '.geojson';
 
-  queue()  
-      .defer(d3.json, url)
-      .await(mapIsReady);
+  queue().defer(d3.json, url).await(onGeoDataLoad);
 }
 
 function removeSmallNeighborhoods() {
@@ -185,13 +189,12 @@ function updateCount() {
   }
 }
 
-function mapIsReady(error, data) {
-  mapData = data;
+function onGeoDataLoad(error, data) {
+  geoData = data;
 
   calculateMapSize();
 
   prepareMapOverlay();
-
   resizeMapOverlay();
 
   prepareNeighborhoods();
@@ -207,10 +210,9 @@ function mapIsReady(error, data) {
 function prepareNeighborhoods() {
   neighborhoods = [];
 
-  for (var i in mapData.features) {
-    neighborhoods.push(mapData.features[i].properties.name);
+  for (var i in geoData.features) {
+    neighborhoods.push(geoData.features[i].properties.name);
   }
-
   neighborhoods.sort();
 
   totalNeighborhoodsCount = neighborhoods.length;
@@ -219,10 +221,10 @@ function prepareNeighborhoods() {
 function createMap() {
   mapSvg
     .selectAll('path')
-    .data(mapData.features)
+    .data(geoData.features)
     .enter()
     .append('path')
-    .attr('d', mapPath)
+    .attr('d', geoMapPath)
     .attr('class', 'neighborhood unguessed')
     .attr('name', function(d) { return d.properties.name; })
     .on('click', function(d) {
@@ -605,13 +607,7 @@ function onResize() {
   mapSvg.attr('width', canvasWidth);
   mapSvg.attr('height', canvasHeight);
 
-  mapSvg
-    .selectAll('path')
-    .attr('d', mapPath);
-}
-
-function capitalizeName(name) {
-  return name.replace(/-/g, ' ').replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
+  mapSvg.selectAll('path').attr('d', geoMapPath);
 }
 
 function getCityId() {
@@ -632,7 +628,8 @@ function getCityId() {
 
 function updateFooter() {
   if (CITY_DATA[cityId].dataUrl) {
-    document.querySelector('footer .data-source a').href = CITY_DATA[cityId].dataUrl;
+    document.querySelector('footer .data-source a').href = 
+        CITY_DATA[cityId].dataUrl;
     document.querySelector('footer .data-source a').innerHTML = 
         CITY_DATA[cityId].dataTitle;
     document.querySelector('footer .data-source').classList.add('visible');
@@ -646,6 +643,7 @@ function updateFooter() {
   } else {
     document.querySelector('footer .author').style.display = 'none';
   }
+
   if (CITY_DATA[cityId].calloutUrl) {
     var el = document.querySelector('#callout');
     el.innerHTML = CITY_DATA[cityId].calloutTitle;
@@ -731,7 +729,7 @@ function main() {
     updateFooter();
     document.querySelector('#cover').classList.add('visible');
     document.querySelector('#loading').classList.add('visible');
-    prepareMap();
+    loadGeoData();
     window.addEventListener('resize', onResize, false);
   }
 }
