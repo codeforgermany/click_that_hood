@@ -622,12 +622,14 @@ function resizeMapOverlay() {
 }
 
 function onResize() {
-  calculateMapSize();
-  resizeMapOverlay();
+  if (!mainMenu) {
+    calculateMapSize();
+    resizeMapOverlay();
 
-  mapSvg.attr('width', canvasWidth);
-  mapSvg.attr('height', canvasHeight);
-  mapSvg.selectAll('path').attr('d', geoMapPath);
+    mapSvg.attr('width', canvasWidth);
+    mapSvg.attr('height', canvasHeight);
+    mapSvg.selectAll('path').attr('d', geoMapPath);
+  }
 }
 
 function getCityId() {
@@ -758,13 +760,11 @@ function checkIfEverythingLoaded() {
 function onBodyLoad() {
   bodyLoaded = true;
   checkIfEverythingLoaded();
-
-  // TODO DEBUG
-  prepareLogo();
 }
 
 function main() {
   window.addEventListener('load', onBodyLoad, false);
+  window.addEventListener('resize', onResize, false);
 
   removeHttpsIfPresent();
 
@@ -774,11 +774,11 @@ function main() {
   if (mainMenu) {
     prepareMainMenu();
   } else {
-    prepareLogo();
-    updateFooter();
     document.querySelector('#cover').classList.add('visible');
     document.querySelector('#loading').classList.add('visible');
+
+    prepareLogo();
+    updateFooter();
     loadGeoData();
-    window.addEventListener('resize', onResize, false);
   }
 }
