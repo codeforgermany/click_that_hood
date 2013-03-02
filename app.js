@@ -38,6 +38,8 @@ var startApp = function() {
 fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
   var metadata = {};
 
+  var countryNames = ['U.S.'];
+
   for (index in files) {
     var metadataFilePath = files[index];
     var locationName = metadataFilePath.match(/([^\/.]+)\.metadata.json/)[1];
@@ -50,10 +52,16 @@ fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
             "'. Aborting server start.");
         process.exit(1);
       }
-      
+
       metadata[locationName] = 
           JSON.parse(fs.readFileSync(metadataFilePath, 'utf8'));
 
+      // Combine a list of country names.
+      var countryName = metadata[locationName].countryName;
+      if (countryName && countryNames.indexOf(countryName) == -1) {
+        countryNames.push(countryName);
+      }
+      
       // Parse GeoJSON file, find the first available latitude/longitude,
       // and add them to the metadata.
 
@@ -80,10 +88,13 @@ fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
     }
   }
 
+  countryNames.sort();
+
   var metadataFileContents = 
       "//\n// This file is AUTO-GENERATED each time the " +
-      "application is restarted.\n//\n\nvar CITY_DATA = " + 
-      JSON.stringify(metadata) + ";";
+      "application is restarted.\n//\n\n" +
+      "var CITY_DATA = " + JSON.stringify(metadata) + ";\n" +
+      "var COUNTRY_NAMES = " + JSON.stringify(countryNames) + ";\n";
   fs.writeFileSync("public/js/data.js", metadataFileContents);
 
   startApp();    
