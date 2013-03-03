@@ -735,7 +735,7 @@ function resizeLogoIfNecessary() {
   var ratio = el.offsetWidth / headerEl.offsetWidth;
 
   if (ratio > 1) {
-    var el = document.querySelector('body > header .names');
+    var el = document.querySelector('.canvas > header .names');
 
     // TODO const
     el.querySelector('.location-name').style.fontSize = (48 / ratio) + 'px';
@@ -784,7 +784,7 @@ function prepareLocationList() {
 
       var html = '<a href="?city=' + ids[id] + '">' + cityData.locationName;
       if (cityData.annotation) {
-        html += ' / ' + cityData.annotation;
+        html += '<span class="annotation">' + cityData.annotation + '</span>';
       }
       html += '</a>';
       el.innerHTML = html;

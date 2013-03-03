@@ -66,7 +66,7 @@ body {
 }
 
 .menu .locations {
-  line-height: 1.8;
+  line-height: 1.9;
   margin-left: 50px + 150px;
   margin-right: 50px;
 }
@@ -88,17 +88,49 @@ body {
   margin: 0;
   padding: 0;
 
-  margin-left: 10px;
+  margin-left: 16px;
   list-style: none;
 
   white-space: nowrap;
 
   color: rgb(64, 64, 64);
+
+  text-shadow: 0 0 1px transparent;
 }
 .menu .locations li.nearby {
   text-shadow: 0 0 1px black;
   color: black;
+
+  -webkit-transition: text-shadow 500ms, color 500ms;
+  -moz-transition: text-shadow 500ms, color 500ms;
+  transition: text-shadow 500ms, color 500ms;
 }
+.menu .locations li a {
+  text-decoration: none;
+  border-bottom: 1px solid rgb(192, 192, 192);
+}
+.menu .locations li a:hover {
+  color: black;
+  border-bottom-color: rgb(64, 64, 64);
+}
+.menu .locations li a .annotation {
+  border: 1px solid rgb(128, 128, 128);
+  color: rgb(96, 96, 96);
+  border-radius: 2px;
+  font-size: 60%;
+  font-weight: 600;
+  text-transform: uppercase;
+  padding: 0 4px;
+  padding-right: 3px;
+  padding-bottom: 1px;
+  letter-spacing: 1px;
+  margin-left: 5px;
+  position: relative;
+  top: -1px;
+  margin-right: 2px;
+}
+
+
 
 header {
   position: absolute;
