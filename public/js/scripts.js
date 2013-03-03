@@ -20,6 +20,9 @@ var REMOVE_NEIGHBORHOOD_ANIMATE_GUESS_DELAY = 2000;
 
 var SMALL_NEIGHBORHOOD_THRESHOLD = 8;
 
+var HEADER_WIDTH = 320;
+var BODY_MARGIN = 15;
+
 var MAP_VERT_PADDING = 50;
 
 var MAP_OVERLAY_TILES_COUNT_X = 2;
@@ -84,7 +87,7 @@ function tileToLat(y, zoom) {
 }
 
 function updateCanvasSize() {
-  canvasWidth = document.querySelector('#map').offsetWidth;
+  canvasWidth = document.querySelector('#map').offsetWidth - HEADER_WIDTH - BODY_MARGIN * 2;
   canvasHeight = 
       document.querySelector('#map').offsetHeight - MAP_VERT_PADDING * 2;
 

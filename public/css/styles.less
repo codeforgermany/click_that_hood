@@ -94,16 +94,19 @@ body {
   white-space: nowrap;
 }
 
-.canvas > header {
+header {
   position: absolute;
 
   top: 50%;
-  bottom: @bodyMargin;
 
   margin-top: -150px;
 
   left: @bodyMargin;
   width: @headerWidth;
+
+  color: white;
+  text-shadow: 0 0 2px black,
+               0 0 5px black;
 
   z-index: 10000;
 
@@ -248,7 +251,7 @@ body.main-menu footer .author {
 
 #map {
   position: absolute;
-  left: @bodyMargin * 2 + @headerWidth;
+  left: 0;
   right: 0;
   top: 0;
   bottom: 0;
@@ -261,7 +264,7 @@ body.main-menu footer .author {
   position: absolute;
   top: 50px;
   bottom: 50px;
-  left: 0;
+  left: @bodyMargin * 2 + @headerWidth;
   right: 0;
 }
 #map svg {
@@ -272,7 +275,7 @@ body.main-menu footer .author {
 
 #google-maps-overlay {
   position: absolute;
-  left: 0;
+  left: @bodyMargin * 2 + @headerWidth;
   top: 0;
   right: 0;
   bottom: 0;
@@ -283,55 +286,24 @@ body.main-menu footer .author {
   position: absolute;
 }
 
-
-/* Click that hood */
-
-#count {
-  background: @mainBackgroundColour;
-  border-radius: 0 @borderRadius 0 0;
-
-  padding: 10px 20px 10px 10px;
-
-  position: absolute;
-  left: 0;
-  bottom: -40px;
-
-  font-weight: 600;
-  font-size: @fontSize * 2.5;
-  letter-spacing: -1px;
-  line-height: 1;
-}
-#time {
-  background: @mainBackgroundColour;
-  border-radius: @borderRadius 0 0 0;
-
-  padding: 10px 10px 10px 20px;
-
-  position: absolute;
-  right: 0;
-  bottom: -40px;
-
-  font-weight: 600;
-  font-size: @fontSize * 2.5;
-  letter-spacing: -1px;
-  line-height: 1;
-}
-
 #neighborhood-guess-wrapper {
   float: left;
   left: 50%;
+  padding-left: (@bodyMargin * 2 + @headerWidth) / 2;
   position: relative;
+
+  pointer-events: none;
 }
 
 #neighborhood-guess {
-  background: @mainBackgroundColour;
+  background: rgba(0, 0, 0, .75);
   border-radius: @borderRadius;
 
   float: left;
   position: relative;
   right: 50%;
 
-  top: -10px;
+  top: -5px;
   padding: 10px 20px;
   z-index: 1000;
   text-align: center;
@@ -355,6 +327,56 @@ body.main-menu footer .author {
   line-height: 1;
   display: block;
 }
+
+#count-time-wrapper-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 75px;
+}
+
+#count-time-wrapper {
+  float: left;
+  left: 50%;
+  padding-left: (@bodyMargin * 2 + @headerWidth) / 2;
+  position: relative;
+
+  pointer-events: none;
+}
+
+#count-time {
+  background: rgba(0, 0, 0, .75);
+  border-radius: @borderRadius;
+
+  float: left;
+  position: relative;
+  right: 50%;
+
+  top: -5px;
+  padding: 10px 20px;
+  z-index: 1000;
+  text-align: center;
+
+  pointer-events: none;
+
+  font-size: @fontSize * 1.5;
+  font-weight: 300;
+}
+#count {
+  display: block;
+  margin: 0 auto;
+}
+#time {
+  display: block;
+  margin: 0 auto;
+
+  font-weight: 600;
+  font-size: @fontSize * 2.5;
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
 
 body.no-hover #neighborhood-hover {
   display: none;
@@ -494,6 +516,8 @@ body.no-hover #neighborhood-hover {
   left: 0;
   bottom: 0;
   right: 0;
+
+  padding-left: @bodyMargin * 2 + @headerWidth;
 
   text-align: center;
   letter-spacing: 0;

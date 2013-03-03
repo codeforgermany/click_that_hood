@@ -1,10 +1,6 @@
 { 
-  "dataFile": "gisborne.geojson",
-
   "locationName": "Gisborne",
-  "stateName": "",
   "countryName": "New Zealand",
-  "googleMapsQuery": "Gisborne, New Zealand",
 
   "authorTwitter": "zaneashby",
 
