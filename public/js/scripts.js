@@ -232,11 +232,32 @@ function updateCount() {
   }
 }
 
+function prepareMainMenuMapOverlay() {
+  for (var x = -1; x <= 2; x++) {
+
+    var el = document.createElement('img');
+
+    var url = getGoogleMapsUrl(
+        0, 
+        0, 
+        1, 
+        'satellite');
+    el.src = url;
+
+    el.style.width = 640 + 'px';
+    el.style.height = 640 + 'px';
+
+    el.style.left = (x * 512) + 'px';//(paddingX + offsetX + overlapSize * x) + 'px';
+    el.style.top = "-120px";//(paddingY + offsetY + overlapSize * y) + 'px';
+
+    document.querySelector('#google-maps-overlay').appendChild(el);  
+  }
+}
+
 function everythingLoaded() {
   if (!mainMenu) {
     calculateMapSize();
-
-    resizeMapOverlay();
+    prepareMapOverlay();
 
     prepareNeighborhoods();
 
@@ -578,16 +599,6 @@ function getGoogleMapsUrl(lat, lon, zoom, type) {
 }
 
 function prepareMapOverlay() {
-/*  for (var x = 0; x < MAP_OVERLAY_TILES_COUNT_X; x++) {
-    for (var y = 0; y < MAP_OVERLAY_TILES_COUNT_Y; y++) {
-      var imgEl = document.createElement('img');
-
-      document.querySelector('#google-maps-overlay').appendChild(imgEl);
-    }
-  }*/
-}
-
-function resizeMapOverlay() {
   if (!geoDataLoaded) {
     return;
   }
@@ -656,6 +667,7 @@ function resizeMapOverlay() {
 
 function onResize() {
   if (mainMenu) {
+    // TODO const
     var height = 350;
   } else {
     var height = window.innerHeight;
@@ -668,7 +680,7 @@ function onResize() {
   if (!mainMenu) {
     if (geoDataLoaded) {
       calculateMapSize();
-      resizeMapOverlay();
+      prepareMapOverlay();
 
       mapSvg.attr('width', mapWidth);
       mapSvg.attr('height', mapHeight);
@@ -767,10 +779,15 @@ function prepareLocationList() {
       }
 
       var el = document.createElement('li');
-      el.innerHTML = cityData.locationName;
+
+      el.setAttribute('city-id', ids[id]);
+
+      var html = '<a href="?city=' + ids[id] + '">' + cityData.locationName;
       if (cityData.annotation) {
-        el.innerHTML += ' / ' + cityData.annotation;
+        html += ' / ' + cityData.annotation;
       }
+      html += '</a>';
+      el.innerHTML = html;
 
       document.querySelector('.menu .locations').appendChild(el);
     }
@@ -779,39 +796,6 @@ function prepareLocationList() {
 
 function prepareMainMenu() {
   document.body.classList.add('main-menu');
-
-  var ids = [];
-  for (var id in CITY_DATA) {
-    ids.push(id);
-  }
-  ids.sort();
-
-  for (var id in ids) {
-    var cityData = CITY_DATA[ids[id]];
-
-    var el = document.createElement('li');
-    el.innerHTML = 
-        '<a href="?city=' + ids[id] + '">' +
-        '<span class="map">' +
-        '<img src="http://maps.googleapis.com/maps/api/staticmap?center=' + 
-        encodeURIComponent(cityData.googleMapsQuery) + 
-        '&key=AIzaSyCMwHPyd0ntfh2RwROQmp_ozu1EoYo9AXk' +
-        '&zoom=11&maptype=terrain&size=200x240&sensor=false&scale=' + pixelRatio + '"></span>' +
-        '<header>' + 
-        '<span class="location-name">' + cityData.locationName + '</span>' +
-        '<span class="state-or-country">' + (cityData.stateName || cityData.countryName) + '</span>' +
-        '<span class="annotation">' + (cityData.annotation || '') + '</span>' +
-        '</header></a>';
-
-    document.querySelector('#main-menu .cities').appendChild(el);
-  }
-
-  var el = document.createElement('li');
-  el.classList.add('add');
-  el.innerHTML = '<a target="_blank" href="https://docs.google.com/document/d/1ePUmeH1jgsnjiByGfToIU1DTGqn6OPFWgkRC9m03IqE/edit?usp=sharing"><header><span class="location-name">Add your city</span></header></a>';
-  document.querySelector('#main-menu .cities').appendChild(el);
-
-  document.querySelector('#main-menu').classList.add('visible');
 }
 
 function getEnvironmentInfo() {
@@ -828,7 +812,7 @@ function removeHttpsIfPresent() {
 }
 
 function checkIfEverythingLoaded() {
-  if (geoDataLoaded && bodyLoaded) {
+  if ((geoDataLoaded || mainMenu) && bodyLoaded) {
     everythingLoaded();
   }
 }
@@ -836,6 +820,50 @@ function checkIfEverythingLoaded() {
 function onBodyLoad() {
   bodyLoaded = true;
   checkIfEverythingLoaded();
+}
+
+function deg2rad(deg) {
+  return deg * (Math.PI/180)
+}
+
+function geoDist(lat1, lon1, lat2, lon2) {
+  var R = 6371; // Radius of the earth in km
+  var dLat = deg2rad(lat2 - lat1);
+  var dLon = deg2rad(lon2 - lon1); 
+  var a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+    Math.sin(dLon/2) * Math.sin(dLon/2)
+    ; 
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+  var d = R * c; // Distance in km
+  return d;
+}
+
+function receiveGeolocation(position) {
+  var lat = position.coords.latitude;
+  var lon = position.coords.longitude;
+
+  for (var id in CITY_DATA) {
+    var cityData = CITY_DATA[id];
+
+    var cityLat = cityData.sampleLatLon[1];
+    var cityLon = cityData.sampleLatLon[0];
+
+    var dist = geoDist(cityLat, cityLon, lat, lon);
+
+    // TODO const
+    if (dist < 150) {
+      var el = document.querySelector('li[city-id="' + id + '"]');
+      el.classList.add('nearby');
+    }
+  }
+}
+
+function prepareGeolocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(receiveGeolocation);
+  }
 }
 
 function main() {
@@ -850,7 +878,11 @@ function main() {
   prepareLocationList();
 
   if (mainMenu) {
+    //geoDataLoaded = true;
     prepareMainMenu();
+    prepareMainMenuMapOverlay();
+
+    prepareGeolocation();
   } else {
     document.querySelector('#cover').classList.add('visible');
     document.querySelector('#loading').classList.add('visible');

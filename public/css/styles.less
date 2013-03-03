@@ -92,6 +92,12 @@ body {
   list-style: none;
 
   white-space: nowrap;
+
+  color: rgb(64, 64, 64);
+}
+.menu .locations li.nearby {
+  text-shadow: 0 0 1px black;
+  color: black;
 }
 
 header {
@@ -111,15 +117,6 @@ header {
   z-index: 10000;
 
   text-align: center;
-}
-body.main-menu > .canvas > header {
-  top: 0;
-  margin-top: 0;
-  width: @narrowHeaderWidth;
-}
-body.main-menu > .canvas > header .location-name,
-body.main-menu > .canvas > header .state-or-country {
-  display: none;
 }
 
 body.no-difficult-game .difficult-game {
@@ -161,8 +158,9 @@ header .state-or-country {
 header .annotation {
   display: inline-block;
   font-weight: 900;
-  background: black;
+  background: transparent;
   color: @mainBackgroundColour;
+  border: 2px solid white;
   font-size: 15px;
   padding: 6px 12px 6px 16px;
   border-radius: @borderRadius;
@@ -172,6 +170,12 @@ header .annotation {
   margin-top: 5px;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+
+  box-shadow: 0 0 2px black,
+              0 0 5px black,
+              inset 0 0 2px black,
+              inset 0 0 5px black;
+
 }
 header .annotation:empty {
   display: none;
@@ -179,10 +183,6 @@ header .annotation:empty {
 
 #main-menu {
   display: none !important;
-}
-
-body.main-menu #map {
-  display: none;
 }
 
 footer {
@@ -222,7 +222,14 @@ footer:hover a {
 body:not(.main-menu) footer .main-menu {
   display: none;
 }
+body.main-menu header {
+  display: none;
+}
 
+body.main-menu footer .data,
+body.main-menu footer .author {
+  display: none;
+}
 
 footer #cfa {
   width: 48px;
@@ -233,17 +240,13 @@ footer #cfa {
   margin-right: -5px;
 }
 
-body.main-menu footer .data,
-body.main-menu footer .author {
-  display: none;
-}
-
 .logo {
   margin-top: 20px;
   width: 126px;
   height: 143px;
   max-width: 100%;
 
+  // Prevents the filter from de-retina-izing the image.
   -webkit-transform: translateZ(0); 
 
   -webkit-filter: drop-shadow(0 0 2px black) drop-shadow(0 0 5px black);
@@ -299,6 +302,11 @@ body.main-menu footer .author {
   position: relative;
 
   pointer-events: none;
+}
+
+body.main-menu #neighborhood-guess-wrapper,
+body.main-menu #count-time-wrapper-wrapper {
+  display: none;
 }
 
 #neighborhood-guess {
