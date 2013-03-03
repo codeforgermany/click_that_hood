@@ -17,15 +17,9 @@
 @highlightColour: rgb(247, 148, 29);
 @secondaryColour: rgb(0, 200, 0);
 
-@chartColour: darken(@secondaryColour, 10);
-
-@selectedFilterColour: lighten(@highlightColour, 30);
-@hoverFilterColour: lighten(@highlightColour, 40);
-
 @mainBackgroundColour: rgb(235, 240, 220);
 
-@heatMapColour1: @highlightColour;
-@heatMapColour2: rgb(0, 100, 0);
+@canvasBackgroundColour: darken(@mainBackgroundColour, 70%);
 
 @dataTransitionDelay: 150ms;
 
@@ -37,17 +31,70 @@
 @unguessedNeighborhoodFillColour: rgba(0, 0, 0, .6);
 @inactiveNeighborhoodFillColour: rgba(128, 128, 128, .75);
 
+html {
+  height: 100%;
+}
 body {
   background: @mainBackgroundColour;
   padding: 0;
   margin: 0;
-  overflow: hidden;
+  min-height: 100%;
 
   font-family: 'Open Sans', Arial, Helvetica, sans-serif;
   font-size: @fontSize;
+
+  overflow-x: hidden;
 }
 
-body > header {
+.canvas {
+  position: relative;
+  top: @footerHeight;
+  margin-bottom: @footerHeight;
+
+  background: @canvasBackgroundColour;
+  color: white;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, .2);
+
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+}
+.menu {
+  background: @mainBackgroundColour;
+  padding: 20px 0 40px 0;
+
+  overflow: hidden;
+}
+
+.menu .locations {
+  line-height: 1.8;
+  margin-left: 50px + 150px;
+  margin-right: 50px;
+}
+.menu .locations h1 {
+  clear: both;
+  float: left;
+  width: 0;
+
+  padding: 0;
+  margin: 0;
+
+  margin-left: -150px;
+  white-space: nowrap;
+
+  font-size: 100%;
+}
+.menu .locations li {
+  float: left;
+  margin: 0;
+  padding: 0;
+
+  margin-left: 10px;
+  list-style: none;
+
+  white-space: nowrap;
+}
+
+.canvas > header {
   position: absolute;
 
   top: 50%;
@@ -58,15 +105,17 @@ body > header {
   left: @bodyMargin;
   width: @headerWidth;
 
+  z-index: 10000;
+
   text-align: center;
 }
-body.main-menu > header {
+body.main-menu > .canvas > header {
   top: 0;
   margin-top: 0;
   width: @narrowHeaderWidth;
 }
-body.main-menu > header .location-name,
-body.main-menu > header .state-or-country {
+body.main-menu > .canvas > header .location-name,
+body.main-menu > .canvas > header .state-or-country {
   display: none;
 }
 
@@ -74,8 +123,7 @@ body.no-difficult-game .difficult-game {
   display: none;
 }
 
-header .location-name,
-#main-menu .cities .location-name {
+header .location-name {
   display: inline-block;
   font-weight: normal;
   font-family: 'Homestead';
@@ -89,25 +137,12 @@ header .location-name,
   margin-top: 40px;
   text-rendering: optimizeLegibility;
 }
-body > header .location-name {
-  //white-space: nowrap;
-  //padding-right: 15px; // To account for the comma
-}
-body > header .names {
-  -webkit-transform-origin-x: 0;
-}
 
-
-header .location-name::after,
-#main-menu .cities .location-name::after {
+header .location-name::after {
   content: ',';
   position: absolute;
 }
-#main-menu .cities li.add .location-name::after {
-  content: '…';
-}
-header .state-or-country,
-#main-menu .cities .state-or-country {
+header .state-or-country {
   display: block;
   font-weight: normal;
   font-family: 'Wisdom Script';
@@ -120,8 +155,7 @@ header .state-or-country,
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
-header .annotation,
-#main-menu .cities .annotation {
+header .annotation {
   display: inline-block;
   font-weight: 900;
   background: black;
@@ -136,61 +170,58 @@ header .annotation,
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
-header .annotation:empty,
-#main-menu .cities .annotation:empty {
+header .annotation:empty {
   display: none;
 }
 
-#main-menu .cities .location-name {
-  font-size: 48px * 2 / 3;
-  word-wrap: break-word;
-  padding: 0 10px;
+#main-menu {
+  display: none !important;
 }
-#main-menu .cities .state-or-country {
-  font-size: 42px * 2 / 3;
-}
-#main-menu .cities .annotation {
-  font-size: 15px * 2 / 3;
-  padding: 4px 7px 4px 10px;
-  position: relative;
-  letter-spacing: 2px;
-  top: -5px;
-}
-
 
 body.main-menu #map {
   display: none;
 }
 
-body > footer {
+footer {
   font-size: 12px;
-
-  opacity: .75;
 
   z-index: 1000;
 
   position: absolute;
 
-  left: @bodyMargin;
-  right: @bodyMargin;
+  left: 0;
+  right: 0;
 
-  bottom: 0;
+  top: 0;
   height: @footerHeight;
+
+  line-height: @footerHeight;
+
+  //background: darken(@mainBackgroundColour, 70%);
+  background: @mainBackgroundColour;
+  color: rgb(120, 140, 120);
 
   text-align: center;
 }
-body > footer a,
-body > footer a:visited {
-  text-decoration: none;
-  border-bottom: 1px solid rgba(0, 0, 0, .25);
+footer a,
+footer a:visited {
+  //text-decoration: none;
+  //border-bottom: 1px solid rgb(120, 140, 120);
+
+  -webkit-transition: color 150ms;
+  -moz-transition: color 150ms;
+  transition: color 150ms;
+}
+footer:hover a {
+  color: lighten(rgb(120, 140, 120), 15%);  
 }
 
-body:not(.main-menu) > footer .main-menu {
+body:not(.main-menu) footer .main-menu {
   display: none;
 }
 
 
-body > footer #cfa {
+footer #cfa {
   width: 48px;
   vertical-align: middle;
 
@@ -199,8 +230,8 @@ body > footer #cfa {
   margin-right: -5px;
 }
 
-body.main-menu > footer .data,
-body.main-menu > footer .author {
+body.main-menu footer .data,
+body.main-menu footer .author {
   display: none;
 }
 
@@ -211,19 +242,16 @@ body.main-menu > footer .author {
   max-width: 100%;
 }
 
-body > header > h3 {
+.canvas > header > h3 {
   font-weight: 600;
 }
 
-
 #map {
-  border-radius: @borderRadius;
-
   position: absolute;
   left: @bodyMargin * 2 + @headerWidth;
-  right: @bodyMargin;
-  top: @bodyMargin;
-  bottom: @footerHeight + @bodyMargin;
+  right: 0;
+  top: 0;
+  bottom: 0;
 
   overflow: hidden;
 }
@@ -469,7 +497,7 @@ body.no-hover #neighborhood-hover {
 
   text-align: center;
   letter-spacing: 0;
-  background: fadeout(@mainBackgroundColour, 10%);
+  background: fadeout(@canvasBackgroundColour, 20%);//fadeout(@mainBackgroundColour, 10%);
 
   font-size: @fontSize * 2;
   font-weight: 300;
@@ -478,7 +506,7 @@ body.no-hover #neighborhood-hover {
   -webkit-box-pack: center;
   -webkit-box-align: center;
 
-  color: black;
+  color: white;
 
   &.visible {
     display: block;
@@ -562,84 +590,6 @@ a {
 }
 #main-menu .logo {
   float: left;
-}
-#main-menu .cities {
-  list-style: none;
-  padding: 0 50px;
-  margin: 0;
-}
-#main-menu .cities a {
-  text-decoration: none;
-}
-#main-menu .cities header {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: -28px;
-}
-#main-menu .cities li {
-  display: inline-block;
-  width: 220px;
-  height: 280px;
-  margin: 15px 10px;
-  position: relative;
-}
-#main-menu .cities li a {
-  display: block;
-  height: 290px;
-  
-  border-radius: @borderRadius;
-  background: rgba(0, 0, 0, .15);
-}
-#main-menu .cities li a:hover {
-  background: rgba(0, 0, 0, .2);
-}
-#main-menu .cities li .map {
-  border-top: 1px solid transparent;
-  margin-top: 80px;
-  width: 200px;
-  height: 200px;
-  opacity: .8;
-  display: inline-block;
-  position: relative;
-
-  border-radius: @borderRadius;
-  overflow: hidden;
-}
-#main-menu .cities li a:hover .map {
-  opacity: 1;
-}
-#main-menu .cities li .map img {
-  position: absolute;
-  left: 0;
-  top: -20px;
-  width: 200px;
-  height: 240px;
-}
-
-#main-menu .cities li.add a {
-  height: 280px;
-  color: rgba(0, 0, 0, .15);
-  border: 5px dotted rgba(0, 0, 0, .15);
-  background: transparent;
-}
-#main-menu .cities li.add a:hover {
-  color: rgba(0, 0, 0, .2);
-  border-color: rgba(0, 0, 0, .2);
-}
-#main-menu .cities li.add .location-name {
-  margin-top: 140px;
-}
-
-q {
-  font-style: italic;
-  
-  &::before {
-    content: '“';
-  }
-  &::after {
-    content: '”';
-  }
 }
 
 footer .neighborhoods-removed,

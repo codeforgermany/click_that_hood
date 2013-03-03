@@ -40,15 +40,6 @@
 </head>
 
 <body>
-  <header>
-    <a href='/'><img alt='Click that ’hood' class='logo' src='/images/logo.png'></a>
-    <div class='names'>
-      <span class='location-name'></span>
-      <span class='state-or-country'></span>
-      <span class='annotation'></span>
-    </div>
-  </header>
-
   <footer>
     <img id='cfa' src='/images/cfa-flagtag.svg'>
     <a target='_blank' 
@@ -61,11 +52,11 @@
       <span class='data-source'>
         City data from <a target='_blank'></a>.
       </span>
-      <span class='neighborhoods-removed'>
-        (Some neighborhoods removed due to small size.)
-      </span>
       <span class='author'>
         Added by <a target='_blank'></a>.
+      </span>
+      <span class='neighborhoods-removed'>
+        (Some too small neighborhoods removed.)
       </span>
       Map imagery © 2013 Google/TerraMetrics.
     </span>
@@ -76,86 +67,102 @@
     <a target='_blank' href='https://github.com/codeforamerica/click_that_hood/issues'>Report an issue</a>.
   </footer>
 
-  <div id='main-menu'>
-    <p>
-      A game based on open data, 
-      built by <a href='http://codeforamerica.org'>Code 
-      for America</a>’s 2013 Louisville fellowship team.
-    </p>
-    <p class='small'>
-      <q>I think I just spent 1½ hours playing this.</q>—<nobr>Mick Thompson</nobr>
-    </p>
-    <ul class='cities'>
-    </ul>
-  </div>
-
-
-  <div id='map'>
-    <div id='svg-container'></div>
-    <div id='google-maps-overlay'></div>
-  
-    <div id='neighborhood-hover'>
-      <span></span>
-    </div>    
-
-    <div id='cover'>
-      <div id='loading'>
-        Loading…
+  <div class='canvas'>
+    <header>
+      <a href='/'><img alt='Click that ’hood' class='logo' src='/images/logo.png'></a>
+      <div class='names'>
+        <span class='location-name'></span>
+        <span class='state-or-country'></span>
+        <span class='annotation'></span>
       </div>
-      <div id='intro'>
-        <p>
-          Click on the proper <span class='location-name'></span> neighborhood
-          as soon as its name comes up. The faster, the better!
-        </p>
-        <p>
-          <button onclick='startGame(true)'>Start the game<span class='difficult-game'><br><span>(<span class='easy-mode-count'></span> random neighborhoods)</span></span></button>
-          <span class='difficult-game'>
-            <br>
-            or
-            <br>
-            <button onclick='startGame(false)' class='smaller'>Start a difficult game (all <span class='hard-mode-count'></span> neighborhoods)</button>
-          </span>
-        </p>
-        <a target='_new' id='callout'></a>
-      </div>
+    </header>
 
-      <div id='congrats-easy'>
-        <h1>
-          Congratulations! 
-        </h1>
-        <p>
-          You correctly identified <span class='easy-mode-count'></span> 
-          <span class='location-name'></span>
-          neighborhoods!
-        </p>
-        <p>
-          <button onclick='reloadPage()'>Play again</button>
-        </p>
-      </div>
-
-      <div id='congrats-hard'>
-        <h1>
-          Congratulations! 
-        </h1>
-        <p>
-          You correctly identified all <span class='location-name'></span>
-          neighborhoods!
-        </p>
-        <p>
-          <button onclick='reloadPage()'>Play again</button>
-        </p>
-      </div>
+    <div id='main-menu'>
+      <p>
+        A game based on open data, 
+        built by <a href='http://codeforamerica.org'>Code 
+        for America</a>’s 2013 Louisville fellowship team.
+      </p>
+      <p class='small'>
+        <q>I think I just spent 1½ hours playing this.</q>—<nobr>Mick Thompson</nobr>
+      </p>
+      <ul class='cities'>
+      </ul>
     </div>
 
-    <div id='neighborhood-guess-wrapper'>
-      <div id='neighborhood-guess'>
-        Click on
+
+    <div id='map'>
+      <div id='svg-container'></div>
+      <div id='google-maps-overlay'></div>
+    
+      <div id='neighborhood-hover'>
         <span></span>
       </div>    
-    </div>
 
-    <h2 id='count'></h2>
-    <h2 id='time'></h2>
+      <div id='cover'>
+        <div id='loading'>
+          Loading…
+        </div>
+        <div id='intro'>
+          <p>
+            Click on the proper <span class='location-name'></span> neighborhood
+            as soon as its name comes up. The faster, the better!
+          </p>
+          <p>
+            <button onclick='startGame(true)'>Start the game<span class='difficult-game'><br><span>(<span class='easy-mode-count'></span> random neighborhoods)</span></span></button>
+            <span class='difficult-game'>
+              <br>
+              or
+              <br>
+              <button onclick='startGame(false)' class='smaller'>Start a difficult game (all <span class='hard-mode-count'></span> neighborhoods)</button>
+            </span>
+          </p>
+          <a target='_new' id='callout'></a>
+        </div>
+
+        <div id='congrats-easy'>
+          <h1>
+            Congratulations! 
+          </h1>
+          <p>
+            You correctly identified <span class='easy-mode-count'></span> 
+            <span class='location-name'></span>
+            neighborhoods!
+          </p>
+          <p>
+            <button onclick='reloadPage()'>Play again</button>
+          </p>
+        </div>
+
+        <div id='congrats-hard'>
+          <h1>
+            Congratulations! 
+          </h1>
+          <p>
+            You correctly identified all <span class='location-name'></span>
+            neighborhoods!
+          </p>
+          <p>
+            <button onclick='reloadPage()'>Play again</button>
+          </p>
+        </div>
+      </div>
+
+      <div id='neighborhood-guess-wrapper'>
+        <div id='neighborhood-guess'>
+          Click on
+          <span></span>
+        </div>    
+      </div>
+
+      <h2 id='count'></h2>
+      <h2 id='time'></h2>
+    </div>
+  </div>
+
+  <div class='menu'>
+    <div class='locations'>
+    </div>
   </div>
 
   <script>

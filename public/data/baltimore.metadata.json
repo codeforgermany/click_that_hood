@@ -1,7 +1,6 @@
 { 
   "locationName": "Baltimore",
   "stateName": "Md.",
-  "googleMapsQuery": "Baltimore, MD",
 
   "dataUrl": "http://www.bniajfi.org/downloads/gis_shapefiles",
   "dataTitle": "Baltimore Neighborhood Indicators Alliance"

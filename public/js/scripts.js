@@ -9,6 +9,8 @@
  * later if there’s time later.
  */
 
+var COUNTRY_NAME_USA = 'U.S.';
+
 var EASY_MODE_COUNT = 20;
 
 var HIGHLIGHT_DELAY = 1500;
@@ -58,6 +60,8 @@ var latSpread, lonSpread;
 
 var cityId = '';
 
+var globalScale;
+
 var bodyLoaded = false;
 var geoDataLoaded = false;
 
@@ -83,6 +87,11 @@ function updateCanvasSize() {
   canvasWidth = document.querySelector('#map').offsetWidth;
   canvasHeight = 
       document.querySelector('#map').offsetHeight - MAP_VERT_PADDING * 2;
+
+  // TODO hack
+  if (canvasHeight < 0) {
+    canvasHeight = 0;
+  }
 }
 
 function calculateMapSize() {
@@ -90,6 +99,10 @@ function calculateMapSize() {
   var maxLat = -99999999;
   var minLon = 99999999;
   var maxLon = -99999999;
+
+  if (!geoDataLoaded) {
+    return;
+  }
 
   // TODO move outside
   function findMinMax(lon, lat) {
@@ -158,11 +171,12 @@ function calculateMapSize() {
 }
 
 function loadGeoData() {
+  console.log('loadGeoData');
   updateCanvasSize();
 
   mapSvg = d3.select('#svg-container').append('svg')
       .attr('width', canvasWidth)
-      .attr('height', canvasHeight);    
+      .attr('height', canvasHeight);
 
   var url = 'data/' + cityId + '.geojson';
   queue().defer(d3.json, url).await(onGeoDataLoad);
@@ -234,6 +248,7 @@ function everythingLoaded() {
 }
 
 function onGeoDataLoad(error, data) {
+  console.log('onGeoDataLoad…');
   geoData = data;
 
   geoDataLoaded = true;
@@ -572,6 +587,10 @@ function prepareMapOverlay() {
 }
 
 function resizeMapOverlay() {
+  if (!geoDataLoaded) {
+    return;
+  }
+
   updateCanvasSize();
 
   // TODO unhardcode
@@ -622,13 +641,25 @@ function resizeMapOverlay() {
 }
 
 function onResize() {
-  if (!mainMenu) {
-    calculateMapSize();
-    resizeMapOverlay();
+  if (mainMenu) {
+    var height = 350;
+  } else {
+    var height = window.innerHeight;
+  }
 
-    mapSvg.attr('width', canvasWidth);
-    mapSvg.attr('height', canvasHeight);
-    mapSvg.selectAll('path').attr('d', geoMapPath);
+  // TODO debug
+  document.querySelector('body > .canvas').style.height = 
+    (height - document.querySelector('body > .canvas').offsetTop) + 'px';
+
+  if (!mainMenu) {
+    if (geoDataLoaded) {
+      calculateMapSize();
+      resizeMapOverlay();
+
+      mapSvg.attr('width', canvasWidth);
+      mapSvg.attr('height', canvasHeight);
+      mapSvg.selectAll('path').attr('d', geoMapPath);
+    }
   }
 }
 
@@ -672,8 +703,8 @@ function updateFooter() {
 }
 
 function resizeLogoIfNecessary() {
-  var headerEl = document.querySelector('header');
-  var el = document.querySelector('body > header .location-name');
+  var headerEl = document.querySelector('.canvas > header');
+  var el = document.querySelector('.canvas > header .location-name');
 
   var ratio = el.offsetWidth / headerEl.offsetWidth;
 
@@ -699,6 +730,37 @@ function prepareLogo() {
   }
 
   resizeLogoIfNecessary();
+}
+
+function prepareLocationList() {
+  var ids = [];
+  for (var id in CITY_DATA) {
+    ids.push(id);
+  }
+
+  for (var i in COUNTRY_NAMES) {
+
+    var el = document.createElement('h1');
+    el.innerHTML = COUNTRY_NAMES[i];
+    document.querySelector('.menu .locations').appendChild(el);
+
+    for (var id in ids) {
+      var cityData = CITY_DATA[ids[id]];
+
+      if ((cityData.countryName != COUNTRY_NAMES[i]) && 
+          (!cityData.stateName || (COUNTRY_NAMES[i] != COUNTRY_NAME_USA))) {
+        continue;
+      }
+
+      var el = document.createElement('li');
+      el.innerHTML = cityData.locationName;
+      if (cityData.annotation) {
+        el.innerHTML += ' / ' + cityData.annotation;
+      }
+
+      document.querySelector('.menu .locations').appendChild(el);
+    }
+  }
 }
 
 function prepareMainMenu() {
@@ -771,14 +833,22 @@ function main() {
   getEnvironmentInfo();
   getCityId();
 
+  console.log('a');
+
+  prepareLocationList();
+
   if (mainMenu) {
     prepareMainMenu();
   } else {
     document.querySelector('#cover').classList.add('visible');
     document.querySelector('#loading').classList.add('visible');
 
+    console.log('not main menu');
+
     prepareLogo();
     updateFooter();
     loadGeoData();
   }
+
+  onResize();
 }

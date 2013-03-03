@@ -42,6 +42,7 @@ fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
 
   for (index in files) {
     var metadataFilePath = files[index];
+
     var locationName = metadataFilePath.match(/([^\/.]+)\.metadata.json/)[1];
 
     // Exclude template file

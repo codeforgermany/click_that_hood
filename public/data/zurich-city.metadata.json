@@ -1,7 +1,6 @@
 { 
   "locationName": "Zürich",
   "countryName": "Switzerland",
-  "googleMapsQuery": "Zurich, Switzerland",
   "annotation": "City",
 
   "authorTwitter": "c_bretscher",

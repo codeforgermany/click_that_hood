@@ -2,8 +2,6 @@
   "locationName": "Vancouver",
   "countryName": "Canada",
 
-  "googleMapsQuery": "Vancouver, Canada",
-
   "dataUrl": "http://data.vancouver.ca/datacatalogue/localAreaBoundary.htm",
   "dataTitle": "City of Vancouver Open Data Catalogue"
 }

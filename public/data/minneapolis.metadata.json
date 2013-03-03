@@ -2,8 +2,6 @@
   "locationName": "Minneapolis",
   "stateName": "Minn.",
 
-  "googleMapsQuery": "Minneapolis, MN",
-
   "dataUrl": "http://www.crcworks.org/hennepin/censushome.htm#downloads",
   "dataTitle": "Crossroads Resource Center"
 }
