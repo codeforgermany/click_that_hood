@@ -11,7 +11,7 @@
 
 var COUNTRY_NAME_USA = 'U.S.';
 
-var EASY_MODE_COUNT = 20;
+var EASY_MODE_COUNT = 1;
 
 var HIGHLIGHT_DELAY = 1500;
 var NEXT_GUESS_DELAY = 1000;
@@ -634,6 +634,8 @@ function gameOver() {
 
 function gameOverPart2() {
   document.querySelector('#count-time-wrapper-wrapper').classList.remove('visible');
+
+  document.querySelector('#more-cities-wrapper-wrapper').classList.add('visible');
 
   document.querySelector('#cover').classList.add('visible');
   document.querySelector(easyMode ? '#congrats-easy' : '#congrats-hard').classList.add('visible');  

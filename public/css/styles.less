@@ -55,11 +55,6 @@ body:not(.main-menu) {
 
   background: @canvasBackgroundColour;
   color: white;
-
-  border-top: 1px solid rgb(200, 200, 200);
-  border-bottom: 1px solid rgb(200, 200, 200);
-
-  box-shadow: 0 4px 4px rgba(0, 0, 0, .2);
 }
 
 .main-menu footer {
@@ -551,6 +546,47 @@ body.main-menu #count-time-wrapper-wrapper {
   line-height: 1;
 }
 
+#more-cities-wrapper-wrapper {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 35px;
+
+  z-index: 99999;
+
+  bottom: -40px;
+
+  -webkit-transition: bottom 250ms;
+  -moz-transition: bottom 250ms;
+  transition: bottom 250ms;
+
+  &.visible {
+    bottom: 0;
+  }
+}
+
+#more-cities-wrapper {
+  float: left;
+  left: 50%;
+  padding-left: (@bodyMargin * 2 + @headerWidth) / 2;
+  position: relative;
+
+  pointer-events: none;
+
+  text-align: center;
+}
+
+#more-cities-wrapper div {
+  float: left;
+  position: relative;
+  right: 50%;  
+
+  background: @mainBackgroundColour;
+  color: black;
+  border-radius: @borderRadius @borderRadius 0 0;
+  padding: 8px 16px;
+}
 
 body.no-hover #neighborhood-hover {
   display: none;
@@ -722,9 +758,23 @@ button {
 
   font-family: 'Open Sans', Arial, Helvetica, sans-serif;
 
-  box-shadow: 0 0 5px @highlightColour;
+  border: none;
+  border-radius: @borderRadius;
+
+  background: mix(@highlightColour, white, 90%);
+  box-shadow: 0 0 2px black, 0 0 5px black;
+
+  -webkit-transition: background 150ms;
+  -moz-transition: background 150ms;
+  transition: background 150ms;
 
   cursor: pointer;
+}
+button:hover {
+  background: mix(@highlightColour, white, 50%);
+}
+button:active {
+  background: mix(@highlightColour, white, 20%);
 }
 button:not(.smaller) > span:not(.difficult-game),
 button:not(.smaller) > span.difficult-game > span {
