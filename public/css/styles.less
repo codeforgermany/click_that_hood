@@ -121,7 +121,18 @@ body:not(.main-menu) {
   position: relative;
   top: 15px;
 }
-.menu .locations li.nearby {
+.menu .locations li.selected {
+  background: black;
+  padding: 0 8px;
+  margin-left: 8px;
+  margin-right: -8px;
+  border-radius: @borderRadius;
+  font-weight: 600;
+
+  color: @mainBackgroundColour;
+}
+
+.menu .locations li:not(.selected).nearby {
   text-shadow: 0 0 1px black;
   color: black;
 
@@ -131,9 +142,11 @@ body:not(.main-menu) {
 }
 .menu .locations li a {
   text-decoration: none;
+}
+.menu .locations li:not(.selected) a {
   border-bottom: 1px solid rgb(192, 192, 192);
 }
-.menu .locations li a:hover {
+.menu .locations li:not(.selected) a:hover {
   color: black;
   border-bottom-color: rgb(64, 64, 64);
 }
@@ -152,6 +165,15 @@ body:not(.main-menu) {
   position: relative;
   top: -2px;
   margin-right: 2px;
+}
+.menu .locations li:not(.selected) a:hover .annotation {
+  color: black;
+  border-color: black;
+}
+
+.menu .locations li.selected a .annotation {
+  color: @mainBackgroundColour;
+  border-color: @mainBackgroundColour;
 }
 
 header.main-menu {
