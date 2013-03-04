@@ -144,7 +144,26 @@ body.main-menu header.main-menu {
   right: 0;
   bottom: 0;
 
-  //background: fadeout(@canvasBackgroundColour, 20%);
+  background: fadeout(@canvasBackgroundColour, 20%);
+
+  pointer-events: none;
+
+  -webkit-transition: opacity 1500ms;
+  -webkit-transition-delay: 1500ms;
+  -moz-transition: opacity 1500ms;
+  -moz-transition-delay: 1500ms;
+  transition: opacity 1500ms;
+  transition-delay: 1500ms;
+}
+body.main-menu header.main-menu.hidden {
+  opacity: 0;
+
+  -webkit-transition: opacity 500ms;
+  -webkit-transition-delay: 0;
+  -moz-transition: opacity 500ms;
+  -moz-transition-delay: 0;
+  transition: opacity 500ms;
+  transition-delay: 0;
 }
 header.main-menu .logo {
   position: absolute;
@@ -351,10 +370,15 @@ footer #cfa {
   left: @bodyMargin * 2 + @headerWidth;
   right: 0;
 }
+body.main-menu #svg-container {
+  top: -50px;
+  margin-left: -512px;
+}
 #map svg {
   position: absolute;
   left: 0;
   top: 0;
+  right: 0;
 }
 
 #google-maps-overlay {
@@ -368,6 +392,16 @@ footer #cfa {
 }
 #google-maps-overlay img {
   position: absolute;
+}
+
+#google-maps-overlay .world {
+  position: absolute;
+  left: -350px;
+  top: -50px;
+  right: 0;
+  bottom: 0;
+  background-size: 640px;
+  background-position: -350px 0;
 }
 
 #neighborhood-guess-wrapper {
@@ -736,4 +770,11 @@ footer .data-source {
   :hover {
     background: darken(@highlightColour, 15);
   }
+}
+
+
+body.main-menu #map .location {
+  fill: black;
+  fill-opacity: .1;
+  stroke: white; 
 }

@@ -89,98 +89,108 @@ function updateCanvasSize() {
   canvasWidth = document.querySelector('#map').offsetWidth;
   canvasHeight = document.querySelector('#map').offsetHeight;
 
-  mapWidth = canvasWidth - HEADER_WIDTH - BODY_MARGIN * 2;
-  mapHeight = canvasHeight - MAP_VERT_PADDING * 2;
+  if (mainMenu) {
+    mapWidth = 1536;
+    mapHeight = 512;
+  } else {
+    mapWidth = canvasWidth - HEADER_WIDTH - BODY_MARGIN * 2;
+    mapHeight = canvasHeight - MAP_VERT_PADDING * 2;
 
-  // TODO hack
-  if (mapHeight < 0) {
-    mapHeight = 0;
+    // TODO hack
+    if (mapHeight < 0) {
+      mapHeight = 0;
+    }
   }
 }
 
 function calculateMapSize() {
-  var minLat = 99999999;
-  var maxLat = -99999999;
-  var minLon = 99999999;
-  var maxLon = -99999999;
+  if (mainMenu) {
+    geoMapPath = d3.geo.path().projection(
+        d3.geo.mercator().center([0, 0]).
+        scale(640).
+        translate([256 + 512, 256]));
+  } else {
+    var minLat = 99999999;
+    var maxLat = -99999999;
+    var minLon = 99999999;
+    var maxLon = -99999999;
 
-  if (!geoDataLoaded) {
-    return;
-  }
+    // TODO move outside
+    function findMinMax(lon, lat) {
+      if (lat > maxLat) {
+        maxLat = lat;
+      }
+      if (lat < minLat) {
+        minLat = lat;
+      }
+      if (lon > maxLon) {
+        maxLon = lon;
+      }
+      if (lon < minLon) {
+        minLon = lon;
+      }
+    }
 
-  // TODO move outside
-  function findMinMax(lon, lat) {
-    if (lat > maxLat) {
-      maxLat = lat;
-    }
-    if (lat < minLat) {
-      minLat = lat;
-    }
-    if (lon > maxLon) {
-      maxLon = lon;
-    }
-    if (lon < minLon) {
-      minLon = lon;
-    }
-  }
+    for (var i in geoData.features) {
+      for (var j in geoData.features[i].geometry.coordinates[0]) {
+        if (geoData.features[i].geometry.coordinates[0][j].length && 
+            typeof geoData.features[i].geometry.coordinates[0][j][0] != 'number') {
+          for (var k in geoData.features[i].geometry.coordinates[0][j]) {
+            var lon = geoData.features[i].geometry.coordinates[0][j][k][0];
+            var lat = geoData.features[i].geometry.coordinates[0][j][k][1];
 
-  for (var i in geoData.features) {
-    for (var j in geoData.features[i].geometry.coordinates[0]) {
-      if (geoData.features[i].geometry.coordinates[0][j].length && 
-          typeof geoData.features[i].geometry.coordinates[0][j][0] != 'number') {
-        for (var k in geoData.features[i].geometry.coordinates[0][j]) {
-          var lon = geoData.features[i].geometry.coordinates[0][j][k][0];
-          var lat = geoData.features[i].geometry.coordinates[0][j][k][1];
+            findMinMax(lon, lat);
+          }
+        } else if (geoData.features[i].geometry.coordinates[0][j].length) {
+          var lon = geoData.features[i].geometry.coordinates[0][j][0];
+          var lat = geoData.features[i].geometry.coordinates[0][j][1];
 
           findMinMax(lon, lat);
         }
-      } else if (geoData.features[i].geometry.coordinates[0][j].length) {
-        var lon = geoData.features[i].geometry.coordinates[0][j][0];
-        var lat = geoData.features[i].geometry.coordinates[0][j][1];
-
-        findMinMax(lon, lat);
       }
     }
+
+    centerLat = (minLat + maxLat) / 2;
+    centerLon = (minLon + maxLon) / 2;
+    latSpread = maxLat - minLat;
+    lonSpread = maxLon - minLon;
+
+    updateCanvasSize();
+
+    var zoom = MAP_OVERLAY_DEFAULT_ZOOM;
+    var tile = latToTile(centerLat, zoom);
+    var latStep = (tileToLat(tile + 1, zoom) - tileToLat(tile, zoom));
+
+    // Calculate for height first
+    // TODO: not entirely sure where these magic numbers are coming from
+    globalScale = 
+        ((D3_DEFAULT_SCALE * 180) / latSpread * (mapHeight - 50)) / 
+            GOOGLE_MAPS_DEFAULT_SCALE / 0.045 * (-latStep);
+
+    // Calculate width according to that scale
+    var width = globalScale / (D3_DEFAULT_SCALE * 360) * 
+        lonSpread * GOOGLE_MAPS_DEFAULT_SCALE;
+
+    if (width > mapWidth) {
+      globalScale = ((D3_DEFAULT_SCALE * 360) / lonSpread * mapWidth) / 
+          GOOGLE_MAPS_DEFAULT_SCALE;
+    }
+
+    geoMapPath = d3.geo.path().projection(
+        d3.geo.mercator().center([centerLon, centerLat]).
+        scale(globalScale).translate([mapWidth / 2, mapHeight / 2]));
   }
-
-  centerLat = (minLat + maxLat) / 2;
-  centerLon = (minLon + maxLon) / 2;
-  latSpread = maxLat - minLat;
-  lonSpread = maxLon - minLon;
-
-  updateCanvasSize();
-
-  var zoom = MAP_OVERLAY_DEFAULT_ZOOM;
-  var tile = latToTile(centerLat, zoom);
-  var latStep = (tileToLat(tile + 1, zoom) - tileToLat(tile, zoom));
-
-  // Calculate for height first
-  // TODO: not entirely sure where these magic numbers are coming from
-  globalScale = 
-      ((D3_DEFAULT_SCALE * 180) / latSpread * (mapHeight - 50)) / 
-          GOOGLE_MAPS_DEFAULT_SCALE / 0.045 * (-latStep);
-
-  // Calculate width according to that scale
-  var width = globalScale / (D3_DEFAULT_SCALE * 360) * 
-      lonSpread * GOOGLE_MAPS_DEFAULT_SCALE;
-
-  if (width > mapWidth) {
-    globalScale = ((D3_DEFAULT_SCALE * 360) / lonSpread * mapWidth) / 
-        GOOGLE_MAPS_DEFAULT_SCALE;
-  }
-
-  geoMapPath = d3.geo.path().projection(
-      d3.geo.mercator().center([centerLon, centerLat]).
-      scale(globalScale).translate([mapWidth / 2, mapHeight / 2]));
 }
 
-function loadGeoData() {
+function createSvg() {
   updateCanvasSize();
 
   mapSvg = d3.select('#svg-container').append('svg')
       .attr('width', mapWidth)
-      .attr('height', mapHeight);
+      .attr('height', mapHeight);  
+}
 
+function loadGeoData() {
   var url = 'data/' + cityId + '.geojson';
   queue().defer(d3.json, url).await(onGeoDataLoad);
 }
@@ -233,25 +243,22 @@ function updateCount() {
 }
 
 function prepareMainMenuMapOverlay() {
-  for (var x = -1; x <= 2; x++) {
+  updateCanvasSize();
+  var size = Math.floor((canvasWidth + 350) / 512) + 1;
 
-    var el = document.createElement('img');
+  var el = document.createElement('div');
+  el.classList.add('world');
 
-    var url = getGoogleMapsUrl(
-        0, 
-        0, 
-        1, 
-        'satellite');
-    el.src = url;
+  var url = getGoogleMapsUrl(
+      -54,
+      2,
+      1, 
+      'satellite',
+      512);
 
-    el.style.width = 640 + 'px';
-    el.style.height = 640 + 'px';
+  el.style.backgroundImage = 'url(' + url + ')';
 
-    el.style.left = (x * 512) + 'px';//(paddingX + offsetX + overlapSize * x) + 'px';
-    el.style.top = "-120px";//(paddingY + offsetY + overlapSize * y) + 'px';
-
-    document.querySelector('#google-maps-overlay').appendChild(el);  
-  }
+  document.querySelector('#google-maps-overlay').appendChild(el);  
 }
 
 function everythingLoaded() {
@@ -287,6 +294,60 @@ function prepareNeighborhoods() {
   neighborhoods.sort();
 
   totalNeighborhoodsCount = neighborhoods.length;
+}
+
+function createMainMenuMap() {
+  var features = [];
+
+  for (var i in CITY_DATA) {
+    var cityData = CITY_DATA[i];
+
+    var feature = {};
+    feature.type = 'Feature';
+    feature.properties = { id: i };
+    feature.geometry = { type: 'Point', coordinates: cityData.sampleLatLon }; 
+
+    features.push(feature);
+  }
+
+  mapSvg
+    .selectAll('.location')
+    .data(features)
+    .enter()
+    .append('path')
+    .attr('d', geoMapPath.pointRadius(1))
+    .attr('city-id', function(d) { return d.properties.id; })
+    .attr('class', 'location');
+
+  //animateMainMenuCity('honolulu');
+}
+
+function animateMainMenuCity(event) {
+  var id = event.target.parentNode.getAttribute('city-id');
+
+  mapSvg
+    .select('#map .location[city-id="' + id + '"]')
+    .transition()
+    .duration(2000)
+    .attr('d', geoMapPath.pointRadius(1000))
+    .style('opacity', 0)
+    .style('fill-opacity', 0);
+
+  document.querySelector('header.main-menu').classList.add('hidden');
+}
+
+function restoreMainMenuCity(id) {
+  var id = event.target.parentNode.getAttribute('city-id');
+
+  mapSvg
+    .select('#map .location[city-id="' + id + '"]')
+    .transition()
+    .duration(150)
+    .attr('d', geoMapPath.pointRadius(1))
+    .style('opacity', 1)
+    .style('fill-opacity', .1);
+
+  document.querySelector('header.main-menu').classList.remove('hidden');
 }
 
 function createMap() {
@@ -584,11 +645,11 @@ function updateTimer() {
     minutes + ':' + seconds + '.' + tenthsOfSeconds;
 }
 
-function getGoogleMapsUrl(lat, lon, zoom, type) {
+function getGoogleMapsUrl(lat, lon, zoom, type, size) {
   var url = 'http://maps.googleapis.com/maps/api/staticmap' +
       '?center=' + lat + ',' + lon +
       '&zoom=' + zoom + 
-      '&size=' + GOOGLE_MAPS_TILE_SIZE + 'x' + GOOGLE_MAPS_TILE_SIZE +
+      '&size=' + (size || GOOGLE_MAPS_TILE_SIZE) + 'x' + (size || GOOGLE_MAPS_TILE_SIZE) +
       '&key=' + GOOGLE_MAPS_API_KEY +
       '&sensor=false' +
       '&scale=' + pixelRatio + 
@@ -677,7 +738,9 @@ function onResize() {
   document.querySelector('body > .canvas').style.height = 
     (height - document.querySelector('body > .canvas').offsetTop) + 'px';
 
-  if (!mainMenu) {
+  if (mainMenu) {
+    calculateMapSize();
+  } else {
     if (geoDataLoaded) {
       calculateMapSize();
       prepareMapOverlay();
@@ -789,6 +852,9 @@ function prepareLocationList() {
       html += '</a>';
       el.innerHTML = html;
 
+      el.querySelector('a').addEventListener('mouseover', animateMainMenuCity, false);
+      el.querySelector('a').addEventListener('mouseout', restoreMainMenuCity, false);
+
       document.querySelector('.menu .locations').appendChild(el);
     }
   }
@@ -878,17 +944,21 @@ function main() {
   prepareLocationList();
 
   if (mainMenu) {
-    //geoDataLoaded = true;
     prepareMainMenu();
     prepareMainMenuMapOverlay();
 
     prepareGeolocation();
+
+    createSvg();
+    calculateMapSize();
+    createMainMenuMap();
   } else {
     document.querySelector('#cover').classList.add('visible');
     document.querySelector('#loading').classList.add('visible');
 
     prepareLogo();
     updateFooter();
+    createSvg();
     loadGeoData();
   }
 
