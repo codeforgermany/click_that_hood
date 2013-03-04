@@ -675,6 +675,10 @@ function getGoogleMapsUrl(lat, lon, zoom, type, size) {
   return url;
 }
 
+function onImageLoad(event) {
+  event.target.classList.add('loaded');
+}
+
 function prepareMapOverlay() {
   if (!geoDataLoaded) {
     return;
@@ -723,6 +727,8 @@ function prepareMapOverlay() {
   for (var x = minX; x < maxX; x++) {
     for (var y = minY; y < maxY; y++) {
       var el = document.createElement('img');
+
+      el.addEventListener('load', onImageLoad, false);
 
       var url = getGoogleMapsUrl(
           startLat + y * latStep * MAP_OVERLAY_OVERLAP_RATIO, 

@@ -445,6 +445,16 @@ body.main-menu #svg-container {
 }
 #google-maps-overlay img {
   position: absolute;
+
+  opacity: 0;
+
+  &.loaded {
+    opacity: 1;
+
+    -webkit-transition: opacity 250ms;
+    -moz-transition: opacity 250ms;
+    transition: opacity 250ms;
+  }
 }
 
 #google-maps-overlay .world {
