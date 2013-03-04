@@ -34,6 +34,14 @@ var startApp = function() {
   });
 }
 
+function normalizeCountryName(str) {
+  if (str.substr(0, 4) == 'The ') {
+    str = str.substr(4);
+  }
+
+  return str;
+}
+
 // Write combined metadata file from individual location metadata files
 fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
   var metadata = {};
@@ -89,7 +97,9 @@ fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
     }
   }
 
-  countryNames.sort();
+  countryNames.sort(function(a, b) {
+    return (normalizeCountryName(a) > normalizeCountryName(b)) ? 1 : -1;
+  });
 
   var metadataFileContents = 
       "//\n// This file is AUTO-GENERATED each time the " +
