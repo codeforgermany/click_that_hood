@@ -501,6 +501,8 @@ function updateGameProgress() {
   document.querySelector('#count').innerHTML = 
       neighborhoodsGuessed.length + ' of ' + 
       (neighborhoodsGuessed.length + neighborhoodsToBeGuessed.length);
+
+  document.querySelector('#count-time-wrapper-wrapper').classList.add('visible');
 }
 
 function removeNeighborhoodHighlights() {
