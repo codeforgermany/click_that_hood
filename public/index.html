@@ -40,35 +40,9 @@
 </head>
 
 <body>
-  <footer>
-    <img id='cfa' src='/images/cfa-flagtag.svg'>
-    <a target='_blank' 
-        href='http://www.codeforamerica.org'>Code for America</a>.
-    <span class='main-menu'>
-      Fonts from <a href='http://www.losttype.com/browse/'>Lost Type</a>.
-      Map data &copy; 2013 Google.
-    </span>
-    <span class='data'>    
-      <span class='data-source'>
-        City data from <a target='_blank'></a>.
-      </span>
-      <span class='author'>
-        Added by <a target='_blank'></a>.
-      </span>
-      <span class='neighborhoods-removed'>
-        (Some too small neighborhoods removed.)
-      </span>
-      Map imagery © 2013 Google/TerraMetrics.
-    </span>
-    <a target='_blank' href='mailto:louisville@codeforamerica.org'>Contact via email</a>.
-    <a target='_blank' href='http://twitter.com/mwichary'>Contact via Twitter</a>.
-    <a target='_blank' 
-        href='https://github.com/codeforamerica/click_that_hood'>Source code</a>.
-    <a target='_blank' href='https://github.com/codeforamerica/click_that_hood/issues'>Report an issue</a>.
-  </footer>
 
   <div class='canvas'>
-    <header>
+    <header class='game'>
       <a href='/'><img alt='Click that ’hood' class='logo' src='/images/logo.png'></a>
       <div class='names'>
         <span class='location-name'></span>
@@ -78,6 +52,15 @@
     </header>
 
     <div id='map'>
+      <header class='main-menu'>
+        <img alt='Click that ’hood' class='logo' src='/images/logo.png'>
+        <h1>
+          A game based on open data,<br>built by 
+          <a target='_blank' href='http://codeforamerica.org'>Code for America</a>’s 
+          2013 Louisville fellowship team.
+        </h1>
+      </header>
+
       <div id='svg-container'></div>
       <div id='google-maps-overlay'></div>
     
@@ -149,7 +132,7 @@
           </div>    
         </div>
       </div>
-      
+
     </div>
   </div>
 
@@ -157,6 +140,33 @@
     <div class='locations'>
     </div>
   </div>
+
+  <footer>
+    <img id='cfa' src='/images/cfa-flagtag.svg'>
+    <a target='_blank' 
+        href='http://www.codeforamerica.org'>Code for America</a>.
+    <span class='main-menu'>
+      Fonts from <a href='http://www.losttype.com/browse/'>Lost Type</a>.
+      Map data &copy; 2013 Google.
+    </span>
+    <span class='data'>    
+      <span class='data-source'>
+        City data from <a target='_blank'></a>.
+      </span>
+      <span class='author'>
+        Added by <a target='_blank'></a>.
+      </span>
+      <span class='neighborhoods-removed'>
+        (Some too small neighborhoods removed.)
+      </span>
+      Map imagery © 2013 Google/TerraMetrics.
+    </span>
+    <a target='_blank' href='mailto:louisville@codeforamerica.org'>Contact via email</a>.
+    <a target='_blank' href='http://twitter.com/mwichary'>Contact via Twitter</a>.
+    <a target='_blank' 
+        href='https://github.com/codeforamerica/click_that_hood'>Source code</a>.
+    <a target='_blank' href='https://github.com/codeforamerica/click_that_hood/issues'>Report an issue</a>.
+  </footer>  
 
   <script>
     main();

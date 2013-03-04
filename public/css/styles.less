@@ -53,16 +53,17 @@ body {
 
   background: @canvasBackgroundColour;
   color: white;
-  box-shadow: inset 0 2px 5px rgba(0, 0, 0, .2);
 
-  border-top: 1px solid white;
-  border-bottom: 1px solid white;
+  border-top: 1px solid rgb(200, 200, 200);
+  border-bottom: 1px solid rgb(200, 200, 200);
 }
 .menu {
   background: @mainBackgroundColour;
   padding: 20px 0 40px 0;
 
   overflow: hidden;
+
+  box-shadow: inset 0 2px 8px rgba(0, 100, 0, .2);
 }
 
 .menu .locations {
@@ -126,13 +127,52 @@ body {
   letter-spacing: 1px;
   margin-left: 5px;
   position: relative;
-  top: -1px;
+  top: -2px;
   margin-right: 2px;
 }
 
+header.main-menu {
+  display: none;
+}
+body.main-menu header.main-menu {
+  display: block;
 
+  z-index: 50000;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
 
-header {
+  //background: fadeout(@canvasBackgroundColour, 20%);
+}
+header.main-menu .logo {
+  position: absolute;
+  left: 50px;
+  top: 70px;
+}
+header.main-menu h1 {
+  left: 215px;
+  top: 0;
+  bottom: 0;
+  right: 50px;
+
+  padding: 0;
+  margin: 0;
+
+  position: absolute;
+
+  font-size: @fontSize * 2;
+  font-weight: 300;
+
+  text-shadow: 0 0 2px black,
+               0 0 5px black;
+
+  display: -webkit-box;
+  -webkit-box-align: center;
+}
+
+header.game {
   position: absolute;
 
   top: 50%;
@@ -150,12 +190,15 @@ header {
 
   text-align: center;
 }
+body.main-menu header.game {
+  display: none;
+}
 
 body.no-difficult-game .difficult-game {
   display: none;
 }
 
-header .location-name {
+header.game .location-name {
   display: inline-block;
   font-weight: normal;
   font-family: 'Homestead';
@@ -170,11 +213,11 @@ header .location-name {
   text-rendering: optimizeLegibility;
 }
 
-header .location-name::after {
+header.game .location-name::after {
   content: ',';
   position: absolute;
 }
-header .state-or-country {
+header.game .state-or-country {
   display: block;
   font-weight: normal;
   font-family: 'Wisdom Script';
@@ -187,7 +230,7 @@ header .state-or-country {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
-header .annotation {
+header.game .annotation {
   display: inline-block;
   font-weight: 900;
   background: transparent;
@@ -209,7 +252,7 @@ header .annotation {
               inset 0 0 5px black;
 
 }
-header .annotation:empty {
+header.game .annotation:empty {
   display: none;
 }
 
@@ -254,7 +297,7 @@ footer:hover a {
 body:not(.main-menu) footer .main-menu {
   display: none;
 }
-body.main-menu header {
+body.main-menu header.game {
   display: none;
 }
 
@@ -286,7 +329,7 @@ footer #cfa {
   filter: drop-shadow(0 0 2px black) drop-shadow(0 0 5px black);
 }
 
-.canvas > header > h3 {
+.canvas > header.game > h3 {
   font-weight: 600;
 }
 
@@ -568,7 +611,7 @@ body.no-hover #neighborhood-hover {
 
   text-align: center;
   letter-spacing: 0;
-  background: fadeout(@canvasBackgroundColour, 20%);//fadeout(@mainBackgroundColour, 10%);
+  background: fadeout(@canvasBackgroundColour, 20%);
 
   font-size: @fontSize * 2;
   font-weight: 300;
@@ -658,9 +701,6 @@ a {
   &.visible {
     display: block;
   }
-}
-#main-menu .logo {
-  float: left;
 }
 
 footer .neighborhoods-removed,
