@@ -633,6 +633,8 @@ function gameOver() {
 }
 
 function gameOverPart2() {
+  document.querySelector('#count-time-wrapper-wrapper').classList.remove('visible');
+
   document.querySelector('#cover').classList.add('visible');
   document.querySelector(easyMode ? '#congrats-easy' : '#congrats-hard').classList.add('visible');  
 }
@@ -649,8 +651,12 @@ function updateTimer() {
 
   var minutes = Math.floor(elapsedTime / 600);
 
-  document.querySelector('#time').innerHTML = 
-    minutes + ':' + seconds + '.' + tenthsOfSeconds;
+  var timeHtml = minutes + ':' + seconds + '.' + tenthsOfSeconds;
+
+  var els = document.querySelectorAll('.time');
+  for (var i = 0, el; el = els[i]; i++) {
+    el.innerHTML = timeHtml;
+  } 
 }
 
 function getGoogleMapsUrl(lat, lon, zoom, type, size) {
