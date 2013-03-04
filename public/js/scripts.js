@@ -849,8 +849,12 @@ function prepareLocationList() {
     ids.push(id);
   }
 
-  for (var i in COUNTRY_NAMES) {
+  ids.sort(function(a, b) {
+    return (CITY_DATA[a].longLocationName || CITY_DATA[a].locationName) >
+        (CITY_DATA[b].longLocationName || CITY_DATA[b].locationName) ? 1 : -1;
+  });
 
+  for (var i in COUNTRY_NAMES) {
     var el = document.createElement('h1');
     el.innerHTML = COUNTRY_NAMES[i];
     document.querySelector('.menu .locations').appendChild(el);
@@ -867,7 +871,9 @@ function prepareLocationList() {
 
       el.setAttribute('city-id', ids[id]);
 
-      var html = '<a href="?city=' + ids[id] + '">' + cityData.locationName;
+      var html = '<a href="?city=' + ids[id] + '">';
+
+      html += cityData.longLocationName || cityData.locationName;
       if (cityData.annotation) {
         html += '<span class="annotation">' + cityData.annotation + '</span>';
       }
