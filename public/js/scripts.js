@@ -318,12 +318,14 @@ function createMainMenuMap() {
     .attr('d', geoMapPath.pointRadius(1))
     .attr('city-id', function(d) { return d.properties.id; })
     .attr('class', 'location');
-
-  //animateMainMenuCity('honolulu');
 }
 
 function animateMainMenuCity(event) {
-  var id = event.target.parentNode.getAttribute('city-id');
+  var el = event.target;
+  while (!el.getAttribute('city-id')) {
+    el = el.parentNode;
+  }
+  var id = el.getAttribute('city-id');
 
   mapSvg
     .select('#map .location[city-id="' + id + '"]')
@@ -337,7 +339,11 @@ function animateMainMenuCity(event) {
 }
 
 function restoreMainMenuCity(id) {
-  var id = event.target.parentNode.getAttribute('city-id');
+  var el = event.target;
+  while (!el.getAttribute('city-id')) {
+    el = el.parentNode;
+  }
+  var id = el.getAttribute('city-id');
 
   mapSvg
     .select('#map .location[city-id="' + id + '"]')
