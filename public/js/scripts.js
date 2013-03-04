@@ -979,6 +979,8 @@ function main() {
   prepareLocationList();
   prepareGeolocation();
 
+  onResize();
+
   if (mainMenu) {
     prepareMainMenu();
     prepareMainMenuMapOverlay();
