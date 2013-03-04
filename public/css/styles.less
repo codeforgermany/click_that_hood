@@ -38,12 +38,14 @@ body {
   background: @mainBackgroundColour;
   padding: 0;
   margin: 0;
-  min-height: 100%;
 
   font-family: 'Open Sans', Arial, Helvetica, sans-serif;
   font-size: @fontSize;
 
   overflow-x: hidden;
+}
+body:not(.main-menu) {
+  min-height: 100%;
 }
 
 .canvas {
@@ -56,14 +58,30 @@ body {
 
   border-top: 1px solid rgb(200, 200, 200);
   border-bottom: 1px solid rgb(200, 200, 200);
+
+  box-shadow: 0 4px 4px rgba(0, 0, 0, .2);
 }
+
+.main-menu footer {
+  position: fixed;
+}
+
+.main-menu .canvas {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 99999;
+}
+
 .menu {
   background: @mainBackgroundColour;
   padding: 20px 0 40px 0;
 
   overflow: hidden;
+}
 
-  box-shadow: inset 0 2px 8px rgba(0, 100, 0, .2);
+.main-menu .menu {
+  margin-top: 350px;
 }
 
 .menu .locations {
@@ -97,6 +115,11 @@ body {
   color: rgb(64, 64, 64);
 
   text-shadow: 0 0 1px transparent;
+}
+.menu .locations .add-your-city {
+  display: inline;
+  position: relative;
+  top: 15px;
 }
 .menu .locations li.nearby {
   text-shadow: 0 0 1px black;

@@ -864,6 +864,14 @@ function prepareLocationList() {
       document.querySelector('.menu .locations').appendChild(el);
     }
   }
+
+  var el = document.createElement('h1');
+  el.innerHTML = '';
+  document.querySelector('.menu .locations').appendChild(el);
+
+  var el = document.createElement('li');
+  el.innerHTML = '<a class="add-your-city" href="https://docs.google.com/document/d/1ePUmeH1jgsnjiByGfToIU1DTGqn6OPFWgkRC9m03IqE/edit?usp=sharing">Add your city…</a>';
+  document.querySelector('.menu .locations').appendChild(el);
 }
 
 function prepareMainMenu() {
