@@ -55,9 +55,11 @@
       <header class='main-menu'>
         <img alt='Click that ’hood' class='logo' src='/images/logo.png'>
         <h1>
-          A game based on open data,<br>built by 
-          <a target='_blank' href='http://codeforamerica.org'>Code for America</a>’s 
-          2013 Louisville fellowship team.
+          <div>
+            A game based on open data,<br>built by 
+            <a target='_blank' href='http://codeforamerica.org'>Code for America</a>’s 
+            2013 Louisville fellowship team.
+          </div>
         </h1>
       </header>
 
@@ -70,56 +72,64 @@
 
       <div id='cover'>
         <div id='loading'>
-          Loading…
+          <div>
+            Loading…
+          </div>
         </div>
         <div id='intro'>
-          <p>
-            Click on the proper <span class='location-name'></span> neighborhood
-            as soon as its name comes up. The faster, the better!
-          </p>
-          <p>
-            <button onclick='startGame(true)'>Start the game<span class='difficult-game'><br><span>(<span class='easy-mode-count'></span> random neighborhoods)</span></span></button>
-            <span class='difficult-game'>
-              <br>
-              or
-              <br>
-              <button onclick='startGame(false)' class='smaller'>Start a difficult game (all <span class='hard-mode-count'></span> neighborhoods)</button>
-            </span>
-          </p>
-          <a target='_new' id='callout'></a>
+          <div>
+            <p>
+              Click on the proper <span class='location-name'></span> neighborhood
+              as soon as its name comes up. The faster, the better!
+            </p>
+            <p>
+              <button onclick='startGame(true)'>Start the game<span class='difficult-game'><br><span>(<span class='easy-mode-count'></span> random neighborhoods)</span></span></button>
+              <span class='difficult-game'>
+                <br>
+                or
+                <br>
+                <button onclick='startGame(false)' class='smaller'>Start a difficult game (all <span class='hard-mode-count'></span> neighborhoods)</button>
+              </span>
+            </p>
+            <a target='_new' id='callout'></a>
+          </div>
         </div>
 
         <div id='congrats-easy'>
-          <h1>
-            Congratulations! 
-          </h1>
-          <p>
-            You correctly identified
-            <br>
-            <span class='easy-mode-count'></span> 
-            <span class='location-name'></span>
-            neighborhoods
-            <br>in <span class='time'></span>!
-          </p>
-          <p>
-            <button onclick='reloadPage()'>Play again</button>
-          </p>
+          <div>
+            <h1>
+              Congratulations! 
+            </h1>
+            <p>
+              You correctly identified
+              <br>
+              <span class='easy-mode-count'></span> 
+              <span class='location-name'></span>
+              neighborhoods
+              <br>in <span class='time'></span>!
+            </p>
+            <p>
+              <button onclick='reloadPage()'>Play again</button>
+            </p>
+          </div>
         </div>
 
         <div id='congrats-hard'>
-          <h1>
-            Congratulations! 
-          </h1>
-          <p>
-            You correctly identified 
-            <br>
-            all <span class='location-name'></span>
-            neighborhoods
-            <br>in <span class='time'></span>!
-          </p>
-          <p>
-            <button onclick='reloadPage()'>Play again</button>
-          </p>
+          <div>
+            <h1>
+              Congratulations! 
+            </h1>
+            <p>
+              You correctly identified 
+              <br>
+              all <span class='location-name'></span>
+              neighborhoods
+              <br>in <span class='time'></span>!
+            </p>
+            <p>
+              <button onclick='reloadPage()'>Play again</button>
+            </p>
+          </div>
         </div>
       </div>
 

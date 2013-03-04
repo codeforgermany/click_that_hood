@@ -338,7 +338,7 @@ function animateMainMenuCity(event) {
   document.querySelector('header.main-menu').classList.add('hidden');
 }
 
-function restoreMainMenuCity(id) {
+function restoreMainMenuCity(event) {
   var el = event.target;
   while (!el.getAttribute('city-id')) {
     el = el.parentNode;

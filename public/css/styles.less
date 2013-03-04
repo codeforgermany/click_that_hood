@@ -213,7 +213,6 @@ header.main-menu .logo {
 header.main-menu h1 {
   left: 215px;
   top: 0;
-  bottom: 0;
   right: 50px;
 
   padding: 0;
@@ -227,8 +226,12 @@ header.main-menu h1 {
   text-shadow: 0 0 2px black,
                0 0 5px black;
 
-  display: -webkit-box;
-  -webkit-box-align: center;
+  display: table;
+  height: 100%;
+}
+header.main-menu h1 div {
+  display: table-cell;
+  vertical-align: middle;  
 }
 
 header.game {
@@ -735,10 +738,6 @@ body.no-hover #neighborhood-hover {
   z-index: 100;
   top: 0;
   left: 0;
-  bottom: 0;
-  right: 0;
-
-  padding-left: @bodyMargin * 2 + @headerWidth;
 
   text-align: center;
   letter-spacing: 0;
@@ -750,17 +749,19 @@ body.no-hover #neighborhood-hover {
   text-shadow: 0 0 2px black, 0 0 5px black;
 
   display: none;
-  -webkit-box-pack: center;
-  -webkit-box-align: center;
+
+  box-sizing: border-box;
 
   color: white;
 
+  width: 100%;
+  height: 100%;
+
   &.visible {
-    display: block;
-    display: -moz-box;
-    display: -webkit-box;  
+    display: table;
   }
 }
+
 button {
   font-size: @fontSize * 2;
   font-weight: 600;
@@ -800,13 +801,19 @@ button.smaller {
 #cover > div {
   display: none;
 
-  margin: 0 auto;
+  width: 500px;
+ 
+  vertical-align: middle;
+
+  &.visible {
+    display: table-cell;
+  }
+}
+#cover > div > div {
+  padding-left: @bodyMargin * 2 + @headerWidth;
 
   max-width: 500px;
- 
-  &.visible {
-    display: block;
-  }
+  margin: 0 auto;
 }
 #cover h1 {
   font-size: 100%;
@@ -861,27 +868,28 @@ footer .data-source {
 }
 
 #callout {
+  text-shadow: none;
   display: none;
   position: absolute;
   right: 10px;
   bottom: 20px;
   font-size: 20px;
   line-height: 1.2;
-  background: darken(@highlightColour, 10);
+  background: white;
   padding: 10px 15px;
   border-radius: 40px;
-  color: white;
+  color: black;
   text-decoration: none;
   max-width: 200px;
 
   -webkit-transform: rotateZ(-6deg);
   -moz-transform: rotateZ(-6deg);
 
-  .visible {
+  &.visible {
     display: block;
   }
-  :hover {
-    background: darken(@highlightColour, 15);
+  &:hover {
+    background: darken(white, 15);
   }
 }
 
