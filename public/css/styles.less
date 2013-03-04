@@ -186,8 +186,6 @@ body.main-menu header.main-menu {
 
   background: fadeout(@canvasBackgroundColour, 20%);
 
-  pointer-events: none;
-
   -webkit-transition: opacity 1500ms;
   -webkit-transition-delay: 1500ms;
   -moz-transition: opacity 1500ms;
@@ -204,6 +202,8 @@ body.main-menu header.main-menu.hidden {
   -moz-transition-delay: 0;
   transition: opacity 500ms;
   transition-delay: 0;
+
+  pointer-events: none;
 }
 header.main-menu .logo {
   position: absolute;
