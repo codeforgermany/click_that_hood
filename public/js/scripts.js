@@ -690,8 +690,16 @@ function prepareMapBackground() {
   while (size < MAP_BACKGROUND_SIZE_THRESHOLD) {
     size *= 2;
     zoom--;
-  }  
+  } 
 
+  //size = 512; 
+
+  //zoom += .5;
+
+  //document.title = size + ' ' + zoom;
+
+  // TODO resize properly instead of recreating every single time
+  document.querySelector('#maps-background').innerHTML = '';
 
   var layer = mapbox.layer().id('mwichary.map-61rbmbcf');
   var map = mapbox.map(document.querySelector('#maps-background'), layer, null, []);
