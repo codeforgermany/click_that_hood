@@ -30,7 +30,7 @@ var MAP_BACKGROUND_DEFAULT_ZOOM = 12;
 var MAP_BACKGROUND_MAX_ZOOM_NON_US = 12;
 var MAP_BACKGROUND_MAX_ZOOM_US = 17;
 
-var MAPBOX_MAP_ID = 'mwichary.map-61rbmbcf';
+var MAPBOX_MAP_ID = 'codeforamerica.map-mx0iqvk2';
 
 var MAPS_DEFAULT_SCALE = 512;
 var D3_DEFAULT_SCALE = 500;
