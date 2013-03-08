@@ -25,10 +25,9 @@ var BODY_MARGIN = 15;
 
 var MAP_VERT_PADDING = 50;
 
-var MAP_OVERLAY_OVERLAP_RATIO = .95;
-var MAP_OVERLAY_SIZE_THRESHOLD = 500;
-
-var MAP_OVERLAY_DEFAULT_ZOOM = 12;
+//var MAP_BACKGROUND_OVERLAP_RATIO = .95;
+var MAP_BACKGROUND_SIZE_THRESHOLD = 500;
+var MAP_BACKGROUND_DEFAULT_ZOOM = 12;
 
 var GOOGLE_MAPS_TILE_SIZE = 640;
 var GOOGLE_MAPS_DEFAULT_SCALE = 512;
@@ -157,7 +156,7 @@ function calculateMapSize() {
 
     updateCanvasSize();
 
-    var zoom = MAP_OVERLAY_DEFAULT_ZOOM;
+    var zoom = MAP_BACKGROUND_DEFAULT_ZOOM;
     var tile = latToTile(centerLat, zoom);
     var latStep = (tileToLat(tile + 1, zoom) - tileToLat(tile, zoom));
 
@@ -242,7 +241,7 @@ function updateCount() {
   }
 }
 
-function prepareMainMenuMapOverlay() {
+function prepareMainMenuMapBackground() {
   updateCanvasSize();
   var size = Math.floor((canvasWidth + 350) / 512) + 1;
 
@@ -258,13 +257,13 @@ function prepareMainMenuMapOverlay() {
 
   el.style.backgroundImage = 'url(' + url + ')';
 
-  document.querySelector('#google-maps-overlay').appendChild(el);  
+  document.querySelector('#maps-background').appendChild(el);  
 }
 
 function everythingLoaded() {
   if (!mainMenu) {
     calculateMapSize();
-    prepareMapOverlay();
+    prepareMapBackground();
 
     prepareNeighborhoods();
 
@@ -675,11 +674,7 @@ function getGoogleMapsUrl(lat, lon, zoom, type, size) {
   return url;
 }
 
-/*function onImageLoad(event) {
-  event.target.classList.add('loaded');
-}*/
-
-function prepareMapOverlay() {
+function prepareMapBackground() {
   if (!geoDataLoaded) {
     return;
   }
@@ -690,9 +685,9 @@ function prepareMapOverlay() {
   var size = globalScale * 0.0012238683395795992 * 0.995 / 2 * 0.8;
 
   // TODO remove global
-  zoom = MAP_OVERLAY_DEFAULT_ZOOM;
+  zoom = MAP_BACKGROUND_DEFAULT_ZOOM;
 
-  while (size < MAP_OVERLAY_SIZE_THRESHOLD) {
+  while (size < MAP_BACKGROUND_SIZE_THRESHOLD) {
     size *= 2;
     zoom--;
   }  
@@ -721,7 +716,7 @@ function prepareMapOverlay() {
   var startLon = centerLon;// - longStep / 2;
 
   var layer = mapbox.layer().id('mwichary.map-61rbmbcf');
-  var map = mapbox.map(document.querySelector('#google-maps-overlay'), layer, null, []);
+  var map = mapbox.map(document.querySelector('#maps-background'), layer, null, []);
 
   map.tileSize = { x : Math.round(size / 2), y: Math.round(size / 2) };
   if (pixelRatio == 2) {
@@ -757,9 +752,9 @@ function prepareMapOverlay() {
   var size = globalScale * 0.0012238683395795992 * 0.995 / 2;
 
   // TODO remove global
-  zoom = MAP_OVERLAY_DEFAULT_ZOOM;
+  zoom = MAP_BACKGROUND_DEFAULT_ZOOM;
 
-  while (size < MAP_OVERLAY_SIZE_THRESHOLD) {
+  while (size < MAP_BACKGROUND_SIZE_THRESHOLD) {
     size *= 2;
     zoom--;
   }
@@ -781,9 +776,9 @@ function prepareMapOverlay() {
   var offsetX = mapWidth / 2 - size - paddingX;
   var offsetY = mapHeight / 2 - size - paddingY;
 
-  document.querySelector('#google-maps-overlay').innerHTML = '';
+  document.querySelector('#maps-background').innerHTML = '';
 
-  var overlapSize = size * MAP_OVERLAY_OVERLAP_RATIO;
+  var overlapSize = size * MAP_BACKGROUND_OVERLAP_RATIO;
 
   var minX = Math.floor(-offsetX / overlapSize);
   var minY = Math.floor(-offsetY / overlapSize);
@@ -798,8 +793,8 @@ function prepareMapOverlay() {
       el.addEventListener('load', onImageLoad, false);
 
       var url = getGoogleMapsUrl(
-          startLat + y * latStep * MAP_OVERLAY_OVERLAP_RATIO, 
-          startLon + x * longStep * MAP_OVERLAY_OVERLAP_RATIO, 
+          startLat + y * latStep * MAP_BACKGROUND_OVERLAP_RATIO, 
+          startLon + x * longStep * MAP_BACKGROUND_OVERLAP_RATIO, 
           zoom, 
           'satellite');
       el.src = url;
@@ -810,7 +805,7 @@ function prepareMapOverlay() {
       el.style.left = (paddingX + offsetX + overlapSize * x) + 'px';
       el.style.top = (paddingY + offsetY + overlapSize * y) + 'px';
 
-      document.querySelector('#google-maps-overlay').appendChild(el);
+      document.querySelector('#maps-background').appendChild(el);
     }
   }
 }
@@ -832,7 +827,7 @@ function onResize() {
   } else {
     if (geoDataLoaded) {
       calculateMapSize();
-      prepareMapOverlay();
+      prepareMapBackground();
 
       mapSvg.attr('width', mapWidth);
       mapSvg.attr('height', mapHeight);
@@ -1056,7 +1051,7 @@ function main() {
 
   if (mainMenu) {
     prepareMainMenu();
-    prepareMainMenuMapOverlay();
+    prepareMainMenuMapBackground();
 
     createSvg();
     calculateMapSize();
