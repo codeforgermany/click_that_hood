@@ -243,7 +243,6 @@ function updateCount() {
 
 function prepareMainMenuMapBackground() {
   updateCanvasSize();
-  //var size = Math.floor((canvasWidth + 350) / 512) + 1;
 
   var el = document.createElement('div');
   el.classList.add('world');
@@ -253,20 +252,6 @@ function prepareMainMenuMapBackground() {
   map.tileSize = { x: Math.round(320 / pixelRatio), 
                    y: Math.round(320 / pixelRatio) };
   map.centerzoom({ lat: 33, lon: 63 }, pixelRatio);
-
-  //var url = 'http://api.tiles.mapbox.com/v3/' + MAPBOX_MAP_ID + '/165,-34,1/512x512.png';
-
-/*
-  var url = getGoogleMapsUrl(
-      -54,
-      2,
-      1, 
-      'satellite',
-      512);*/
-
-  //el.style.backgroundImage = 'url(' + url + ')';
-
-  //document.querySelector('#maps-background').appendChild(el);  
 }
 
 function everythingLoaded() {
