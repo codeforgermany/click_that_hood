@@ -682,7 +682,7 @@ function prepareMapBackground() {
   updateCanvasSize();
 
   // TODO unhardcode
-  var size = globalScale * 0.0012238683395795992 * 0.995 / 2 * 0.8;
+  var size = globalScale * 0.0012238683395795992 * 0.995 / 2 * 0.800;
 
   // TODO remove global
   zoom = MAP_BACKGROUND_DEFAULT_ZOOM;
@@ -692,28 +692,6 @@ function prepareMapBackground() {
     zoom--;
   }  
 
-  //zoom++;
-
-/*
-  var mapOptions = {
-      zoom: zoom,
-      center: new google.maps.LatLng(centerLat, centerLon),
-      disableDefaultUI: true,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-  }
-  var map = new google.maps.Map(document.querySelector('#google-maps-overlay'), mapOptions);*/
-
-  // TODO do const
-  //var layer = mapbox.layer().id('mwichary.map-61rbmbcf');
-  //var map = mapbox.map(document.querySelector('#google-maps-overlay'), layer);
-  //console.log(map);
-
-  //mapbox.auto(document.querySelector('#google-maps-overlay'), 'mwichary.map-61rbmbcf');
-
-  var tile = latToTile(centerLat, zoom);
-
-  var startLat = centerLat;// - latStep / 2;
-  var startLon = centerLon;// - longStep / 2;
 
   var layer = mapbox.layer().id('mwichary.map-61rbmbcf');
   var map = mapbox.map(document.querySelector('#maps-background'), layer, null, []);
@@ -724,13 +702,14 @@ function prepareMapBackground() {
     zoom++;
   }
 
+  var tile = latToTile(centerLat, zoom);
   var longStep = 
       (tileToLon(1, zoom) - tileToLon(0, zoom)) / 256 * 128;
   var latStep = 
       (tileToLat(tile + 1, zoom) - tileToLat(tile, zoom)) / 256 * 128;
 
-  var lat = startLat;
-  var lon = startLon;
+  var lat = centerLat;
+  var lon = centerLon;
 
   var leftMargin = BODY_MARGIN * 2 + HEADER_WIDTH;
 
@@ -739,75 +718,6 @@ function prepareMapBackground() {
   lon -= ratio * longStep;
   
   map.centerzoom({ lat: lat, lon: lon }, zoom);
-
-  //console.log(zoom);
-
-  // Attribute map
-  //map.ui.attribution.add()
-  //    .content('<a href="http://mapbox.com/about/maps">Terms &amp; Feedback</a>');
-
-  return;
-
-  // TODO unhardcode
-  var size = globalScale * 0.0012238683395795992 * 0.995 / 2;
-
-  // TODO remove global
-  zoom = MAP_BACKGROUND_DEFAULT_ZOOM;
-
-  while (size < MAP_BACKGROUND_SIZE_THRESHOLD) {
-    size *= 2;
-    zoom--;
-  }
-
-  var tile = latToTile(centerLat, zoom);
-
-  var longStep = 
-      (tileToLon(1, zoom) - tileToLon(0, zoom)) / 256 * GOOGLE_MAPS_TILE_SIZE;
-  var latStep = 
-      (tileToLat(tile + 1, zoom) - tileToLat(tile, zoom)) / 256 * GOOGLE_MAPS_TILE_SIZE;
-
-  var startLat = centerLat - latStep / 2;
-  var startLon = centerLon - longStep / 2;
-
-  // TODO const
-  var paddingX = -350;
-  var paddingY = -50;
-
-  var offsetX = mapWidth / 2 - size - paddingX;
-  var offsetY = mapHeight / 2 - size - paddingY;
-
-  document.querySelector('#maps-background').innerHTML = '';
-
-  var overlapSize = size * MAP_BACKGROUND_OVERLAP_RATIO;
-
-  var minX = Math.floor(-offsetX / overlapSize);
-  var minY = Math.floor(-offsetY / overlapSize);
-
-  var maxX = Math.floor((canvasWidth - offsetX) / overlapSize) + 1;
-  var maxY = Math.floor((canvasHeight - offsetY) / overlapSize) + 1;
-
-  for (var x = minX; x < maxX; x++) {
-    for (var y = minY; y < maxY; y++) {
-      var el = document.createElement('img');
-
-      el.addEventListener('load', onImageLoad, false);
-
-      var url = getGoogleMapsUrl(
-          startLat + y * latStep * MAP_BACKGROUND_OVERLAP_RATIO, 
-          startLon + x * longStep * MAP_BACKGROUND_OVERLAP_RATIO, 
-          zoom, 
-          'satellite');
-      el.src = url;
-
-      el.style.width = size + 'px';
-      el.style.height = size + 'px';
-
-      el.style.left = (paddingX + offsetX + overlapSize * x) + 'px';
-      el.style.top = (paddingY + offsetY + overlapSize * y) + 'px';
-
-      document.querySelector('#maps-background').appendChild(el);
-    }
-  }
 }
 
 function onResize() {
