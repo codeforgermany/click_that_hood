@@ -675,9 +675,9 @@ function getGoogleMapsUrl(lat, lon, zoom, type, size) {
   return url;
 }
 
-function onImageLoad(event) {
+/*function onImageLoad(event) {
   event.target.classList.add('loaded');
-}
+}*/
 
 function prepareMapOverlay() {
   if (!geoDataLoaded) {
@@ -685,6 +685,73 @@ function prepareMapOverlay() {
   }
 
   updateCanvasSize();
+
+  // TODO unhardcode
+  var size = globalScale * 0.0012238683395795992 * 0.995 / 2 * 0.8;
+
+  // TODO remove global
+  zoom = MAP_OVERLAY_DEFAULT_ZOOM;
+
+  while (size < MAP_OVERLAY_SIZE_THRESHOLD) {
+    size *= 2;
+    zoom--;
+  }  
+
+  //zoom++;
+
+/*
+  var mapOptions = {
+      zoom: zoom,
+      center: new google.maps.LatLng(centerLat, centerLon),
+      disableDefaultUI: true,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+  }
+  var map = new google.maps.Map(document.querySelector('#google-maps-overlay'), mapOptions);*/
+
+  // TODO do const
+  //var layer = mapbox.layer().id('mwichary.map-61rbmbcf');
+  //var map = mapbox.map(document.querySelector('#google-maps-overlay'), layer);
+  //console.log(map);
+
+  //mapbox.auto(document.querySelector('#google-maps-overlay'), 'mwichary.map-61rbmbcf');
+
+  var tile = latToTile(centerLat, zoom);
+
+  var startLat = centerLat;// - latStep / 2;
+  var startLon = centerLon;// - longStep / 2;
+
+  var layer = mapbox.layer().id('mwichary.map-61rbmbcf');
+  var map = mapbox.map(document.querySelector('#google-maps-overlay'), layer, null, []);
+
+  map.tileSize = { x : Math.round(size / 2), y: Math.round(size / 2) };
+  if (pixelRatio == 2) {
+    map.tileSize = { x: Math.round(size / 4), y: Math.round(size / 4) };
+    zoom++;
+  }
+
+  var longStep = 
+      (tileToLon(1, zoom) - tileToLon(0, zoom)) / 256 * 128;
+  var latStep = 
+      (tileToLat(tile + 1, zoom) - tileToLat(tile, zoom)) / 256 * 128;
+
+  var lat = startLat;
+  var lon = startLon;
+
+  var leftMargin = BODY_MARGIN * 2 + HEADER_WIDTH;
+
+  var ratio = leftMargin / map.tileSize.x;
+
+  lon -= ratio * longStep;
+  
+  map.centerzoom({ lat: lat, lon: lon }, zoom);
+
+  //console.log(zoom);
+
+  // Attribute map
+  //map.ui.attribution.add()
+  //    .content('<a href="http://mapbox.com/about/maps">Terms &amp; Feedback</a>');
+
+  return;
 
   // TODO unhardcode
   var size = globalScale * 0.0012238683395795992 * 0.995 / 2;
