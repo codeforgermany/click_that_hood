@@ -25,15 +25,15 @@ var BODY_MARGIN = 15;
 
 var MAP_VERT_PADDING = 50;
 
-//var MAP_BACKGROUND_OVERLAP_RATIO = .95;
-var MAP_BACKGROUND_SIZE_THRESHOLD = 500;
+var MAP_BACKGROUND_SIZE_THRESHOLD = (128 + 256) / 2;
 var MAP_BACKGROUND_DEFAULT_ZOOM = 12;
+var MAP_BACKGROUND_MAX_ZOOM_NON_US = 12;
+var MAP_BACKGROUND_MAX_ZOOM_US = 17;
 
-var GOOGLE_MAPS_TILE_SIZE = 640;
-var GOOGLE_MAPS_DEFAULT_SCALE = 512;
+var MAPBOX_MAP_ID = 'mwichary.map-61rbmbcf';
+
+var MAPS_DEFAULT_SCALE = 512;
 var D3_DEFAULT_SCALE = 500;
-
-var GOOGLE_MAPS_API_KEY = 'AIzaSyCMwHPyd0ntfh2RwROQmp_ozu1EoYo9AXk';
 
 var startTime = 0;
 var timerIntervalId;
@@ -164,15 +164,15 @@ function calculateMapSize() {
     // TODO: not entirely sure where these magic numbers are coming from
     globalScale = 
         ((D3_DEFAULT_SCALE * 180) / latSpread * (mapHeight - 50)) / 
-            GOOGLE_MAPS_DEFAULT_SCALE / 0.045 * (-latStep);
+            MAPS_DEFAULT_SCALE / 0.045 * (-latStep);
 
     // Calculate width according to that scale
     var width = globalScale / (D3_DEFAULT_SCALE * 360) * 
-        lonSpread * GOOGLE_MAPS_DEFAULT_SCALE;
+        lonSpread * MAPS_DEFAULT_SCALE;
 
     if (width > mapWidth) {
       globalScale = ((D3_DEFAULT_SCALE * 360) / lonSpread * mapWidth) / 
-          GOOGLE_MAPS_DEFAULT_SCALE;
+          MAPS_DEFAULT_SCALE;
     }
 
     geoMapPath = d3.geo.path().projection(
@@ -243,21 +243,30 @@ function updateCount() {
 
 function prepareMainMenuMapBackground() {
   updateCanvasSize();
-  var size = Math.floor((canvasWidth + 350) / 512) + 1;
+  //var size = Math.floor((canvasWidth + 350) / 512) + 1;
 
   var el = document.createElement('div');
   el.classList.add('world');
 
+  var layer = mapbox.layer().id(MAPBOX_MAP_ID);
+  var map = mapbox.map(document.querySelector('#maps-background'), layer, null, []);
+  map.tileSize = { x: Math.round(320 / pixelRatio), 
+                   y: Math.round(320 / pixelRatio) };
+  map.centerzoom({ lat: 33, lon: 63 }, pixelRatio);
+
+  //var url = 'http://api.tiles.mapbox.com/v3/' + MAPBOX_MAP_ID + '/165,-34,1/512x512.png';
+
+/*
   var url = getGoogleMapsUrl(
       -54,
       2,
       1, 
       'satellite',
-      512);
+      512);*/
 
-  el.style.backgroundImage = 'url(' + url + ')';
+  //el.style.backgroundImage = 'url(' + url + ')';
 
-  document.querySelector('#maps-background').appendChild(el);  
+  //document.querySelector('#maps-background').appendChild(el);  
 }
 
 function everythingLoaded() {
@@ -660,20 +669,6 @@ function updateTimer() {
   } 
 }
 
-function getGoogleMapsUrl(lat, lon, zoom, type, size) {
-  var url = 'http://maps.googleapis.com/maps/api/staticmap' +
-      '?center=' + lat + ',' + lon +
-      '&zoom=' + zoom + 
-      '&size=' + (size || GOOGLE_MAPS_TILE_SIZE) + 'x' + (size || GOOGLE_MAPS_TILE_SIZE) +
-      '&key=' + GOOGLE_MAPS_API_KEY +
-      '&sensor=false' +
-      '&scale=' + pixelRatio + 
-      '&maptype=' + type + 
-      '&format=jpg';
-
-  return url;
-}
-
 function prepareMapBackground() {
   if (!geoDataLoaded) {
     return;
@@ -681,34 +676,38 @@ function prepareMapBackground() {
 
   updateCanvasSize();
 
-  // TODO unhardcode
-  var size = globalScale * 0.0012238683395795992 * 0.995 / 2 * 0.800;
+  // TODO this is the worst line of code ever written
+  var size = globalScale * 0.0012238683395795992 * 0.995 / 2 * 0.800 / 2 / 4;
 
   // TODO remove global
-  zoom = MAP_BACKGROUND_DEFAULT_ZOOM;
+  zoom = MAP_BACKGROUND_DEFAULT_ZOOM + 2;
 
   while (size < MAP_BACKGROUND_SIZE_THRESHOLD) {
     size *= 2;
     zoom--;
   } 
-
-  //size = 512; 
-
-  //zoom += .5;
-
-  //document.title = size + ' ' + zoom;
-
   // TODO resize properly instead of recreating every single time
   document.querySelector('#maps-background').innerHTML = '';
 
-  var layer = mapbox.layer().id('mwichary.map-61rbmbcf');
+  var layer = mapbox.layer().id(MAPBOX_MAP_ID);
   var map = mapbox.map(document.querySelector('#maps-background'), layer, null, []);
 
-  map.tileSize = { x : Math.round(size / 2), y: Math.round(size / 2) };
   if (pixelRatio == 2) {
-    map.tileSize = { x: Math.round(size / 4), y: Math.round(size / 4) };
     zoom++;
   }
+
+  if (CITY_DATA[cityId].stateName) {
+    var maxZoomLevel = MAP_BACKGROUND_MAX_ZOOM_US;
+  } else {
+    var maxZoomLevel = MAP_BACKGROUND_MAX_ZOOM_NON_US;
+  }
+  while (zoom > maxZoomLevel) {
+    zoom--;
+    size *= 2;
+  }
+
+  map.tileSize = { x: Math.round(size / pixelRatio), 
+                   y: Math.round(size / pixelRatio) };
 
   var tile = latToTile(centerLat, zoom);
   var longStep = 
