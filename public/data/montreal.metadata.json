@@ -1,0 +1,7 @@
+{ 
+  "locationName": "Montréal",
+  "countryName": "Canada",
+
+  "dataUrl": "http://donnees.ville.montreal.qc.ca/fiche/polygones-arrondissements/",
+  "dataTitle": "Portail Données Ouvertes"
+}
