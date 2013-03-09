@@ -1,0 +1,7 @@
+{ 
+  "locationName": "Rockville",
+  "stateName": "M.d.",
+
+  "dataUrl": "http://www.rockvillemd.gov/gis/gis_data_download.html",
+  "dataTitle": "Rockville GIS Data Downloads"
+}
