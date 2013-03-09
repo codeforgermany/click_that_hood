@@ -131,20 +131,22 @@ function calculateMapSize() {
     }
 
     for (var i in geoData.features) {
-      for (var j in geoData.features[i].geometry.coordinates[0]) {
-        if (geoData.features[i].geometry.coordinates[0][j].length && 
-            typeof geoData.features[i].geometry.coordinates[0][j][0] != 'number') {
-          for (var k in geoData.features[i].geometry.coordinates[0][j]) {
-            var lon = geoData.features[i].geometry.coordinates[0][j][k][0];
-            var lat = geoData.features[i].geometry.coordinates[0][j][k][1];
+      for (var z in geoData.features[i].geometry.coordinates) {
+        for (var j in geoData.features[i].geometry.coordinates[z]) {
+          if (geoData.features[i].geometry.coordinates[z][j].length && 
+              typeof geoData.features[i].geometry.coordinates[z][j][0] != 'number') {
+            for (var k in geoData.features[i].geometry.coordinates[z][j]) {
+              var lon = geoData.features[i].geometry.coordinates[z][j][k][0];
+              var lat = geoData.features[i].geometry.coordinates[z][j][k][1];
+
+              findMinMax(lon, lat);
+            }
+          } else if (geoData.features[i].geometry.coordinates[z][j].length) {
+            var lon = geoData.features[i].geometry.coordinates[z][j][0];
+            var lat = geoData.features[i].geometry.coordinates[z][j][1];
 
             findMinMax(lon, lat);
           }
-        } else if (geoData.features[i].geometry.coordinates[0][j].length) {
-          var lon = geoData.features[i].geometry.coordinates[0][j][0];
-          var lat = geoData.features[i].geometry.coordinates[0][j][1];
-
-          findMinMax(lon, lat);
         }
       }
     }
