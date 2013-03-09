@@ -2,7 +2,6 @@
   "locationName": "<<NAME OF THE LOCATION (CITY)>>",
   "stateName": "<<IF U.S., STATE ABBREVIATION ACCORDING TO A.P. GUIDELINES. SEE http://en.wikipedia.org/wiki/List_of_U.S._state_abbreviations>>",
   "countryName": "<<IF NOT U.S., COUNTRY NAME>>",
-  "googleMapsQuery": "<<STRING TO SEARCH FOR YOUR CITY IN GOOGLE MAPS>>",
 
   "authorTwitter": "<<YOUR TWITTER ID, WITHOUT THE @>>",
 
