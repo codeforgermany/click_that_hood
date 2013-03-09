@@ -3,6 +3,6 @@
   "stateName": "Calif.",
   "annotation": "County",
 
-  "dataUrl": "TEST",
-  "dataTitle": "TEST"
+  "dataUrl": "http://projects.latimes.com/mapping-la/about/#the-data",
+  "dataTitle": "Los Angeles Times"
 }
