@@ -1,0 +1,7 @@
+{ 
+  "locationName": "Chapel Hill",
+  "stateName": "N.C.",
+
+  "dataUrl": "http://gis.townofchapelhill.org/download_data/",
+  "dataTitle": "Town of Chapel Hill GIS"
+}
