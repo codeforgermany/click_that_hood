@@ -2,6 +2,6 @@
   "locationName": "Richmond",
   "stateName": "Va.",
 
-  "dataUrl": "ftp://ftp.ci.richmond.va.us/GIS/Shapefiles/Thematic/",
+  "dataUrl": "http://www.richmondgov.com/GIS/index.aspx",
   "dataTitle": "The City of Richmond"
 }
