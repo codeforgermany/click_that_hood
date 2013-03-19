@@ -795,8 +795,15 @@ function resizeLogoIfNecessary() {
 }
 
 function prepareLogo() {
-  document.querySelector('header .state-or-country').innerHTML = 
-      CITY_DATA[cityId].stateName || CITY_DATA[cityId].countryName;
+  var name = CITY_DATA[cityId].stateName || CITY_DATA[cityId].countryName;
+
+  if (name == COUNTRY_NAME_USA) {
+    name = '';
+    document.querySelector('header .location-name').classList.add('no-state-or-country');
+  } else {
+    document.querySelector('header .location-name').classList.remove('no-state-or-country');    
+  }
+  document.querySelector('header .state-or-country').innerHTML = name;
 
   document.querySelector('header .annotation').innerHTML = 
       CITY_DATA[cityId].annotation || '';

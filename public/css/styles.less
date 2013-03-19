@@ -275,7 +275,7 @@ header.game .location-name {
   text-rendering: optimizeLegibility;
 }
 
-header.game .location-name::after {
+header.game .location-name:not(.no-state-or-country)::after {
   content: ',';
   position: absolute;
 }
