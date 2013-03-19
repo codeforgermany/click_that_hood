@@ -24,7 +24,7 @@
 @dataTransitionDelay: 150ms;
 
 @fontSize: 14px;
-@borderRadius: 7px;
+@borderRadius: 0;
 
 @hoverNeighborhoodFillColour: fadeout(@highlightColour, 50%);
 @guessedNeighborhoodFillColour: rgba(0, 255, 0, .25);
@@ -275,7 +275,7 @@ header.game .location-name {
   text-rendering: optimizeLegibility;
 }
 
-header.game .location-name::after {
+header.game .location-name:not(.no-state-or-country)::after {
   content: ',';
   position: absolute;
 }

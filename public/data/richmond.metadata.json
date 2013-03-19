@@ -1,0 +1,7 @@
+{ 
+  "locationName": "Richmond",
+  "stateName": "Va.",
+
+  "dataUrl": "http://www.richmondgov.com/GIS/index.aspx",
+  "dataTitle": "The City of Richmond"
+}
