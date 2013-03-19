@@ -1,45 +1,121 @@
-var fs = require('fs')
+var fs = require("fs")
 
 var validator = function(metadataFilePath) {
     
-    var validationErrors = [],
+    var validationFailures = [],
         validationSuccesses = []
 
-    var validateMetadataFileExists = function() {
-        var exists = fs.existsSync(metadataFilePath)
-        if (!exists) {
-            validationErrors.push("No metadata file found at " + metadataFilePath)
-        } else {
-            validationSuccesses.push("Metadata file exists");
+    var metadataFileExists = function() {
+        var exists
+        return function() {
+            if (exists === undefined){
+                exists = fs.existsSync(metadataFilePath)
+            }
+            return exists
         }
+    }()
 
-        return exists
+    var validateMetadataFileExists = function() {
+        if (metadataFileExists()) {
+            validationSuccesses.push("Metadata file exists");
+        } else {
+            validationFailures.push("No metadata file found at " + metadataFilePath)
+        }
     }
 
     var validateMetadataRequiredFields = function() {
-        return true
-    }
 
-    var validateMetadataDataFile = function() {
-        return true
+        if (metadataFileExists()) {
+
+            var requiredFieldsMap = {
+                locationName: "location name",
+                dataUrl: "data source URL",
+                dataTitle: "data source title",
+                authorTwitter: "author's twitter ID"
+            }
+            
+            var j = getMetadataJson()
+            for (field in requiredFieldsMap) {
+                var label = requiredFieldsMap[field]
+                if (j.hasOwnProperty(field)) {
+                    validationSuccesses.push("Metadata JSON contains " + label + " (" + field + ")")
+                } else {
+                    validationFailures.push("Please specify " + label + " (" + field + ") in metadata JSON")
+                }
+
+            }
+
+        }        
+
     }
 
     var validateMetadataDataUrl = function() {
-        return true
+
+        if (metadataFileExists()) {
+
+            var j = getMetadataJson()
+            if (j.dataUrl.match(/^https?\:\/\/.*\..+/)) {
+                validationSuccesses.push("Metadata JSON contains valid data source URL (dataUrl)")
+            } else {
+                validationFailures.push("Please specify valid data source URL (dataUrl) in metadata JSON")
+            }
+
+        }
+
     }
 
-    var validateMetadataAuthor = function() {
-        return true
+    var validateDataFileExists = function() {
+        var dataFilePath = getDataFilePath()
+        var exists = fs.existsSync(dataFilePath)
+        if (exists) {
+            validationSuccesses.push("Data file exists")
+        } else {
+            validationFailures.push("No data file found at " + dataFilePath)
+        }
+    }
+
+    var getMetadataJson = function() {
+
+        if (metadataFileExists()) {
+
+            var metadataJson
+            
+            return function() {
+                
+                if (!metadataJson) {
+                    metadataJson = JSON.parse(fs.readFileSync(metadataFilePath))
+                }
+                return metadataJson
+                
+            }
+
+        }
+
+    }()
+
+    var getDataFilePath = function() {
+        return metadataFilePath.replace(/\.metadata\.json/, '.geojson')
     }
 
     return {
 
+        validate: function() {
+            validateMetadataFileExists()
+            validateMetadataRequiredFields()
+            validateMetadataDataUrl()
+            validateDataFileExists()
+        },
+
         isValid: function() {
-            return (validateMetadataFileExists()
-                    && validateMetadataRequiredFields()
-                    && validateMetadataDataFile()
-                    && validateMetadataDataUrl()
-                    && validateMetadataAuthor())
+            return validationFailures.length === 0
+        },
+
+        getSuccesses: function() {
+            return validationSuccesses
+        },
+
+        getFailures: function() {
+            return validationFailures
         },
 
         getValidationReport: function() {
@@ -52,8 +128,8 @@ var validator = function(metadataFilePath) {
             }
 
             report += "Failures:\n"
-            for (failureIndex in validationErrors) {
-                var failure = validationErrors[failureIndex]
+            for (failureIndex in validationFailures) {
+                var failure = validationFailures[failureIndex]
                 report += "\t+ " + failure + "\n"
             }
 
@@ -83,9 +159,10 @@ if (process.argv.length != 3) {
 var metadataFilePath = __dirname + "/../public/data/" + process.argv[2] + ".metadata.json";
 
 var v = validator(metadataFilePath)
-var isValid = v.isValid();
+v.validate()
 console.log(v.getValidationReport())
-if (!isValid) {
-    process.exit(2)
+if (!v.isValid()) {
+    var ERR_VALIDATION_FAILURES_OFFSET = 100;
+    process.exit(ERR_VALIDATION_FAILURES_OFFSET + v.getFailures().length)
 }
 
