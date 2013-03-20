@@ -35,6 +35,9 @@ var MAP_BACKGROUND_MAX_ZOOM_US = 17;
 
 var MAPBOX_MAP_ID = 'codeforamerica.map-mx0iqvk2';
 
+var ADD_YOUR_CITY_URL = 
+    'https://github.com/codeforamerica/click_that_hood/wiki/How-to-add-a-city-to-Click-That-%E2%80%99Hood!';
+
 var MAPS_DEFAULT_SCALE = 512;
 var D3_DEFAULT_SCALE = 500;
 
@@ -891,7 +894,8 @@ function prepareLocationList() {
   document.querySelector('.menu .locations').appendChild(el);
 
   var el = document.createElement('li');
-  el.innerHTML = '<a class="add-your-city" href="https://docs.google.com/document/d/1ePUmeH1jgsnjiByGfToIU1DTGqn6OPFWgkRC9m03IqE/edit?usp=sharing">Add your city…</a>';
+  el.innerHTML = '<a target="_blank" class="add-your-city" href="' + 
+      ADD_YOUR_CITY_URL + '">Add your city…</a>';
   document.querySelector('.menu .locations').appendChild(el);
 
   if (cityId) {
