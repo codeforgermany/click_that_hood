@@ -495,7 +495,7 @@ body.main-menu #count-time-wrapper-wrapper {
   }
 }
 
-#neighborhood-guess span {
+#neighborhood-guess .name {
   font-weight: 600;
   font-size: @fontSize * 2.5;
   letter-spacing: -1px;
@@ -672,8 +672,8 @@ body.no-hover #neighborhood-hover {
     fill: @inactiveNeighborhoodFillColour;
   }
   body:not(.touch-active) &:not([inactive]):hover {
-    fill: fadeout(@highlightColour, 50%);
     cursor: pointer;
+    fill: fadeout(@highlightColour, 50%);
     -webkit-transition: fill 50ms;
     -moz-transition: fill 50ms;
   }
@@ -918,4 +918,8 @@ body.main-menu #map .location {
   fill: black;
   fill-opacity: .1;
   stroke: white; 
+}
+
+.capitalize {
+  text-transform: capitalize;
 }

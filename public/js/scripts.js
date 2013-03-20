@@ -471,6 +471,11 @@ function setTouchActive(newTouchActive) {
   } else {
     document.body.classList.remove('touch-active');    
   }
+
+  var els = document.querySelectorAll('.click-verb');
+  for (var i = 0, el; el = els[i]; i++) {
+    el.innerHTML = touchActive ? 'touch' : 'click';
+  }
 }
 
 function hoverNeighborhoodEl(el) {
@@ -700,7 +705,7 @@ function updateNeighborhoodDisplay() {
     document.querySelector('#neighborhood-guess').classList.remove('visible');      
   }
 
-  document.querySelector('#neighborhood-guess span').innerHTML = 
+  document.querySelector('#neighborhood-guess .name').innerHTML = 
     neighborhoodToBeGuessedNext;  
 }
 
@@ -1075,7 +1080,7 @@ function prepareMainMenu() {
 }
 
 function getEnvironmentInfo() {
-  touchActive = Modernizr.touch;
+  setTouchActive(Modernizr.touch);
   pixelRatio = window.devicePixelRatio || 1;
 
   if (touchActive) {
