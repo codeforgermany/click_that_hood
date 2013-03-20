@@ -91,7 +91,10 @@
                 <br>
                 or
                 <br>
-                <button onclick='startGame(false)' class='smaller'>Start a difficult game (all <span class='hard-mode-count'></span> neighborhoods)</button>
+                <button onclick='startGame(false)' class='smaller'>Start a difficult game (all <span class='hard-mode-count'></span><span class='neighborhoods-removed-disclaimer'>*</span> neighborhoods)</button>
+                <span class='neighborhoods-removed-disclaimer'>
+                  <br><sup>*</sup>Some neighborhoods removed since they’re too small to click
+                </span>
               </span>
             </p>
             <a target='_new' id='callout'></a>
@@ -182,9 +185,6 @@
       </span>
       <span class='author'>
         Added by <a target='_blank'></a>.
-      </span>
-      <span class='neighborhoods-removed'>
-        (Some small neighborhoods removed.)
       </span>
       Map tiles © 2013 <a href='http://mapbox.com/'>MapBox</a> (<a href='http://mapbox.com/about/maps'>Terms & services</a>).
     </span>

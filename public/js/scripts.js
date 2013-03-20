@@ -221,7 +221,9 @@ function removeSmallNeighborhoods() {
   }
 
   if (someSmallNeighborhoodsRemoved) {
-    document.querySelector('footer .neighborhoods-removed').classList.add('visible');
+    document.body.classList.add('neighborhoods-removed');
+  } else {    
+    document.body.classList.remove('neighborhoods-removed');
   }
 }
 
