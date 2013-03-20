@@ -507,13 +507,15 @@ function hoverNeighborhoodEl(el) {
   if (!el.classList) {
     hideSafariNeighborhood();
 
-    el.style.webkitTransition = 'none';
-    if (!el.getAttribute('inactive')) {
-      el.style.fill = 'rgba(247, 148, 29, 0.5)';
-    } else {
-      el.style.fill = 'rgba(108, 108, 108, 0.775)';
+    if (!el.id) {
+      el.style.webkitTransition = 'none';
+      if (!el.getAttribute('inactive')) {
+        el.style.fill = 'rgba(247, 148, 29, 0.5)';
+      } else {
+        el.style.fill = 'rgba(108, 108, 108, 0.775)';
+      }
+      el.id = 'safari-neighborhood-hover';
     }
-    el.id = 'safari-neighborhood-hover';
   }
 }
 
