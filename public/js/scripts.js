@@ -28,6 +28,8 @@ var BODY_MARGIN = 15;
 var MAP_VERT_PADDING = 50;
 var MAIN_MENU_HEIGHT = 350;
 
+var MAIN_MENU_MIN_FIXED_HEIGHT = 600;
+
 var MAP_BACKGROUND_SIZE_THRESHOLD = (128 + 256) / 2;
 var MAP_BACKGROUND_DEFAULT_ZOOM = 12;
 var MAP_BACKGROUND_MAX_ZOOM_NON_US = 12;
@@ -742,6 +744,13 @@ function onResize() {
 
   if (mainMenu) {
     calculateMapSize();
+
+    if (window.innerHeight > MAIN_MENU_MIN_FIXED_HEIGHT) {
+      document.body.classList.remove('no-fixed-main-menu');
+    } else {
+      document.body.classList.add('no-fixed-main-menu');      
+    }
+
   } else {
     if (geoDataLoaded) {
       calculateMapSize();

@@ -57,11 +57,15 @@ body:not(.main-menu) {
   color: white;
 }
 
-.main-menu footer {
+body.no-fixed-main-menu {
+  background: red !important;
+}
+
+body:not(.no-fixed-main-menu).main-menu footer {
   position: fixed;
 }
 
-.main-menu .canvas {
+body:not(.no-fixed-main-menu).main-menu .canvas {
   position: fixed;
   left: 0;
   right: 0;
@@ -75,7 +79,7 @@ body:not(.main-menu) {
   overflow: hidden;
 }
 
-.main-menu .menu {
+body:not(.no-fixed-main-menu).main-menu .menu {
   margin-top: 350px;
 }
 
