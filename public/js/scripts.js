@@ -11,6 +11,8 @@
 
 var COUNTRY_NAME_USA = 'U.S.';
 
+var DEFAULT_NEIGHBORHOOD_NOUN = 'neighborhood';
+
 var EASY_MODE_COUNT = 20;
 
 var HIGHLIGHT_DELAY = 1500;
@@ -827,6 +829,14 @@ function prepareLogo() {
   var els = document.querySelectorAll('.location-name');
   for (var i = 0, el; el = els[i]; i++) {
     el.innerHTML = CITY_DATA[cityId].locationName;
+  }
+
+  var neighborhoodNoun = 
+      CITY_DATA[cityId].neighborhoodNoun || DEFAULT_NEIGHBORHOOD_NOUN;
+
+  var els = document.querySelectorAll('.neighborhood-noun');
+  for (var i = 0, el; el = els[i]; i++) {
+    el.innerHTML = neighborhoodNoun;
   }
 
   resizeLogoIfNecessary();

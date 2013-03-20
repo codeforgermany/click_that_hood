@@ -82,18 +82,19 @@
         <div id='intro'>
           <div>
             <p>
-              Click on the proper <span class='location-name'></span> neighborhood
+              Click on the proper <span class='location-name'></span> 
+              <span class='neighborhood-noun'></span>
               as soon as its name comes up. The faster, the better!
             </p>
             <p>
-              <button onclick='startGame(true)'>Start the game<span class='difficult-game'><br><span>(<span class='easy-mode-count'></span> random neighborhoods)</span></span></button>
+              <button onclick='startGame(true)'>Start the game<span class='difficult-game'><br><span>(<span class='easy-mode-count'></span> random <span class='neighborhood-noun'></span>s)</span></span></button>
               <span class='difficult-game'>
                 <br>
                 or
                 <br>
-                <button onclick='startGame(false)' class='smaller'>Start a difficult game (all <span class='hard-mode-count'></span><span class='neighborhoods-removed-disclaimer'>*</span> neighborhoods)</button>
+                <button onclick='startGame(false)' class='smaller'>Start a difficult game (all <span class='hard-mode-count'></span><span class='neighborhoods-removed-disclaimer'>*</span> <span class='neighborhood-noun'></span>s)</button>
                 <span class='neighborhoods-removed-disclaimer'>
-                  <br><sup>*</sup>Some neighborhoods removed since they’re too small to click
+                  <br><sup>*</sup>Some <span class='neighborhood-noun'></span>s removed since they’re too small to click
                 </span>
               </span>
             </p>
@@ -111,7 +112,7 @@
               <br>
               <span class='easy-mode-count'></span> 
               <span class='location-name'></span>
-              neighborhoods
+              <span class='neighborhood-noun'></span>s
               <br>in <span class='time'></span>!
             </p>
             <p>
@@ -129,7 +130,7 @@
               You correctly identified 
               <br>
               all <span class='location-name'></span>
-              neighborhoods
+              <span class='neighborhood-noun'></span>s
               <br>in <span class='time'></span>!
             </p>
             <p>
