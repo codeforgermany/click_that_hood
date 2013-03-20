@@ -1,0 +1,7 @@
+{ 
+  "locationName": "Antwerp",
+  "countryName": "Belgium",
+
+  "dataUrl": "http://opendata.antwerpen.be/datasets/buurtmonitor-wijken",
+  "dataTitle": "Open Data Stad Antwerpen"
+}
