@@ -20,7 +20,8 @@ var NEXT_GUESS_DELAY = 1000;
 
 var REMOVE_NEIGHBORHOOD_ANIMATE_GUESS_DELAY = 2000;
 
-var SMALL_NEIGHBORHOOD_THRESHOLD = 8;
+var SMALL_NEIGHBORHOOD_THRESHOLD_MOUSE = 8;
+var SMALL_NEIGHBORHOOD_THRESHOLD_TOUCH = 30;
 
 var HEADER_WIDTH = 320;
 var BODY_MARGIN = 15;
@@ -65,6 +66,8 @@ var currentlyTouching = false;
 var lastTouchedNeighborhoodEl;
 
 var pixelRatio;
+
+var smallNeighborhoodThreshold;
 
 var canvasWidth, canvasHeight;
 var mapWidth, mapHeight;
@@ -217,8 +220,8 @@ function removeSmallNeighborhoods() {
   for (var i = 0, el; el = els[i]; i++) {
     var boundingBox = el.getBBox();
 
-    if ((boundingBox.width < SMALL_NEIGHBORHOOD_THRESHOLD) || 
-        (boundingBox.height < SMALL_NEIGHBORHOOD_THRESHOLD)) {
+    if ((boundingBox.width < smallNeighborhoodThreshold) || 
+        (boundingBox.height < smallNeighborhoodThreshold)) {
       var name = el.getAttribute('name');
 
       neighborhoods.splice(neighborhoods.indexOf(name), 1);
@@ -1072,7 +1075,15 @@ function prepareMainMenu() {
 }
 
 function getEnvironmentInfo() {
+  touchActive = Modernizr.touch;
   pixelRatio = window.devicePixelRatio || 1;
+
+  if (touchActive) {
+    smallNeighborhoodThreshold = SMALL_NEIGHBORHOOD_THRESHOLD_TOUCH;
+  } else {
+    smallNeighborhoodThreshold = SMALL_NEIGHBORHOOD_THRESHOLD_MOUSE;
+  }
+  
 }
 
 function removeHttpsIfPresent() {
