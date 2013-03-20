@@ -24,6 +24,7 @@ var HEADER_WIDTH = 320;
 var BODY_MARGIN = 15;
 
 var MAP_VERT_PADDING = 50;
+var MAIN_MENU_HEIGHT = 350;
 
 var MAP_BACKGROUND_SIZE_THRESHOLD = (128 + 256) / 2;
 var MAP_BACKGROUND_DEFAULT_ZOOM = 12;
@@ -47,6 +48,7 @@ var geoData;
 var geoMapPath;
 
 var mapClickable = false;
+var gameStarted = false;
 
 var easyMode = false;
 var mainMenu = false;
@@ -264,9 +266,6 @@ function everythingLoaded() {
     prepareNeighborhoods();
 
     createMap();
-
-    removeSmallNeighborhoods();
-    updateCount();
 
     startIntro();
   }
@@ -553,6 +552,14 @@ function startIntro() {
   document.querySelector('#intro').classList.add('visible');
 }
 
+function makeAllNeighborhoodsActive() {
+  var els = document.querySelectorAll('#map svg [inactive]');
+
+  for (var i = 0, el; el = els[i]; i++) {
+    el.removeAttribute('inactive');
+  } 
+}
+
 function makeNeighborhoodInactive(name) {
   var el = document.querySelector('#map svg [name="' + name + '"]');
 
@@ -576,6 +583,8 @@ function reloadPage() {
 }
 
 function startGame(useEasyMode) {
+  gameStarted = true;
+
   document.querySelector('#intro').classList.remove('visible');  
   document.querySelector('#cover').classList.remove('visible');
 
@@ -716,13 +725,11 @@ function prepareMapBackground() {
 
 function onResize() {
   if (mainMenu) {
-    // TODO const
-    var height = 350;
+    var height = MAIN_MENU_HEIGHT;
   } else {
     var height = window.innerHeight;
   }
 
-  // TODO debug
   document.querySelector('body > .canvas').style.height = 
     (height - document.querySelector('body > .canvas').offsetTop) + 'px';
 
@@ -736,6 +743,13 @@ function onResize() {
       mapSvg.attr('width', mapWidth);
       mapSvg.attr('height', mapHeight);
       mapSvg.selectAll('path').attr('d', geoMapPath);
+
+      if (!gameStarted) {
+        prepareNeighborhoods();
+        makeAllNeighborhoodsActive();
+        removeSmallNeighborhoods();
+        updateCount();
+      }
     }
   }
 }
