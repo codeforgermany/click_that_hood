@@ -316,6 +316,9 @@ function onBodyTouchStart(event) {
     return;
   }
 
+  lastTouchedNeighborhoodEl = findNeighborhoodByPoint(event.pageX, event.pageY);
+
+  // TODO duplication with above
   hoverNeighborhoodElByPoint(event.pageX, event.pageY);
 
   currentlyTouching = true;
@@ -331,6 +334,7 @@ function onBodyTouchMove(event) {
 
       lastTouchedNeighborhoodEl = findNeighborhoodByPoint(x, y);
 
+      // TODO duplication with above
       hoverNeighborhoodElByPoint(x, y);
     }
 
