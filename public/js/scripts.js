@@ -60,6 +60,10 @@ var gameStarted = false;
 var easyMode = false;
 var mainMenu = false;
 
+var touchActive = false;
+var currentlyTouching = false;
+var lastTouchedNeighborhoodEl;
+
 var pixelRatio;
 
 var canvasWidth, canvasHeight;
@@ -267,6 +271,97 @@ function prepareMainMenuMapBackground() {
   map.centerzoom({ lat: 33, lon: 63 }, pixelRatio);
 }
 
+function isString(obj) {
+  return typeof obj == 'string';
+}
+
+function findNeighborhoodByPoint(x, y) {
+  var el = document.elementFromPoint(x, y);
+
+  if (el) {
+    if (el.className && typeof el.className.baseVal == 'string') {
+      var className = el.className.baseVal;
+    } else {
+      var className = el.className;
+    }
+
+    // Shitty because iPad has old Safari without classList
+    if (className && className.indexOf('neighborhood') != -1) {
+      return el;
+    }
+  } 
+
+  return false;
+}
+
+function hoverNeighborhoodElByPoint(x, y) {
+  var el = findNeighborhoodByPoint(x, y);
+
+  if (el) {
+    hoverNeighborhoodEl(el);
+  } else {
+    hideNeighborhoodHover();
+  }
+}
+
+function onBodyTouchStart(event) {
+  setTouchActive(true);
+
+  var el = event.target;
+  while (el && el.id != 'svg-container') {
+    el = el.parentNode;
+  }
+
+  if (!el || !el.id || el.id != 'svg-container') {
+    return;
+  }
+
+  hoverNeighborhoodElByPoint(event.pageX, event.pageY);
+
+  currentlyTouching = true;
+
+  event.preventDefault();
+}
+
+function onBodyTouchMove(event) {
+  if (currentlyTouching) {
+    if (event.touches[0]) {
+      var x = event.touches[0].pageX;
+      var y = event.touches[0].pageY;
+
+      lastTouchedNeighborhoodEl = findNeighborhoodByPoint(x, y);
+
+      hoverNeighborhoodElByPoint(x, y);
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+  }
+}
+
+function onBodyTouchEnd(event) {
+  hideNeighborhoodHover();
+
+  if (lastTouchedNeighborhoodEl) {
+    onNeighborhoodClick(lastTouchedNeighborhoodEl);
+  }
+
+  currentlyTouching = false;
+}
+
+function onBodyTouchCancel(event) {
+  hideNeighborhoodHover();
+
+  currentlyTouching = false;
+}
+
+function addTouchEventHandlers() {
+  document.body.addEventListener('touchstart', onBodyTouchStart, false);
+  document.body.addEventListener('touchmove', onBodyTouchMove, false);
+  document.body.addEventListener('touchend', onBodyTouchEnd, false);
+  document.body.addEventListener('touchcancel', onBodyTouchCancel, false);
+}
+
 function everythingLoaded() {
   if (!mainMenu) {
     calculateMapSize();
@@ -275,6 +370,8 @@ function everythingLoaded() {
     prepareNeighborhoods();
 
     createMap();
+
+    addTouchEventHandlers();
 
     startIntro();
   }
@@ -359,6 +456,70 @@ function restoreMainMenuCity(event) {
   document.querySelector('header.main-menu').classList.remove('hidden');
 }
 
+function setTouchActive(newTouchActive) {
+  touchActive = newTouchActive;
+
+  if (touchActive) {
+    document.body.classList.add('touch-active');
+  } else {
+    document.body.classList.remove('touch-active');    
+  }
+}
+
+function hoverNeighborhoodEl(el) {
+  var boundingBox = el.getBBox();
+
+  var hoverEl = document.querySelector('#neighborhood-hover');
+
+  hoverEl.style.left = 
+      (boundingBox.x + boundingBox.width / 2 - hoverEl.offsetWidth / 2) + 'px';
+
+  hoverEl.innerHTML = el.getAttribute('name');
+
+  if (touchActive) {
+    var top = boundingBox.y - hoverEl.offsetHeight - 30;
+  } else {
+    var top = boundingBox.y + boundingBox.height;
+  }
+  hoverEl.style.top = top + 'px'; 
+
+  hoverEl.classList.add('visible');  
+
+  if (el.getAttribute('inactive')) {
+    hoverEl.classList.add('inactive');
+  } else {
+    hoverEl.classList.remove('inactive');
+  }
+
+  // Fix for Safari 6
+  if (!el.classList) {
+    hideSafariNeighborhood();
+
+    el.style.webkitTransition = 'none';
+    if (!el.getAttribute('inactive')) {
+      el.style.fill = 'rgba(247, 148, 29, 0.5)';
+    } else {
+      el.style.fill = 'rgba(108, 108, 108, 0.775)';
+    }
+    el.id = 'safari-neighborhood-hover';
+  }
+}
+
+function hideSafariNeighborhood() {
+  var el = document.querySelector('#safari-neighborhood-hover');
+  if (el) {
+    el.id = '';
+
+    el.style.fill = '';
+  }
+}
+
+function hideNeighborhoodHover() {
+  hideSafariNeighborhood();
+
+  document.querySelector('#neighborhood-hover').classList.remove('visible');
+}
+
 function createMap() {
   mapSvg
     .selectAll('path')
@@ -371,38 +532,21 @@ function createMap() {
     .on('click', function(d) {
       var el = d3.event.target || d3.event.toElement;
 
-      if (!el.getAttribute('inactive')) {      
-        handleNeighborhoodClick(el, d.properties.name);
-      }
+      onNeighborhoodClick(el);
     })
     .on('mousedown', function(d) {
+      setTouchActive(false);
+
       d3.event.preventDefault();
     })
     .on('mouseover', function(d) {
-      // TODO make a function
-      var el = d3.event.target || d3.event.toElement;
-
-      var boundingBox = el.getBBox();
-
-      var hoverEl = document.querySelector('#neighborhood-hover');
-
-      hoverEl.innerHTML = d.properties.name;  
-
-      hoverEl.style.left = 
-          (boundingBox.x + boundingBox.width / 2 - hoverEl.offsetWidth / 2) + 'px';
-      hoverEl.style.top = (boundingBox.y + boundingBox.height) + 'px';
-
-      hoverEl.classList.add('visible');  
-
-      if (el.getAttribute('inactive')) {
-        hoverEl.classList.add('inactive');
-      } else {
-        hoverEl.classList.remove('inactive');
+      if (!touchActive) {
+        var el = d3.event.target || d3.event.toElement;
+        hoverNeighborhoodEl(el);
       }
     })
     .on('mouseout', function(d) {
-      // TODO use target
-      document.querySelector('#neighborhood-hover').classList.remove('visible');  
+      hideNeighborhoodHover();
     });
 
   onResize();
@@ -434,10 +578,16 @@ function animateNeighborhoodGuess(el) {
   }
 }
 
-function handleNeighborhoodClick(el, name) {
+function onNeighborhoodClick(el) {
   if (!mapClickable) {
     return;
   }
+
+  if (el.getAttribute('inactive')) {      
+    return;
+  }
+
+  var name = el.getAttribute('name');
 
   // Assuming accidental click on a neighborhood already guessed
   // TODO does this still work?

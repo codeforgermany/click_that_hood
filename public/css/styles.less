@@ -671,13 +671,13 @@ body.no-hover #neighborhood-hover {
   &[inactive] {
     fill: @inactiveNeighborhoodFillColour;
   }
-  &:not([inactive]):hover {
+  body:not(.touch-active) &:not([inactive]):hover {
     fill: fadeout(@highlightColour, 50%);
     cursor: pointer;
     -webkit-transition: fill 50ms;
     -moz-transition: fill 50ms;
   }
-  &[inactive]:hover {
+  body:not(.touch-active) &[inactive]:hover {
     fill: mix(@inactiveNeighborhoodFillColour, black, 90%);
     -webkit-transition: fill 50ms;
     -moz-transition: fill 50ms;
@@ -686,7 +686,7 @@ body.no-hover #neighborhood-hover {
     stroke: transparent;
     fill: @guessedNeighborhoodFillColour;
   }
-  &.guessed:hover {
+  body:not(.touch-active) &.guessed:hover {
     stroke: white;
 
     fill: mix(@guessedNeighborhoodFillColour, @hoverNeighborhoodFillColour, 50%);
