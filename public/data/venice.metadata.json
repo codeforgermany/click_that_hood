@@ -1,0 +1,7 @@
+{ 
+  "locationName": "Venice",
+  "countryName": "Italy",
+
+  "dataUrl": "http://dati.venezia.it/?q=content/cartografia-di-base",
+  "dataTitle": "dati.venezia.it"
+}
