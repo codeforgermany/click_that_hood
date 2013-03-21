@@ -1,0 +1,7 @@
+{ 
+  "locationName": "Mississauga",
+  "countryName": "Canada",
+
+  "dataUrl": "http://www.mississauga.ca/portal/residents/publicationsopendatacatalogue",
+  "dataTitle": "Mississauga Open Data Catalogue"
+}
