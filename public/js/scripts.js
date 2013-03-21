@@ -76,6 +76,8 @@ var mapWidth, mapHeight;
 var centerLat, centerLon;
 var latSpread, lonSpread;
 
+var currentGeoLat, currentGeoLon;
+
 var cityId = '';
 
 var globalScale;
@@ -123,7 +125,7 @@ function calculateMapSize() {
   if (mainMenu) {
     geoMapPath = d3.geo.path().projection(
         d3.geo.mercator().center([0, 0]).
-        scale(640).
+        scale(640 / 6.3).
         translate([256 + 512, 256]));
   } else {
     var minLat = 99999999;
@@ -196,7 +198,7 @@ function calculateMapSize() {
 
     geoMapPath = d3.geo.path().projection(
         d3.geo.mercator().center([centerLon, centerLat]).
-        scale(globalScale).translate([mapWidth / 2, mapHeight / 2]));
+        scale(globalScale / 6.3).translate([mapWidth / 2, mapHeight / 2]));
   }
 }
 
@@ -272,7 +274,7 @@ function prepareMainMenuMapBackground() {
   var map = mapbox.map(document.querySelector('#maps-background'), layer, null, []);
   map.tileSize = { x: Math.round(320 / pixelRatio), 
                    y: Math.round(320 / pixelRatio) };
-  map.centerzoom({ lat: 33, lon: 63 }, pixelRatio);
+  map.centerzoom({ lat: 26, lon: 63 }, pixelRatio);
 }
 
 function isString(obj) {
@@ -418,6 +420,15 @@ function createMainMenuMap() {
     features.push(feature);
   }
 
+  if (currentGeoLat) {
+    var feature = {};
+    feature.type = 'Feature';
+    feature.properties = { id: i, current: true };
+    feature.geometry = { type: 'Point', coordinates: [currentGeoLon, currentGeoLat] }; 
+
+    features.push(feature);    
+  }
+
   mapSvg
     .selectAll('.location')
     .data(features)
@@ -425,7 +436,13 @@ function createMainMenuMap() {
     .append('path')
     .attr('d', geoMapPath.pointRadius(1))
     .attr('city-id', function(d) { return d.properties.id; })
-    .attr('class', 'location');
+    .attr('class', function(d) { 
+      var name = 'location';
+      if (d.properties.current) {
+        name += ' current';
+      }
+      return name;
+    });
 }
 
 function animateMainMenuCity(event) {
@@ -1133,8 +1150,8 @@ function geoDist(lat1, lon1, lat2, lon2) {
 }
 
 function receiveGeolocation(position) {
-  var lat = position.coords.latitude;
-  var lon = position.coords.longitude;
+  currentGeoLat = position.coords.latitude;
+  currentGeoLon = position.coords.longitude;
 
   for (var id in CITY_DATA) {
     var cityData = CITY_DATA[id];
@@ -1142,13 +1159,17 @@ function receiveGeolocation(position) {
     var cityLat = cityData.sampleLatLon[1];
     var cityLon = cityData.sampleLatLon[0];
 
-    var dist = geoDist(cityLat, cityLon, lat, lon);
+    var dist = geoDist(cityLat, cityLon, currentGeoLat, currentGeoLon);
 
     // TODO const
     if (dist < 150) {
       var el = document.querySelector('li[city-id="' + id + '"]');
       el.classList.add('nearby');
     }
+  }
+
+  if (mainMenu) {
+    createMainMenuMap();
   }
 }
 
