@@ -501,24 +501,29 @@ function hoverNeighborhoodEl(el) {
 
   var hoverEl = document.querySelector('#neighborhood-hover');
 
-  hoverEl.style.left = 
-      (boundingBox.x + boundingBox.width / 2 - hoverEl.offsetWidth / 2) + 'px';
-
-  hoverEl.innerHTML = el.getAttribute('name');
-
   if (touchActive) {
     var top = boundingBox.y - hoverEl.offsetHeight - 30;
   } else {
     var top = boundingBox.y + boundingBox.height;
   }
-  hoverEl.style.top = top + 'px'; 
 
-  hoverEl.classList.add('visible');  
+  var left = (boundingBox.x + boundingBox.width / 2 - hoverEl.offsetWidth / 2);
 
-  if (el.getAttribute('inactive')) {
-    hoverEl.classList.add('inactive');
-  } else {
-    hoverEl.classList.remove('inactive');
+  var name = el.getAttribute('name');
+
+  if ((hoverEl.innerHTML != name) || (!hoverEl.classList.contains('visible'))) {
+    hoverEl.classList.remove('visible');  
+    hoverEl.style.top = top + 'px'; 
+    hoverEl.style.left = left + 'px';
+
+    if (el.getAttribute('inactive')) {
+      hoverEl.classList.add('inactive');
+    } else {
+      hoverEl.classList.remove('inactive');
+    }
+
+    hoverEl.innerHTML = name;
+    hoverEl.classList.add('visible');  
   }
 
   // Fix for Safari 6
