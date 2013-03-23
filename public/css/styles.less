@@ -213,7 +213,6 @@ header.main-menu .logo {
   position: absolute;
   left: 50px;
   top: 70px;
-  border: none;
 }
 header.main-menu h1 {
   width: 100%;
@@ -394,6 +393,8 @@ footer:hover #cfa {
   width: 126px;
   height: 143px;
   max-width: 100%;
+
+  border: none;
 
   // Prevents the filter from de-retina-izing the image.
   -webkit-transform: translateZ(0); 
@@ -698,6 +699,10 @@ body.no-hover #neighborhood-hover {
     -moz-animation-name: blink;
     -moz-animation-duration: 500ms;
     -moz-animation-iteration-count: infinite;
+
+    -ms-animation-name: blink;
+    -ms-animation-duration: 500ms;
+    -ms-animation-iteration-count: infinite;
   }
   &.wrong-guess {
     fill: rgba(255, 0, 0, .7) !important;
