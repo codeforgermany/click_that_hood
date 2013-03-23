@@ -897,8 +897,7 @@ function prepareMapBackground() {
   // TODO this is the worst line of code ever written
   var size = globalScale * 0.0012238683395795992 * 0.995 / 2 * 0.800 / 2 / 4;
 
-  // TODO remove global
-  zoom = MAP_BACKGROUND_DEFAULT_ZOOM + 2;
+  var zoom = MAP_BACKGROUND_DEFAULT_ZOOM + 2;
 
   while (size < MAP_BACKGROUND_SIZE_THRESHOLD) {
     size *= 2;
