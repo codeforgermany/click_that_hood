@@ -52,6 +52,8 @@ var totalNeighborhoodsCount;
 var neighborhoods = [];
 var neighborhoodsToBeGuessed = [];
 var neighborhoodsGuessed = [];
+var neighborhoodToBeGuessedLast;
+var neighborhoodToBeGuessedNext;
 
 var geoData;
 var geoMapPath;
@@ -693,6 +695,7 @@ function onNeighborhoodClick(el) {
     window.setTimeout(nextGuess, HIGHLIGHT_DELAY + NEXT_GUESS_DELAY);
   }
 
+  neighborhoodToBeGuessedLast = neighborhoodToBeGuessedNext;
   neighborhoodToBeGuessedNext = '';
   updateNeighborhoodDisplay();
 }
@@ -747,9 +750,11 @@ function updateNeighborhoodDisplay() {
 function nextGuess() {
   setMapClickable(true);
 
-  var pos = Math.floor(Math.random() * neighborhoodsToBeGuessed.length);
-
-  neighborhoodToBeGuessedNext = neighborhoodsToBeGuessed[pos];
+  do {
+    var pos = Math.floor(Math.random() * neighborhoodsToBeGuessed.length);
+    neighborhoodToBeGuessedNext = neighborhoodsToBeGuessed[pos];
+  } while ((neighborhoodToBeGuessedLast == neighborhoodToBeGuessedNext) &&
+           (neighborhoodsToBeGuessed.length > 1));
   updateNeighborhoodDisplay();
 }
 
