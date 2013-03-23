@@ -700,6 +700,10 @@ body.no-hover #neighborhood-hover {
     -moz-animation-duration: 500ms;
     -moz-animation-iteration-count: infinite;
 
+    -ms-animation-name: blink;
+    -ms-animation-duration: 500ms;
+    -ms-animation-iteration-count: infinite;
+
     animation-name: blink;
     animation-duration: 500ms;
     animation-iteration-count: infinite;
@@ -728,6 +732,10 @@ body.no-hover #neighborhood-hover {
 }
 
 @-webkit-keyframes blink {
+  0%, 49.99% { fill: rgba(0, 255, 0, .25); }
+  50%, 100% { fill: rgba(0, 0, 0, .6); }
+}
+@-ms-keyframes blink {
   0%, 49.99% { fill: rgba(0, 255, 0, .25); }
   50%, 100% { fill: rgba(0, 0, 0, .6); }
 }
