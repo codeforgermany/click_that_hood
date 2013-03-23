@@ -300,11 +300,11 @@ function findNeighborhoodByPoint(x, y) {
   return false;
 }
 
-function hoverNeighborhoodElByPoint(x, y) {
+function hoverNeighborhoodElByPoint(x, y, showTooltip) {
   var el = findNeighborhoodByPoint(x, y);
 
   if (el) {
-    hoverNeighborhoodEl(el);
+    hoverNeighborhoodEl(el, showTooltip);
   } else {
     hideNeighborhoodHover();
   }
@@ -325,7 +325,7 @@ function onBodyTouchStart(event) {
   lastTouchedNeighborhoodEl = findNeighborhoodByPoint(event.pageX, event.pageY);
 
   // TODO duplication with above
-  hoverNeighborhoodElByPoint(event.pageX, event.pageY);
+  hoverNeighborhoodElByPoint(event.pageX, event.pageY, false);
 
   currentlyTouching = true;
 
@@ -341,7 +341,7 @@ function onBodyTouchMove(event) {
       lastTouchedNeighborhoodEl = findNeighborhoodByPoint(x, y);
 
       // TODO duplication with above
-      hoverNeighborhoodElByPoint(x, y);
+      hoverNeighborhoodElByPoint(x, y, true);
     }
 
     event.preventDefault();
@@ -496,14 +496,15 @@ function setTouchActive(newTouchActive) {
   }
 }
 
-function hoverNeighborhoodEl(el) {
+function hoverNeighborhoodEl(el, showTooltip) {
   var boundingBox = el.getBBox();
 
   var hoverEl = document.querySelector('#neighborhood-hover');
 
   var name = el.getAttribute('name');
 
-  if ((hoverEl.innerHTML != name) || (!hoverEl.classList.contains('visible'))) {
+  if (showTooltip && ((hoverEl.innerHTML != name) || 
+      (!hoverEl.classList.contains('visible')))) {
     hoverEl.classList.remove('visible');  
 
     hoverEl.innerHTML = name;
@@ -586,7 +587,7 @@ function createMap() {
     .on('mouseover', function(d) {
       if (!touchActive) {
         var el = d3.event.target || d3.event.toElement;
-        hoverNeighborhoodEl(el);
+        hoverNeighborhoodEl(el, true);
       }
     })
     .on('mouseout', function(d) {
