@@ -1210,6 +1210,10 @@ function prepareGeolocation() {
   }
 }
 
+function onMoreCitiesClick() {
+  document.body.scrollTop = window.innerHeight;
+}
+
 function testBrowser() {
   var goodEnoughBrowser = document.body.classList;
 
@@ -1225,6 +1229,9 @@ function main() {
 
     window.addEventListener('load', onBodyLoad, false);
     window.addEventListener('resize', onResize, false);
+
+    document.querySelector('#more-cities-wrapper div').
+        addEventListener('click', onMoreCitiesClick, false);
 
     removeHttpsIfPresent();
 
