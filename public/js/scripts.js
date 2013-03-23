@@ -501,18 +501,21 @@ function hoverNeighborhoodEl(el) {
 
   var hoverEl = document.querySelector('#neighborhood-hover');
 
-  if (touchActive) {
-    var top = boundingBox.y - hoverEl.offsetHeight - 30;
-  } else {
-    var top = boundingBox.y + boundingBox.height;
-  }
-
-  var left = (boundingBox.x + boundingBox.width / 2 - hoverEl.offsetWidth / 2);
-
   var name = el.getAttribute('name');
 
   if ((hoverEl.innerHTML != name) || (!hoverEl.classList.contains('visible'))) {
     hoverEl.classList.remove('visible');  
+
+    hoverEl.innerHTML = name;
+
+    if (touchActive) {
+      var top = boundingBox.y - hoverEl.offsetHeight - 30;
+    } else {
+      var top = boundingBox.y + boundingBox.height;
+    }
+
+    var left = (boundingBox.x + boundingBox.width / 2 - hoverEl.offsetWidth / 2);
+
     hoverEl.style.top = top + 'px'; 
     hoverEl.style.left = left + 'px';
 
@@ -522,7 +525,6 @@ function hoverNeighborhoodEl(el) {
       hoverEl.classList.remove('inactive');
     }
 
-    hoverEl.innerHTML = name;
     hoverEl.classList.add('visible');  
   }
 
