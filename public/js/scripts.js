@@ -724,8 +724,14 @@ function removeNeighborhoodHighlights() {
   var el = document.querySelector('#safari-wrong-guess');
   if (el) {
     el.id = '';
-    el.style.stroke = 'white';
-    el.style.fill = '';
+
+    if (el.getAttribute('guessed')) {
+      el.style.fill = 'rgba(0, 255, 0, .25)';
+      el.style.stroke = 'transparent';
+    } else {
+      el.style.fill = '';      
+      el.style.stroke = 'white';
+    }
   }
   var el = document.querySelector('#safari-right-guess');
   if (el) {
