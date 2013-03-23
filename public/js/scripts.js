@@ -818,7 +818,12 @@ function startGame(useEasyMode) {
   updateGameProgress();
 
   startTime = new Date().getTime();
-  timerIntervalId = window.setInterval(updateTimer, 100);
+  updateTimer();
+  
+  timerIntervalId = window.setTimeout(function() {
+    startTime = new Date().getTime();
+    window.setInterval(updateTimer, 100);
+  }, NEXT_GUESS_DELAY);
 
   window.setTimeout(nextGuess, NEXT_GUESS_DELAY);
 }
