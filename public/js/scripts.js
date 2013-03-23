@@ -1210,36 +1210,49 @@ function prepareGeolocation() {
   }
 }
 
-function main() {
-  window.addEventListener('load', onBodyLoad, false);
-  window.addEventListener('resize', onResize, false);
+function testBrowser() {
+  var goodEnoughBrowser = document.body.classList;
 
-  removeHttpsIfPresent();
-
-  getEnvironmentInfo();
-  getCityId();
-
-  prepareLocationList();
-  prepareGeolocation();
-
-  onResize();
-
-  if (mainMenu) {
-    prepareMainMenu();
-    prepareMainMenuMapBackground();
-
-    createSvg();
-    calculateMapSize();
-    createMainMenuMap();
-  } else {
-    document.querySelector('#cover').classList.add('visible');
-    document.querySelector('#loading').classList.add('visible');
-
-    prepareLogo();
-    updateFooter();
-    createSvg();
-    loadGeoData();
+  if (!goodEnoughBrowser) {
+    document.getElementById('wrong-browser').style.display = 'block';
   }
 
-  onResize();
+  return goodEnoughBrowser;
+}
+
+function main() {
+  if (testBrowser()) {
+
+    window.addEventListener('load', onBodyLoad, false);
+    window.addEventListener('resize', onResize, false);
+
+    removeHttpsIfPresent();
+
+    getEnvironmentInfo();
+    getCityId();
+
+    prepareLocationList();
+    prepareGeolocation();
+
+    onResize();
+
+    if (mainMenu) {
+      prepareMainMenu();
+      prepareMainMenuMapBackground();
+
+      createSvg();
+      calculateMapSize();
+      createMainMenuMap();
+    } else {
+      document.querySelector('#cover').classList.add('visible');
+      document.querySelector('#loading').classList.add('visible');
+
+      prepareLogo();
+      updateFooter();
+      createSvg();
+      loadGeoData();
+    }
+
+    onResize();
+  }
 }
