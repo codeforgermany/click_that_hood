@@ -542,7 +542,12 @@ function hideSafariNeighborhood() {
   if (el) {
     el.id = '';
 
-    el.style.fill = '';
+    if (el.getAttribute('guessed')) {
+      el.style.fill = 'rgba(0, 255, 0, .25)';
+      el.style.stroke = 'transparent';
+    } else {
+      el.style.fill = '';      
+    }
   }
 }
 
@@ -639,6 +644,8 @@ function onNeighborhoodClick(el) {
       // Fix for early Safari 6 not supporting classes on SVG objects
       el.style.fill = 'rgba(0, 255, 0, .25)';
       el.style.stroke = 'transparent';
+
+      el.setAttribute('guessed', true);
     }
 
     neighborhoodsGuessed.push(name);
