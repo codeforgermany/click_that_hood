@@ -4,8 +4,8 @@
 
   "authorTwitter": "hackyourcity",
 
-  "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
-  "dataTitle": "Zillow",
+  "dataUrl": "https://data.kcmo.org/Neighborhoods/Neighborhoods-Census/344q-r8jn",
+  "dataTitle": "KCMO Open Data Portal",
 
   "calloutUrl": "http://bit.ly/W1Z9e5",
   "calloutTitle": "Help us crowdsource a new neighborhood dataset!"
