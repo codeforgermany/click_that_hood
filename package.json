@@ -9,8 +9,8 @@
         "config": "0.4.18"
     },
     "engines": {
-        "node": "0.8.x",
-        "npm": "1.1.x"
+        "node": "0.10.x",
+        "npm": "1.2.x"
     },
     "license": "MIT"
 }
