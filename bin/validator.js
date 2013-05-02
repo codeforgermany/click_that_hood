@@ -1,4 +1,4 @@
-var fs = require("fs")
+var fs = require('fs')
 
 var validator = function(metadataFilePath) {
 
@@ -17,9 +17,9 @@ var validator = function(metadataFilePath) {
 
   var validateMetadataFileExists = function() {
     if (metadataFileExists()) {
-      validationSuccesses.push("Metadata file exists");
+      validationSuccesses.push('Metadata file exists');
     } else {
-      validationFailures.push("No metadata file found at " + metadataFilePath)
+      validationFailures.push('No metadata file found at ' + metadataFilePath)
     }
   }
 
@@ -28,24 +28,24 @@ var validator = function(metadataFilePath) {
     if (metadataFileExists()) {
 
       var requiredFieldsMap = {
-        locationName: "location name",
-        dataUrl: "data source URL",
-        dataTitle: "data source title",
-        authorTwitter: "author's twitter ID"
+        locationName: 'location name',
+        dataUrl: 'data source URL',
+        dataTitle: 'data source title',
+        authorTwitter: 'author\'s twitter ID'
       }
-      
+
       var j = getMetadataJson()
-      for (field in requiredFieldsMap) {
+      for (var field in requiredFieldsMap) {
         var label = requiredFieldsMap[field]
         if (j.hasOwnProperty(field)) {
-          validationSuccesses.push("Metadata JSON contains " + label + " (" + field + ")")
+          validationSuccesses.push('Metadata JSON contains ' + label + ' (' + field + ')')
         } else {
-          validationFailures.push("Please specify " + label + " (" + field + ") in metadata JSON")
+          validationFailures.push('Please specify ' + label + ' (' + field + ') in metadata JSON')
         }
 
       }
 
-    }        
+    }
 
   }
 
@@ -55,9 +55,9 @@ var validator = function(metadataFilePath) {
 
       var j = getMetadataJson()
       if (j.dataUrl.match(/^https?\:\/\/.*\..+/)) {
-        validationSuccesses.push("Metadata JSON contains valid data source URL (dataUrl)")
+        validationSuccesses.push('Metadata JSON contains valid data source URL (dataUrl)')
       } else {
-        validationFailures.push("Please specify valid data source URL (dataUrl) in metadata JSON")
+        validationFailures.push('Please specify valid data source URL (dataUrl) in metadata JSON')
       }
 
     }
@@ -68,9 +68,9 @@ var validator = function(metadataFilePath) {
     var dataFilePath = getDataFilePath()
     var exists = fs.existsSync(dataFilePath)
     if (exists) {
-      validationSuccesses.push("Data file exists")
+      validationSuccesses.push('Data file exists')
     } else {
-      validationFailures.push("No data file found at " + dataFilePath)
+      validationFailures.push('No data file found at ' + dataFilePath)
     }
   }
 
@@ -79,14 +79,14 @@ var validator = function(metadataFilePath) {
     if (metadataFileExists()) {
 
       var metadataJson
-      
+
       return function() {
-        
+
         if (!metadataJson) {
           metadataJson = JSON.parse(fs.readFileSync(metadataFilePath))
         }
         return metadataJson
-        
+
       }
 
     }
@@ -119,18 +119,18 @@ var validator = function(metadataFilePath) {
     },
 
     getValidationReport: function() {
-      var report = "Validation report:\n\n"
+      var report = 'Validation report:\n\n'
 
-      report += "Successes:\n"
-      for (successIndex in validationSuccesses) {
+      report += 'Successes:\n'
+      for (var successIndex in validationSuccesses) {
         var success = validationSuccesses[successIndex]
-        report += "\t+ " + success + "\n"
+        report += '\t+ ' + success + '\n'
       }
 
-      report += "Failures:\n"
-      for (failureIndex in validationFailures) {
+      report += 'Failures:\n'
+      for (var failureIndex in validationFailures) {
         var failure = validationFailures[failureIndex]
-        report += "\t+ " + failure + "\n"
+        report += '\t+ ' + failure + '\n'
       }
 
       return report
@@ -142,8 +142,8 @@ var validator = function(metadataFilePath) {
 
 var printUsage = function(exitCode) {
 
-  console.log("Usage: ")
-  console.log("\tnode validator.js <location name>")
+  console.log('Usage: ')
+  console.log('\tnode validator.js <location name>')
   console.log()
 
   process.exit(exitCode)
@@ -152,11 +152,11 @@ var printUsage = function(exitCode) {
 
 // Main
 if (process.argv.length != 3) {
-  console.error("Location name not specified.")
+  console.error('Location name not specified.')
   printUsage(1)
 }
 
-var metadataFilePath = __dirname + "/../public/data/" + process.argv[2] + ".metadata.json";
+var metadataFilePath = __dirname + '/../public/data/' + process.argv[2] + '.metadata.json';
 
 var v = validator(metadataFilePath)
 v.validate()
