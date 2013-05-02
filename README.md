@@ -6,8 +6,6 @@
 
 Please follow the instructions below to setup your development environment.
 
-### For Mac OS X 10.8
-
 1) Clone this repository onto your local development machine:
 
     $ git clone <REPLACE THIS WITH REPO CLONE LOCATION>
