@@ -59,12 +59,12 @@ fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
       // Flag error and exit if metadata is not found
       if (!fs.existsSync(metadataFilePath)) {
         console.error('Metadata file not found for \'' + locationName +
-            '\'. Aborting server start.');
+                      '\'. Aborting server start.');
         process.exit(1);
       }
 
       metadata[locationName] =
-          JSON.parse(fs.readFileSync(metadataFilePath, 'utf8'));
+        JSON.parse(fs.readFileSync(metadataFilePath, 'utf8'));
 
       // Combine a list of country names.
       var countryName = metadata[locationName].countryName;
@@ -78,7 +78,7 @@ fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
       var geoJsonFilePath = 'public/data/' + locationName + '.geojson';
       if (!fs.existsSync(geoJsonFilePath)) {
         console.error('GeoJSON file not found for \'' + locationName +
-            '\'. Aborting server start.');
+                      '\'. Aborting server start.');
         process.exit(1);
       }
 
@@ -104,10 +104,10 @@ fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
   });
 
   var metadataFileContents =
-      '//\n// This file is AUTO-GENERATED each time the ' +
-      'application is restarted.\n//\n\n' +
-      'var CITY_DATA = ' + JSON.stringify(metadata) + ';\n' +
-      'var COUNTRY_NAMES = ' + JSON.stringify(countryNames) + ';\n';
+    '//\n// This file is AUTO-GENERATED each time the ' +
+    'application is restarted.\n//\n\n' +
+    'var CITY_DATA = ' + JSON.stringify(metadata) + ';\n' +
+    'var COUNTRY_NAMES = ' + JSON.stringify(countryNames) + ';\n';
   fs.writeFileSync('public/js/data.js', metadataFileContents);
 
   startApp();
