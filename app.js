@@ -1,6 +1,7 @@
 var express = require('express'),
     lessMiddleware = require('less-middleware'),
     fs = require('fs'),
+    path = require('path'),
     fsTools = require('fs-tools'),
     config = require('config');
 
@@ -44,14 +45,14 @@ function normalizeCountryName(str) {
 
 // Write combined metadata file from individual location metadata files
 fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
+
   var metadata = {};
 
   var countryNames = ['U.S.'];
 
   for (index in files) {
     var metadataFilePath = files[index];
-
-    var locationName = metadataFilePath.match(/([^\/.]+)\.metadata.json/)[1];
+    var locationName = path.basename(metadataFilePath, '.metadata.json')
 
     // Exclude template file
     if (locationName != "_TEMPLATE") {
