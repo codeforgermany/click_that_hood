@@ -1,9 +1,10 @@
 { 
   "locationName": "James City County",
   "stateName": "Va.",
+  "annotation": "County",
 
   "authorTwitter": "jalbertbowdenii",
 
   "dataUrl": "http://www.jamescitycountyva.gov/assessments/gis-mapping-layers.html",
-  "dataTitle": "Subdivisions"
+  "dataTitle": "James City County GIS"
 }
