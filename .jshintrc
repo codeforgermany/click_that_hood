@@ -1,0 +1,14 @@
+{
+  "node": true,
+  "indent": 2,
+  "asi": true,
+  "curly": true,
+  "laxbreak": true,
+  "latedef": true,
+  "quotmark": "single",
+  "undef": true,
+  "trailing": true,
+  "maxdepth": 3,
+  "maxstatements": 40,
+  "maxcomplexity": 8
+}
