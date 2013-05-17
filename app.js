@@ -3,7 +3,10 @@ var express = require('express'),
     fs = require('fs'),
     path = require('path'),
     fsTools = require('fs-tools'),
-    config = require('config');
+    config = require('config'),
+    s3 = require('s3');
+
+process.env.NODE_ENV = process.env.NODE_ENV || 'development'
 
 var startApp = function() {
   var app = express();
@@ -43,6 +46,13 @@ function normalizeCountryName(str) {
   return str;
 }
 
+var s3client
+s3client = s3.createClient({
+  key: process.env.S3_KEY,
+  secret: process.env.S3_SECRET,
+  bucket: "click-that-hood-" + process.env.NODE_ENV
+});
+
 // Write combined metadata file from individual location metadata files
 fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
 
@@ -50,6 +60,8 @@ fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
 
   var countryNames = ['U.S.'];
 
+  var totalNumFilesToUpload = 0
+  var numFilesUploaded = 0
   for (var index in files) {
     var metadataFilePath = files[index];
     var locationName = path.basename(metadataFilePath, '.metadata.json')
@@ -96,6 +108,20 @@ fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
       }
 
       metadata[locationName].sampleLatLon = [lat, lon];
+      
+      // Upload GeoJSON file to S3
+      if (s3client) {
+        ++totalNumFilesToUpload
+        var uploader = s3client.upload(geoJsonFilePath, geoJsonFilePath, { 'x-amz-acl': 'public-read' });
+        uploader.on('error', function(err) {
+          console.error("unable to upload:", err.stack);
+        });
+        uploader.on('end', function() {
+          ++numFilesUploaded;
+          console.log("Uploaded " + numFilesUploaded + " files (out of " + totalNumFilesToUpload + ") to S3.");
+        });
+      }
+      
     }
   }
 
