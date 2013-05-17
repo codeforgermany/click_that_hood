@@ -98,7 +98,7 @@ fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
       }
 
       metadata[locationName].sampleLatLon = [lat, lon];
-      
+
     }
   }
 
