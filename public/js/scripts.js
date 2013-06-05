@@ -45,6 +45,8 @@ var ADD_YOUR_CITY_URL =
 var MAPS_DEFAULT_SCALE = 512;
 var D3_DEFAULT_SCALE = 500;
 
+var FACEBOOK_APP_ID = '179106222254519';
+
 var startTime = 0;
 var timerIntervalId;
 
@@ -861,16 +863,50 @@ function gameOver() {
   window.setTimeout(gameOverPart2, timer + 1000);
 }
 
-function gameOverPart2() {
-  document.querySelector('#count-time-wrapper-wrapper').classList.remove('visible');
-
-  document.querySelector('#more-cities-wrapper-wrapper').classList.add('visible');
-
-  document.querySelector('#cover').classList.add('visible');
-  document.querySelector(easyMode ? '#congrats-easy' : '#congrats-hard').classList.add('visible');  
+function getSharingMessage() {
+  return 'I just played Click That ’Hood and identified ' + 
+      neighborhoodsGuessed.length + ' ' + CITY_DATA[cityId].locationName + ' ' + 
+      getNeighborhoodNoun() + 's in ' + getTimer() + '. Try to beat me!';
 }
 
-function updateTimer() {
+function updateFacebookLink(congratsEl) {
+  var el = congratsEl.querySelector('#share-via-facebook');
+
+  var text = getSharingMessage();
+  var url = location.href;
+
+  el.href = 'https://www.facebook.com/dialog/feed?' +
+      'app_id=' + FACEBOOK_APP_ID +
+      '&redirect_uri=' + encodeURIComponent(url) + 
+      '&link=' + encodeURIComponent(url) + 
+      '&name=' + encodeURIComponent('Click That ’Hood') +
+      '&description=' + encodeURIComponent(text);
+}
+
+function updateTwitterLink(congratsEl) {
+  var el = congratsEl.querySelector('#share-via-twitter');
+
+  var text = getSharingMessage();
+  var url = location.href;
+
+  el.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + 
+      '&url=' + encodeURIComponent(url);
+}
+
+function gameOverPart2() {
+  var el = document.querySelector(easyMode ? '#congrats-easy' : '#congrats-hard');
+
+  document.querySelector('#count-time-wrapper-wrapper').classList.remove('visible');
+  document.querySelector('#more-cities-wrapper-wrapper').classList.add('visible');
+
+  updateTwitterLink(el);
+  updateFacebookLink(el);
+
+  document.querySelector('#cover').classList.add('visible');
+  el.classList.add('visible');  
+}
+
+function getTimer() {
   var elapsedTime = Math.floor((new Date().getTime() - startTime) / 100);
 
   var tenthsOfSeconds = elapsedTime % 10;
@@ -882,7 +918,11 @@ function updateTimer() {
 
   var minutes = Math.floor(elapsedTime / 600);
 
-  var timeHtml = minutes + ':' + seconds + '.' + tenthsOfSeconds;
+  return minutes + ':' + seconds + '.' + tenthsOfSeconds;
+}
+
+function updateTimer() {
+  var timeHtml = getTimer();
 
   var els = document.querySelectorAll('.time');
   for (var i = 0, el; el = els[i]; i++) {
@@ -1039,6 +1079,10 @@ function resizeLogoIfNecessary() {
   }
 }
 
+function getNeighborhoodNoun() {
+  return CITY_DATA[cityId].neighborhoodNoun || DEFAULT_NEIGHBORHOOD_NOUN;
+}
+
 function prepareLogo() {
   var name = CITY_DATA[cityId].stateName || CITY_DATA[cityId].countryName;
 
@@ -1058,8 +1102,7 @@ function prepareLogo() {
     el.innerHTML = CITY_DATA[cityId].locationName;
   }
 
-  var neighborhoodNoun = 
-      CITY_DATA[cityId].neighborhoodNoun || DEFAULT_NEIGHBORHOOD_NOUN;
+  var neighborhoodNoun = getNeighborhoodNoun();
 
   var els = document.querySelectorAll('.neighborhood-noun');
   for (var i = 0, el; el = els[i]; i++) {

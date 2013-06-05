@@ -774,7 +774,8 @@ body.no-hover #neighborhood-hover {
   }
 }
 
-button {
+button,
+a.button {
   font-size: @fontSize * 2;
   font-weight: 600;
   padding: 10px 50px;
@@ -792,23 +793,30 @@ button {
   -moz-transition: background 150ms;
   transition: background 150ms;
 
+  color: black;
+  text-shadow: none;
+  text-decoration: none;
+
   cursor: pointer;
-}
-button:hover {
-  background: mix(@highlightColour, white, 50%);
-}
-button:active {
-  background: mix(@highlightColour, white, 20%);
+  
+  &:hover {
+    background: mix(@highlightColour, white, 50%);
+  }
+
+  &:active {
+    background: mix(@highlightColour, white, 20%);
+  }
+
+  &.smaller {
+    font-weight: 400;
+    padding: 10px 20px;
+    font-size: 60%;
+  }
 }
 button:not(.smaller) > span:not(.difficult-game),
 button:not(.smaller) > span.difficult-game > span {
   font-size: 70%;
   display: block;
-}
-button.smaller {
-  font-weight: 400;
-  padding: 10px 20px;
-  font-size: 60%;
 }
 
 button .neighborhoods-removed-disclaimer {
