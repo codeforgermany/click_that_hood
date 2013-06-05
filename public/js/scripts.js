@@ -130,6 +130,7 @@ function calculateMapSize() {
         scale(640 / 6.3).
         translate([256 + 512, 256]));
   } else {
+    // TODO const
     var minLat = 99999999;
     var maxLat = -99999999;
     var minLon = 99999999;
@@ -154,6 +155,7 @@ function calculateMapSize() {
     for (var i in geoData.features) {
       for (var z in geoData.features[i].geometry.coordinates) {
         for (var j in geoData.features[i].geometry.coordinates[z]) {
+
           if (geoData.features[i].geometry.coordinates[z][j].length && 
               typeof geoData.features[i].geometry.coordinates[z][j][0] != 'number') {
             for (var k in geoData.features[i].geometry.coordinates[z][j]) {
@@ -168,6 +170,7 @@ function calculateMapSize() {
 
             findMinMax(lon, lat);
           }
+
         }
       }
     }
