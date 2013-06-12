@@ -89,6 +89,9 @@ var globalScale;
 var bodyLoaded = false;
 var geoDataLoaded = false;
 
+var finalTime = null;
+var timerStopped = false;
+
 function lonToTile(lon, zoom) { 
   return Math.floor((lon + 180) / 360 * Math.pow(2, zoom));
 }
@@ -837,10 +840,18 @@ function createTimeout(fn, data, delay) {
   window.setTimeout(function() { fn.call(null, data); }, delay);
 }
 
-function gameOver() {
-  setMapClickable(false);
-  window.clearInterval(timerIntervalId);
+function stopTimer() {
+  timerStopped = true;
+  finalTime = new Date().getTime();
+  window.clearInterval(timerIntervalId);  
 
+  updateTimer();
+}
+
+function gameOver() {
+  stopTimer();
+
+  setMapClickable(false);
   var els = document.querySelectorAll('#map .guessed');
 
   // TODO constants
@@ -907,7 +918,13 @@ function gameOverPart2() {
 }
 
 function getTimer() {
-  var elapsedTime = Math.floor((new Date().getTime() - startTime) / 100);
+  if (!timerStopped) {
+    var time = new Date().getTime();
+  } else {
+    var time = finalTime;
+  }
+
+  var elapsedTime = Math.floor((time - startTime) / 100);
 
   var tenthsOfSeconds = elapsedTime % 10;
 
