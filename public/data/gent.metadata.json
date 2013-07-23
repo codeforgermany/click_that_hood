@@ -1,0 +1,9 @@
+{ 
+  "locationName": "Ghent",
+  "countryName": "Belgium",
+
+  "authorTwitter": "hannesvdvreken",
+
+  "dataUrl": "http://datatank.gent.be/Grondgebied/Wijken.json",
+  "dataTitle": "data.gent.be"
+}
