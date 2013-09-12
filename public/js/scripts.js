@@ -1072,13 +1072,6 @@ function updateFooter() {
         '@' + CITY_DATA[cityId].authorTwitter;
     document.querySelector('footer .author').classList.add('visible');
   } 
-
-  if (CITY_DATA[cityId].calloutUrl) {
-    var el = document.querySelector('#callout');
-    el.innerHTML = CITY_DATA[cityId].calloutTitle;
-    el.href = CITY_DATA[cityId].calloutUrl;
-    el.classList.add('visible');
-  }
 }
 
 function resizeLogoIfNecessary() {
