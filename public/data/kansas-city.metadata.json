@@ -5,8 +5,5 @@
   "authorTwitter": "hackyourcity",
 
   "dataUrl": "https://data.kcmo.org/Neighborhoods/Neighborhoods-Census/344q-r8jn",
-  "dataTitle": "KCMO Open Data Portal",
-
-  "calloutUrl": "http://bit.ly/W1Z9e5",
-  "calloutTitle": "Help us crowdsource a new neighborhood dataset!"
+  "dataTitle": "KCMO Open Data Portal"
 }
