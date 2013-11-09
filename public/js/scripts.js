@@ -133,7 +133,7 @@ function calculateMapSize() {
     geoMapPath = d3.geo.path().projection(
         d3.geo.mercator().center([0, 0]).
         scale(640 / 6.3).
-        translate([256 + 512, 256]));
+        translate([256 + 512 - 80, 256]));
   } else {
     // TODO const
     var minLat = 99999999;
