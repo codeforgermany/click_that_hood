@@ -1167,7 +1167,13 @@ function prepareLocationList() {
 
       el.setAttribute('city-id', ids[id]);
 
-      var html = '<a href="?city=' + ids[id] + '">';
+      if (!cityData.stateName && !cityData.countryName) {
+        var url = '?location=' + ids[id];
+      } else {
+        var url = '?city=' + ids[id];        
+      }
+
+      var html = '<a href="' + url + '">';
 
       html += cityData.longLocationName || cityData.locationName;
       if (cityData.annotation) {
