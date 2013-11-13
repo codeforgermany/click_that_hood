@@ -198,6 +198,13 @@ function calculateMapSize() {
         ((D3_DEFAULT_SCALE * 180) / latSpread * (mapHeight - 50)) / 
             MAPS_DEFAULT_SCALE / 0.045 * (-latStep);
 
+    // TODO this shouldn’t be hardcoded, but it is. Sue me.
+    if (cityId == 'africa') {
+      globalScale = .8 * globalScale;
+    } else if (cityId == 'alaska-ipla') {
+      globalScale = .8 * globalScale;
+    }
+
     // Calculate width according to that scale
     var width = globalScale / (D3_DEFAULT_SCALE * 360) * 
         lonSpread * MAPS_DEFAULT_SCALE;
