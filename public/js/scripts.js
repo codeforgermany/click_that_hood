@@ -38,7 +38,6 @@ var MAP_BACKGROUND_MAX_ZOOM_NON_US = 12;
 var MAP_BACKGROUND_MAX_ZOOM_US = 17;
 
 var MAPBOX_MAP_ID = 'codeforamerica.map-mx0iqvk2';
-//var MAPBOX_MAP_ID = 'codeforamerica.map-0nu7wurm';
 
 var ADD_YOUR_CITY_URL = 
     'https://github.com/codeforamerica/click_that_hood/wiki/How-to-add-a-city-to-Click-That-%E2%80%99Hood';
@@ -1051,11 +1050,11 @@ function onResize() {
 }
 
 function getCityId() {
-  var cityMatch = location.href.match(/[\?\&]city=([^&]*)/);
+  var cityMatch = location.href.match(/[\?\&](city|location)=([^&]*)/);
 
-  if (cityMatch && cityMatch[1]) {
-    if (CITY_DATA[cityMatch[1]]) {
-      cityId = cityMatch[1];
+  if (cityMatch && cityMatch[2]) {
+    if (CITY_DATA[cityMatch[2]]) {
+      cityId = cityMatch[2];
     }
   }      
 
@@ -1099,9 +1098,9 @@ function resizeLogoIfNecessary() {
 
 function getNeighborhoodNoun(plural) {
   if (!plural) {
-    return CITY_DATA[cityId].neighborhoodNoun[0] || DEFAULT_NEIGHBORHOOD_NOUN_SINGULAR;
+    return (CITY_DATA[cityId].neighborhoodNoun && CITY_DATA[cityId].neighborhoodNoun[0]) || DEFAULT_NEIGHBORHOOD_NOUN_SINGULAR;
   } else { 
-    return CITY_DATA[cityId].neighborhoodNoun[1] || DEFAULT_NEIGHBORHOOD_NOUN_PLURAL;
+    return (CITY_DATA[cityId].neighborhoodNoun && CITY_DATA[cityId].neighborhoodNoun[1]) || DEFAULT_NEIGHBORHOOD_NOUN_PLURAL;
   }
 }
 
