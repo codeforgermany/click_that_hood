@@ -131,10 +131,14 @@ function updateCanvasSize() {
 
 function calculateMapSize() {
   if (mainMenu) {
+    var mapWidth = document.querySelector('#maps-background').offsetWidth;
+
+    //console.log(mapWidth);
+
     geoMapPath = d3.geo.path().projection(
         d3.geo.mercator().center([0, 0]).
         scale(640 / 6.3).
-        translate([256 + 512 - 88, 256]));
+        translate([256 + 512 + 213 - 88 + (mapWidth % 640) / 2 - 621 / 2, 256]));
   } else {
     // TODO const
     var minLat = 99999999;
@@ -292,16 +296,18 @@ function prepareMainMenuMapBackground() {
   var map = mapbox.map(document.querySelector('#maps-background'), layer, null, []);
   map.tileSize = { x: Math.round(320 / pixelRatio), 
                    y: Math.round(320 / pixelRatio) };
-  map.centerzoom({ lat: 26, lon: 63 }, pixelRatio);
+  map.centerzoom({ lat: 26, lon: 63 - 120 }, pixelRatio);
 
   lastMapWidth = document.querySelector('#maps-background').offsetWidth;
 
   // This keeps the map centered on the homepage
   map.addCallback('resized', function(map, dimensions) {
+    //lastMapWidth = document.querySelector('#maps-background').offsetWidth;
+
     var width = dimensions[0].x;
     var delta = width - lastMapWidth;
-    map.panBy(-delta / 2, 0);
-    lastMapWidth += delta;
+    map.panBy(-Math.floor(delta / 2), 0);
+    lastMapWidth += Math.floor(delta / 2) * 2;
   });
 }
 
@@ -1034,6 +1040,7 @@ function onResize() {
 
   if (mainMenu) {
     calculateMapSize();
+    //createMainMenuMap();
 
     if (window.innerHeight > MAIN_MENU_MIN_FIXED_HEIGHT) {
       document.body.classList.remove('no-fixed-main-menu');
