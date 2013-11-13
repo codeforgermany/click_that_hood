@@ -76,6 +76,7 @@ var smallNeighborhoodThreshold;
 
 var canvasWidth, canvasHeight;
 var mapWidth, mapHeight;
+var lastMapWidth;
 
 var centerLat, centerLon;
 var latSpread, lonSpread;
@@ -133,7 +134,7 @@ function calculateMapSize() {
     geoMapPath = d3.geo.path().projection(
         d3.geo.mercator().center([0, 0]).
         scale(640 / 6.3).
-        translate([256 + 512 - 80, 256]));
+        translate([256 + 512 - 88, 256]));
   } else {
     // TODO const
     var minLat = 99999999;
@@ -292,6 +293,16 @@ function prepareMainMenuMapBackground() {
   map.tileSize = { x: Math.round(320 / pixelRatio), 
                    y: Math.round(320 / pixelRatio) };
   map.centerzoom({ lat: 26, lon: 63 }, pixelRatio);
+
+  lastMapWidth = document.querySelector('#maps-background').offsetWidth;
+
+  // This keeps the map centered on the homepage
+  map.addCallback('resized', function(map, dimensions) {
+    var width = dimensions[0].x;
+    var delta = width - lastMapWidth;
+    map.panBy(-delta / 2, 0);
+    lastMapWidth += delta;
+  });
 }
 
 function isString(obj) {
@@ -1029,7 +1040,6 @@ function onResize() {
     } else {
       document.body.classList.add('no-fixed-main-menu');      
     }
-
   } else {
     if (geoDataLoaded) {
       calculateMapSize();
