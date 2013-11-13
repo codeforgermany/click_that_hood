@@ -50,11 +50,11 @@ fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
 
   var countryNames = ['U.S.'];
 
-  var totalNumFilesToUpload = 0
-  var numFilesUploaded = 0
+  var totalNumFilesToUpload = 0;
+  var numFilesUploaded = 0;
   for (var index in files) {
     var metadataFilePath = files[index];
-    var locationName = path.basename(metadataFilePath, '.metadata.json')
+    var locationName = path.basename(metadataFilePath, '.metadata.json');
 
     // Exclude template file
     if (locationName != '_TEMPLATE') {
@@ -70,9 +70,13 @@ fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
 
       // Combine a list of country names.
       var countryName = metadata[locationName].countryName;
+      if (!countryName && !metadata[locationName].stateName) {
+        countryName = 'The World';        
+      }
       if (countryName && countryNames.indexOf(countryName) == -1) {
         countryNames.push(countryName);
       }
+
 
       // Parse GeoJSON file, find the first available latitude/longitude,
       // and add them to the metadata.

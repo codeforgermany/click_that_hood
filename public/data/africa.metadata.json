@@ -1,8 +1,6 @@
 { 
   "locationName": "Africa",
-  "stateName": "",
-  "countryName": "Continents",
-  "neighborhoodNoun": "state",
+  "neighborhoodNoun": ["country", "countries"],
 
   "authorTwitter": "davidbauer",
 

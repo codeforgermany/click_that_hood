@@ -11,7 +11,8 @@
 
 var COUNTRY_NAME_USA = 'U.S.';
 
-var DEFAULT_NEIGHBORHOOD_NOUN = 'neighborhood';
+var DEFAULT_NEIGHBORHOOD_NOUN_SINGULAR = 'neighborhood';
+var DEFAULT_NEIGHBORHOOD_NOUN_PLURAL = 'neighborhoods';
 
 var EASY_MODE_COUNT = 20;
 
@@ -877,7 +878,7 @@ function gameOver() {
 function getSharingMessage() {
   return 'I just played Click That ’Hood and identified ' + 
       neighborhoodsGuessed.length + ' ' + CITY_DATA[cityId].locationName + ' ' + 
-      getNeighborhoodNoun() + 's in ' + getTimer() + '. Try to beat me!';
+      getNeighborhoodNoun(true) + ' in ' + getTimer() + '. Try to beat me!';
 }
 
 function updateFacebookLink(congratsEl) {
@@ -1089,14 +1090,18 @@ function resizeLogoIfNecessary() {
   }
 }
 
-function getNeighborhoodNoun() {
-  return CITY_DATA[cityId].neighborhoodNoun || DEFAULT_NEIGHBORHOOD_NOUN;
+function getNeighborhoodNoun(plural) {
+  if (!plural) {
+    return CITY_DATA[cityId].neighborhoodNoun[0] || DEFAULT_NEIGHBORHOOD_NOUN_SINGULAR;
+  } else { 
+    return CITY_DATA[cityId].neighborhoodNoun[1] || DEFAULT_NEIGHBORHOOD_NOUN_PLURAL;
+  }
 }
 
 function prepareLogo() {
-  var name = CITY_DATA[cityId].stateName || CITY_DATA[cityId].countryName;
+  var name = CITY_DATA[cityId].stateName || CITY_DATA[cityId].countryName || '';
 
-  if (name == COUNTRY_NAME_USA) {
+  if (!name || (name == COUNTRY_NAME_USA)) {
     name = '';
     document.querySelector('header .location-name').classList.add('no-state-or-country');
   } else {
@@ -1112,11 +1117,16 @@ function prepareLogo() {
     el.innerHTML = CITY_DATA[cityId].locationName;
   }
 
-  var neighborhoodNoun = getNeighborhoodNoun();
-
+  var neighborhoodNoun = getNeighborhoodNoun(false);
   var els = document.querySelectorAll('.neighborhood-noun');
   for (var i = 0, el; el = els[i]; i++) {
     el.innerHTML = neighborhoodNoun;
+  }
+
+  var neighborhoodNounPlural = getNeighborhoodNoun(true);
+  var els = document.querySelectorAll('.neighborhood-nouns');
+  for (var i = 0, el; el = els[i]; i++) {
+    el.innerHTML = neighborhoodNounPlural;
   }
 
   resizeLogoIfNecessary();
@@ -1142,7 +1152,8 @@ function prepareLocationList() {
       var cityData = CITY_DATA[ids[id]];
 
       if ((cityData.countryName != COUNTRY_NAMES[i]) && 
-          (!cityData.stateName || (COUNTRY_NAMES[i] != COUNTRY_NAME_USA))) {
+          (!cityData.stateName || (COUNTRY_NAMES[i] != COUNTRY_NAME_USA)) &&
+          (cityData.stateName || cityData.countryName || (COUNTRY_NAMES[i] != 'The World'))) {
         continue;
       }
 

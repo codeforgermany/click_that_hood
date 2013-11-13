@@ -2,7 +2,7 @@
   "locationName": "London",
   "countryName": "U.K.",
   "annotation": "Boroughs",
-  "neighborhoodNoun": "borough",
+  "neighborhoodNoun": ["borough", "boroughs"],
 
   "authorTwitter": "ahhrrr",
 

@@ -3,7 +3,7 @@
   "countryName": "U.S.",
 
   "annotation": "Indigenous Peoples and Languages",
-  "neighborhoodNoun": "region",
+  "neighborhoodNoun": ["region", "regions"],
 
   "authorTwitter": "brendanbabb",
 
