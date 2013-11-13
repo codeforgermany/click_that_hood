@@ -131,10 +131,6 @@ function updateCanvasSize() {
 
 function calculateMapSize() {
   if (mainMenu) {
-    var mapWidth = document.querySelector('#maps-background').offsetWidth;
-
-    //console.log(mapWidth);
-
     geoMapPath = d3.geo.path().projection(
         d3.geo.mercator().center([0, 0]).
         scale(640 / 6.3).
