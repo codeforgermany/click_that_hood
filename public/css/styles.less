@@ -937,3 +937,21 @@ body.main-menu #map .location.current {
   background: rgb(150, 40, 40);
   outline: 2000px solid black;
 }
+
+#mob-warning {
+  position: fixed;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 30px;
+  z-index: 9999999;
+  font-family: 'Homestead';
+  font-size: 35px;
+  background: rgba(0,0,0,0.9);
+  outline: 2000px solid rgba(0,0,0,0.9);
+}
+
+@media only screen and (min-device-width : 500px) {
+	#mob-warning {display: none;		 
+	}
+}

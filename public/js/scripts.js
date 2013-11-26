@@ -1316,7 +1316,7 @@ function testBrowser() {
 }
 
 function main() {
-  if (testBrowser()) {
+  if (testBrowser() && screen.width > 500) {
 
     window.addEventListener('load', onBodyLoad, false);
     window.addEventListener('resize', onResize, false);
