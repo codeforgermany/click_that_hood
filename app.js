@@ -8,10 +8,10 @@ var express = require('express'),
 var engineLightStatusEndpoint = function(req, res) {
 
   var response = {
-    "status": "ok",
-    "updated": Math.round( Date.now() / 1000 ),
-    "dependencies": [],
-    "resources": []
+    'status': 'ok',
+    'updated': Math.round( Date.now() / 1000 ),
+    'dependencies': [],
+    'resources': []
   };
 
   res.send(response);
