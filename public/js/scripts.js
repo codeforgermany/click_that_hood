@@ -236,7 +236,7 @@ function loadGeoData() {
 function removeSmallNeighborhoods() {
   var els = document.querySelectorAll('#map .neighborhood');
 
-  someSmallNeighborhoodsRemoved = false;
+  smallNeighborhoodsRemoved = [];
 
   for (var i = 0, el; el = els[i]; i++) {
     var boundingBox = el.getBBox();
@@ -251,12 +251,19 @@ function removeSmallNeighborhoods() {
 
       totalNeighborhoodsCount--;
 
-      someSmallNeighborhoodsRemoved = true;
+      smallNeighborhoodsRemoved.push(name);
     }
   }
 
-  if (someSmallNeighborhoodsRemoved) {
+  var count = smallNeighborhoodsRemoved.length;
+
+  if (count) {
     document.body.classList.add('neighborhoods-removed');
+
+    var no = Math.floor(Math.random() * count);
+
+    document.querySelector('.small-neighborhood-example').innerHTML = 
+        smallNeighborhoodsRemoved[no];
   } else {    
     document.body.classList.remove('neighborhoods-removed');
   }
