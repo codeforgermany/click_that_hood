@@ -5,6 +5,19 @@ var express = require('express'),
     fsTools = require('fs-tools'),
     config = require('config')
 
+var engineLightStatusEndpoint = function(req, res) {
+
+  var response = {
+    'status': 'ok',
+    'updated': Math.round( Date.now() / 1000 ),
+    'dependencies': [ 'MapBox' ],
+    'resources': []
+  };
+
+  res.send(response);
+
+}
+
 var startApp = function() {
   var app = express();
 
@@ -26,6 +39,9 @@ var startApp = function() {
       next('route');
     }
   });
+
+  // Engine-light endpoint
+  app.get('/.well-known/status', engineLightStatusEndpoint);
 
   app.use(express.static(__dirname + '/public'));
 
