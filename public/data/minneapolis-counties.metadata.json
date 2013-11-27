@@ -1,0 +1,10 @@
+{ 
+  "locationName": "Minneapolis + St. Paul",
+  "stateName": "Minn.",
+  "annotation": "Counties",
+  "neighborhoodNoun": ["county", "counties"],
+  "notACity": true,
+
+  "dataUrl": "http://www.datafinder.org/metadata/CountiesAndCTUs.html",
+  "dataTitle": "DataFinder"
+}
