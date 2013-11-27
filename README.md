@@ -18,8 +18,7 @@ Please follow the instructions below to setup your development environment.
     $ npm install
 
 4) Start the Web Application. It runs on port 8020 by default. (The port
-can be changed in your environment's config file in the `config/`
-directory.)
+can be changed by setting the PORT environment variable.)
 
     $ node app.js
 
