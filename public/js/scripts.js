@@ -1187,7 +1187,7 @@ function prepareLocationList() {
 
       el.setAttribute('city-id', ids[id]);
 
-      if (!cityData.stateName && !cityData.countryName) {
+      if (cityData.notACity) {
         var url = '?location=' + ids[id];
       } else {
         var url = '?city=' + ids[id];        

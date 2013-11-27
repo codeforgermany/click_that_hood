@@ -5,6 +5,7 @@
   "authorTwitter": "davidbauer",
 
   "annotation": "Countries",
+  "notACity": true,
 
   "dataUrl": "http://www.geocommons.org",
   "dataTitle": "Geocommons"
