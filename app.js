@@ -10,7 +10,7 @@ var engineLightStatusEndpoint = function(req, res) {
   var response = {
     'status': 'ok',
     'updated': Math.round( Date.now() / 1000 ),
-    'dependencies': [],
+    'dependencies': [ 'MapBox' ],
     'resources': []
   };
 
