@@ -238,7 +238,17 @@ function createSvg() {
 
 function loadGeoData() {
   var url = 'data/' + cityId + '.geojson';
-  queue().defer(d3.json, url).await(onGeoDataLoad);
+
+  var request = new XMLHttpRequest();
+  request.addEventListener('load', onGeoDataLoad);
+
+  request.addEventListener('progress', function(e) {
+     var percentage = e.loaded / e.total * 90;
+     document.querySelector('#loading progress').setAttribute('value', percentage);
+  }, false);
+
+  request.open("GET", url, true);
+  request.send();
 }
 
 function removeSmallNeighborhoods() {
@@ -432,9 +442,8 @@ function everythingLoaded() {
   }
 }
 
-function onGeoDataLoad(error, data) {
-  geoData = data;
-
+function onGeoDataLoad(data) {
+  geoData = JSON.parse(this.responseText);
   geoDataLoaded = true;
 
   checkIfEverythingLoaded();
@@ -1134,8 +1143,6 @@ function getNeighborhoodNoun(plural) {
 
 function prepareLogo() {
   var name = CITY_DATA[cityId].stateName || CITY_DATA[cityId].countryName || '';
-
-  console.log(name, CITY_DATA[cityId].locationName);
 
   if (!name || (name == COUNTRY_NAME_USA) || (name == CITY_DATA[cityId].locationName)) {
     name = '';

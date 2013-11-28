@@ -323,6 +323,39 @@ header.game .annotation:empty {
   display: none !important;
 }
 
+#loading {
+  progress {
+    display: block;
+    width: 200px;
+    height: 8px;
+    margin: 0 auto;
+    margin-top: 10px;
+
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    -ms-appearance: none;
+
+    background: transparent;
+    background-size: auto;
+    border: 1px solid white;
+    box-shadow: 0 0 1px black, 0 0 2px black;
+    padding: 0;
+
+    color: white;
+
+    &::-webkit-progress-bar {
+      background: transparent;
+    }
+    &::-webkit-progress-value {
+      background: white;
+    }
+    &::-moz-progress-bar {
+      background: white;
+    }
+  }
+}
+
 footer {
   font-size: 12px;
 
