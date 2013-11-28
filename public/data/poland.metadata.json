@@ -1,0 +1,11 @@
+{ 
+  "locationName": "Poland",
+  "annotation": "Voivodeships",
+  "countryName": "Poland",
+  "neighborhoodNoun": ["voivodeship", "voivodeships"],
+
+  "notACity": true,
+
+  "dataUrl": "http://www.gadm.org/country",
+  "dataTitle": "GADM"
+}
