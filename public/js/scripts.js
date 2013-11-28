@@ -924,6 +924,16 @@ function updateTwitterLink(congratsEl) {
       '&url=' + encodeURIComponent(url);
 }
 
+function updateEmailLink(congratsEl) {
+  var el = congratsEl.querySelector('#share-via-email');
+
+  var text = getSharingMessage();
+  var url = location.href;
+
+  el.href = 'mailto:?subject=You will like this game: Click That \'Hood&body=' + text + 
+      ' ' + url;
+}
+
 function gameOverPart2() {
   var el = document.querySelector(easyMode ? '#congrats-easy' : '#congrats-hard');
 
@@ -932,6 +942,7 @@ function gameOverPart2() {
 
   updateTwitterLink(el);
   updateFacebookLink(el);
+  updateEmailLink(el);
 
   document.querySelector('#cover').classList.add('visible');
   el.classList.add('visible');  
