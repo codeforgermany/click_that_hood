@@ -211,6 +211,10 @@ function calculateMapSize() {
         globalScale = .88 * globalScale;
         centerLat -= 5;
         break;
+      case 'oceania':
+        globalScale = 100 * globalScale; //TODO: this doesn't seem to be zooming in.
+        centerLon += 150;
+        break;
     }
 
     // Calculate width according to that scale
