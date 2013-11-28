@@ -1127,7 +1127,9 @@ function getNeighborhoodNoun(plural) {
 function prepareLogo() {
   var name = CITY_DATA[cityId].stateName || CITY_DATA[cityId].countryName || '';
 
-  if (!name || (name == COUNTRY_NAME_USA)) {
+  console.log(name, CITY_DATA[cityId].locationName);
+
+  if (!name || (name == COUNTRY_NAME_USA) || (name == CITY_DATA[cityId].locationName)) {
     name = '';
     document.querySelector('header .location-name').classList.add('no-state-or-country');
   } else {
