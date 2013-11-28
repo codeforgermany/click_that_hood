@@ -1,0 +1,11 @@
+{ 
+  "locationName": "Italy",
+  "annotation": "Provinces",
+  "countryName": "Italy",
+  "neighborhoodNoun": ["province", "provinces"],
+
+  "notACity": true,
+
+  "dataUrl": "http://www.istat.it/it/archivio/24613",
+  "dataTitle": "Istat"
+}
