@@ -1,0 +1,10 @@
+{ 
+  "locationName": "Esztergom",
+  "stateName": "Komarom-Esztergom County",
+  "countryName": "Hungary",
+
+  "authorTwitter": "VillyX",
+
+  "dataUrl": "http://62.77.221.218:8080/eloterjesztesek/testuleti/index.php?action=list&dir=2008%2F2008-11-27%2Fkulonposta+csutortok%2F15-Tortenelmi+varosresz+mod+%28512%29&order=name&srt=yes&lang=hu",
+  "dataTitle": "Esztergom City Council Decree"
+}
