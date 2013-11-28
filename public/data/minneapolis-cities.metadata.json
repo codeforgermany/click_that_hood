@@ -1,8 +1,8 @@
 { 
   "locationName": "Minneapolis + St. Paul",
   "stateName": "Minn.",
-  "annotation": "Counties",
-  "neighborhoodNoun": ["county", "counties"],
+  "annotation": "Cities and townships",
+  "neighborhoodNoun": ["city", "cities"],
   "notACity": true,
 
   "dataUrl": "http://www.datafinder.org/metadata/CountiesAndCTUs.html",
