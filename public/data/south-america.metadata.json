@@ -1,7 +1,7 @@
 { 
   "locationName": "South America",
-  "neighborhoodNoun": ["country", "countries"],
   "annotation": "Countries",
+  "neighborhoodNoun": ["country", "countries"],
   "notACity": true,
 
   "authorTwitter": "ahhrrr",

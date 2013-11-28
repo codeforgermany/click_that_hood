@@ -199,10 +199,18 @@ function calculateMapSize() {
             MAPS_DEFAULT_SCALE / 0.045 * (-latStep);
 
     // TODO this shouldn’t be hardcoded, but it is. Sue me.
-    if (cityId == 'africa') {
-      globalScale = .8 * globalScale;
-    } else if (cityId == 'alaska-ipla') {
-      globalScale = .8 * globalScale;
+
+    switch (cityId) {
+      case 'africa':
+        globalScale = .8 * globalScale;
+        break;
+      case 'alaska-ipla':
+        globalScale = .8 * globalScale;
+        break;
+      case 'south-america':
+        globalScale = .88 * globalScale;
+        centerLat -= 5;
+        break;
     }
 
     // Calculate width according to that scale
