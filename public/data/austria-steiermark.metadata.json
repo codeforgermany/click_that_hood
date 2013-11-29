@@ -1,0 +1,9 @@
+{ 
+  "locationName": "Steiermark",
+  "countryName": "Austria",
+  "annotation": "Districts",
+  "neighborhoodNoun": ["district", "districts"],
+
+  "dataUrl": "http://www.data.gv.at",
+  "dataTitle": "data.gv.at"
+}
