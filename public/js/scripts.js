@@ -212,8 +212,8 @@ function calculateMapSize() {
         centerLat -= 5;
         break;
       case 'europe':
-        globalScale = .94 * globalScale;
-        centerLat += 8;
+        globalScale = .85 * globalScale;
+        centerLat += 6;
         break;
       case 'oceania':
         //alert(1);
