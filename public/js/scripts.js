@@ -211,9 +211,14 @@ function calculateMapSize() {
         globalScale = .88 * globalScale;
         centerLat -= 5;
         break;
+      case 'europe':
+        globalScale = .94 * globalScale;
+        centerLat += 8;
+        break;
       case 'oceania':
-        globalScale = 100 * globalScale; //TODO: this doesn't seem to be zooming in.
-        centerLon += 150;
+        //alert(1);
+        //globalScale = .5 * globalScale; //TODO: this doesn't seem to be zooming in.
+        //centerLon += 150;
         break;
     }
 
