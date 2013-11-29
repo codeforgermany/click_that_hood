@@ -4,6 +4,6 @@
   "annotation": "Districts",
   "neighborhoodNoun": ["district", "districts"],
 
-  "dataUrl": "http://www.data.gv.at",
+  "dataUrl": "http://data.gv.at/datensatz/?id=aa22cd20-395f-11e2-81c1-0800200c9a66",
   "dataTitle": "data.gv.at"
 }
