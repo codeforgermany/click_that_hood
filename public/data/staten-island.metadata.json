@@ -5,8 +5,6 @@
 
   "authorTwitter": "ahhrrr",
 
-  "notACity": true,
-
   "dataUrl": "http://www.nyc.gov/html/dcp/html/bytes/dwn_nynta.shtml",
   "dataTitle": "New York City Department of City Planning"
 }

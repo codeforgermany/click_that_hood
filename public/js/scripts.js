@@ -218,7 +218,7 @@ function calculateMapSize() {
       case 'oceania':
         //alert(1);
         //globalScale = .5 * globalScale; //TODO: this doesn't seem to be zooming in.
-        //centerLon += 150;
+        centerLon += 150;
         break;
     }
 
@@ -1213,11 +1213,7 @@ function prepareLocationList() {
 
       el.setAttribute('city-id', ids[id]);
 
-      if (cityData.notACity) {
-        var url = '?location=' + ids[id];
-      } else {
-        var url = '?city=' + ids[id];        
-      }
+      var url = '?location=' + ids[id];
 
       var html = '<a href="' + url + '">';
 

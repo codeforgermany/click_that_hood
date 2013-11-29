@@ -4,8 +4,6 @@
   "countryName": "U.K.",
   "neighborhoodNoun": ["county", "counties"],
 
-  "notACity": true,
-
   "dataUrl": "http://www.ukpostcode.net/shapefile-of-uk-administrative-counties-wiki-16.html",
   "dataTitle": "UK Postcode"
 }

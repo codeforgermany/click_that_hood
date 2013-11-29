@@ -3,7 +3,6 @@
   "stateName": "Minn.",
   "annotation": "Cities and townships",
   "neighborhoodNoun": ["city", "cities"],
-  "notACity": true,
 
   "dataUrl": "http://www.datafinder.org/metadata/CountiesAndCTUs.html",
   "dataTitle": "DataFinder"
