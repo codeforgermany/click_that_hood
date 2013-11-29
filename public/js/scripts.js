@@ -1153,7 +1153,9 @@ function getNeighborhoodNoun(plural) {
 function prepareLogo() {
   var name = CITY_DATA[cityId].stateName || CITY_DATA[cityId].countryName || '';
 
-  if (!name || (name == COUNTRY_NAME_USA) || (name == CITY_DATA[cityId].locationName)) {
+  // TODO don’t hardcode!
+  if (!name || (name == COUNTRY_NAME_USA) || (name == CITY_DATA[cityId].locationName) || 
+      ((name == 'U.K.') && (CITY_DATA[cityId].locationName == 'United Kingdom'))) {
     name = '';
     document.querySelector('header .location-name').classList.add('no-state-or-country');
   } else {
