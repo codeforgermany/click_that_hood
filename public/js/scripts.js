@@ -319,21 +319,16 @@ function updateCount() {
 function prepareMainMenuMapBackground() {
   updateCanvasSize();
 
-  var el = document.createElement('div');
-  el.classList.add('world');
-
   var layer = mapbox.layer().id(MAPBOX_MAP_ID);
   var map = mapbox.map(document.querySelector('#maps-background'), layer, null, []);
   map.tileSize = { x: Math.round(320 / pixelRatio), 
                    y: Math.round(320 / pixelRatio) };
-  map.centerzoom({ lat: 26, lon: 63 - 120 }, pixelRatio);
+  map.centerzoom({ lat: 26 + 7, lon: 63 - 13 }, pixelRatio);
 
   lastMapWidth = document.querySelector('#maps-background').offsetWidth;
 
   // This keeps the map centered on the homepage
   map.addCallback('resized', function(map, dimensions) {
-    //lastMapWidth = document.querySelector('#maps-background').offsetWidth;
-
     var width = dimensions[0].x;
     var delta = width - lastMapWidth;
     map.panBy(-Math.floor(delta / 2), 0);
@@ -470,6 +465,10 @@ function prepareNeighborhoods() {
 }
 
 function createMainMenuMap() {
+
+  // TODO temporarily remove until we fix positioning (issue #156)
+  return;
+
   var features = [];
 
   for (var i in CITY_DATA) {
@@ -1069,7 +1068,6 @@ function onResize() {
 
   if (mainMenu) {
     calculateMapSize();
-    //createMainMenuMap();
 
     if (window.innerHeight > MAIN_MENU_MIN_FIXED_HEIGHT) {
       document.body.classList.remove('no-fixed-main-menu');
@@ -1226,8 +1224,12 @@ function prepareLocationList() {
       html += '</a>';
       el.innerHTML = html;
 
+      // TODO temporarily remove until we fix positioning (issue #156)
+
+      /*
       el.querySelector('a').addEventListener('mouseover', animateMainMenuCity, false);
       el.querySelector('a').addEventListener('mouseout', restoreMainMenuCity, false);
+      */
 
       document.querySelector('.menu .locations').appendChild(el);
     }
