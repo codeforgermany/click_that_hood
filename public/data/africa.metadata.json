@@ -7,6 +7,6 @@
   "annotation": "Countries",
   "notACity": true,
 
-  "dataUrl": "http://www.geocommons.org",
+  "dataUrl": "http://www.geocommons.com",
   "dataTitle": "Geocommons"
 }
