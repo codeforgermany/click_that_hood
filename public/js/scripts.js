@@ -1123,11 +1123,13 @@ function onResize() {
   if (mainMenu) {
     calculateMapSize();
 
-    if (window.innerHeight > MAIN_MENU_MIN_FIXED_HEIGHT) {
+    // TODO temporarily remove until we fix positioning (issue #156)
+    document.body.classList.add('no-fixed-main-menu');
+    /*if (window.innerHeight > MAIN_MENU_MIN_FIXED_HEIGHT) {
       document.body.classList.remove('no-fixed-main-menu');
     } else {
       document.body.classList.add('no-fixed-main-menu');      
-    }
+    }*/
   } else {
     if (geoDataLoaded) {
       calculateMapSize();
