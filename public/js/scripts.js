@@ -176,7 +176,6 @@ function calculateMapSize() {
 
             findMinMax(lon, lat);
           }
-
         }
       }
     }
@@ -202,23 +201,25 @@ function calculateMapSize() {
 
     switch (cityId) {
       case 'africa':
-        globalScale = .8 * globalScale;
+        globalScale *= .8;
         break;
       case 'alaska-ipla':
-        globalScale = .8 * globalScale;
+        globalScale *= .8;
         break;
       case 'south-america':
-        globalScale = .88 * globalScale;
+        globalScale *= .88;
         centerLat -= 5;
         break;
       case 'europe':
-        globalScale = .85 * globalScale;
+        globalScale *= .85;
         centerLat += 6;
         break;
       case 'oceania':
-        //alert(1);
-        //globalScale = .5 * globalScale; //TODO: this doesn't seem to be zooming in.
-        centerLon += 150;
+        //globalScale *= .5; //TODO: this doesn't seem to be zooming in.
+        //centerLon += 150;
+        break;
+      case 'world':
+        globalScale *= .6;
         break;
     }
 
@@ -1015,6 +1016,7 @@ function prepareMapBackground() {
     size *= 2;
     zoom--;
   } 
+
   // TODO resize properly instead of recreating every single time
   document.querySelector('#maps-background').innerHTML = '';
 
@@ -1035,6 +1037,8 @@ function prepareMapBackground() {
     size *= 2;
   }
 
+  //console.log('z', size, pixelRatio);
+  
   map.tileSize = { x: Math.round(size / pixelRatio), 
                    y: Math.round(size / pixelRatio) };
 
@@ -1052,7 +1056,7 @@ function prepareMapBackground() {
   var ratio = leftMargin / map.tileSize.x;
 
   lon -= ratio * longStep;
-  
+
   map.centerzoom({ lat: lat, lon: lon }, zoom);
 }
 
