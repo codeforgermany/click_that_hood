@@ -93,6 +93,14 @@ var geoDataLoaded = false;
 var finalTime = null;
 var timerStopped = false;
 
+var INITIAL_TOOLTIP_DELAY = 3000; // ms
+var MAX_TOOLTIP_DELAY = 5000;
+var TOOLTIP_DELAY_THRESHOLD = 3000; // ms
+
+var currentTooltipDelay = INITIAL_TOOLTIP_DELAY;
+var currentNeighborhoodStartTime;
+var currentNeighborhoodOverThreshold = false;
+
 function lonToTile(lon, zoom) { 
   return Math.floor((lon + 180) / 360 * Math.pow(2, zoom));
 }
@@ -687,11 +695,7 @@ function animateNeighborhoodGuess(el) {
 }
 
 function onNeighborhoodClick(el) {
-  if (!mapClickable) {
-    return;
-  }
-
-  if (el.getAttribute('inactive')) {      
+  if (!mapClickable || el.getAttribute('inactive')) {      
     return;
   }
 
@@ -705,7 +709,28 @@ function onNeighborhoodClick(el) {
 
   setMapClickable(false);
 
+  var time = new Date().getTime() - currentNeighborhoodStartTime;
+/*  ???
+
+    if (time > currentTooltipDelay) {
+      currentNeighborhoodOverThreshold = true;
+      showTooltips();
+    }*/
+
   if (name == neighborhoodToBeGuessedNext) {
+
+    if (time > TOOLTIP_DELAY_THRESHOLD) {
+      currentTooltipDelay -= time - TOOLTIP_DELAY_THRESHOLD;
+      if (currentTooltipDelay < 0) {
+        currentTooltipDelay = 0;
+      }
+    } else {
+      currentTooltipDelay += 1000;
+      if (currentTooltipDelay > MAX_TOOLTIP_DELAY) {
+        currentTooltipDelay = MAX_TOOLTIP_DELAY;
+      }
+    }
+
     if (el.classList) {
       el.classList.remove('unguessed');
       el.classList.add('guessed');
@@ -720,7 +745,6 @@ function onNeighborhoodClick(el) {
     }
 
     neighborhoodsGuessed.push(name);
-
     neighborhoodsToBeGuessed.splice(neighborhoodsToBeGuessed.indexOf(name), 1);
 
     updateGameProgress();
@@ -731,6 +755,11 @@ function onNeighborhoodClick(el) {
       window.setTimeout(nextGuess, NEXT_GUESS_DELAY);
     }
   } else {
+    currentTooltipDelay -= 1000;
+    if (currentTooltipDelay < 0) {
+      currentTooltipDelay = 0;
+    }
+
     if (el.classList) {
       el.classList.remove('unguessed');
       el.classList.add('wrong-guess');
@@ -816,6 +845,10 @@ function updateNeighborhoodDisplay() {
 
 function nextGuess() {
   setMapClickable(true);
+
+  currentNeighborhoodStartTime = new Date().getTime();
+  currentNeighborhoodOverThreshold = false;
+  hideTooltips();
 
   do {
     var pos = Math.floor(Math.random() * neighborhoodsToBeGuessed.length);
@@ -991,6 +1024,14 @@ function getTimer() {
   return minutes + ':' + seconds + '.' + tenthsOfSeconds;
 }
 
+function hideTooltips() {
+  document.querySelector('#neighborhood-hover').classList.remove('active');
+}
+
+function showTooltips() {
+  document.querySelector('#neighborhood-hover').classList.add('active');
+}
+
 function updateTimer() {
   var timeHtml = getTimer();
 
@@ -998,6 +1039,15 @@ function updateTimer() {
   for (var i = 0, el; el = els[i]; i++) {
     el.innerHTML = timeHtml;
   } 
+
+  if (!currentNeighborhoodOverThreshold) {
+    var time = new Date().getTime() - currentNeighborhoodStartTime;
+
+    if (time > currentTooltipDelay) {
+      currentNeighborhoodOverThreshold = true;
+      showTooltips();
+    }
+  }
 }
 
 function prepareMapBackground() {
