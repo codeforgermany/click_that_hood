@@ -1,0 +1,13 @@
+{
+  "locationName": "Milan",
+  "neighborhoodNoun": ["station", "stations"],
+  "countryName": "Italy",
+
+  "authorTwitter": "ale_salmo",
+
+  "annotation": "Underground",
+  "notACity": true,
+
+  "dataUrl": "http://www.opendatahub.it",
+  "dataTitle": "Open Data Italia"
+}
