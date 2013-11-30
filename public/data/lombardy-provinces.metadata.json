@@ -1,0 +1,13 @@
+{
+  "locationName": "Lombardy",
+  "neighborhoodNoun": ["province", "provinces"],
+  "countryName": "Italy",
+
+  "authorTwitter": "ale_salmo",
+
+  "annotation": "Provinces",
+  "notACity": true,
+
+  "dataUrl": "http://www.opendatahub.it",
+  "dataTitle": "Open Data Italia"
+}
