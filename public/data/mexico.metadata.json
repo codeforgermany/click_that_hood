@@ -1,0 +1,6 @@
+{ 
+  "locationName": "Mexico",
+  "countryName": "Mexico",
+  "annotation": "States",
+  "neighborhoodNoun": ["state", "states"]
+}
