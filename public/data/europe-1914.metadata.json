@@ -1,0 +1,8 @@
+{
+  "locationName": "Europe, 1914",
+  "annotation": "Countries",
+  "neighborhoodNoun": ["country", "countries"],
+
+  "dataUrl": "http://library.thinkquest.org/C006628/GIS.html",
+  "dataTitle": "ThinkQuest GIS Resource Page"
+}

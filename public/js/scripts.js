@@ -222,6 +222,12 @@ function calculateMapSize() {
         globalScale *= .85;
         centerLat += 6;
         break;
+      case 'europe-1914':
+      case 'europe-1938':
+        globalScale *= 1.1;
+        centerLat -= 2;
+        centerLon += 2;
+        break;
       case 'oceania':
         //globalScale *= .5; //TODO: this doesn't seem to be zooming in.
         //centerLon += 150;
