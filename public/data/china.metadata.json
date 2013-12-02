@@ -1,0 +1,9 @@
+{ 
+  "locationName": "China",
+  "annotation": "Provinces",
+  "countryName": "China",
+  "neighborhoodNoun": ["province", "provinces"],
+
+  "dataUrl": "https://github.com/okkervil/chinamaps",
+  "dataTitle": "okkervil via GitHub"
+}
