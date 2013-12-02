@@ -1,0 +1,9 @@
+{ 
+  "locationName": "United States of America, 1810",
+  "annotation": "States and Territories",
+  "countryName": "U.S.",
+  "neighborhoodNoun": ["state/territory in 1810", "states/territories in 1810"],
+
+  "dataUrl": "https://www.nhgis.org/",
+  "dataTitle": "NHGIS/Minnesota Population Center"
+}
