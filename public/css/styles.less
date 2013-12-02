@@ -507,19 +507,42 @@ body.main-menu #count-time-wrapper-wrapper {
   font-size: @fontSize * 1.5;
   font-weight: 300;
 
-  display: none;
-  
-  &.visible {
+  -webkit-transform: rotateZ(-90deg);
+  -moz-transform: rotateZ(-90deg);
+  transform: rotateZ(-90deg);
+  -webkit-transform-origin: 50% -250px;
+  -moz-transform-origin: 50% -250px;
+  transform-origin: 50% -250px;
+
+  .name {
+    font-weight: 600;
+    font-size: @fontSize * 2.5;
+    letter-spacing: -1px;
+    line-height: 1;
     display: block;
   }
 }
 
-#neighborhood-guess .name {
-  font-weight: 600;
-  font-size: @fontSize * 2.5;
-  letter-spacing: -1px;
-  line-height: 1;
-  display: block;
+#neighborhood-guess-wrapper.visible {
+  #neighborhood-guess {
+    -webkit-transition: -webkit-transform 200ms ease-out;
+    -moz-transition: -moz-transform 200ms ease-out;
+    transition: transform 200ms ease-out;
+    -webkit-transform: rotateZ(0);
+    -moz-transform: rotateZ(0);
+    transform: rotateZ(0);
+  }
+}
+
+#neighborhood-guess-wrapper.invisible {
+  #neighborhood-guess {
+    -webkit-transition: -webkit-transform 100ms ease-in;
+    -moz-transition: -moz-transform 100ms ease-in;
+    transition: transform 100ms ease-in;
+    -webkit-transform: rotateZ(90deg);
+    -moz-transform: rotateZ(90deg);
+    transform: rotateZ(90deg);
+  }
 }
 
 #count-time-wrapper-wrapper {

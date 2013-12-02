@@ -856,13 +856,19 @@ function removeNeighborhoodHighlights() {
 
 function updateNeighborhoodDisplay() {
   if (neighborhoodToBeGuessedNext) {
-    document.querySelector('#neighborhood-guess').classList.add('visible');  
+    document.querySelector('#neighborhood-guess .name').innerHTML = 
+      neighborhoodToBeGuessedNext;  
+
+    document.querySelector('#neighborhood-guess-wrapper').classList.add('visible');  
   } else {
-    document.querySelector('#neighborhood-guess').classList.remove('visible');      
+    document.querySelector('#neighborhood-guess-wrapper').classList.remove('visible');      
+    document.querySelector('#neighborhood-guess-wrapper').classList.add('invisible');  
+
+    window.setTimeout(function() {
+      document.querySelector('#neighborhood-guess-wrapper').classList.remove('invisible');
+    }, 150);
   }
 
-  document.querySelector('#neighborhood-guess .name').innerHTML = 
-    neighborhoodToBeGuessedNext;  
 }
 
 function nextGuess() {
