@@ -1,0 +1,10 @@
+{ 
+  "locationName": "Turkey",
+  "countryName": "Turkey",
+	"annotation": "Cities",
+
+  "authorTwitter": "senburt",
+
+  "dataUrl": "http://www.diva-gis.org/datadown",
+  "dataTitle": "TUR_adm.zip"
+}
