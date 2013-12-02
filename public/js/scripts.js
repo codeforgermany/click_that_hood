@@ -588,8 +588,6 @@ function hoverNeighborhoodEl(el, showTooltip) {
 
     var left = (boundingBox.x + boundingBox.width / 2 - hoverEl.offsetWidth / 2);
 
-    console.log(boundingBox.x, boundingBox.width, hoverEl.offsetWidth);
-
     hoverEl.style.top = top + 'px'; 
     hoverEl.style.left = left + 'px';
 
