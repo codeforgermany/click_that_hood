@@ -1398,48 +1398,65 @@ function testBrowser() {
   var goodEnoughBrowser = document.body.classList;
 
   if (!goodEnoughBrowser) {
-    document.getElementById('wrong-browser').style.display = 'block';
+    document.getElementById('wrong-browser').className += ' visible';
+
+    return goodEnoughBrowser;
   }
 
-  return goodEnoughBrowser;
+  var mobile = window.matchMedia && window.matchMedia('(max-device-width: 568px)').matches;
+
+  if (mobile) {
+    document.getElementById('mobile').className += ' visible';
+    document.querySelector('#mobile button').addEventListener('click', ignoreMobileBrowserWarning);
+  }
+
+  return !mobile;
+}
+
+function ignoreMobileBrowserWarning() {
+  document.getElementById('mobile').className = '';
+  browserIsOkay();
+}
+
+function browserIsOkay() {
+  window.addEventListener('load', onBodyLoad, false);
+  window.addEventListener('resize', onResize, false);
+
+  document.querySelector('#more-cities-wrapper div').
+      addEventListener('click', onMoreCitiesClick, false);
+
+  getEnvironmentInfo();
+  getCityId();
+
+  prepareLocationList();
+  prepareGeolocation();
+
+  onResize();
+
+  if (mainMenu) {
+    prepareMainMenu();
+    prepareMainMenuMapBackground();
+
+    createSvg();
+    calculateMapSize();
+    createMainMenuMap();
+  } else {
+    document.querySelector('#cover').classList.add('visible');
+    document.querySelector('#loading').classList.add('visible');
+
+    prepareLogo();
+    updateFooter();
+    createSvg();
+    loadGeoData();
+  }
+
+  onResize();
 }
 
 function main() {
+  removeHttpsIfPresent();
+
   if (testBrowser()) {
-
-    window.addEventListener('load', onBodyLoad, false);
-    window.addEventListener('resize', onResize, false);
-
-    document.querySelector('#more-cities-wrapper div').
-        addEventListener('click', onMoreCitiesClick, false);
-
-    removeHttpsIfPresent();
-
-    getEnvironmentInfo();
-    getCityId();
-
-    prepareLocationList();
-    prepareGeolocation();
-
-    onResize();
-
-    if (mainMenu) {
-      prepareMainMenu();
-      prepareMainMenuMapBackground();
-
-      createSvg();
-      calculateMapSize();
-      createMainMenuMap();
-    } else {
-      document.querySelector('#cover').classList.add('visible');
-      document.querySelector('#loading').classList.add('visible');
-
-      prepareLogo();
-      updateFooter();
-      createSvg();
-      loadGeoData();
-    }
-
-    onResize();
+    browserIsOkay();
   }
 }

@@ -57,10 +57,6 @@ body:not(.main-menu) {
   color: white;
 }
 
-body.no-fixed-main-menu {
-  background: red !important;
-}
-
 body:not(.no-fixed-main-menu).main-menu footer {
   position: fixed;
 }
@@ -959,18 +955,40 @@ body.main-menu #map .location.current {
   text-transform: capitalize;
 }
 
-#wrong-browser {
+#wrong-browser,
+#mobile {
   position: fixed;
   position: absolute;
   left: 0;
   right: 0;
   top: 0;
-  padding: 3em 5em;
+  padding: 0 1em;
+  max-width: 400px;
+  border-radius: @borderRadius;
+  margin: 20px auto;
   z-index: 9999999;
 
-  font-family: Arial;
+  font-family: 'Open Sans', Arial;
   font-size: 20px;
-  color: white;
-  background: rgb(150, 40, 40);
+  color: black;
+  background: @mainBackgroundColour;
   outline: 2000px solid black;
+
+  .logo {
+    width: 126px / 2;
+    height: 143px / 2;
+    margin-top: 0;
+
+    -webkit-filter: drop-shadow(0 0 1px black);
+    -moz-filter: drop-shadow(0 0 1px black);
+    filter: drop-shadow(0 0 1px black);
+  }
+
+  button {
+    font-size: 20px;
+  }
+
+  &.visible {
+    display: block !important;
+  }
 }
