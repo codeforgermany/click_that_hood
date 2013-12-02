@@ -24,12 +24,12 @@
 @dataTransitionDelay: 150ms;
 
 @fontSize: 14px;
-@borderRadius: 0;
 
 @hoverNeighborhoodFillColour: fadeout(@highlightColour, 50%);
 @guessedNeighborhoodFillColour: rgba(0, 255, 0, .25);
 @unguessedNeighborhoodFillColour: rgba(0, 0, 0, .6);
 @inactiveNeighborhoodFillColour: rgba(128, 128, 128, .75);
+@correctNameBackground: desaturate(rgba(0, 255, 0, .95), 70%);
 
 html {
   height: 100%;
@@ -121,7 +121,6 @@ body:not(.no-fixed-main-menu).main-menu .menu {
   padding: 0 8px;
   margin-left: 8px;
   margin-right: -8px;
-  border-radius: @borderRadius;
   font-weight: 600;
 
   color: @mainBackgroundColour;
@@ -493,7 +492,6 @@ body.main-menu #count-time-wrapper-wrapper {
 
 #neighborhood-guess {
   background: rgba(0, 0, 0, .75);
-  border-radius: @borderRadius;
 
   float: left;
   position: relative;
@@ -549,7 +547,6 @@ body.main-menu #count-time-wrapper-wrapper {
 
 #count-time {
   background: rgba(0, 0, 0, .75);
-  border-radius: @borderRadius;
 
   float: left;
   position: relative;
@@ -616,7 +613,6 @@ body.main-menu #count-time-wrapper-wrapper {
 
   background: @mainBackgroundColour;
   color: black;
-  border-radius: @borderRadius @borderRadius 0 0;
   padding: 8px 16px;
 
   cursor: pointer;
@@ -626,12 +622,11 @@ body.no-hover #neighborhood-hover {
   display: none;
 }
 
-#neighborhood-hover {
+#neighborhood-hover,
+#neighborhood-correct-name {
   position: absolute;
   left: 0;
   top: 0;
-
-  border-radius: @borderRadius;
 
   z-index: 2000;
   pointer-events: none;
@@ -641,8 +636,6 @@ body.no-hover #neighborhood-hover {
   border: 1px solid white;
   margin: -1px;
   margin-left: @bodyMargin * 2 + @headerWidth;
-
-  background: rgba(0, 0, 0, .8);
 
   max-width: 400px;
 
@@ -656,7 +649,6 @@ body.no-hover #neighborhood-hover {
   color: black;
 
   pointer-events: none;
-
 
   font-weight: 600;
   font-size: @fontSize * 1.5;
@@ -674,18 +666,39 @@ body.no-hover #neighborhood-hover {
     margin-top: 50px + 20px;
     display: block;
   }
-  &.active {
-    opacity: 1;
-
-    -webkit-transition: opacity 750ms;
-    -moz-transition: opacity 750ms;
-    transition: opacity 750ms;
-  }
 
   &.inactive {
     background: fadein(@inactiveNeighborhoodFillColour, 15%);
     font-size: @fontSize * 1.5 * .75;
   }
+}
+
+#neighborhood-hover.active,
+#neighborhood-correct-name {
+  opacity: 1;
+
+  -webkit-transition: opacity 750ms;
+  -moz-transition: opacity 750ms;
+  transition: opacity 750ms;
+}
+
+#neighborhood-correct-name {
+  margin-top: 50px + 20px;
+  opacity: 0;
+
+  -webkit-transition: opacity 150ms;
+  -moz-transition: opacity 150ms;
+  transition: opacity 150ms;
+
+  &.visible {
+    opacity: 1;
+
+    -webkit-transition: opacity 500ms;
+    -moz-transition: opacity 500ms;
+    transition: opacity 500ms;
+  }
+
+  background: @correctNameBackground;
 }
 
 #map .neighborhood-boundary {
@@ -817,7 +830,6 @@ a.button {
   font-family: 'Open Sans', Arial, Helvetica, sans-serif;
 
   border: none;
-  border-radius: @borderRadius;
 
   background: mix(@highlightColour, white, 90%);
   box-shadow: 0 0 1px black, 0 0 2px black;
@@ -964,7 +976,6 @@ body.main-menu #map .location.current {
   top: 0;
   padding: 0 1em;
   max-width: 400px;
-  border-radius: @borderRadius;
   margin: 20px auto;
   z-index: 9999999;
 

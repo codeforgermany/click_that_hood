@@ -579,51 +579,56 @@ function setTouchActive(newTouchActive) {
   }
 }
 
-function hoverNeighborhoodEl(el, showTooltip) {
-  var boundingBox = el.getBBox();
+function showNeighboorhoodTooltip(neighborhoodEl, hoverEl) {
+  var name = neighborhoodEl.getAttribute('name');
 
+  hoverEl.classList.remove('visible');  
+  hoverEl.innerHTML = name;
+
+  var boundingBox = neighborhoodEl.getBBox();
+
+  if (touchActive) {
+    var top = boundingBox.y - hoverEl.offsetHeight - 30;
+  } else {
+    var top = boundingBox.y + boundingBox.height;
+  }
+
+  var left = (boundingBox.x + boundingBox.width / 2 - hoverEl.offsetWidth / 2);
+
+  hoverEl.style.top = top + 'px'; 
+  hoverEl.style.left = left + 'px';
+
+  if (neighborhoodEl.getAttribute('inactive')) {
+    hoverEl.classList.add('inactive');
+  } else {
+    hoverEl.classList.remove('inactive');
+  }
+
+  hoverEl.classList.add('visible');  
+}
+
+function hoverNeighborhoodEl(neighborhoodEl, showTooltip) {
   var hoverEl = document.querySelector('#neighborhood-hover');
 
-  var name = el.getAttribute('name');
+  var name = neighborhoodEl.getAttribute('name');
 
   if (showTooltip && ((hoverEl.innerHTML != name) || 
       (!hoverEl.classList.contains('visible')))) {
-    hoverEl.classList.remove('visible');  
-
-    hoverEl.innerHTML = name;
-
-    if (touchActive) {
-      var top = boundingBox.y - hoverEl.offsetHeight - 30;
-    } else {
-      var top = boundingBox.y + boundingBox.height;
-    }
-
-    var left = (boundingBox.x + boundingBox.width / 2 - hoverEl.offsetWidth / 2);
-
-    hoverEl.style.top = top + 'px'; 
-    hoverEl.style.left = left + 'px';
-
-    if (el.getAttribute('inactive')) {
-      hoverEl.classList.add('inactive');
-    } else {
-      hoverEl.classList.remove('inactive');
-    }
-
-    hoverEl.classList.add('visible');  
+    showNeighboorhoodTooltip(neighborhoodEl, hoverEl);
   }
 
   // Fix for Safari 6
-  if (!el.classList) {
+  if (!neighborhoodEl.classList) {
     hideSafariNeighborhood();
 
-    if (!el.id) {
-      el.style.webkitTransition = 'none';
-      if (!el.getAttribute('inactive')) {
-        el.style.fill = 'rgba(247, 148, 29, 0.5)';
+    if (!neighborhoodEl.id) {
+      neighborhoodEl.style.webkitTransition = 'none';
+      if (!neighborhoodEl.getAttribute('inactive')) {
+        neighborhoodEl.style.fill = 'rgba(247, 148, 29, 0.5)';
       } else {
-        el.style.fill = 'rgba(108, 108, 108, 0.775)';
+        neighborhoodEl.style.fill = 'rgba(108, 108, 108, 0.775)';
       }
-      el.id = 'safari-neighborhood-hover';
+      neighborhoodEl.id = 'safari-neighborhood-hover';
     }
   }
 }
@@ -722,15 +727,8 @@ function onNeighborhoodClick(el) {
   setMapClickable(false);
 
   var time = new Date().getTime() - currentNeighborhoodStartTime;
-/*  ???
-
-    if (time > currentTooltipDelay) {
-      currentNeighborhoodOverThreshold = true;
-      showTooltips();
-    }*/
 
   if (name == neighborhoodToBeGuessedNext) {
-
     if (time > TOOLTIP_DELAY_THRESHOLD) {
       currentTooltipDelay -= time - TOOLTIP_DELAY_THRESHOLD;
       if (currentTooltipDelay < 0) {
@@ -767,6 +765,8 @@ function onNeighborhoodClick(el) {
       window.setTimeout(nextGuess, NEXT_GUESS_DELAY);
     }
   } else {
+    // Incorrect
+
     currentTooltipDelay -= 1000;
     if (currentTooltipDelay < 0) {
       currentTooltipDelay = 0;
@@ -792,6 +792,11 @@ function onNeighborhoodClick(el) {
       correctEl.style.webkitAnimationIterationCount = 'infinite';
       correctEl.id = 'safari-right-guess';
     }
+
+    var correctNameEl = document.querySelector('#neighborhood-correct-name');
+    showNeighboorhoodTooltip(correctEl, correctNameEl);
+    console.log(correctEl);
+    console.log(correctNameEl);
 
     window.setTimeout(removeNeighborhoodHighlights, HIGHLIGHT_DELAY);
     window.setTimeout(nextGuess, HIGHLIGHT_DELAY + NEXT_GUESS_DELAY);
@@ -820,6 +825,11 @@ function removeNeighborhoodHighlights() {
   if (el) {
     el.classList.remove('right-guess');
     el.classList.add('unguessed');
+  }
+
+  var el = document.querySelector('#neighborhood-correct-name');
+  if (el) {
+    el.classList.remove('visible');
   }
 
   // Fix for early Safari 6 not supporting classes on SVG objects
