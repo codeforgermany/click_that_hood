@@ -1082,8 +1082,10 @@ function prepareMapBackground() {
   // TODO resize properly instead of recreating every single time
   document.querySelector('#maps-background').innerHTML = '';
 
-  var layer = mapbox.layer().id(MAPBOX_MAP_ID);
-  var map = mapbox.map(document.querySelector('#maps-background'), layer, null, []);
+  if (typeof mapbox != 'undefined') {
+    var layer = mapbox.layer().id(MAPBOX_MAP_ID);
+    var map = mapbox.map(document.querySelector('#maps-background'), layer, null, []);
+  }
 
   if (pixelRatio == 2) {
     zoom++;
@@ -1099,27 +1101,26 @@ function prepareMapBackground() {
     size *= 2;
   }
 
-  //console.log('z', size, pixelRatio);
-  
-  map.tileSize = { x: Math.round(size / pixelRatio), 
-                   y: Math.round(size / pixelRatio) };
+  if (typeof map != 'undefined') {
+    var tile = latToTile(centerLat, zoom);
+    var longStep = 
+        (tileToLon(1, zoom) - tileToLon(0, zoom)) / 256 * 128;
+    var latStep = 
+        (tileToLat(tile + 1, zoom) - tileToLat(tile, zoom)) / 256 * 128;
 
-  var tile = latToTile(centerLat, zoom);
-  var longStep = 
-      (tileToLon(1, zoom) - tileToLon(0, zoom)) / 256 * 128;
-  var latStep = 
-      (tileToLat(tile + 1, zoom) - tileToLat(tile, zoom)) / 256 * 128;
+    var lat = centerLat;
+    var lon = centerLon;
 
-  var lat = centerLat;
-  var lon = centerLon;
+    var leftMargin = BODY_MARGIN * 2 + HEADER_WIDTH;
 
-  var leftMargin = BODY_MARGIN * 2 + HEADER_WIDTH;
+    var ratio = leftMargin / map.tileSize.x;
 
-  var ratio = leftMargin / map.tileSize.x;
+    lon -= ratio * longStep;
 
-  lon -= ratio * longStep;
-
-  map.centerzoom({ lat: lat, lon: lon }, zoom);
+    map.tileSize = { x: Math.round(size / pixelRatio), 
+                     y: Math.round(size / pixelRatio) };
+    map.centerzoom({ lat: lat, lon: lon }, zoom);
+  }
 }
 
 function onResize() {
