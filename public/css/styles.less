@@ -657,10 +657,6 @@ body.no-hover #neighborhood-hover {
 
   pointer-events: none;
 
-  opacity: 0;
-  display: none;
-
-  margin-top: 50px + 20px;
 
   font-weight: 600;
   font-size: @fontSize * 1.5;
@@ -671,7 +667,11 @@ body.no-hover #neighborhood-hover {
   -moz-transition: opacity 250ms;
   transition: opacity 250ms;
 
+  margin-top: -9999px;
+  opacity: 0;
+
   &.visible {
+    margin-top: 50px + 20px;
     display: block;
   }
   &.active {
