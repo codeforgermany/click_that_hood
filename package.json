@@ -12,7 +12,8 @@
     "jshint": "1.1.0"
   },
   "scripts": {
-    "lint": "jshint ."
+    "lint": "jshint .",
+    "start": "node app.js"
   },
     "engines": {
         "node": "0.10.x",
