@@ -51,6 +51,8 @@ var startTime = 0;
 var timerIntervalId;
 
 var totalNeighborhoodsCount;
+var neighborhoodsDisplayNames = {};
+
 var neighborhoods = [];
 var neighborhoodsToBeGuessed = [];
 var neighborhoodsGuessed = [];
@@ -100,6 +102,9 @@ var TOOLTIP_DELAY_THRESHOLD = 3000; // ms
 var currentTooltipDelay = INITIAL_TOOLTIP_DELAY;
 var currentNeighborhoodStartTime;
 var currentNeighborhoodOverThreshold = false;
+
+var defaultLanguage = '';
+var language = '';
 
 function lonToTile(lon, zoom) { 
   return Math.floor((lon + 180) / 360 * Math.pow(2, zoom));
@@ -311,7 +316,7 @@ function removeSmallNeighborhoods() {
     var no = Math.floor(Math.random() * count);
 
     document.querySelector('.small-neighborhood-example').innerHTML = 
-        smallNeighborhoodsRemoved[no];
+        neighborhoodsDisplayNames[smallNeighborhoodsRemoved[no]];
   } else {    
     document.body.classList.remove('neighborhoods-removed');
   }
@@ -452,12 +457,31 @@ function addTouchEventHandlers() {
   document.body.addEventListener('touchcancel', onBodyTouchCancel, false);
 }
 
+function determineLanguage() {
+  if (CITY_DATA[cityId].languages) {
+    for (var name in CITY_DATA[cityId].languages) {
+      defaultLanguage = name;
+      break;
+    }
+
+    for (var name in CITY_DATA[cityId].languages) {
+      if ((name != defaultLanguage) && 
+          (window.localStorage['prefer-' + name + '-to-' + defaultLanguage] === 'yes')) {
+        language = name;
+        return;
+      }
+    }
+    language = defaultLanguage;
+  }
+}
+
 function everythingLoaded() {
   if (!mainMenu) {
     calculateMapSize();
     prepareMapBackground();
 
     prepareNeighborhoods();
+    updateNeighborhoodDisplayNames();
 
     createMap();
 
@@ -474,13 +498,40 @@ function onGeoDataLoad(data) {
   checkIfEverythingLoaded();
 }
 
+function updateLanguagesSelector() {
+  var els = document.querySelectorAll('header .languages button.selected');
+  for (var i = 0, el; el = els[i]; i++) {
+    el.classList.remove('selected');
+  }
+
+  var el = document.querySelector('header .languages button[name="' + language + '"]');
+  el && el.classList.add('selected');
+}
+
+function updateNeighborhoodDisplayNames() {
+  neighboorhoodsDisplayNames = {};
+
+  for (var i in geoData.features) {
+    var name = geoData.features[i].properties.name;
+
+    if (CITY_DATA[cityId].languages) {
+      var id = CITY_DATA[cityId].languages[language];
+    } else {
+      var id = 'name';
+    }
+
+    neighborhoodsDisplayNames[name] = geoData.features[i].properties[id];
+  }  
+}
+
 function prepareNeighborhoods() {
   neighborhoods = [];
 
   for (var i in geoData.features) {
-    neighborhoods.push(geoData.features[i].properties.name);
+    var name = geoData.features[i].properties.name;
+
+    neighborhoods.push(name);
   }
-  neighborhoods.sort();
 
   totalNeighborhoodsCount = neighborhoods.length;
 }
@@ -583,7 +634,7 @@ function showNeighboorhoodTooltip(neighborhoodEl, hoverEl) {
   var name = neighborhoodEl.getAttribute('name');
 
   hoverEl.classList.remove('visible');  
-  hoverEl.innerHTML = name;
+  hoverEl.innerHTML = neighborhoodsDisplayNames[name];
 
   var boundingBox = neighborhoodEl.getBBox();
 
@@ -612,7 +663,7 @@ function hoverNeighborhoodEl(neighborhoodEl, showTooltip) {
 
   var name = neighborhoodEl.getAttribute('name');
 
-  if (showTooltip && ((hoverEl.innerHTML != name) || 
+  if (showTooltip && ((hoverEl.innerHTML != neighborhoodsDisplayNames[name]) || 
       (!hoverEl.classList.contains('visible')))) {
     showNeighboorhoodTooltip(neighborhoodEl, hoverEl);
   }
@@ -795,8 +846,6 @@ function onNeighborhoodClick(el) {
 
     var correctNameEl = document.querySelector('#neighborhood-correct-name');
     showNeighboorhoodTooltip(correctEl, correctNameEl);
-    console.log(correctEl);
-    console.log(correctNameEl);
 
     window.setTimeout(removeNeighborhoodHighlights, HIGHLIGHT_DELAY);
     window.setTimeout(nextGuess, HIGHLIGHT_DELAY + NEXT_GUESS_DELAY);
@@ -857,7 +906,7 @@ function removeNeighborhoodHighlights() {
 function updateNeighborhoodDisplay() {
   if (neighborhoodToBeGuessedNext) {
     document.querySelector('#neighborhood-guess .name').innerHTML = 
-      neighborhoodToBeGuessedNext;  
+      neighborhoodsDisplayNames[neighborhoodToBeGuessedNext];  
 
     document.querySelector('#neighborhood-guess-wrapper').classList.add('visible');  
   } else {
@@ -1234,7 +1283,7 @@ function getNeighborhoodNoun(plural) {
   }
 }
 
-function prepareLogo() {
+function preparePage() {
   var name = CITY_DATA[cityId].stateName || CITY_DATA[cityId].countryName || '';
 
   // TODO don’t hardcode!
@@ -1267,7 +1316,42 @@ function prepareLogo() {
     el.innerHTML = neighborhoodNounPlural;
   }
 
+  if (CITY_DATA[cityId].languages) {
+    for (var name in CITY_DATA[cityId].languages) {
+      var buttonEl = document.createElement('button');
+      buttonEl.innerHTML = name;
+      buttonEl.setAttribute('name', name);
+
+      buttonEl.addEventListener('click', languageChange);
+
+      document.querySelector('header .languages').appendChild(buttonEl);
+    }
+  }
+
   resizeLogoIfNecessary();
+}
+
+function languageChange(event) {
+  var el = event.target;
+
+  var newLanguage = event.target.getAttribute('name');
+  if (language == newLanguage) {
+    return;
+  }
+
+  if (language != defaultLanguage) {
+    delete window.localStorage['prefer-' + language + '-to-' + defaultLanguage];
+  }
+
+  if (newLanguage != defaultLanguage) {
+    window.localStorage['prefer-' + newLanguage + '-to-' + defaultLanguage] = 'yes';
+  }
+
+  language = newLanguage;
+
+  updateLanguagesSelector();
+  updateNeighborhoodDisplayNames();
+  updateNeighborhoodDisplay();
 }
 
 function prepareLocationList() {
@@ -1475,7 +1559,9 @@ function browserIsOkay() {
     document.querySelector('#loading').classList.add('visible');
     document.querySelector('#intro').classList.add('visible');
 
-    prepareLogo();
+    determineLanguage();
+    preparePage();
+    updateLanguagesSelector();
     updateFooter();
     createSvg();
     loadGeoData();

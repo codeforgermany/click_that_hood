@@ -314,6 +314,46 @@ header.game .annotation:empty {
   display: none;
 }
 
+header .languages {
+  display: block;
+
+  margin-top: 30px;
+  text-align: center;
+
+  button {
+    font-size: 15px;
+    background: transparent;
+    padding: 0;
+    color: @mainBackgroundColour;
+    box-shadow: none;
+    letter-spacing: 4px;
+    margin-right: -4px;
+    margin-left: 4px;
+    text-shadow: 0 0 1px black, 0 0 2px black;
+
+    text-transform: uppercase;   
+
+    font-weight: 300;
+
+    outline: none;
+
+    &.selected {
+      color: @highlightColour;
+      font-weight: 700;
+    }
+    &:hover {
+      color: mix(@highlightColour, white, 90%);
+    }
+    &:active {
+      color: darken(@highlightColour, 10%);
+    }
+
+    &:not(last-child) {
+      margin-right: 4px;
+    }
+  }
+}
+
 #main-menu {
   display: none !important;
 }

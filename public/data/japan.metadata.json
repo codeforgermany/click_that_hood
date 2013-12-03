@@ -5,5 +5,10 @@
   "neighborhoodNoun": ["prefecture", "prefectures"],
 
   "dataUrl": "http://www.fas.harvard.edu/~chgis/japan/archive/",
-  "dataTitle": "Japan Data Archive"
+  "dataTitle": "Japan Data Archive",
+
+  "languages": {
+    "kanji": "name",
+    "english": "name_english"
+  }
 }
