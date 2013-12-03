@@ -1,7 +1,7 @@
 { 
   "locationName": "Oman",
   "countryName": "Oman",
-  "annotation": "Provinces",
+  "annotation": "Provinces (wilayat)",
   "neighborhoodNoun": ["province", "provinces"],
 
   "dataUrl": "http://www.gadm.org/",
