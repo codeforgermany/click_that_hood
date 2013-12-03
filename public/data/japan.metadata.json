@@ -8,7 +8,7 @@
   "dataTitle": "Japan Data Archive",
 
   "languages": {
-    "kanji": "name",
+    "漢字": "name",
     "english": "name_english"
   }
 }
