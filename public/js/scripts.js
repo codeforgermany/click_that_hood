@@ -903,10 +903,14 @@ function removeNeighborhoodHighlights() {
   }
 }
 
+function updateNeighborhoodDisplayName() {
+  document.querySelector('#neighborhood-guess .name').innerHTML = 
+    neighborhoodsDisplayNames[neighborhoodToBeGuessedNext];  
+}
+
 function updateNeighborhoodDisplay() {
   if (neighborhoodToBeGuessedNext) {
-    document.querySelector('#neighborhood-guess .name').innerHTML = 
-      neighborhoodsDisplayNames[neighborhoodToBeGuessedNext];  
+    updateNeighborhoodDisplayName();
 
     document.querySelector('#neighborhood-guess-wrapper').classList.add('visible');  
   } else {
@@ -1351,7 +1355,7 @@ function languageChange(event) {
 
   updateLanguagesSelector();
   updateNeighborhoodDisplayNames();
-  updateNeighborhoodDisplay();
+  updateNeighborhoodDisplayName();
 }
 
 function prepareLocationList() {
