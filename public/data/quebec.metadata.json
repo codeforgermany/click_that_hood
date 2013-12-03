@@ -1,0 +1,9 @@
+{ 
+  "locationName": "Québec",
+  "countryName": "Canada",
+  "annotation": "Administrative regions",
+  "neighborhoodNoun": ["administrative region", "administrative regions"],
+
+  "dataUrl": "http://www.mrn.gouv.qc.ca/territoire/portrait/portrait-donnees-mille.jsp",
+  "dataTitle": "Ressources naturelles Québec"
+}
