@@ -1,0 +1,9 @@
+{ 
+  "locationName": "Oman",
+  "countryName": "Oman",
+  "annotation": "Governorates",
+  "neighborhoodNoun": ["governorate", "governorates"],
+
+  "dataUrl": "http://www.gadm.org/",
+  "dataTitle": "Global Administrative Areas"
+}
