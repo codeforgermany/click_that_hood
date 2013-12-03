@@ -468,9 +468,9 @@ function everythingLoaded() {
 }
 
 function onGeoDataLoad(data) {
-  geoData = JSON.parse(this.responseText);
   geoDataLoaded = true;
-
+  geoData = JSON.parse(this.responseText);
+  
   checkIfEverythingLoaded();
 }
 
@@ -888,7 +888,7 @@ function nextGuess() {
 
 function startIntro() {
   document.querySelector('#loading').classList.remove('visible');
-  document.querySelector('#intro').classList.add('visible');
+  document.querySelector('#select-mode').classList.add('visible');
 }
 
 function makeAllNeighborhoodsActive() {
@@ -925,6 +925,7 @@ function startGame(useEasyMode) {
   gameStarted = true;
 
   document.querySelector('#intro').classList.remove('visible');  
+  document.querySelector('#select-mode').classList.remove('visible');  
   document.querySelector('#cover').classList.remove('visible');
 
   neighborhoodsToBeGuessed = [];
@@ -1472,6 +1473,7 @@ function browserIsOkay() {
   } else {
     document.querySelector('#cover').classList.add('visible');
     document.querySelector('#loading').classList.add('visible');
+    document.querySelector('#intro').classList.add('visible');
 
     prepareLogo();
     updateFooter();

@@ -110,20 +110,20 @@
       </div>    
 
       <div id='cover'>
-        <div id='loading'>
-          <div>
-            Loading…
-            <progress val='0' max='100'></progress>
-          </div>
-        </div>
         <div id='intro'>
           <div>
-            <p>
+            <div>
+              <div id='loading'>
+                <div>
+                  Loading…
+                  <progress val='0' max='100'></progress>
+                </div>
+              </div>
               <span class='click-verb capitalize'></span> the proper <span class='location-name'></span> 
               <span class='neighborhood-noun'></span>
               as soon as its name comes up. The faster, the better!
-            </p>
-            <p>
+            </div>
+            <div id='select-mode'>
               <button onclick='startGame(true)'>Start the game<span class='difficult-game'><br><span>(<span class='easy-mode-count'></span> random <span class='neighborhood-nouns'></span>)</span></span></button>
               <span class='difficult-game'>
                 <br>
@@ -137,7 +137,7 @@
                   <br>(Nothing personal, <span class='small-neighborhood-example'></span>.)
                 </span>
               </span>
-            </p>
+            </div>
           </div>
         </div>
 
