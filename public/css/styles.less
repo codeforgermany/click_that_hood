@@ -372,6 +372,19 @@ footer {
   text-align: center;
 
   overflow: hidden;
+
+  .contents {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    padding: 0 20px;
+    height: @footerHeight + 50px;
+    overflow-x: scroll;
+    overflow-y: none;
+
+    white-space: nowrap;
+  }
 }
 footer a,
 footer a:visited {
