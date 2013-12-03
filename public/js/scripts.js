@@ -286,6 +286,14 @@ function loadGeoData() {
   request.send();
 }
 
+function updateSmallNeighborhoodDisplay() {
+  var count = smallNeighborhoodsRemoved.length;
+  var no = Math.floor(Math.random() * count);
+
+  document.querySelector('.small-neighborhood-example').innerHTML = 
+      neighborhoodsDisplayNames[smallNeighborhoodsRemoved[no]];
+}
+
 function removeSmallNeighborhoods() {
   var els = document.querySelectorAll('#map .neighborhood');
 
@@ -313,10 +321,7 @@ function removeSmallNeighborhoods() {
   if (count) {
     document.body.classList.add('neighborhoods-removed');
 
-    var no = Math.floor(Math.random() * count);
-
-    document.querySelector('.small-neighborhood-example').innerHTML = 
-        neighborhoodsDisplayNames[smallNeighborhoodsRemoved[no]];
+    updateSmallNeighborhoodDisplay();
   } else {    
     document.body.classList.remove('neighborhoods-removed');
   }
@@ -1356,6 +1361,7 @@ function languageChange(event) {
   updateLanguagesSelector();
   updateNeighborhoodDisplayNames();
   updateNeighborhoodDisplayName();
+  updateSmallNeighborhoodDisplay();
 }
 
 function prepareLocationList() {
