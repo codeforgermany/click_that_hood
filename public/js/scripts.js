@@ -82,6 +82,7 @@ var lastMapWidth;
 
 var centerLat, centerLon;
 var latSpread, lonSpread;
+var crossingAntemeridian = false;
 
 var currentGeoLat, currentGeoLon;
 
@@ -142,6 +143,65 @@ function updateCanvasSize() {
   }
 }
 
+function findBoundaries() {
+  // TODO const
+  var minLat = 99999999;
+  var maxLat = -99999999;
+  var minLon = 99999999;
+  var maxLon = -99999999;
+
+  // TODO move outside
+  function findMinMax(lon, lat) {
+    if (crossingAntemeridian) {
+      lon += 360;
+      lon %= 360;
+    }
+
+    if (lat > maxLat) {
+      maxLat = lat;
+    }
+    if (lat < minLat) {
+      minLat = lat;
+    }
+
+    if (lon > maxLon) {
+      maxLon = lon;
+    }
+    if (lon < minLon) {
+      minLon = lon;
+    }
+  }
+
+  for (var i in geoData.features) {
+    for (var z in geoData.features[i].geometry.coordinates) {
+      for (var j in geoData.features[i].geometry.coordinates[z]) {
+
+        if (geoData.features[i].geometry.coordinates[z][j].length && 
+            typeof geoData.features[i].geometry.coordinates[z][j][0] != 'number') {
+          for (var k in geoData.features[i].geometry.coordinates[z][j]) {
+            var lon = geoData.features[i].geometry.coordinates[z][j][k][0];
+            var lat = geoData.features[i].geometry.coordinates[z][j][k][1];
+
+            findMinMax(lon, lat);
+          }
+        } else if (geoData.features[i].geometry.coordinates[z][j].length) {
+          var lon = geoData.features[i].geometry.coordinates[z][j][0];
+          var lat = geoData.features[i].geometry.coordinates[z][j][1];
+
+          findMinMax(lon, lat);
+        }
+      }
+    }
+  }
+
+  return { 
+    minLat: minLat,
+    maxLat: maxLat,
+    minLon: minLon,
+    maxLon: maxLon
+  }
+}
+
 function calculateMapSize() {
   if (mainMenu) {
     geoMapPath = d3.geo.path().projection(
@@ -149,54 +209,17 @@ function calculateMapSize() {
         scale(640 / 6.3).
         translate([256 + 512 + 213 - 88 + (mapWidth % 640) / 2 - 621 / 2, 256]));
   } else {
-    // TODO const
-    var minLat = 99999999;
-    var maxLat = -99999999;
-    var minLon = 99999999;
-    var maxLon = -99999999;
+    var boundaries = findBoundaries();
 
-    // TODO move outside
-    function findMinMax(lon, lat) {
-      if (lat > maxLat) {
-        maxLat = lat;
-      }
-      if (lat < minLat) {
-        minLat = lat;
-      }
-      if (lon > maxLon) {
-        maxLon = lon;
-      }
-      if (lon < minLon) {
-        minLon = lon;
-      }
+    if ((boundaries.minLon == -180) && (boundaries.maxLon == 180)) {
+      crossingAntemeridian = true;
+      boundaries = findBoundaries();
     }
 
-    for (var i in geoData.features) {
-      for (var z in geoData.features[i].geometry.coordinates) {
-        for (var j in geoData.features[i].geometry.coordinates[z]) {
-
-          if (geoData.features[i].geometry.coordinates[z][j].length && 
-              typeof geoData.features[i].geometry.coordinates[z][j][0] != 'number') {
-            for (var k in geoData.features[i].geometry.coordinates[z][j]) {
-              var lon = geoData.features[i].geometry.coordinates[z][j][k][0];
-              var lat = geoData.features[i].geometry.coordinates[z][j][k][1];
-
-              findMinMax(lon, lat);
-            }
-          } else if (geoData.features[i].geometry.coordinates[z][j].length) {
-            var lon = geoData.features[i].geometry.coordinates[z][j][0];
-            var lat = geoData.features[i].geometry.coordinates[z][j][1];
-
-            findMinMax(lon, lat);
-          }
-        }
-      }
-    }
-
-    centerLat = (minLat + maxLat) / 2;
-    centerLon = (minLon + maxLon) / 2;
-    latSpread = maxLat - minLat;
-    lonSpread = maxLon - minLon;
+    centerLat = (boundaries.minLat + boundaries.maxLat) / 2;
+    centerLon = (boundaries.minLon + boundaries.maxLon) / 2;
+    latSpread = boundaries.maxLat - boundaries.minLat;
+    lonSpread = boundaries.maxLon - boundaries.minLon;
 
     updateCanvasSize();
 
@@ -225,6 +248,10 @@ function calculateMapSize() {
         break;
       case 'europe':
         globalScale *= .85;
+        centerLat += 6;
+        break;
+      case 'russia':
+        globalScale *= .8;
         centerLat += 6;
         break;
       case 'europe-1914':
@@ -257,9 +284,17 @@ function calculateMapSize() {
           MAPS_DEFAULT_SCALE;
     }
 
-    geoMapPath = d3.geo.path().projection(
-        d3.geo.mercator().center([centerLon, centerLat]).
-        scale(globalScale / 6.3).translate([mapWidth / 2, mapHeight / 2]));
+    var projection = d3.geo.mercator();
+    if (!crossingAntemeridian) {
+      projection = projection.center([centerLon, centerLat]);
+    } else {
+      projection = projection.center([centerLon - 180, centerLat]).
+          rotate([180, 0]);    
+    }
+    projection = projection.scale(globalScale / 6.3).
+        translate([mapWidth / 2, mapHeight / 2]);
+
+    geoMapPath = d3.geo.path().projection(projection);
   }
 }
 
@@ -1182,6 +1217,14 @@ function prepareMapBackground() {
   map.tileSize = { x: Math.round(size / pixelRatio), 
                    y: Math.round(size / pixelRatio) };
 
+  console.log('zoom', zoom);
+  /*if (zoom == 0) {
+    var no = Math.round(size / pixelRatio);
+    console.log(no);
+    document.querySelector('#maps-background').style.marginTop = (no / 7) + 'px';
+  }*/
+//            console.log(Math.round(size / pixelRatio));
+
   var tile = latToTile(centerLat, zoom);
   var longStep = 
       (tileToLon(1, zoom) - tileToLon(0, zoom)) / 256 * 128;
@@ -1196,7 +1239,7 @@ function prepareMapBackground() {
   var ratio = leftMargin / map.tileSize.x;
 
   lon -= ratio * longStep;
-  
+
   map.centerzoom({ lat: lat, lon: lon }, zoom);
 }
 
