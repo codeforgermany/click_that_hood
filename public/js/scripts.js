@@ -107,6 +107,99 @@ var currentNeighborhoodOverThreshold = false;
 var defaultLanguage = '';
 var language = '';
 
+// ---
+
+function splitPathIntoSeparateSegments(path) {
+  var segList = [];
+
+  var segs = [];
+  var s = path.pathSegList;
+  var count = s.numberOfItems;
+  for (var i = 0; i < count; i++) {
+    var item = s.getItem(i);
+    segs.push(item);
+
+    if (item.pathSegType == SVGPathSeg.PATHSEG_CLOSEPATH) {
+      segList.push(segs);
+      segs = [];
+    }
+  }
+
+  if (segs.length) {
+    segList.push(segs);
+  }
+  //console.log(segList.length);
+
+  for (var i in segList) {
+    segList[i].reverse();
+  }
+
+  return segList;
+}
+
+//*** This code is copyright 2011 by Gavin Kistner, !@phrogz.net
+//*** It is covered under the license viewable at http://phrogz.net/JS/_ReuseLicense.txt
+// The following function is taken from Gavin Kistner as above. 
+// It’s been modified in the following ways:
+// · assuming local document
+// · sampling every point (removing sampling logic)
+// · splitting path into separate ones via splitPathIntoSeparateSegments
+//   (e.g. one path with three islands = three separate ones)
+// · prettified the code
+
+function pathToPolygon(segs) {
+  var poly = document.createElementNS('http://www.w3.org/2000/svg','polygon');
+
+  var segments = segs.concat();
+
+  var points = [];
+
+  var addSegmentPoint = function(s) {
+    if (s.pathSegType != SVGPathSeg.PATHSEG_CLOSEPATH) {
+      if (s.pathSegType % 2 == 1 && s.pathSegType > 1) {
+        // All odd-numbered path types are relative, except PATHSEG_CLOSEPATH (1)
+        x += s.x; 
+        y += s.y;
+      } else {
+        x = s.x; 
+        y = s.y;
+      }         
+      var lastPoint = points[points.length - 1];
+      if (!lastPoint || x != lastPoint[0] || y != lastPoint[1]) {
+        points.push([x, y]);
+      }
+    }
+  };
+
+  for (var d = 0, len = segments.length; d < len; d++) {
+    addSegmentPoint(segs.shift());
+  }
+  for (var i = 0, len = segs.length; i < len; ++i) {
+    addSegmentPoint(segs[i]);
+  }
+  for (var i = 0, len = points.length; i < len; ++i) {
+    points[i] = points[i].join(',');
+  }
+
+  poly.setAttribute('points', points.join(' '));
+  
+  return poly;
+}
+
+function getPolygonArea(poly) {
+  var area = 0; 
+  var pts = poly.points;
+  var len = pts.numberOfItems;
+
+  for (var i = 0; i < len; ++i) {
+    var p1 = pts.getItem(i);
+    var p2 = pts.getItem((i + len - 1) % len);
+
+    area += (p2.x + p1.x) * (p2.y - p1.y);
+  }
+  return Math.abs(area / 2);
+}
+
 function lonToTile(lon, zoom) { 
   return Math.floor((lon + 180) / 360 * Math.pow(2, zoom));
 }
@@ -316,7 +409,7 @@ function loadGeoData() {
      document.querySelector('#loading progress').setAttribute('value', percentage);
   }, false);
 
-  request.open("GET", url, true);
+  request.open('GET', url, true);
   request.send();
 }
 
@@ -579,7 +672,6 @@ function prepareNeighborhoods() {
 }
 
 function createMainMenuMap() {
-
   // TODO temporarily remove until we fix positioning (issue #156)
   return;
 
@@ -709,24 +801,9 @@ function hoverNeighborhoodEl(neighborhoodEl, showTooltip) {
       (!hoverEl.classList.contains('visible')))) {
     showNeighboorhoodTooltip(neighborhoodEl, hoverEl);
   }
-
-  // Fix for Safari 6
-  if (!neighborhoodEl.classList) {
-    hideSafariNeighborhood();
-
-    if (!neighborhoodEl.id) {
-      neighborhoodEl.style.webkitTransition = 'none';
-      if (!neighborhoodEl.getAttribute('inactive')) {
-        neighborhoodEl.style.fill = 'rgba(247, 148, 29, 0.5)';
-      } else {
-        neighborhoodEl.style.fill = 'rgba(108, 108, 108, 0.775)';
-      }
-      neighborhoodEl.id = 'safari-neighborhood-hover';
-    }
-  }
 }
 
-function hideSafariNeighborhood() {
+/*function hideSafariNeighborhood() {
   var el = document.querySelector('#safari-neighborhood-hover');
   if (el) {
     el.id = '';
@@ -738,10 +815,10 @@ function hideSafariNeighborhood() {
       el.style.fill = '';      
     }
   }
-}
+}*/
 
 function hideNeighborhoodHover() {
-  hideSafariNeighborhood();
+  //hideSafariNeighborhood();
 
   document.querySelector('#neighborhood-hover').classList.remove('visible');
 }
@@ -769,13 +846,65 @@ function createMap() {
       if (!touchActive) {
         var el = d3.event.target || d3.event.toElement;
         hoverNeighborhoodEl(el, true);
+
+        el.classList.add('hover');
       }
     })
     .on('mouseout', function(d) {
+      if (!touchActive) {
+        var el = d3.event.target || d3.event.toElement;
+
+        el.classList.remove('hover');
+      }
       hideNeighborhoodHover();
     });
 
   onResize();
+}
+
+function removePaddedIslandNeighborhoods() {
+  var els = document.querySelectorAll('#svg-container .unpadded');
+  for (var i = 0, el; el = els[i]; i++) {
+    el.parentNode.removeChild(el);
+  }
+
+  var els = document.querySelectorAll('#svg-container .padded');
+  for (var i = 0, el; el = els[i]; i++) {
+    el.classList.remove('padded');
+  }
+}
+
+function padIslandNeighborhoods() {
+  if (!mainMenu) {
+    var els = document.querySelectorAll('#svg-container path');
+    for (var i = 0, el; el = els[i]; i++) {
+      var name = el.getAttribute('name');
+      if (smallNeighborhoodsRemoved.indexOf(name) != -1) {
+        continue;
+      }
+
+      var boundingBox = el.getBBox();
+      var boundingBoxArea = boundingBox.width * boundingBox.height;
+
+      var segs = splitPathIntoSeparateSegments(el);
+      var area = 0;
+      for (var j in segs) {
+        var seg = segs[j];
+        area += getPolygonArea(pathToPolygon(seg));
+      }
+
+      var needsPadding = (area < 100) && ((area / boundingBoxArea) < 0.1);
+
+      if (needsPadding) {
+        var secondEl = el.cloneNode(true);
+        el.parentNode.appendChild(secondEl);
+
+        el.classList.add('padded');
+
+        secondEl.classList.add('unpadded');
+      }
+    }
+  }
 }
 
 function setMapClickable(newMapClickable) {
@@ -788,22 +917,26 @@ function setMapClickable(newMapClickable) {
   }
 }
 
-function animateNeighborhoodGuess(el) {
+function animateCorrectNeighborhoodGuess(el) {
   var animEl = el.cloneNode(true);
-  if (animEl.classList) {
-    el.parentNode.appendChild(animEl);
+  el.parentNode.appendChild(animEl);
 
-    animEl.classList.remove('guessed');
-    animEl.classList.add('guessed-animation');
+  animEl.classList.remove('hover');
+  animEl.classList.remove('guessed');
+  animEl.classList.add('guessed-animation');
 
-    window.setTimeout(function() {
-      animEl.classList.add('animate');
-    }, 50);
+  window.setTimeout(function() {
+    animEl.classList.add('animate');
+  }, 50);
 
-    window.setTimeout(function() { 
-      animEl.parentNode.removeChild(animEl); 
-    }, REMOVE_NEIGHBORHOOD_ANIMATE_GUESS_DELAY);
-  }
+  window.setTimeout(function() { 
+    animEl.parentNode.removeChild(animEl); 
+  }, REMOVE_NEIGHBORHOOD_ANIMATE_GUESS_DELAY);
+}
+
+function getHighlightableNeighborhoodEl(name) {
+  //console.log(name);
+  return document.querySelector('#map svg :not(.unpadded)[name="' + name + '"]');
 }
 
 function onNeighborhoodClick(el) {
@@ -812,6 +945,7 @@ function onNeighborhoodClick(el) {
   }
 
   var name = el.getAttribute('name');
+  var el = getHighlightableNeighborhoodEl(name);
 
   // Assuming accidental click on a neighborhood already guessed
   // TODO does this still work?
@@ -836,18 +970,10 @@ function onNeighborhoodClick(el) {
       }
     }
 
-    if (el.classList) {
-      el.classList.remove('unguessed');
-      el.classList.add('guessed');
+    el.classList.remove('unguessed');
+    el.classList.add('guessed');
 
-      animateNeighborhoodGuess(el);
-    } else {
-      // Fix for early Safari 6 not supporting classes on SVG objects
-      el.style.fill = 'rgba(0, 255, 0, .25)';
-      el.style.stroke = 'transparent';
-
-      el.setAttribute('guessed', true);
-    }
+    animateCorrectNeighborhoodGuess(el);
 
     neighborhoodsGuessed.push(name);
     neighborhoodsToBeGuessed.splice(neighborhoodsToBeGuessed.indexOf(name), 1);
@@ -867,26 +993,11 @@ function onNeighborhoodClick(el) {
       currentTooltipDelay = 0;
     }
 
-    if (el.classList) {
-      el.classList.remove('unguessed');
-      el.classList.add('wrong-guess');
-    } else {
-      // Fix for early Safari 6 not supporting classes on SVG objects
-      el.style.fill = 'rgba(255, 0, 0, .7)';
-      el.style.stroke = 'white';
-      el.id = 'safari-wrong-guess';
-    }
+    el.classList.remove('unguessed');
+    el.classList.add('wrong-guess');
 
-    var correctEl = document.querySelector('#map svg [name="' + neighborhoodToBeGuessedNext + '"]');
-    if (correctEl.classList) {
-      correctEl.classList.add('right-guess');
-    } else {
-      // Fix for early Safari 6 not supporting classes on SVG objects
-      correctEl.style.webkitAnimationName = 'blink';
-      correctEl.style.webkitAnimationDuration = '500ms';
-      correctEl.style.webkitAnimationIterationCount = 'infinite';
-      correctEl.id = 'safari-right-guess';
-    }
+    var correctEl = getHighlightableNeighborhoodEl(neighborhoodToBeGuessedNext);
+    correctEl.classList.add('right-guess');
 
     var correctNameEl = document.querySelector('#neighborhood-correct-name');
     showNeighboorhoodTooltip(correctEl, correctNameEl);
@@ -997,7 +1108,7 @@ function makeAllNeighborhoodsActive() {
 }
 
 function makeNeighborhoodInactive(name) {
-  var el = document.querySelector('#map svg [name="' + name + '"]');
+  var el = getHighlightableNeighborhoodEl(name);
 
   el.setAttribute('inactive', true);
 }
@@ -1073,7 +1184,7 @@ function gameOver() {
   var TIMER_DELTA_MIN = 10; 
 
   for (var i = 0, el; el = els[i]; i++) {
-    createTimeout(function(el) { animateNeighborhoodGuess(el); }, el, timer);
+    createTimeout(function(el) { animateCorrectNeighborhoodGuess(el); }, el, timer);
 
     timer += timerDelta;
     timerDelta -= timerDeltaDiff;
@@ -1259,6 +1370,8 @@ function onResize() {
       calculateMapSize();
       prepareMapBackground();
 
+      removePaddedIslandNeighborhoods();
+
       mapSvg.attr('width', mapWidth);
       mapSvg.attr('height', mapHeight);
       mapSvg.selectAll('path').attr('d', geoMapPath);
@@ -1269,6 +1382,8 @@ function onResize() {
         removeSmallNeighborhoods();
         updateCount();
       }
+
+      padIslandNeighborhoods();
     }
   }
 }
@@ -1479,7 +1594,6 @@ function getEnvironmentInfo() {
   } else {
     smallNeighborhoodThreshold = SMALL_NEIGHBORHOOD_THRESHOLD_MOUSE;
   }
-  
 }
 
 function removeHttpsIfPresent() {

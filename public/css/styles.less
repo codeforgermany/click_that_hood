@@ -797,14 +797,14 @@ body.no-hover #neighborhood-hover {
   &[inactive] {
     fill: @inactiveNeighborhoodFillColour;
   }
-  body:not(.touch-active) &:not([inactive]):hover {
+  body:not(.touch-active) &:not([inactive]).hover {
     cursor: pointer;
     fill: fadeout(@highlightColour, 50%);
     -webkit-transition: fill 50ms;
     -moz-transition: fill 50ms;
     transition: fill 50ms;
   }
-  body:not(.touch-active) &[inactive]:hover {
+  body:not(.touch-active) &[inactive].hover {
     fill: mix(@inactiveNeighborhoodFillColour, black, 90%);
     -webkit-transition: fill 50ms;
     -moz-transition: fill 50ms;
@@ -814,11 +814,13 @@ body.no-hover #neighborhood-hover {
     stroke: transparent;
     fill: @guessedNeighborhoodFillColour;
   }
-  body:not(.touch-active) &.guessed:hover {
+
+  body:not(.touch-active) &.guessed.hover {
     stroke: white;
 
     fill: mix(@guessedNeighborhoodFillColour, @hoverNeighborhoodFillColour, 50%);
   }
+
   &.right-guess {
     -webkit-animation-name: blink;
     -webkit-animation-duration: 500ms;
@@ -841,24 +843,69 @@ body.no-hover #neighborhood-hover {
 
     stroke: white;
   }
+
+  &.padded {
+    stroke-width: 10;
+    stroke-linejoin: round;
+    stroke: black;
+
+    &[inactive] {
+      stroke: transparent;
+    }
+
+    body:not(.touch-active) &:not([inactive]).hover {
+      cursor: pointer;
+      stroke: fadeout(@highlightColour, 50%);
+    }
+    body:not(.touch-active) &[inactive].hover {
+      stroke: mix(@inactiveNeighborhoodFillColour, black, 90%);
+    }
+    &.guessed {
+      stroke: @guessedNeighborhoodFillColour !important;
+    }
+    &.guessed.hover {
+      stroke: mix(@guessedNeighborhoodFillColour, @hoverNeighborhoodFillColour, 50%) !important;
+    }
+    &.wrong-guess {
+      stroke: rgba(255, 0, 0, .7) !important;
+    }
+    &.right-guess {
+      -webkit-animation-name: padded-blink;
+      -moz-animation-name: padded-blink;
+      -ms-animation-name: padded-blink;
+    }
+  }
+
+  &.unpadded {
+    pointer-events: none;
+  }
+
   &.guessed-animation {
     stroke: transparent;
     fill: @guessedNeighborhoodFillColour;
 
+    &.padded {
+      stroke: @guessedNeighborhoodFillColour;
+    }
+
     pointer-events: none;
     z-index: 99999;
     -webkit-transform-origin: 50% 50%;
-    -webkit-transition: -webkit-transform 500ms, fill 500ms;
+    -webkit-transition: -webkit-transform 500ms, fill 500ms, stroke 500ms;
     -moz-transform-origin: 50% 50%;
-    -moz-transition: -moz-transform 500ms, fill 500ms;
+    -moz-transition: -moz-transform 500ms, fill 500ms, stroke 500ms;
     transform-origin: 50% 50%;
-    transition: transform 500ms, fill 500ms;
+    transition: transform 500ms, fill 500ms, stroke 500ms;
   }
   &.guessed-animation.animate {
     -webkit-transform: scale(3);
     -moz-transform: scale(3);
     transform: scale(3);
     fill: transparent;
+
+    &.padded {
+      stroke: transparent;
+    }
   }
 }
 
@@ -873,6 +920,19 @@ body.no-hover #neighborhood-hover {
 @keyframes blink {
   0%, 49.99% { fill: rgba(0, 255, 0, .25); }
   50%, 100% { fill: rgba(0, 0, 0, .6); }
+}
+
+@-webkit-keyframes padded-blink {
+  0%, 49.99% { stroke: rgba(0, 255, 0, .25); }
+  50%, 100% { stroke: rgba(0, 0, 0, .6); }
+}
+@-ms-keyframes padded-blink {
+  0%, 49.99% { stroke: rgba(0, 255, 0, .25); }
+  50%, 100% { stroke: rgba(0, 0, 0, .6); }
+}
+@keyframes padded-blink {
+  0%, 49.99% { stroke: rgba(0, 255, 0, .25); }
+  50%, 100% { stroke: rgba(0, 0, 0, .6); }
 }
 
 #cover {
