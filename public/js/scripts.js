@@ -267,8 +267,7 @@ function calculateMapSize() {
         centerLon = 5.8151245;
         break;
       case 'oceania':
-        //globalScale *= .5; //TODO: this doesn't seem to be zooming in.
-        //centerLon += 150;
+        globalScale *= .8;
         break;
       case 'world':
         globalScale *= .6;
