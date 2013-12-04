@@ -1,6 +1,6 @@
 {
   "locationName": "The World",
 
-  "dataUrl": "http://www.cityofsacramento.org/gis/",
-  "dataTitle": "City of Sacramento GIS"
+  "dataUrl": "http://www.naturalearthdata.com/downloads/110m-cultural-vectors/",
+  "dataTitle": "Natural Earth"
 }
