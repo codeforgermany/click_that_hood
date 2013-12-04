@@ -290,8 +290,11 @@ function updateSmallNeighborhoodDisplay() {
   var count = smallNeighborhoodsRemoved.length;
   var no = Math.floor(Math.random() * count);
 
-  document.querySelector('.small-neighborhood-example').innerHTML = 
-      neighborhoodsDisplayNames[smallNeighborhoodsRemoved[no]];
+  var els = document.querySelectorAll('.small-neighborhood-example');
+
+  for (var i = 0, el; el = els[i]; i++) {
+    el.innerHTML = neighborhoodsDisplayNames[smallNeighborhoodsRemoved[no]];
+  }
 }
 
 function removeSmallNeighborhoods() {

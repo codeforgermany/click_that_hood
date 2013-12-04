@@ -253,6 +253,9 @@ body.main-menu header.game {
   display: none;
 }
 
+body:not(.no-difficult-game) .simple-game {
+  display: none;
+}
 body.no-difficult-game .difficult-game {
   display: none;
 }
@@ -939,8 +942,9 @@ a.button {
     font-size: 60%;
   }
 }
-button:not(.smaller) > span:not(.difficult-game),
-button:not(.smaller) > span.difficult-game > span {
+button:not(.smaller) > span:not(.difficult-game):not(.simple-game),
+button:not(.smaller) > span.difficult-game > span,
+button:not(.smaller) > span.simple-game > span {
   font-size: 70%;
   display: block;
 }
@@ -965,7 +969,7 @@ button .neighborhoods-removed-disclaimer {
   display: none;
   position: absolute;
 
-  bottom: 70px;
+  bottom: 100px;
   right: 0;
   width: 500px;
 
