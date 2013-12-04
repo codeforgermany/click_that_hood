@@ -2,5 +2,8 @@
   "locationName": "Providence",
   "stateName": "R.I.",
 
-  "authorTwitter": "APHumanGeog"
+  "authorTwitter": "APHumanGeog",
+
+  "dataUrl": "http://profiles.provplan.org/profiles/state/rhode-island/overview/",
+  "dataTitle": "ProvPlan"
 }
