@@ -789,6 +789,7 @@ body.no-hover #neighborhood-hover {
     fill: @unguessedNeighborhoodFillColour;
     -webkit-transition: fill 300ms;
     -moz-transition: fill 300ms;
+    transition: fill 300ms;
   }
   &[inactive] {
     fill: @inactiveNeighborhoodFillColour;
@@ -798,11 +799,13 @@ body.no-hover #neighborhood-hover {
     fill: fadeout(@highlightColour, 50%);
     -webkit-transition: fill 50ms;
     -moz-transition: fill 50ms;
+    transition: fill 50ms;
   }
   body:not(.touch-active) &[inactive]:hover {
     fill: mix(@inactiveNeighborhoodFillColour, black, 90%);
     -webkit-transition: fill 50ms;
     -moz-transition: fill 50ms;
+    transition: fill 50ms;
   }
   &.guessed {
     stroke: transparent;
@@ -845,10 +848,13 @@ body.no-hover #neighborhood-hover {
     -webkit-transition: -webkit-transform 500ms, fill 500ms;
     -moz-transform-origin: 50% 50%;
     -moz-transition: -moz-transform 500ms, fill 500ms;
+    transform-origin: 50% 50%;
+    transition: transform 500ms, fill 500ms;
   }
   &.guessed-animation.animate {
     -webkit-transform: scale(3);
     -moz-transform: scale(3);
+    transform: scale(3);
     fill: transparent;
   }
 }
@@ -865,7 +871,6 @@ body.no-hover #neighborhood-hover {
   0%, 49.99% { fill: rgba(0, 255, 0, .25); }
   50%, 100% { fill: rgba(0, 0, 0, .6); }
 }
-
 
 #cover {
   position: absolute;

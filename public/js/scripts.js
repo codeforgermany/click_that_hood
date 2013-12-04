@@ -761,9 +761,11 @@ function animateNeighborhoodGuess(el) {
 
     window.setTimeout(function() {
       animEl.classList.add('animate');
-    }, 0);
+    }, 50);
 
-    window.setTimeout(function() { animEl.parentNode.removeChild(animEl); }, REMOVE_NEIGHBORHOOD_ANIMATE_GUESS_DELAY);
+    window.setTimeout(function() { 
+      animEl.parentNode.removeChild(animEl); 
+    }, REMOVE_NEIGHBORHOOD_ANIMATE_GUESS_DELAY);
   }
 }
 
