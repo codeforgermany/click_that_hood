@@ -1216,14 +1216,6 @@ function prepareMapBackground() {
   map.tileSize = { x: Math.round(size / pixelRatio), 
                    y: Math.round(size / pixelRatio) };
 
-  console.log('zoom', zoom);
-  /*if (zoom == 0) {
-    var no = Math.round(size / pixelRatio);
-    console.log(no);
-    document.querySelector('#maps-background').style.marginTop = (no / 7) + 'px';
-  }*/
-//            console.log(Math.round(size / pixelRatio));
-
   var tile = latToTile(centerLat, zoom);
   var longStep = 
       (tileToLon(1, zoom) - tileToLon(0, zoom)) / 256 * 128;
