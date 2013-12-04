@@ -643,11 +643,16 @@ function updateLanguagesSelector() {
   el && el.classList.add('selected');
 }
 
+function sanitizeName(name) {
+  name = name.replace(/[\n\r]/g, '');
+  return name;
+}
+
 function updateNeighborhoodDisplayNames() {
   neighboorhoodsDisplayNames = {};
 
   for (var i in geoData.features) {
-    var name = geoData.features[i].properties.name;
+    var name = sanitizeName(geoData.features[i].properties.name);
 
     if (CITY_DATA[cityId].languages) {
       var id = CITY_DATA[cityId].languages[language];
@@ -663,7 +668,7 @@ function prepareNeighborhoods() {
   neighborhoods = [];
 
   for (var i in geoData.features) {
-    var name = geoData.features[i].properties.name;
+    var name = sanitizeName(geoData.features[i].properties.name);
 
     neighborhoods.push(name);
   }
@@ -831,7 +836,7 @@ function createMap() {
     .append('path')
     .attr('d', geoMapPath)
     .attr('class', 'neighborhood unguessed')
-    .attr('name', function(d) { return d.properties.name; })
+    .attr('name', function(d) { return sanitizeName(d.properties.name); })
     .on('click', function(d) {
       var el = d3.event.target || d3.event.toElement;
 
