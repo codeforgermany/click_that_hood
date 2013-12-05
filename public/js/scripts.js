@@ -82,7 +82,12 @@ var lastMapWidth;
 
 var centerLat, centerLon;
 var latSpread, lonSpread;
-var crossingAntemeridian = false;
+
+var MAP_HORIZONTAL_OFFSET_NORMAL = 0;
+var MAP_HORIZONTAL_OFFSET_REVERSED = 1;
+var MAP_HORIZONTAL_OFFSET_AMERICA = 2;
+
+var mapHorizontalOffset = MAP_HORIZONTAL_OFFSET_NORMAL;
 
 var currentGeoLat, currentGeoLon;
 
@@ -245,9 +250,15 @@ function findBoundaries() {
 
   // TODO move outside
   function findMinMax(lon, lat) {
-    if (crossingAntemeridian) {
-      lon += 360;
-      lon %= 360;
+    switch (mapHorizontalOffset) {
+      case MAP_HORIZONTAL_OFFSET_REVERSED:
+        lon += 360;
+        lon %= 360;
+        break;
+      case MAP_HORIZONTAL_OFFSET_AMERICA:
+        lon += 360;
+        lon %= 360;
+        break;
     }
 
     if (lat > maxLat) {
@@ -310,8 +321,13 @@ function calculateMapSize() {
   } else {
     var boundaries = findBoundaries();
 
-    if ((boundaries.minLon == -180) && (boundaries.maxLon == 180)) {
-      crossingAntemeridian = true;
+    console.log(boundaries.minLon, boundaries.maxLon);
+
+    if (cityId == 'united-states-international-airports') {
+      mapHorizontalOffset = MAP_HORIZONTAL_OFFSET_AMERICA;
+      boundaries = findBoundaries();
+    } else if ((boundaries.minLon == -180) && (boundaries.maxLon == 180)) {
+      mapHorizontalOffset = MAP_HORIZONTAL_OFFSET_REVERSED;
       boundaries = findBoundaries();
     }
 
@@ -388,11 +404,18 @@ function calculateMapSize() {
     }
 
     projection = d3.geo.mercator();
-    if (!crossingAntemeridian) {
-      projection = projection.center([centerLon, centerLat]);
-    } else {
-      projection = projection.center([centerLon - 180, centerLat]).
-          rotate([180, 0]);    
+    switch (mapHorizontalOffset) {
+      case MAP_HORIZONTAL_OFFSET_NORMAL:
+        projection = projection.center([centerLon, centerLat]);
+        break;
+      case MAP_HORIZONTAL_OFFSET_REVERSED:
+        projection = projection.center([centerLon - 180, centerLat]).
+            rotate([180, 0]);    
+        break;
+      case MAP_HORIZONTAL_OFFSET_AMERICA:
+        projection = projection.center([centerLon - 180, centerLat]).
+            rotate([180, 0]);    
+        break;
     }
     projection = projection.scale(globalScale / 6.3).
         translate([mapWidth / 2, mapHeight / 2]);
