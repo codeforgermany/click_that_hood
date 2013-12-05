@@ -105,10 +105,14 @@ fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
 
       var geoJsonData = JSON.parse(fs.readFileSync(geoJsonFilePath, 'utf8'));
 
-      var latLon = geoJsonData.features[0].geometry.coordinates[0][0];
+      var latLon = geoJsonData.features[0].geometry.coordinates[0];
 
-      var lat, lon
-      if (latLon[0][0]) {
+      var lat, lon;
+
+      if (latLon[0] && latLon[0][0] && latLon[0][0][0]) {
+        lat = latLon[0][0][0];
+        lon = latLon[0][0][1];
+      } else if (latLon[0] && latLon[0][0]) {
         lat = latLon[0][0];
         lon = latLon[0][1];
       } else {

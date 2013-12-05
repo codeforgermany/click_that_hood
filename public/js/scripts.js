@@ -266,22 +266,28 @@ function findBoundaries() {
   }
 
   for (var i in geoData.features) {
-    for (var z in geoData.features[i].geometry.coordinates) {
-      for (var j in geoData.features[i].geometry.coordinates[z]) {
+    if (CITY_DATA[cityId].pointsInsteadOfPolygons) {
+      var lon = geoData.features[i].geometry.coordinates[0]
+      var lat = geoData.features[i].geometry.coordinates[1];
 
-        if (geoData.features[i].geometry.coordinates[z][j].length && 
-            typeof geoData.features[i].geometry.coordinates[z][j][0] != 'number') {
-          for (var k in geoData.features[i].geometry.coordinates[z][j]) {
-            var lon = geoData.features[i].geometry.coordinates[z][j][k][0];
-            var lat = geoData.features[i].geometry.coordinates[z][j][k][1];
+      findMinMax(lon, lat);
+    } else {
+      for (var z in geoData.features[i].geometry.coordinates) {
+        for (var j in geoData.features[i].geometry.coordinates[z]) {
+          if (geoData.features[i].geometry.coordinates[z][j].length && 
+              typeof geoData.features[i].geometry.coordinates[z][j][0] != 'number') {
+            for (var k in geoData.features[i].geometry.coordinates[z][j]) {
+              var lon = geoData.features[i].geometry.coordinates[z][j][k][0];
+              var lat = geoData.features[i].geometry.coordinates[z][j][k][1];
+
+              findMinMax(lon, lat);
+            }
+          } else if (geoData.features[i].geometry.coordinates[z][j].length) {
+            var lon = geoData.features[i].geometry.coordinates[z][j][0];
+            var lat = geoData.features[i].geometry.coordinates[z][j][1];
 
             findMinMax(lon, lat);
           }
-        } else if (geoData.features[i].geometry.coordinates[z][j].length) {
-          var lon = geoData.features[i].geometry.coordinates[z][j][0];
-          var lat = geoData.features[i].geometry.coordinates[z][j][1];
-
-          findMinMax(lon, lat);
         }
       }
     }
@@ -313,6 +319,11 @@ function calculateMapSize() {
     centerLon = (boundaries.minLon + boundaries.maxLon) / 2;
     latSpread = boundaries.maxLat - boundaries.minLat;
     lonSpread = boundaries.maxLon - boundaries.minLon;
+
+    if (CITY_DATA[cityId].pointsInsteadOfPolygons) {
+      latSpread *= 1.1;      
+      lonSpread *= 1.1;      
+    }
 
     updateCanvasSize();
 
@@ -376,7 +387,7 @@ function calculateMapSize() {
           MAPS_DEFAULT_SCALE;
     }
 
-    var projection = d3.geo.mercator();
+    projection = d3.geo.mercator();
     if (!crossingAntemeridian) {
       projection = projection.center([centerLon, centerLat]);
     } else {
@@ -425,9 +436,13 @@ function updateSmallNeighborhoodDisplay() {
 }
 
 function removeSmallNeighborhoods() {
-  var els = document.querySelectorAll('#map .neighborhood');
-
   smallNeighborhoodsRemoved = [];
+
+  if (CITY_DATA[cityId].pointsInsteadOfPolygons) {
+    return;
+  }
+
+  var els = document.querySelectorAll('#map .neighborhood');
 
   for (var i = 0, el; el = els[i]; i++) {
     var boundingBox = el.getBBox();
@@ -775,15 +790,15 @@ function showNeighboorhoodTooltip(neighborhoodEl, hoverEl) {
   hoverEl.classList.remove('visible');  
   hoverEl.innerHTML = neighborhoodsDisplayNames[name];
 
-  var boundingBox = neighborhoodEl.getBBox();
+  var boundingBox = neighborhoodEl.getBoundingClientRect();
 
   if (touchActive) {
-    var top = boundingBox.y - hoverEl.offsetHeight - 30;
+    var top = boundingBox.top - hoverEl.offsetHeight - 30;
   } else {
-    var top = boundingBox.y + boundingBox.height;
+    var top = boundingBox.top + boundingBox.height;
   }
 
-  var left = (boundingBox.x + boundingBox.width / 2 - hoverEl.offsetWidth / 2);
+  var left = (boundingBox.left + boundingBox.width / 2 - hoverEl.offsetWidth / 2);
 
   hoverEl.style.top = top + 'px'; 
   hoverEl.style.left = left + 'px';
@@ -808,33 +823,16 @@ function hoverNeighborhoodEl(neighborhoodEl, showTooltip) {
   }
 }
 
-/*function hideSafariNeighborhood() {
-  var el = document.querySelector('#safari-neighborhood-hover');
-  if (el) {
-    el.id = '';
-
-    if (el.getAttribute('guessed')) {
-      el.style.fill = 'rgba(0, 255, 0, .25)';
-      el.style.stroke = 'transparent';
-    } else {
-      el.style.fill = '';      
-    }
-  }
-}*/
-
 function hideNeighborhoodHover() {
-  //hideSafariNeighborhood();
-
   document.querySelector('#neighborhood-hover').classList.remove('visible');
 }
 
 function createMap() {
-  mapSvg
+  var mapContents = mapSvg
     .selectAll('path')
     .data(geoData.features)
     .enter()
     .append('path')
-    .attr('d', geoMapPath)
     .attr('class', 'neighborhood unguessed')
     .attr('name', function(d) { return sanitizeName(d.properties.name); })
     .on('click', function(d) {
@@ -880,34 +878,39 @@ function removePaddedIslandNeighborhoods() {
 }
 
 function padIslandNeighborhoods() {
-  if (!mainMenu) {
-    var els = document.querySelectorAll('#svg-container path');
-    for (var i = 0, el; el = els[i]; i++) {
-      var name = el.getAttribute('name');
-      if (smallNeighborhoodsRemoved.indexOf(name) != -1) {
-        continue;
-      }
+  if (mainMenu) {
+    return;
+  }
+  if (CITY_DATA[cityId].pointsInsteadOfPolygons) {
+    return;
+  }
 
-      var boundingBox = el.getBBox();
-      var boundingBoxArea = boundingBox.width * boundingBox.height;
+  var els = document.querySelectorAll('#svg-container path');
+  for (var i = 0, el; el = els[i]; i++) {
+    var name = el.getAttribute('name');
+    if (smallNeighborhoodsRemoved.indexOf(name) != -1) {
+      continue;
+    }
 
-      var segs = splitPathIntoSeparateSegments(el);
-      var area = 0;
-      for (var j in segs) {
-        var seg = segs[j];
-        area += getPolygonArea(pathToPolygon(seg));
-      }
+    var boundingBox = el.getBBox();
+    var boundingBoxArea = boundingBox.width * boundingBox.height;
 
-      var needsPadding = (area < 100) && ((area / boundingBoxArea) < 0.1);
+    var segs = splitPathIntoSeparateSegments(el);
+    var area = 0;
+    for (var j in segs) {
+      var seg = segs[j];
+      area += getPolygonArea(pathToPolygon(seg));
+    }
 
-      if (needsPadding) {
-        var secondEl = el.cloneNode(true);
-        el.parentNode.appendChild(secondEl);
+    var needsPadding = (area < 100) && ((area / boundingBoxArea) < 0.1);
 
-        el.classList.add('padded');
+    if (needsPadding) {
+      var secondEl = el.cloneNode(true);
+      el.parentNode.appendChild(secondEl);
 
-        secondEl.classList.add('unpadded');
-      }
+      el.classList.add('padded');
+
+      secondEl.classList.add('unpadded');
     }
   }
 }
@@ -1039,27 +1042,6 @@ function removeNeighborhoodHighlights() {
   var el = document.querySelector('#neighborhood-correct-name');
   if (el) {
     el.classList.remove('visible');
-  }
-
-  // Fix for early Safari 6 not supporting classes on SVG objects
-  var el = document.querySelector('#safari-wrong-guess');
-  if (el) {
-    el.id = '';
-
-    if (el.getAttribute('guessed')) {
-      el.style.fill = 'rgba(0, 255, 0, .25)';
-      el.style.stroke = 'transparent';
-    } else {
-      el.style.fill = '';      
-      el.style.stroke = 'white';
-    }
-  }
-  var el = document.querySelector('#safari-right-guess');
-  if (el) {
-    el.id = '';
-    el.style.webkitAnimationName = '';
-    el.style.stroke = 'white';
-    el.style.fill = '';
   }
 }
 
@@ -1351,6 +1333,8 @@ function prepareMapBackground() {
 }
 
 function onResize() {
+  //return;
+
   if (mainMenu) {
     var height = MAIN_MENU_HEIGHT;
   } else {
@@ -1379,7 +1363,24 @@ function onResize() {
 
       mapSvg.attr('width', mapWidth);
       mapSvg.attr('height', mapHeight);
-      mapSvg.selectAll('path').attr('d', geoMapPath);
+      if (CITY_DATA[cityId].pointsInsteadOfPolygons) {
+        // TODO const
+        var radius = globalScale / 75000;
+
+        // TODO const
+        if (radius < 10) {
+          radius = 10;
+        }
+        mapSvg.selectAll('path')
+          .attr('d', d3.svg.symbol().type('square').size(radius * radius))
+          .attr('transform', function(d) { 
+            return "translate(" + projection(d.geometry.coordinates)[0] + "," + 
+                projection(d.geometry.coordinates)[1] + ")"; 
+          });
+
+      } else {
+        mapSvg.selectAll('path').attr('d', geoMapPath);
+      }
 
       if (!gameStarted) {
         prepareNeighborhoods();
