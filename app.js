@@ -86,7 +86,7 @@ fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
       // Combine a list of country names.
       var countryName = metadata[locationName].countryName;
       if (!countryName && !metadata[locationName].stateName) {
-        countryName = 'The World';
+        countryName = COUNTRY_NAME_WORLD;
       }
       if (countryName && countryNames.indexOf(countryName) == -1) {
         countryNames.push(countryName);

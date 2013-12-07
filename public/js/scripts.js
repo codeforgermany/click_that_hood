@@ -10,6 +10,7 @@
  */
 
 var COUNTRY_NAME_USA = 'U.S.';
+var COUNTRY_NAME_WORLD = 'The World';
 
 var DEFAULT_NEIGHBORHOOD_NOUN_SINGULAR = 'neighborhood';
 var DEFAULT_NEIGHBORHOOD_NOUN_PLURAL = 'neighborhoods';
@@ -1310,7 +1311,10 @@ function prepareMapBackground() {
     zoom++;
   }
 
-  if (CITY_DATA[cityId].stateName) {
+  // US cities have states and no country, but some world cities have states
+  // yet also want to match all US national maps which have no states
+  if ((CITY_DATA[cityId].stateName && !CITY_DATA[cityId].countryName) ||
+      (CITY_DATA[cityId].countryName && CITY_DATA[cityId].countryName == 'U.S.')) {
     var maxZoomLevel = MAP_BACKGROUND_MAX_ZOOM_US;
   } else {
     var maxZoomLevel = MAP_BACKGROUND_MAX_ZOOM_NON_US;
@@ -1541,19 +1545,32 @@ function prepareLocationList() {
         (CITY_DATA[b].longLocationName || CITY_DATA[b].locationName) ? 1 : -1;
   });
 
+  // filter list of sorted cities into countries
+  var country_cities = {};
+  for(var country_id in COUNTRY_NAMES){
+    country_cities[COUNTRY_NAMES[country_id]] = [];
+  }
+  for(var city_id in ids){
+    var city = ids[city_id];
+    var country = CITY_DATA[city].countryName;
+    if(country){
+      country_cities[country].push(city);
+    }else if(CITY_DATA[city].stateName){
+      country_cities[COUNTRY_NAME_USA].push(city);
+    }else{
+      country_cities[COUNTRY_NAME_WORLD].push(city)
+    }
+  }
+  
   for (var i in COUNTRY_NAMES) {
     var el = document.createElement('h1');
     el.innerHTML = COUNTRY_NAMES[i];
     document.querySelector('.menu .locations').appendChild(el);
 
-    for (var id in ids) {
-      var cityData = CITY_DATA[ids[id]];
-
-      if ((cityData.countryName != COUNTRY_NAMES[i]) && 
-          (!cityData.stateName || (COUNTRY_NAMES[i] != COUNTRY_NAME_USA)) &&
-          (cityData.stateName || cityData.countryName || (COUNTRY_NAMES[i] != 'The World'))) {
-        continue;
-      }
+    // already did the work of filtering list of cities above
+    var cities = country_cities[COUNTRY_NAMES[i]];
+    for (var id in cities) {
+      var cityData = CITY_DATA[cities[id]];
 
       var el = document.createElement('li');
 
