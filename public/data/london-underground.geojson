@@ -1,0 +1,290 @@
+{
+"type": "FeatureCollection",
+                                                                                
+"features": [
+{ "type": "Feature", "id": 0, "properties": { "name": "Aldgate" }, "geometry": { "type": "Point", "coordinates": [ -0.07521, 51.51439 ] } }
+,
+{ "type": "Feature", "id": 1, "properties": { "name": "Aldgate East" }, "geometry": { "type": "Point", "coordinates": [ -0.07223, 51.51538 ] } }
+,
+{ "type": "Feature", "id": 2, "properties": { "name": "Aldwych" }, "geometry": { "type": "Point", "coordinates": [ -0.11592, 51.51203 ] } }
+,
+{ "type": "Feature", "id": 3, "properties": { "name": "Angel" }, "geometry": { "type": "Point", "coordinates": [ -0.10583, 51.53265 ] } }
+,
+{ "type": "Feature", "id": 4, "properties": { "name": "Archway" }, "geometry": { "type": "Point", "coordinates": [ -0.13492, 51.56551 ] } }
+,
+{ "type": "Feature", "id": 5, "properties": { "name": "Arsenal" }, "geometry": { "type": "Point", "coordinates": [ -0.10589, 51.55859 ] } }
+,
+{ "type": "Feature", "id": 6, "properties": { "name": "Baker Street" }, "geometry": { "type": "Point", "coordinates": [ -0.15743, 51.5226 ] } }
+,
+{ "type": "Feature", "id": 7, "properties": { "name": "Balham" }, "geometry": { "type": "Point", "coordinates": [ -0.15372, 51.44371 ] } }
+,
+{ "type": "Feature", "id": 8, "properties": { "name": "Bank (N)" }, "geometry": { "type": "Point", "coordinates": [ -0.08886, 51.51353 ] } }
+,
+{ "type": "Feature", "id": 9, "properties": { "name": "Bank (S)" }, "geometry": { "type": "Point", "coordinates": [ -0.09044, 51.51151 ] } }
+,
+{ "type": "Feature", "id": 10, "properties": { "name": "Barbican" }, "geometry": { "type": "Point", "coordinates": [ -0.09784, 51.52037 ] } }
+,
+{ "type": "Feature", "id": 11, "properties": { "name": "Barons Court" }, "geometry": { "type": "Point", "coordinates": [ -0.21366, 51.49042 ] } }
+,
+{ "type": "Feature", "id": 12, "properties": { "name": "Bayswater" }, "geometry": { "type": "Point", "coordinates": [ -0.18797, 51.51257 ] } }
+,
+{ "type": "Feature", "id": 13, "properties": { "name": "Belsize Park" }, "geometry": { "type": "Point", "coordinates": [ -0.16421, 51.55037 ] } }
+,
+{ "type": "Feature", "id": 14, "properties": { "name": "Bermondsey" }, "geometry": { "type": "Point", "coordinates": [ -0.06411, 51.49798 ] } }
+,
+{ "type": "Feature", "id": 15, "properties": { "name": "Bethnal Green" }, "geometry": { "type": "Point", "coordinates": [ -0.0551, 51.52723 ] } }
+,
+{ "type": "Feature", "id": 16, "properties": { "name": "Blackfriars" }, "geometry": { "type": "Point", "coordinates": [ -0.10362, 51.51167 ] } }
+,
+{ "type": "Feature", "id": 17, "properties": { "name": "Bond Street" }, "geometry": { "type": "Point", "coordinates": [ -0.14961, 51.51414 ] } }
+,
+{ "type": "Feature", "id": 18, "properties": { "name": "Borough" }, "geometry": { "type": "Point", "coordinates": [ -0.09402, 51.50098 ] } }
+,
+{ "type": "Feature", "id": 19, "properties": { "name": "Bow Rd" }, "geometry": { "type": "Point", "coordinates": [ -0.0253, 51.52699 ] } }
+,
+{ "type": "Feature", "id": 20, "properties": { "name": "Bromley-By-Bow" }, "geometry": { "type": "Point", "coordinates": [ -0.01165, 51.52478 ] } }
+,
+{ "type": "Feature", "id": 21, "properties": { "name": "Caledonian Rd" }, "geometry": { "type": "Point", "coordinates": [ -0.11861, 51.54884 ] } }
+,
+{ "type": "Feature", "id": 22, "properties": { "name": "Camden Town" }, "geometry": { "type": "Point", "coordinates": [ -0.14267, 51.53932 ] } }
+,
+{ "type": "Feature", "id": 23, "properties": { "name": "Canada Water" }, "geometry": { "type": "Point", "coordinates": [ -0.04975, 51.49793 ] } }
+,
+{ "type": "Feature", "id": 24, "properties": { "name": "Chalk Farm" }, "geometry": { "type": "Point", "coordinates": [ -0.15384, 51.54411 ] } }
+,
+{ "type": "Feature", "id": 25, "properties": { "name": "Chancery Lane" }, "geometry": { "type": "Point", "coordinates": [ -0.11165, 51.51832 ] } }
+,
+{ "type": "Feature", "id": 26, "properties": { "name": "Charing Cross (E)" }, "geometry": { "type": "Point", "coordinates": [ -0.12484, 51.50859 ] } }
+,
+{ "type": "Feature", "id": 27, "properties": { "name": "Charing Cross (W)" }, "geometry": { "type": "Point", "coordinates": [ -0.12772, 51.50779 ] } }
+,
+{ "type": "Feature", "id": 28, "properties": { "name": "Clapham Common" }, "geometry": { "type": "Point", "coordinates": [ -0.13886, 51.4616 ] } }
+,
+{ "type": "Feature", "id": 29, "properties": { "name": "Clapham North" }, "geometry": { "type": "Point", "coordinates": [ -0.12968, 51.465 ] } }
+,
+{ "type": "Feature", "id": 30, "properties": { "name": "Clapham South" }, "geometry": { "type": "Point", "coordinates": [ -0.14796, 51.45281 ] } }
+,
+{ "type": "Feature", "id": 31, "properties": { "name": "Covent Garden" }, "geometry": { "type": "Point", "coordinates": [ -0.12439, 51.51283 ] } }
+,
+{ "type": "Feature", "id": 32, "properties": { "name": "Dollis Hill" }, "geometry": { "type": "Point", "coordinates": [ -0.23854, 51.55238 ] } }
+,
+{ "type": "Feature", "id": 33, "properties": { "name": "Earls Court (N)" }, "geometry": { "type": "Point", "coordinates": [ -0.19346, 51.49204 ] } }
+,
+{ "type": "Feature", "id": 34, "properties": { "name": "Earls Court (S)" }, "geometry": { "type": "Point", "coordinates": [ -0.19561, 51.49049 ] } }
+,
+{ "type": "Feature", "id": 35, "properties": { "name": "East Acton" }, "geometry": { "type": "Point", "coordinates": [ -0.24749, 51.51685 ] } }
+,
+{ "type": "Feature", "id": 36, "properties": { "name": "East Putney" }, "geometry": { "type": "Point", "coordinates": [ -0.21097, 51.45882 ] } }
+,
+{ "type": "Feature", "id": 37, "properties": { "name": "Edgeware Road (S)" }, "geometry": { "type": "Point", "coordinates": [ -0.16773, 51.51997 ] } }
+,
+{ "type": "Feature", "id": 38, "properties": { "name": "Edgware Road (N)" }, "geometry": { "type": "Point", "coordinates": [ -0.17007, 51.52037 ] } }
+,
+{ "type": "Feature", "id": 39, "properties": { "name": "Elephant &amp; Castle (N)" }, "geometry": { "type": "Point", "coordinates": [ -0.10053, 51.49589 ] } }
+,
+{ "type": "Feature", "id": 40, "properties": { "name": "Elephant &amp; Castle (S)" }, "geometry": { "type": "Point", "coordinates": [ -0.09994, 51.49475 ] } }
+,
+{ "type": "Feature", "id": 41, "properties": { "name": "Embankment" }, "geometry": { "type": "Point", "coordinates": [ -0.12252, 51.50692 ] } }
+,
+{ "type": "Feature", "id": 42, "properties": { "name": "Euston" }, "geometry": { "type": "Point", "coordinates": [ -0.13202, 51.52811 ] } }
+,
+{ "type": "Feature", "id": 43, "properties": { "name": "Euston Square" }, "geometry": { "type": "Point", "coordinates": [ -0.13546, 51.52547 ] } }
+,
+{ "type": "Feature", "id": 44, "properties": { "name": "Farringdon" }, "geometry": { "type": "Point", "coordinates": [ -0.10489, 51.52021 ] } }
+,
+{ "type": "Feature", "id": 45, "properties": { "name": "Finchley Rd" }, "geometry": { "type": "Point", "coordinates": [ -0.1804, 51.54712 ] } }
+,
+{ "type": "Feature", "id": 46, "properties": { "name": "Finsbury Park" }, "geometry": { "type": "Point", "coordinates": [ -0.10673, 51.56553 ] } }
+,
+{ "type": "Feature", "id": 47, "properties": { "name": "Fulham Broadway" }, "geometry": { "type": "Point", "coordinates": [ -0.19486, 51.48022 ] } }
+,
+{ "type": "Feature", "id": 48, "properties": { "name": "Gloucester Road" }, "geometry": { "type": "Point", "coordinates": [ -0.18319, 51.4948 ] } }
+,
+{ "type": "Feature", "id": 49, "properties": { "name": "Goldhawk Rd" }, "geometry": { "type": "Point", "coordinates": [ -0.22682, 51.5022 ] } }
+,
+{ "type": "Feature", "id": 50, "properties": { "name": "Goodge Street" }, "geometry": { "type": "Point", "coordinates": [ -0.13455, 51.52041 ] } }
+,
+{ "type": "Feature", "id": 51, "properties": { "name": "Great Portland Street" }, "geometry": { "type": "Point", "coordinates": [ -0.14393, 51.52382 ] } }
+,
+{ "type": "Feature", "id": 52, "properties": { "name": "Green Park" }, "geometry": { "type": "Point", "coordinates": [ -0.14194, 51.507 ] } }
+,
+{ "type": "Feature", "id": 53, "properties": { "name": "Hammersmith" }, "geometry": { "type": "Point", "coordinates": [ -0.22486, 51.49355 ] } }
+,
+{ "type": "Feature", "id": 54, "properties": { "name": "Hampstead" }, "geometry": { "type": "Point", "coordinates": [ -0.17828, 51.55669 ] } }
+,
+{ "type": "Feature", "id": 55, "properties": { "name": "Harlesdon" }, "geometry": { "type": "Point", "coordinates": [ -0.2577, 51.53571 ] } }
+,
+{ "type": "Feature", "id": 56, "properties": { "name": "High St Kensington" }, "geometry": { "type": "Point", "coordinates": [ -0.19234, 51.50103 ] } }
+,
+{ "type": "Feature", "id": 57, "properties": { "name": "Highbury &amp; Islington" }, "geometry": { "type": "Point", "coordinates": [ -0.10346, 51.54607 ] } }
+,
+{ "type": "Feature", "id": 58, "properties": { "name": "Holborn" }, "geometry": { "type": "Point", "coordinates": [ -0.11997, 51.51744 ] } }
+,
+{ "type": "Feature", "id": 59, "properties": { "name": "Holland Park" }, "geometry": { "type": "Point", "coordinates": [ -0.20621, 51.50718 ] } }
+,
+{ "type": "Feature", "id": 60, "properties": { "name": "Holloway Rd" }, "geometry": { "type": "Point", "coordinates": [ -0.11325, 51.55274 ] } }
+,
+{ "type": "Feature", "id": 61, "properties": { "name": "Hyde Park Corner" }, "geometry": { "type": "Point", "coordinates": [ -0.15369, 51.50241 ] } }
+,
+{ "type": "Feature", "id": 62, "properties": { "name": "Kennington" }, "geometry": { "type": "Point", "coordinates": [ -0.10533, 51.48835 ] } }
+,
+{ "type": "Feature", "id": 63, "properties": { "name": "Kensal Green" }, "geometry": { "type": "Point", "coordinates": [ -0.22428, 51.53052 ] } }
+,
+{ "type": "Feature", "id": 64, "properties": { "name": "Kensington" }, "geometry": { "type": "Point", "coordinates": [ -0.2102, 51.49774 ] } }
+,
+{ "type": "Feature", "id": 65, "properties": { "name": "Kentish Town" }, "geometry": { "type": "Point", "coordinates": [ -0.14036, 51.55042 ] } }
+,
+{ "type": "Feature", "id": 66, "properties": { "name": "Kilburn" }, "geometry": { "type": "Point", "coordinates": [ -0.20443, 51.54701 ] } }
+,
+{ "type": "Feature", "id": 67, "properties": { "name": "Kilburn Park" }, "geometry": { "type": "Point", "coordinates": [ -0.1939, 51.53557 ] } }
+,
+{ "type": "Feature", "id": 68, "properties": { "name": "King&apos;s Cross" }, "geometry": { "type": "Point", "coordinates": [ -0.12361, 51.53063 ] } }
+,
+{ "type": "Feature", "id": 69, "properties": { "name": "Knightsbridge" }, "geometry": { "type": "Point", "coordinates": [ -0.16055, 51.50148 ] } }
+,
+{ "type": "Feature", "id": 70, "properties": { "name": "Ladbroke Grove" }, "geometry": { "type": "Point", "coordinates": [ -0.21039, 51.51737 ] } }
+,
+{ "type": "Feature", "id": 71, "properties": { "name": "Lambeth North" }, "geometry": { "type": "Point", "coordinates": [ -0.11176, 51.49896 ] } }
+,
+{ "type": "Feature", "id": 72, "properties": { "name": "Lancaster Gate" }, "geometry": { "type": "Point", "coordinates": [ -0.17556, 51.5119 ] } }
+,
+{ "type": "Feature", "id": 73, "properties": { "name": "Latimer Rd" }, "geometry": { "type": "Point", "coordinates": [ -0.21818, 51.51333 ] } }
+,
+{ "type": "Feature", "id": 74, "properties": { "name": "Leicester Square" }, "geometry": { "type": "Point", "coordinates": [ -0.12797, 51.51121 ] } }
+,
+{ "type": "Feature", "id": 75, "properties": { "name": "Liverpool Street" }, "geometry": { "type": "Point", "coordinates": [ -0.08225, 51.51756 ] } }
+,
+{ "type": "Feature", "id": 76, "properties": { "name": "London Bridge" }, "geometry": { "type": "Point", "coordinates": [ -0.08753, 51.50538 ] } }
+,
+{ "type": "Feature", "id": 77, "properties": { "name": "Mansion House" }, "geometry": { "type": "Point", "coordinates": [ -0.09464, 51.51238 ] } }
+,
+{ "type": "Feature", "id": 78, "properties": { "name": "Marble Arch" }, "geometry": { "type": "Point", "coordinates": [ -0.15825, 51.51375 ] } }
+,
+{ "type": "Feature", "id": 79, "properties": { "name": "Marylebone" }, "geometry": { "type": "Point", "coordinates": [ -0.16316, 51.52244 ] } }
+,
+{ "type": "Feature", "id": 80, "properties": { "name": "Mile End" }, "geometry": { "type": "Point", "coordinates": [ -0.03425, 51.52493 ] } }
+,
+{ "type": "Feature", "id": 81, "properties": { "name": "Monument" }, "geometry": { "type": "Point", "coordinates": [ -0.08654, 51.51113 ] } }
+,
+{ "type": "Feature", "id": 82, "properties": { "name": "Moorgate" }, "geometry": { "type": "Point", "coordinates": [ -0.08915, 51.51816 ] } }
+,
+{ "type": "Feature", "id": 83, "properties": { "name": "Mornington Cres" }, "geometry": { "type": "Point", "coordinates": [ -0.13875, 51.53435 ] } }
+,
+{ "type": "Feature", "id": 84, "properties": { "name": "Neasden" }, "geometry": { "type": "Point", "coordinates": [ -0.24979, 51.55389 ] } }
+,
+{ "type": "Feature", "id": 85, "properties": { "name": "New Cross" }, "geometry": { "type": "Point", "coordinates": [ -0.03227, 51.47609 ] } }
+,
+{ "type": "Feature", "id": 86, "properties": { "name": "New Cross Gate" }, "geometry": { "type": "Point", "coordinates": [ -0.03999, 51.47573 ] } }
+,
+{ "type": "Feature", "id": 87, "properties": { "name": "North Greenwich" }, "geometry": { "type": "Point", "coordinates": [ 0.00467, 51.49784 ] } }
+,
+{ "type": "Feature", "id": 88, "properties": { "name": "Old Street" }, "geometry": { "type": "Point", "coordinates": [ -0.08753, 51.5257 ] } }
+,
+{ "type": "Feature", "id": 89, "properties": { "name": "Oval" }, "geometry": { "type": "Point", "coordinates": [ -0.11305, 51.48185 ] } }
+,
+{ "type": "Feature", "id": 90, "properties": { "name": "Oxford Circus" }, "geometry": { "type": "Point", "coordinates": [ -0.1415, 51.51513 ] } }
+,
+{ "type": "Feature", "id": 91, "properties": { "name": "Paddington (N)" }, "geometry": { "type": "Point", "coordinates": [ -0.1756, 51.51588 ] } }
+,
+{ "type": "Feature", "id": 92, "properties": { "name": "Paddington (S)" }, "geometry": { "type": "Point", "coordinates": [ -0.17535, 51.51551 ] } }
+,
+{ "type": "Feature", "id": 93, "properties": { "name": "Parsons Green" }, "geometry": { "type": "Point", "coordinates": [ -0.20107, 51.47532 ] } }
+,
+{ "type": "Feature", "id": 94, "properties": { "name": "Piccadilly Circus" }, "geometry": { "type": "Point", "coordinates": [ -0.13413, 51.50951 ] } }
+,
+{ "type": "Feature", "id": 95, "properties": { "name": "Pimlico" }, "geometry": { "type": "Point", "coordinates": [ -0.13343, 51.48924 ] } }
+,
+{ "type": "Feature", "id": 96, "properties": { "name": "Putney Bridge" }, "geometry": { "type": "Point", "coordinates": [ -0.20884, 51.46834 ] } }
+,
+{ "type": "Feature", "id": 97, "properties": { "name": "Queens Park" }, "geometry": { "type": "Point", "coordinates": [ -0.20466, 51.53385 ] } }
+,
+{ "type": "Feature", "id": 98, "properties": { "name": "Queensway" }, "geometry": { "type": "Point", "coordinates": [ -0.18758, 51.51056 ] } }
+,
+{ "type": "Feature", "id": 99, "properties": { "name": "Ravenscourt Park" }, "geometry": { "type": "Point", "coordinates": [ -0.23607, 51.49423 ] } }
+,
+{ "type": "Feature", "id": 100, "properties": { "name": "Regents Park" }, "geometry": { "type": "Point", "coordinates": [ -0.14687, 51.52342 ] } }
+,
+{ "type": "Feature", "id": 101, "properties": { "name": "Rotherhithe" }, "geometry": { "type": "Point", "coordinates": [ -0.05225, 51.50085 ] } }
+,
+{ "type": "Feature", "id": 102, "properties": { "name": "Royal Oak" }, "geometry": { "type": "Point", "coordinates": [ -0.18849, 51.51937 ] } }
+,
+{ "type": "Feature", "id": 103, "properties": { "name": "Russell Square" }, "geometry": { "type": "Point", "coordinates": [ -0.12454, 51.52298 ] } }
+,
+{ "type": "Feature", "id": 104, "properties": { "name": "Shadwell" }, "geometry": { "type": "Point", "coordinates": [ -0.05706, 51.51174 ] } }
+,
+{ "type": "Feature", "id": 105, "properties": { "name": "Shepherd&apos;s Bush" }, "geometry": { "type": "Point", "coordinates": [ -0.21807, 51.50466 ] } }
+,
+{ "type": "Feature", "id": 106, "properties": { "name": "Shepherd&apos;s Bush" }, "geometry": { "type": "Point", "coordinates": [ -0.22644, 51.50566 ] } }
+,
+{ "type": "Feature", "id": 107, "properties": { "name": "Shoreditch" }, "geometry": { "type": "Point", "coordinates": [ -0.07103, 51.52289 ] } }
+,
+{ "type": "Feature", "id": 108, "properties": { "name": "Sloane Square" }, "geometry": { "type": "Point", "coordinates": [ -0.15629, 51.49234 ] } }
+,
+{ "type": "Feature", "id": 109, "properties": { "name": "South Kensington" }, "geometry": { "type": "Point", "coordinates": [ -0.17367, 51.49418 ] } }
+,
+{ "type": "Feature", "id": 110, "properties": { "name": "Southfields" }, "geometry": { "type": "Point", "coordinates": [ -0.20623, 51.44563 ] } }
+,
+{ "type": "Feature", "id": 111, "properties": { "name": "St James&apos;s Park" }, "geometry": { "type": "Point", "coordinates": [ -0.13353, 51.49957 ] } }
+,
+{ "type": "Feature", "id": 112, "properties": { "name": "St John&apos;s Wood" }, "geometry": { "type": "Point", "coordinates": [ -0.17439, 51.53482 ] } }
+,
+{ "type": "Feature", "id": 113, "properties": { "name": "St Pancras" }, "geometry": { "type": "Point", "coordinates": [ -0.12496, 51.53051 ] } }
+,
+{ "type": "Feature", "id": 114, "properties": { "name": "St Paul&apos;s" }, "geometry": { "type": "Point", "coordinates": [ -0.09723, 51.51464 ] } }
+,
+{ "type": "Feature", "id": 115, "properties": { "name": "Stamford Brook" }, "geometry": { "type": "Point", "coordinates": [ -0.24547, 51.4952 ] } }
+,
+{ "type": "Feature", "id": 116, "properties": { "name": "Stepney Green" }, "geometry": { "type": "Point", "coordinates": [ -0.04691, 51.52201 ] } }
+,
+{ "type": "Feature", "id": 117, "properties": { "name": "Stockwell" }, "geometry": { "type": "Point", "coordinates": [ -0.12305, 51.47234 ] } }
+,
+{ "type": "Feature", "id": 118, "properties": { "name": "Stratford" }, "geometry": { "type": "Point", "coordinates": [ -0.00201, 51.54166 ] } }
+,
+{ "type": "Feature", "id": 119, "properties": { "name": "Surrey Quays" }, "geometry": { "type": "Point", "coordinates": [ -0.04763, 51.49319 ] } }
+,
+{ "type": "Feature", "id": 120, "properties": { "name": "Swiss Cottage" }, "geometry": { "type": "Point", "coordinates": [ -0.17549, 51.54346 ] } }
+,
+{ "type": "Feature", "id": 121, "properties": { "name": "Temple" }, "geometry": { "type": "Point", "coordinates": [ -0.11357, 51.51112 ] } }
+,
+{ "type": "Feature", "id": 122, "properties": { "name": "Tottenham Court Road" }, "geometry": { "type": "Point", "coordinates": [ -0.1308, 51.51616 ] } }
+,
+{ "type": "Feature", "id": 123, "properties": { "name": "Tower Hill" }, "geometry": { "type": "Point", "coordinates": [ -0.07574, 51.51016 ] } }
+,
+{ "type": "Feature", "id": 124, "properties": { "name": "Tufnell Park" }, "geometry": { "type": "Point", "coordinates": [ -0.13782, 51.55674 ] } }
+,
+{ "type": "Feature", "id": 125, "properties": { "name": "Turnham Green" }, "geometry": { "type": "Point", "coordinates": [ -0.25499, 51.49501 ] } }
+,
+{ "type": "Feature", "id": 126, "properties": { "name": "Vauxhall" }, "geometry": { "type": "Point", "coordinates": [ -0.125, 51.486 ] } }
+,
+{ "type": "Feature", "id": 127, "properties": { "name": "Victoria" }, "geometry": { "type": "Point", "coordinates": [ -0.14453, 51.49649 ] } }
+,
+{ "type": "Feature", "id": 128, "properties": { "name": "Wapping" }, "geometry": { "type": "Point", "coordinates": [ -0.05562, 51.50442 ] } }
+,
+{ "type": "Feature", "id": 129, "properties": { "name": "Warren Street" }, "geometry": { "type": "Point", "coordinates": [ -0.13801, 51.52428 ] } }
+,
+{ "type": "Feature", "id": 130, "properties": { "name": "Warwick Ave" }, "geometry": { "type": "Point", "coordinates": [ -0.18345, 51.5235 ] } }
+,
+{ "type": "Feature", "id": 131, "properties": { "name": "Waterloo" }, "geometry": { "type": "Point", "coordinates": [ -0.11466, 51.50401 ] } }
+,
+{ "type": "Feature", "id": 132, "properties": { "name": "West Brompton" }, "geometry": { "type": "Point", "coordinates": [ -0.19591, 51.48712 ] } }
+,
+{ "type": "Feature", "id": 133, "properties": { "name": "West Ham" }, "geometry": { "type": "Point", "coordinates": [ 0.00525, 51.52841 ] } }
+,
+{ "type": "Feature", "id": 134, "properties": { "name": "West Hampstead" }, "geometry": { "type": "Point", "coordinates": [ -0.1906, 51.54663 ] } }
+,
+{ "type": "Feature", "id": 135, "properties": { "name": "West Kensington" }, "geometry": { "type": "Point", "coordinates": [ -0.20625, 51.49066 ] } }
+,
+{ "type": "Feature", "id": 136, "properties": { "name": "Westbourne Park" }, "geometry": { "type": "Point", "coordinates": [ -0.2012, 51.52127 ] } }
+,
+{ "type": "Feature", "id": 137, "properties": { "name": "Westminster" }, "geometry": { "type": "Point", "coordinates": [ -0.12477, 51.50128 ] } }
+,
+{ "type": "Feature", "id": 138, "properties": { "name": "White City" }, "geometry": { "type": "Point", "coordinates": [ -0.22447, 51.51232 ] } }
+,
+{ "type": "Feature", "id": 139, "properties": { "name": "Whitechapel" }, "geometry": { "type": "Point", "coordinates": [ -0.06087, 51.5192 ] } }
+,
+{ "type": "Feature", "id": 140, "properties": { "name": "Willesden Green" }, "geometry": { "type": "Point", "coordinates": [ -0.22127, 51.54915 ] } }
+,
+{ "type": "Feature", "id": 141, "properties": { "name": "Willesden Junction" }, "geometry": { "type": "Point", "coordinates": [ -0.24493, 51.53231 ] } }
+
+]
+}

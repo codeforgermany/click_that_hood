@@ -1,0 +1,16 @@
+{ 
+  "locationName": "United States of America",
+  "annotation": "Baseball stadiums",
+  "countryName": "U.S.",
+  "neighborhoodNoun": ["stadium", "stadiums"],
+
+  "pointsInsteadOfPolygons": true,
+
+  "dataUrl": "http://geocommons.com/overlays/186781",
+  "dataTitle": "GeoCommons",  
+
+  "languages": {
+    "stadium names": "name",
+    "teams": "team"
+  }  
+}

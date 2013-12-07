@@ -1,0 +1,13 @@
+{ 
+  "locationName": "United States of America",
+  "annotation": "International Airports",
+  "countryName": "U.S.",
+  "neighborhoodNoun": ["airport", "airports"],
+
+  "pointsInsteadOfPolygons": true,
+
+  "languages": {
+    "name": "name",
+    "code": "code"
+  }  
+}
