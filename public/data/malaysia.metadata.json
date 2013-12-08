@@ -1,0 +1,11 @@
+{ 
+  "locationName": "Malaysia",
+  "annotation": "States",
+  "countryName": "Malaysia",
+  "neighborhoodNoun": ["state", "states"],
+
+  "authorTwitter": "jonnynewbs",
+
+  "dataUrl": "https://github.com/jonnynewbs/MapMalaysia",
+  "dataTitle": "MapMalaysia"
+}
