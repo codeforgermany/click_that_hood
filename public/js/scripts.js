@@ -1574,9 +1574,9 @@ function prepareLocationList() {
 
       var el = document.createElement('li');
 
-      el.setAttribute('city-id', ids[id]);
+      el.setAttribute('city-id', cities[id]);
 
-      var url = '?location=' + ids[id];
+      var url = '?location=' + cities[id];
 
       var html = '<a href="' + url + '">';
 
