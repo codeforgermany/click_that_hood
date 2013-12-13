@@ -58,6 +58,16 @@ function normalizeCountryName(str) {
   return str;
 }
 
+function getSampleLatLon(shapes) {
+  if (shapes[0] && shapes[0][0] && shapes[0][0][0]) {
+    return [shapes[0][0][0], shapes[0][0][1]]
+  } else if (shapes[0] && shapes[0][0]) {
+    return [shapes[0][0], shapes[0][1]]
+  } else {
+    return [shapes[0], shapes[1]]
+  }
+}
+
 // Write combined metadata file from individual location metadata files
 fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
 
@@ -107,20 +117,7 @@ fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
 
       var latLon = geoJsonData.features[0].geometry.coordinates[0];
 
-      var lat, lon;
-
-      if (latLon[0] && latLon[0][0] && latLon[0][0][0]) {
-        lat = latLon[0][0][0];
-        lon = latLon[0][0][1];
-      } else if (latLon[0] && latLon[0][0]) {
-        lat = latLon[0][0];
-        lon = latLon[0][1];
-      } else {
-        lat = latLon[0];
-        lon = latLon[1];
-      }
-
-      metadata[locationName].sampleLatLon = [lat, lon];
+      metadata[locationName].sampleLatLon = getSampleLatLon(latLon);
 
     }
   }
