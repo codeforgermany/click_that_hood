@@ -1,8 +1,8 @@
 { 
   "countryName": "Liberia",
-  "locationName": "Liberia",
-  "annotation": "Counties",
-  "neighborhoodNoun": ["county","counties"],
+  "locationName": "Eastern Counties",
+  "annotation": "Districts",
+  "neighborhoodNoun": ["district", "districts"],
 
   "dataUrl": "http://www.tlcafrica.com/lisgis/lisgis.htm",
   "dataTitle": "LISGIS"
