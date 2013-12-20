@@ -1,6 +1,8 @@
 { 
   "locationName": "Bern",
   "countryName": "Switzerland",
+  "annotation": "Quarters",
+  "neighborhoodNoun": ["quarter", "quarters"],
 
   "authorTwitter": "markez",
 
