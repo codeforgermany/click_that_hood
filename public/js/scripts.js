@@ -1305,7 +1305,8 @@ function prepareMapBackground() {
   document.querySelector('#maps-background').innerHTML = '';
 
   var layer = mapbox.layer().id(MAPBOX_MAP_ID);
-  var map = mapbox.map(document.querySelector('#maps-background'), layer, null, []);
+  var map = 
+      mapbox.map(document.querySelector('#maps-background'), layer, null, []);
 
   if (pixelRatio == 2) {
     zoom++;
@@ -1314,7 +1315,7 @@ function prepareMapBackground() {
   // US cities have states and no country, but some world cities have states
   // yet also want to match all US national maps which have no states
   if ((CITY_DATA[cityId].stateName && !CITY_DATA[cityId].countryName) ||
-      (CITY_DATA[cityId].countryName && CITY_DATA[cityId].countryName == 'U.S.')) {
+      (CITY_DATA[cityId].countryName && CITY_DATA[cityId].countryName == COUNTRY_NAME_USA)) {
     var maxZoomLevel = MAP_BACKGROUND_MAX_ZOOM_US;
   } else {
     var maxZoomLevel = MAP_BACKGROUND_MAX_ZOOM_NON_US;
@@ -1546,19 +1547,21 @@ function prepareLocationList() {
   });
 
   // filter list of sorted cities into countries
-  var country_cities = {};
-  for(var country_id in COUNTRY_NAMES){
-    country_cities[COUNTRY_NAMES[country_id]] = [];
+  var countryCities = {};
+  for (var countryId in COUNTRY_NAMES) {
+    countryCities[COUNTRY_NAMES[countryId]] = [];
   }
-  for(var city_id in ids){
-    var city = ids[city_id];
+
+  for (var id in ids) {
+    var city = ids[id];
     var country = CITY_DATA[city].countryName;
-    if(country){
-      country_cities[country].push(city);
-    }else if(CITY_DATA[city].stateName){
-      country_cities[COUNTRY_NAME_USA].push(city);
-    }else{
-      country_cities[COUNTRY_NAME_WORLD].push(city)
+
+    if (country) {
+      countryCities[country].push(city);
+    } else if (CITY_DATA[city].stateName) {
+      countryCities[COUNTRY_NAME_USA].push(city);
+    } else {
+      countryCities[COUNTRY_NAME_WORLD].push(city);
     }
   }
   
@@ -1568,15 +1571,16 @@ function prepareLocationList() {
     document.querySelector('.menu .locations').appendChild(el);
 
     // already did the work of filtering list of cities above
-    var cities = country_cities[COUNTRY_NAMES[i]];
-    for (var id in cities) {
-      var cityData = CITY_DATA[cities[id]];
+    var cities = countryCities[COUNTRY_NAMES[i]];
+    for (var j in cities) {
+      var id = cities[j];
+      var cityData = CITY_DATA[id];
 
       var el = document.createElement('li');
 
-      el.setAttribute('city-id', cities[id]);
+      el.setAttribute('city-id', id);
 
-      var url = '?location=' + cities[id];
+      var url = '?location=' + id;
 
       var html = '<a href="' + url + '">';
 
