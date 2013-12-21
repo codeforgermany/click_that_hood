@@ -1,0 +1,10 @@
+{ 
+  "locationName": "Calgary",
+  "stateName": "Alberta",
+  "countryName": "Canada",
+
+  "authorTwitter": "jwielki",
+
+  "dataUrl": "https://data.calgary.ca/OpenData/Pages/DatasetListingAlphabetical.aspx",
+  "dataTitle": "Calgary Communities"
+}

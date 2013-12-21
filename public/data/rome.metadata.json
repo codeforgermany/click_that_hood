@@ -1,8 +1,8 @@
 { 
   "locationName": "Rome",
   "countryName": "Italy",
-  "annotation": "Wards",
-  "neighborhoodNoun": ["ward", "wards"],
+  "annotation": "Regions",
+  "neighborhoodNoun": ["region", "regions"],
 
   "authorTwitter": "ilariotito",
 
