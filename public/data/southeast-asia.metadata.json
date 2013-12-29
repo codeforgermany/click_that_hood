@@ -1,0 +1,8 @@
+{
+  "locationName": "Southeast Asia",
+  "annotation": "Countries",
+  "neighborhoodNoun": ["country", "countries"],
+
+  "dataUrl": "http://www.naturalearthdata.com/downloads/110m-cultural-vectors/",
+  "dataTitle": "Natural Earth"
+}

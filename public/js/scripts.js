@@ -365,6 +365,10 @@ function calculateMapSize() {
         globalScale *= .8;
         centerLat += 6;
         break;
+      case 'asia':
+        globalScale *= .7;
+        centerLat += 20;
+        break;
       case 'europe-1914':
         // To match contemporary Europe above
         globalScale *= 1.0915321079;
