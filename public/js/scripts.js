@@ -15,7 +15,7 @@ var COUNTRY_NAME_WORLD = 'The World';
 var DEFAULT_NEIGHBORHOOD_NOUN_SINGULAR = 'neighborhood';
 var DEFAULT_NEIGHBORHOOD_NOUN_PLURAL = 'neighborhoods';
 
-var EASY_MODE_COUNT = 20;
+var EASY_MODE_COUNT = 2;
 
 var HIGHLIGHT_DELAY = 1500;
 var NEXT_GUESS_DELAY = 1000;
@@ -1225,7 +1225,7 @@ function updateTwitterLink(congratsEl) {
 }
 
 function gameOverPart2() {
-  var el = document.querySelector(easyMode ? '#congrats-easy' : '#congrats-hard');
+  var el = document.querySelector('#congrats');
 
   document.querySelector('#count-time-wrapper-wrapper').classList.remove('visible');
   document.querySelector('#more-cities-wrapper-wrapper').classList.add('visible');
