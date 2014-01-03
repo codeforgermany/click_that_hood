@@ -1230,7 +1230,9 @@ function updateTwitterLink(congratsEl) {
 
 function gameOverPart2() {
   var el = document.querySelector('#congrats');
-  document.querySelector('#number-identified').innerHTML = (easyMode) ? easyModeCount : 'all';
+  document.querySelector('#number-identified').innerHTML = 
+      easyMode ? easyModeCount : 'all';
+      
   document.querySelector('#count-time-wrapper-wrapper').classList.remove('visible');
   document.querySelector('#more-cities-wrapper-wrapper').classList.add('visible');
 
