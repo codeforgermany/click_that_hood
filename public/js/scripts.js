@@ -1415,11 +1415,12 @@ function onResize() {
 }
 
 function getCityId() {
-  var cityMatch = location.href.match(/[\?\&](city|location)=([^&]*)/);
+  var finalSlash = location.href.lastIndexOf('/');
+  var cityMatch = location.href.substr(finalSlash + 1);
 
-  if (cityMatch && cityMatch[2]) {
-    if (CITY_DATA[cityMatch[2]]) {
-      cityId = cityMatch[2];
+  if (cityMatch.length > 0) {
+    if (CITY_DATA[cityMatch]) {
+      cityId = cityMatch;
     }
   }      
 
@@ -1586,9 +1587,7 @@ function prepareLocationList() {
 
       el.setAttribute('city-id', id);
 
-      var url = '?location=' + id;
-
-      var html = '<a href="' + url + '">';
+      var html = '<a href="' + id + '">';
 
       html += cityData.longLocationName || cityData.locationName;
       if (cityData.annotation) {

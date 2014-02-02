@@ -43,6 +43,10 @@ var startApp = function() {
   // Engine-light endpoint
   app.get('/.well-known/status', engineLightStatusEndpoint);
 
+  app.get('/:location', function(req, res){
+    res.sendfile(__dirname + '/public/index.html');
+  });
+
   app.use(express.static(__dirname + '/public'));
 
   app.listen(config.port, null, null, function() {
