@@ -47,6 +47,18 @@ var startApp = function() {
     res.sendfile(__dirname + '/public/index.html');
   });
 
+  app.get('/', function(req, res){
+    // redirect old-style /?location=XYZ and /?city=XYZ urls to new-style /XYZ
+    if (req.query['location']){
+      res.redirect(301, req.query['location'])
+    }
+    else if (req.query['city']){
+      res.redirect(301, req.query['city'])
+    } else {
+      res.sendfile(__dirname + '/public/index.html');
+    }
+  });
+
   app.use(express.static(__dirname + '/public'));
 
   app.listen(config.port, null, null, function() {
