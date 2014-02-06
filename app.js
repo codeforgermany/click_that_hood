@@ -49,11 +49,11 @@ var startApp = function() {
 
   app.get('/', function(req, res){
     // redirect old-style /?location=XYZ and /?city=XYZ urls to new-style /XYZ
-    if (req.query['location']){
-      res.redirect(301, req.query['location'])
+    if (req.query.location){
+      res.redirect(301, req.query.location)
     }
-    else if (req.query['city']){
-      res.redirect(301, req.query['city'])
+    else if (req.query.city){
+      res.redirect(301, req.query.city)
     } else {
       res.sendfile(__dirname + '/public/index.html');
     }
