@@ -43,17 +43,16 @@ var startApp = function() {
   // Engine-light endpoint
   app.get('/.well-known/status', engineLightStatusEndpoint);
 
-  app.get('/:location', function(req, res){
+  app.get('/:location', function(req, res) {
     res.sendfile(__dirname + '/public/index.html');
   });
 
-  app.get('/', function(req, res){
+  app.get('/', function(req, res) {
     // redirect old-style /?location=XYZ and /?city=XYZ urls to new-style /XYZ
-    if (req.query.location){
-      res.redirect(301, req.query.location)
-    }
-    else if (req.query.city){
-      res.redirect(301, req.query.city)
+    if (req.query.location) {
+      res.redirect(301, req.query.location);
+    } else if (req.query.city) {
+      res.redirect(301, req.query.city);
     } else {
       res.sendfile(__dirname + '/public/index.html');
     }
