@@ -3,8 +3,8 @@
   "annotation": "Counties",
   "countryName": "Hungary",
 
-  "neighborhoodNoun": ["County", "Counties"],
+  "neighborhoodNoun": ["county", "counties"],
 
   "dataUrl": "http://www.gadm.org/country",
-  "dataTitle": "HUN_adm1"
+  "dataTitle": "gadm.org"
 }
