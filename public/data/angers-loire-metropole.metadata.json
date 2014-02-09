@@ -1,0 +1,12 @@
+{ 
+  "locationName": "Angers Loire Métropole",
+  "annotation": "Communes",
+  "neighborhoodNoun": ["commune", "communes"],
+
+  "countryName": "France",
+
+  "authorTwitter": "",
+
+  "dataUrl": "http://data.angers.fr/",
+  "dataTitle": "Data Angers"
+}
