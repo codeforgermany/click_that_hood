@@ -1471,7 +1471,16 @@ function getNeighborhoodNoun(plural) {
 }
 
 function preparePage() {
-  var name = CITY_DATA[cityId].stateName || CITY_DATA[cityId].countryName || '';
+  var inUS = 
+    !CITY_DATA[cityId].countryName ||
+    (CITY_DATA[cityId].countryName == COUNTRY_NAME_USA);
+
+  var stateName = CITY_DATA[cityId].stateName;
+  if (inUS && AP_NAMES[stateName]) {
+    stateName = AP_NAMES[stateName];
+  }
+  
+  var name = stateName || CITY_DATA[cityId].countryName || '';
 
   // TODO don’t hardcode!
   if (!name || (name == COUNTRY_NAME_USA) || (name == CITY_DATA[cityId].locationName) || 
