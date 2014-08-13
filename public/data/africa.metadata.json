@@ -1,0 +1,11 @@
+{ 
+  "locationName": "Africa",
+  "neighborhoodNoun": ["country", "countries"],
+
+  "authorTwitter": "davidbauer",
+
+  "annotation": "Countries",
+
+  "dataUrl": "http://www.geocommons.com",
+  "dataTitle": "Geocommons"
+}

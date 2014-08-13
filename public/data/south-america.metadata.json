@@ -1,0 +1,10 @@
+{ 
+  "locationName": "South America",
+  "annotation": "Countries",
+  "neighborhoodNoun": ["country", "countries"],
+
+  "authorTwitter": "ahhrrr",
+
+  "dataUrl": "http://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries-2/",
+  "dataTitle": "Natural Earth"
+}

@@ -1,0 +1,9 @@
+{ 
+  "locationName": "Ireland",
+  "countryName": "Ireland",  
+  "annotation": "Counties",
+  "neighborhoodNoun": ["county", "counties"],
+
+  "dataUrl": "http://www.cso.ie/en/census/census2011boundaryfiles/",
+  "dataTitle": "Census 2011 Boundary Files"
+}

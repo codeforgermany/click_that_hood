@@ -1,0 +1,11 @@
+{ 
+  "locationName": "London",
+  "countryName": "U.K.",
+  "annotation": "Tube stations",
+  "neighborhoodNoun": ["Tube station", "Tube stations"],
+
+  "pointsInsteadOfPolygons": true,
+
+  "dataUrl": "http://geocommons.com/overlays/14926",
+  "dataTitle": "Geocommons"
+}

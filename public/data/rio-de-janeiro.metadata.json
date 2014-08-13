@@ -1,0 +1,9 @@
+{ 
+  "locationName": "Rio de Janeiro",
+  "countryName": "Brazil",
+  "annotation": "Municipalities",
+  "neighborhoodNoun": ["municipality", "municipalities"],
+
+  "dataUrl": "ftp://geoftp.ibge.gov.br/malhas_digitais/censo_2010/setores_censitarios/",
+  "dataTitle": "IBGE"
+}

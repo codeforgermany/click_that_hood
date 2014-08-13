@@ -1,0 +1,15 @@
+{ 
+  "locationName": "China",
+  "annotation": "Provinces",
+  "countryName": "China",
+  "neighborhoodNoun": ["province", "provinces"],
+
+  "dataUrl": "https://github.com/okkervil/chinamaps",
+  "dataTitle": "okkervil via GitHub",
+
+  "languages": {
+    "简体字": "name_simplified_chinese",
+    "繁體字": "name_traditional_chinese",
+    "english": "name"
+  }
+}

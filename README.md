@@ -4,9 +4,7 @@
 
 ## Development Setup
 
-Please follow the instructions below to setup your development environment. In case you run into issues, please consult the [FAQ](#faq).
-
-### For Mac OS X 10.8
+Please follow the instructions below to setup your development environment.
 
 1) Clone this repository onto your local development machine:
 
@@ -19,8 +17,9 @@ Please follow the instructions below to setup your development environment. In c
 
     $ npm install
 
-4) Start the Web Application (default on port 8000)
+4) Start the Web Application. It runs on port 8020 by default. (The port
+can be changed by setting the `PORT` environment variable.)
 
-    $ node app.js
+    $ npm start
 
-5) Open your website at http://localhost:8000
+5) Open your website at http://localhost:8020

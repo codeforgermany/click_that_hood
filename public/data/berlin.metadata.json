@@ -1,0 +1,9 @@
+{ 
+  "locationName": "Berlin",
+  "countryName": "Germany",
+
+  "authorTwitter": "juliustroeger",
+
+  "dataUrl": "http://daten.berlin.de/datensaetze/ortsteil-geometrien-berlin",
+  "dataTitle": "Berlin Open Data"
+}

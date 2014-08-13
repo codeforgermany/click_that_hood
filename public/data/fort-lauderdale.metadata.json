@@ -1,0 +1,9 @@
+{ 
+  "locationName": "Fort Lauderdale",
+  "stateName": "Fla.",
+
+  "authorTwitter": "ryanvgates",
+  
+  "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
+  "dataTitle": "Zillow"
+}

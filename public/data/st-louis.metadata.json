@@ -1,7 +1,7 @@
 {
-  "dataFile": "st-louis.geojson",
-  "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
-  "dataTitle": "Zillow",
+  "locationName": "St. Louis",
   "stateName": "Mo.",
-  "googleMapsQuery": "St. Louis, MO"
+
+  "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
+  "dataTitle": "Zillow"
 }

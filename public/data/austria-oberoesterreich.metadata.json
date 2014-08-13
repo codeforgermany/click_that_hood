@@ -1,0 +1,9 @@
+{ 
+  "locationName": "Oberösterreich",
+  "countryName": "Austria",
+  "annotation": "Districts",
+  "neighborhoodNoun": ["district", "districts"],
+
+  "dataUrl": "http://data.gv.at/datensatz/?id=ooe-418C5A09AC61465DA5BE228C91A09B11",
+  "dataTitle": "data.gv.at"
+}

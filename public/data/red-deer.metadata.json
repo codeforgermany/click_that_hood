@@ -1,0 +1,7 @@
+{ 
+  "locationName": "Red Deer",
+  "countryName": "Canada",
+
+  "dataUrl": "http://rdopendata.cloudapp.net/DataBrowser/RedDeerCatalogue/NeighbourhoodBoundaries#param=NOFILTER--DataView--Results",
+  "dataTitle": "City of Red Deer Open Data Catalogue"
+}

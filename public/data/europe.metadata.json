@@ -1,0 +1,10 @@
+{
+  "locationName": "Europe",
+  "annotation": "Countries",
+  "neighborhoodNoun": ["country", "countries"],
+
+  "authorTwitter": "ale_salmo",
+
+  "dataUrl": "http://www.eea.europa.eu",
+  "dataTitle": "EEA"
+}

@@ -1,0 +1,14 @@
+{ 
+  "locationName": "Russia",
+  "annotation": "Federal subjects",
+  "countryName": "Russia",
+  "neighborhoodNoun": ["federal subject", "federal subjects"],
+
+  "dataUrl": "http://gis-lab.info/qa/osm-adm.html",
+  "dataTitle": "GIS-Lab/OpenStreetMap",
+
+  "languages": {
+    "kириллица": "name",
+    "latin": "name_latin"
+  }
+}

@@ -1,0 +1,14 @@
+{ 
+  "locationName": "Japan",
+  "annotation": "Prefectures",
+  "countryName": "Japan",
+  "neighborhoodNoun": ["prefecture", "prefectures"],
+
+  "dataUrl": "http://www.fas.harvard.edu/~chgis/japan/archive/",
+  "dataTitle": "Japan Data Archive",
+
+  "languages": {
+    "漢字": "name",
+    "english": "name_english"
+  }
+}

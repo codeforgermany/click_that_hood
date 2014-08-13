@@ -9,64 +9,261 @@
  * later if there’s time later.
  */
 
-var HIGHLIGHT_DELAY = 1500;
-var NEXT_GUESS_DELAY = 1000;
+var COUNTRY_NAME_USA = 'U.S.';
+var COUNTRY_NAME_WORLD = 'The World';
 
-var MAP_VERT_PADDING = 50;
+var DEFAULT_NEIGHBORHOOD_NOUN_SINGULAR = 'neighborhood';
+var DEFAULT_NEIGHBORHOOD_NOUN_PLURAL = 'neighborhoods';
 
 var EASY_MODE_COUNT = 20;
 
-var MAP_OVERLAY_TILES_COUNT_X = 2;
-var MAP_OVERLAY_TILES_COUNT_Y = 2;
-var MAP_OVERLAY_OVERLAP_RATIO = .95;
-var MAP_OVERLAY_SIZE_THRESHOLD = 500;
+var HIGHLIGHT_DELAY = 1500;
+var NEXT_GUESS_DELAY = 1000;
 
-var SMALL_NEIGHBORHOOD_THRESHOLD = 8;
+var REMOVE_NEIGHBORHOOD_ANIMATE_GUESS_DELAY = 2000;
+
+var SMALL_NEIGHBORHOOD_THRESHOLD_MOUSE = 8;
+var SMALL_NEIGHBORHOOD_THRESHOLD_TOUCH = 30;
+
+var HEADER_WIDTH = 320;
+var BODY_MARGIN = 15;
+
+var MAP_VERT_PADDING = 50;
+var MAIN_MENU_HEIGHT = 350;
+
+var MAIN_MENU_MIN_FIXED_HEIGHT = 600;
+
+var MAP_BACKGROUND_SIZE_THRESHOLD = (128 + 256) / 2;
+var MAP_BACKGROUND_DEFAULT_ZOOM = 12;
+var MAP_BACKGROUND_MAX_ZOOM_NON_US = 12;
+var MAP_BACKGROUND_MAX_ZOOM_US = 17;
+
+var MAPBOX_MAP_ID = 'codeforamerica.map-mx0iqvk2';
+
+var ADD_YOUR_CITY_URL = 
+    'https://github.com/codeforamerica/click_that_hood/wiki/How-to-add-a-city-to-Click-That-%E2%80%99Hood';
+
+var MAPS_DEFAULT_SCALE = 512;
+var D3_DEFAULT_SCALE = 500;
+
+var FACEBOOK_APP_ID = '179106222254519';
 
 var startTime = 0;
 var timerIntervalId;
 
 var totalNeighborhoodsCount;
+var neighborhoodsDisplayNames = {};
+
 var neighborhoods = [];
 var neighborhoodsToBeGuessed = [];
 var neighborhoodsGuessed = [];
+var neighborhoodToBeGuessedLast;
+var neighborhoodToBeGuessedNext;
+
+var geoData;
+var geoMapPath;
 
 var mapClickable = false;
+var gameStarted = false;
 
 var easyMode = false;
 var mainMenu = false;
 
+var touchActive = false;
+var currentlyTouching = false;
+var lastTouchedNeighborhoodEl;
+
 var pixelRatio;
 
-var cityId;
+var smallNeighborhoodThreshold;
 
-function updateData() {
-  loadData();
-  updateNav();
-  updateCaption();
-  window.setTimeout(updateMap, 0);
+var canvasWidth, canvasHeight;
+var mapWidth, mapHeight;
+var lastMapWidth;
+
+var centerLat, centerLon;
+var latSpread, lonSpread;
+
+var MAP_HORIZONTAL_OFFSET_NORMAL = 0;
+var MAP_HORIZONTAL_OFFSET_REVERSED = 1;
+
+var mapHorizontalOffset = MAP_HORIZONTAL_OFFSET_NORMAL;
+
+var currentGeoLat, currentGeoLon;
+
+var cityId = '';
+
+var globalScale;
+
+var bodyLoaded = false;
+var geoDataLoaded = false;
+
+var finalTime = null;
+var timerStopped = false;
+
+var INITIAL_TOOLTIP_DELAY = 3000; // ms
+var MAX_TOOLTIP_DELAY = 5000;
+var TOOLTIP_DELAY_THRESHOLD = 3000; // ms
+
+var currentTooltipDelay = INITIAL_TOOLTIP_DELAY;
+var currentNeighborhoodStartTime;
+var currentNeighborhoodOverThreshold = false;
+
+var defaultLanguage = '';
+var language = '';
+
+// ---
+
+function splitPathIntoSeparateSegments(path) {
+  var segList = [];
+
+  var segs = [];
+  var s = path.pathSegList;
+  var count = s.numberOfItems;
+  for (var i = 0; i < count; i++) {
+    var item = s.getItem(i);
+    segs.push(item);
+
+    if (item.pathSegType == SVGPathSeg.PATHSEG_CLOSEPATH) {
+      segList.push(segs);
+      segs = [];
+    }
+  }
+
+  if (segs.length) {
+    segList.push(segs);
+  }
+  //console.log(segList.length);
+
+  for (var i in segList) {
+    segList[i].reverse();
+  }
+
+  return segList;
 }
 
-function getCanvasSize() {
-  // TODO better const
+//*** This code is copyright 2011 by Gavin Kistner, !@phrogz.net
+//*** It is covered under the license viewable at http://phrogz.net/JS/_ReuseLicense.txt
+// The following function is taken from Gavin Kistner as above. 
+// It’s been modified in the following ways:
+// · assuming local document
+// · sampling every point (removing sampling logic)
+// · splitting path into separate ones via splitPathIntoSeparateSegments
+//   (e.g. one path with three islands = three separate ones)
+// · prettified the code
+
+function pathToPolygon(segs) {
+  var poly = document.createElementNS('http://www.w3.org/2000/svg','polygon');
+
+  var segments = segs.concat();
+
+  var points = [];
+
+  var addSegmentPoint = function(s) {
+    if (s.pathSegType != SVGPathSeg.PATHSEG_CLOSEPATH) {
+      if (s.pathSegType % 2 == 1 && s.pathSegType > 1) {
+        // All odd-numbered path types are relative, except PATHSEG_CLOSEPATH (1)
+        x += s.x; 
+        y += s.y;
+      } else {
+        x = s.x; 
+        y = s.y;
+      }         
+      var lastPoint = points[points.length - 1];
+      if (!lastPoint || x != lastPoint[0] || y != lastPoint[1]) {
+        points.push([x, y]);
+      }
+    }
+  };
+
+  for (var d = 0, len = segments.length; d < len; d++) {
+    addSegmentPoint(segs.shift());
+  }
+  for (var i = 0, len = segs.length; i < len; ++i) {
+    addSegmentPoint(segs[i]);
+  }
+  for (var i = 0, len = points.length; i < len; ++i) {
+    points[i] = points[i].join(',');
+  }
+
+  poly.setAttribute('points', points.join(' '));
+  
+  return poly;
+}
+
+function getPolygonArea(poly) {
+  var area = 0; 
+  var pts = poly.points;
+  var len = pts.numberOfItems;
+
+  for (var i = 0; i < len; ++i) {
+    var p1 = pts.getItem(i);
+    var p2 = pts.getItem((i + len - 1) % len);
+
+    area += (p2.x + p1.x) * (p2.y - p1.y);
+  }
+  return Math.abs(area / 2);
+}
+
+function lonToTile(lon, zoom) { 
+  return Math.floor((lon + 180) / 360 * Math.pow(2, zoom));
+}
+
+function latToTile(lat, zoom) { 
+  return Math.floor((1 - Math.log(Math.tan(lat * Math.PI / 180) + 
+      1 / Math.cos(lat * Math.PI / 180)) / Math.PI) / 2 * Math.pow(2, zoom));
+}
+
+function tileToLon(x, zoom) {
+  return x / Math.pow(2, zoom) * 360 - 180;
+}
+
+function tileToLat(y, zoom) {
+  var n = Math.PI - 2 * Math.PI * y / Math.pow(2, zoom);
+  return 180 / Math.PI * Math.atan(.5 * (Math.exp(n) - Math.exp(-n)));
+}
+
+function updateCanvasSize() {
   canvasWidth = document.querySelector('#map').offsetWidth;
-  canvasHeight = 
-      document.querySelector('#map').offsetHeight - MAP_VERT_PADDING * 2;
+  canvasHeight = document.querySelector('#map').offsetHeight;
+
+  if (mainMenu) {
+    mapWidth = 1536;
+    mapHeight = 512;
+  } else {
+    mapWidth = canvasWidth - HEADER_WIDTH - BODY_MARGIN * 2;
+    mapHeight = canvasHeight - MAP_VERT_PADDING * 2;
+
+    // TODO hack
+    if (mapHeight < 0) {
+      mapHeight = 0;
+    }
+  }
 }
 
-function calculateMapSize() {
+function findBoundaries() {
+  // TODO const
   var minLat = 99999999;
   var maxLat = -99999999;
   var minLon = 99999999;
   var maxLon = -99999999;
 
+  // TODO move outside
   function findMinMax(lon, lat) {
+    switch (mapHorizontalOffset) {
+      case MAP_HORIZONTAL_OFFSET_REVERSED:
+        lon += 360;
+        lon %= 360;
+        break;
+    }
+
     if (lat > maxLat) {
       maxLat = lat;
     }
     if (lat < minLat) {
       minLat = lat;
     }
+
     if (lon > maxLon) {
       maxLon = lon;
     }
@@ -75,100 +272,197 @@ function calculateMapSize() {
     }
   }
 
-  for (var i in mapData.features) {
-    for (var j in mapData.features[i].geometry.coordinates[0]) {
-      if (mapData.features[i].geometry.coordinates[0][j].length && 
-          typeof mapData.features[i].geometry.coordinates[0][j][0] != 'number') {
-        for (var k in mapData.features[i].geometry.coordinates[0][j]) {
-          var lon = mapData.features[i].geometry.coordinates[0][j][k][0];
-          var lat = mapData.features[i].geometry.coordinates[0][j][k][1];
+  for (var i in geoData.features) {
+    if (CITY_DATA[cityId].pointsInsteadOfPolygons) {
+      var lon = geoData.features[i].geometry.coordinates[0]
+      var lat = geoData.features[i].geometry.coordinates[1];
 
-          findMinMax(lon, lat);
+      findMinMax(lon, lat);
+    } else {
+      for (var z in geoData.features[i].geometry.coordinates) {
+        for (var j in geoData.features[i].geometry.coordinates[z]) {
+          if (geoData.features[i].geometry.coordinates[z][j].length && 
+              typeof geoData.features[i].geometry.coordinates[z][j][0] != 'number') {
+            for (var k in geoData.features[i].geometry.coordinates[z][j]) {
+              var lon = geoData.features[i].geometry.coordinates[z][j][k][0];
+              var lat = geoData.features[i].geometry.coordinates[z][j][k][1];
+
+              findMinMax(lon, lat);
+            }
+          } else if (geoData.features[i].geometry.coordinates[z][j].length) {
+            var lon = geoData.features[i].geometry.coordinates[z][j][0];
+            var lat = geoData.features[i].geometry.coordinates[z][j][1];
+
+            findMinMax(lon, lat);
+          }
         }
-      } else if (mapData.features[i].geometry.coordinates[0][j].length) {
-        var lon = mapData.features[i].geometry.coordinates[0][j][0];
-        var lat = mapData.features[i].geometry.coordinates[0][j][1];
-
-        findMinMax(lon, lat);
       }
     }
   }
 
-  // TODO no global variables
-  centerLat = (minLat + maxLat) / 2;
-  centerLon = (minLon + maxLon) / 2;
-
-  latSpread = maxLat - minLat;
-  lonSpread = maxLon - minLon;
-
-  getCanvasSize();
-
-  var zoom = 12;
-  var tile = lat2tile(centerLat, zoom);
-  var latStep = (tile2lat(tile + 1, zoom) - tile2lat(tile, zoom));
-
-  // Calculate for height first
-  // TODO: not entirely sure where these magic numbers are coming from
-  globalScale = 
-      ((500 * 180) / latSpread * (canvasHeight - 50)) / 512 / 0.045 * (-latStep);
-
-  // Calculate width according to that scale
-  var width = globalScale / (500 * 360) * lonSpread * 512;
-
-  if (width > canvasWidth) {
-    globalScale = ((500 * 360) / lonSpread * canvasWidth) / 512;
+  return { 
+    minLat: minLat,
+    maxLat: maxLat,
+    minLon: minLon,
+    maxLon: maxLon
   }
-
-  mapPath = d3.geo.path().projection(
-      d3.geo.mercator().center([centerLon, centerLat]).
-      scale(globalScale).translate([canvasWidth / 2, canvasHeight / 2]));
 }
 
-function prepareMap() {
-  getCanvasSize();
+function calculateMapSize() {
+  if (mainMenu) {
+    geoMapPath = d3.geo.path().projection(
+        d3.geo.mercator().center([0, 0]).
+        scale(640 / 6.3).
+        translate([256 + 512 + 213 - 88 + (mapWidth % 640) / 2 - 621 / 2, 256]));
+  } else {
+    var boundaries = findBoundaries();
+
+    if ((boundaries.minLon == -180) && (boundaries.maxLon == 180)) {
+      mapHorizontalOffset = MAP_HORIZONTAL_OFFSET_REVERSED;
+      boundaries = findBoundaries();
+    }
+
+    centerLat = (boundaries.minLat + boundaries.maxLat) / 2;
+    centerLon = (boundaries.minLon + boundaries.maxLon) / 2;
+    latSpread = boundaries.maxLat - boundaries.minLat;
+    lonSpread = boundaries.maxLon - boundaries.minLon;
+
+    if (CITY_DATA[cityId].pointsInsteadOfPolygons) {
+      latSpread *= 1.1;      
+      lonSpread *= 1.1;      
+    }
+
+    updateCanvasSize();
+
+    var zoom = MAP_BACKGROUND_DEFAULT_ZOOM;
+    var tile = latToTile(centerLat, zoom);
+    var latStep = (tileToLat(tile + 1, zoom) - tileToLat(tile, zoom));
+
+    // Calculate for height first
+    // TODO: not entirely sure where these magic numbers are coming from
+    globalScale = 
+        ((D3_DEFAULT_SCALE * 180) / latSpread * (mapHeight - 50)) / 
+            MAPS_DEFAULT_SCALE / 0.045 * (-latStep);
+
+    // TODO this shouldn’t be hardcoded, but it is. Sue me.
+
+    switch (cityId) {
+      case 'africa':
+        globalScale *= .8;
+        break;
+      case 'alaska-ipla':
+        globalScale *= .8;
+        break;
+      case 'south-america':
+        globalScale *= .88;
+        centerLat -= 5;
+        break;
+      case 'europe':
+        globalScale *= .85;
+        centerLat += 6;
+        break;
+      case 'russia':
+        globalScale *= .8;
+        centerLat += 6;
+        break;
+      case 'asia':
+        globalScale *= .7;
+        centerLat += 20;
+        break;
+      case 'europe-1914':
+        // To match contemporary Europe above
+        globalScale *= 1.0915321079;
+        centerLat = 55.444707;
+        centerLon = 5.8151245;
+        break;
+      case 'europe-1938': 
+        // To match contemporary Europe above
+        globalScale *= 1.0915321079;
+        centerLat = 55.444707;
+        centerLon = 5.8151245;
+        break;
+      case 'oceania':
+        globalScale *= .8;
+        break;
+      case 'world':
+        globalScale *= .6;
+        break;
+    }
+
+    // Calculate width according to that scale
+    var width = globalScale / (D3_DEFAULT_SCALE * 360) * 
+        lonSpread * MAPS_DEFAULT_SCALE;
+
+    if (width > mapWidth) {
+      globalScale = ((D3_DEFAULT_SCALE * 360) / lonSpread * mapWidth) / 
+          MAPS_DEFAULT_SCALE;
+    }
+
+    projection = d3.geo.mercator();
+    switch (mapHorizontalOffset) {
+      case MAP_HORIZONTAL_OFFSET_NORMAL:
+        projection = projection.center([centerLon, centerLat]);
+        break;
+      case MAP_HORIZONTAL_OFFSET_REVERSED:
+        projection = projection.center([centerLon - 180, centerLat]).
+            rotate([180, 0]);    
+        break;
+    }
+    projection = projection.scale(globalScale / 6.3).
+        translate([mapWidth / 2, mapHeight / 2]);
+
+    geoMapPath = d3.geo.path().projection(projection);
+  }
+}
+
+function createSvg() {
+  updateCanvasSize();
 
   mapSvg = d3.select('#svg-container').append('svg')
-      .attr('width', canvasWidth)
-      .attr('height', canvasHeight);    
+      .attr('width', mapWidth)
+      .attr('height', mapHeight);  
+}
 
-  if (CITY_DATA[cityId].dataFile) {
-    // Read from local GeoJSON file
-    var url = 'data/' + CITY_DATA[cityId].dataFile;
-  } else {
-    // Read from CartoDB
+function loadGeoData() {
+  var url = 'data/' + cityId + '.geojson';
 
-    if (!CITY_DATA[cityId].optQuery) {
-      // TODO do not require all?
-      var query = "SELECT * FROM neighborhoods WHERE city = '" + cityName + "'";
-    } else {
-      var query = CITY_DATA[cityId].optQuery;
-    }
+  var request = new XMLHttpRequest();
+  request.addEventListener('load', onGeoDataLoad);
 
-    if (!CITY_DATA[cityId].optCartoDbUser) {
-      var site = 'http://cfa.cartodb.com';
-    } else {
-      var site = 'http://' + CITY_DATA[cityId].optCartoDbUser + '.cartodb.com';
-    }
+  request.addEventListener('progress', function(e) {
+     var percentage = e.loaded / e.total * 90;
+     document.querySelector('#loading progress').setAttribute('value', percentage);
+  }, false);
 
-    var url = site + '/api/v2/sql?q=' + encodeURIComponent(query) + 
-        ' &format=GeoJSON';
+  request.open('GET', url, true);
+  request.send();
+}
+
+function updateSmallNeighborhoodDisplay() {
+  var count = smallNeighborhoodsRemoved.length;
+  var no = Math.floor(Math.random() * count);
+
+  var els = document.querySelectorAll('.small-neighborhood-example');
+
+  for (var i = 0, el; el = els[i]; i++) {
+    el.innerHTML = neighborhoodsDisplayNames[smallNeighborhoodsRemoved[no]];
   }
-
-  queue()  
-      .defer(d3.json, url)
-      .await(mapIsReady);
 }
 
 function removeSmallNeighborhoods() {
-  var els = document.querySelectorAll('#map .neighborhood');
+  smallNeighborhoodsRemoved = [];
 
-  someSmallNeighborhoodsRemoved = false;
+  if (CITY_DATA[cityId].pointsInsteadOfPolygons) {
+    return;
+  }
+
+  var els = document.querySelectorAll('#map .neighborhood');
 
   for (var i = 0, el; el = els[i]; i++) {
     var boundingBox = el.getBBox();
 
-    if ((boundingBox.width < SMALL_NEIGHBORHOOD_THRESHOLD) || 
-        (boundingBox.height < SMALL_NEIGHBORHOOD_THRESHOLD)) {
+    if ((boundingBox.width < smallNeighborhoodThreshold) || 
+        (boundingBox.height < smallNeighborhoodThreshold)) {
       var name = el.getAttribute('name');
 
       neighborhoods.splice(neighborhoods.indexOf(name), 1);
@@ -177,12 +471,18 @@ function removeSmallNeighborhoods() {
 
       totalNeighborhoodsCount--;
 
-      someSmallNeighborhoodsRemoved = true;
+      smallNeighborhoodsRemoved.push(name);
     }
   }
 
-  if (someSmallNeighborhoodsRemoved) {
-    document.querySelector('#neighborhoods-removed').classList.add('visible');
+  var count = smallNeighborhoodsRemoved.length;
+
+  if (count) {
+    document.body.classList.add('neighborhoods-removed');
+
+    updateSmallNeighborhoodDisplay();
+  } else {    
+    document.body.classList.remove('neighborhoods-removed');
   }
 }
 
@@ -206,79 +506,427 @@ function updateCount() {
   }
 }
 
-function mapIsReady(error, data) {
-  mapData = data;
+function prepareMainMenuMapBackground() {
+  updateCanvasSize();
 
-  calculateMapSize();
+  var layer = mapbox.layer().id(MAPBOX_MAP_ID);
+  var map = mapbox.map(document.querySelector('#maps-background'), layer, null, []);
+  map.tileSize = { x: Math.round(320 / pixelRatio), 
+                   y: Math.round(320 / pixelRatio) };
+  map.centerzoom({ lat: 26 + 7, lon: 63 - 13 }, pixelRatio);
 
-  prepareMapOverlay();
+  lastMapWidth = document.querySelector('#maps-background').offsetWidth;
 
-  resizeMapOverlay();
+  // This keeps the map centered on the homepage
+  map.addCallback('resized', function(map, dimensions) {
+    var width = dimensions[0].x;
+    var delta = width - lastMapWidth;
+    map.panBy(-Math.floor(delta / 2), 0);
+    lastMapWidth += Math.floor(delta / 2) * 2;
+  });
+}
 
-  prepareNeighborhoods();
+function isString(obj) {
+  return typeof obj == 'string';
+}
 
-  createMap();
+function findNeighborhoodByPoint(x, y) {
+  var el = document.elementFromPoint(x, y);
 
-  removeSmallNeighborhoods();
-  updateCount();
+  if (el) {
+    if (el.className && typeof el.className.baseVal == 'string') {
+      var className = el.className.baseVal;
+    } else {
+      var className = el.className;
+    }
 
-  startIntro();
+    // Shitty because iPad has old Safari without classList
+    if (className && className.indexOf('neighborhood') != -1) {
+      return el;
+    }
+  } 
+
+  return false;
+}
+
+function hoverNeighborhoodElByPoint(x, y, showTooltip) {
+  var el = findNeighborhoodByPoint(x, y);
+
+  if (el) {
+    hoverNeighborhoodEl(el, showTooltip);
+  } else {
+    hideNeighborhoodHover();
+  }
+}
+
+function onBodyTouchStart(event) {
+  setTouchActive(true);
+
+  var el = event.target;
+  while (el && el.id != 'svg-container') {
+    el = el.parentNode;
+  }
+
+  if (!el || !el.id || el.id != 'svg-container') {
+    return;
+  }
+
+  lastTouchedNeighborhoodEl = findNeighborhoodByPoint(event.pageX, event.pageY);
+
+  // TODO duplication with above
+  hoverNeighborhoodElByPoint(event.pageX, event.pageY, false);
+
+  currentlyTouching = true;
+
+  event.preventDefault();
+}
+
+function onBodyTouchMove(event) {
+  if (currentlyTouching) {
+    if (event.touches[0]) {
+      var x = event.touches[0].pageX;
+      var y = event.touches[0].pageY;
+
+      lastTouchedNeighborhoodEl = findNeighborhoodByPoint(x, y);
+
+      // TODO duplication with above
+      hoverNeighborhoodElByPoint(x, y, true);
+    }
+
+    event.preventDefault();
+    event.stopPropagation();
+  }
+}
+
+function onBodyTouchEnd(event) {
+  hideNeighborhoodHover();
+
+  if (lastTouchedNeighborhoodEl) {
+    onNeighborhoodClick(lastTouchedNeighborhoodEl);
+  }
+
+  currentlyTouching = false;
+}
+
+function onBodyTouchCancel(event) {
+  hideNeighborhoodHover();
+
+  currentlyTouching = false;
+}
+
+function addTouchEventHandlers() {
+  document.body.addEventListener('touchstart', onBodyTouchStart, false);
+  document.body.addEventListener('touchmove', onBodyTouchMove, false);
+  document.body.addEventListener('touchend', onBodyTouchEnd, false);
+  document.body.addEventListener('touchcancel', onBodyTouchCancel, false);
+}
+
+function determineLanguage() {
+  if (CITY_DATA[cityId].languages) {
+    for (var name in CITY_DATA[cityId].languages) {
+      defaultLanguage = name;
+      break;
+    }
+
+    for (var name in CITY_DATA[cityId].languages) {
+      if ((name != defaultLanguage) && 
+          (window.localStorage['prefer-' + name + '-to-' + defaultLanguage] === 'yes')) {
+        language = name;
+        return;
+      }
+    }
+    language = defaultLanguage;
+  }
+}
+
+function everythingLoaded() {
+  if (!mainMenu) {
+    calculateMapSize();
+    prepareMapBackground();
+
+    prepareNeighborhoods();
+    updateNeighborhoodDisplayNames();
+
+    createMap();
+
+    addTouchEventHandlers();
+
+    startIntro();
+  }
+}
+
+function onGeoDataLoad(data) {
+  geoDataLoaded = true;
+  geoData = JSON.parse(this.responseText);
+  
+  checkIfEverythingLoaded();
+}
+
+function updateLanguagesSelector() {
+  var els = document.querySelectorAll('header .languages button.selected');
+  for (var i = 0, el; el = els[i]; i++) {
+    el.classList.remove('selected');
+  }
+
+  var el = document.querySelector('header .languages button[name="' + language + '"]');
+  el && el.classList.add('selected');
+}
+
+function sanitizeName(name) {
+  name = name.replace(/[\n\r]/g, '');
+  return name;
+}
+
+function updateNeighborhoodDisplayNames() {
+  neighboorhoodsDisplayNames = {};
+
+  for (var i in geoData.features) {
+    var name = sanitizeName(geoData.features[i].properties.name);
+
+    if (CITY_DATA[cityId].languages) {
+      var id = CITY_DATA[cityId].languages[language];
+    } else {
+      var id = 'name';
+    }
+
+    neighborhoodsDisplayNames[name] = geoData.features[i].properties[id];
+  }  
 }
 
 function prepareNeighborhoods() {
   neighborhoods = [];
 
-  for (var i in mapData.features) {
-    neighborhoods.push(mapData.features[i].properties.name);
-  }
+  for (var i in geoData.features) {
+    var name = sanitizeName(geoData.features[i].properties.name);
 
-  neighborhoods.sort();
+    neighborhoods.push(name);
+  }
 
   totalNeighborhoodsCount = neighborhoods.length;
 }
 
-function createMap() {
+function createMainMenuMap() {
+  // TODO temporarily remove until we fix positioning (issue #156)
+  return;
+
+  var features = [];
+
+  for (var i in CITY_DATA) {
+    var cityData = CITY_DATA[i];
+
+    var feature = {};
+    feature.type = 'Feature';
+    feature.properties = { id: i };
+    feature.geometry = { type: 'Point', coordinates: cityData.sampleLatLon }; 
+
+    features.push(feature);
+  }
+
+  if (currentGeoLat) {
+    var feature = {};
+    feature.type = 'Feature';
+    feature.properties = { id: i, current: true };
+    feature.geometry = { type: 'Point', coordinates: [currentGeoLon, currentGeoLat] }; 
+
+    features.push(feature);    
+  }
+
   mapSvg
-    .selectAll('path')
-    .data(mapData.features)
+    .selectAll('.location')
+    .data(features)
     .enter()
     .append('path')
-    .attr('d', mapPath)
+    .attr('d', geoMapPath.pointRadius(1))
+    .attr('city-id', function(d) { return d.properties.id; })
+    .attr('class', function(d) { 
+      var name = 'location';
+      if (d.properties.current) {
+        name += ' current';
+      }
+      return name;
+    });
+}
+
+function animateMainMenuCity(event) {
+  var el = event.target;
+  while (!el.getAttribute('city-id')) {
+    el = el.parentNode;
+  }
+  var id = el.getAttribute('city-id');
+
+  mapSvg
+    .select('#map .location[city-id="' + id + '"]')
+    .transition()
+    .duration(2000)
+    .attr('d', geoMapPath.pointRadius(1000))
+    .style('opacity', 0)
+    .style('fill-opacity', 0);
+
+  document.querySelector('header.main-menu').classList.add('hidden');
+}
+
+function restoreMainMenuCity(event) {
+  var el = event.target;
+  while (!el.getAttribute('city-id')) {
+    el = el.parentNode;
+  }
+  var id = el.getAttribute('city-id');
+
+  mapSvg
+    .select('#map .location[city-id="' + id + '"]')
+    .transition()
+    .duration(150)
+    .attr('d', geoMapPath.pointRadius(1))
+    .style('opacity', 1)
+    .style('fill-opacity', .1);
+
+  document.querySelector('header.main-menu').classList.remove('hidden');
+}
+
+function setTouchActive(newTouchActive) {
+  touchActive = newTouchActive;
+
+  if (touchActive) {
+    document.body.classList.add('touch-active');
+  } else {
+    document.body.classList.remove('touch-active');    
+  }
+
+  var els = document.querySelectorAll('.click-verb');
+  for (var i = 0, el; el = els[i]; i++) {
+    el.innerHTML = touchActive ? 'touch' : 'click';
+  }
+}
+
+function showNeighboorhoodTooltip(neighborhoodEl, hoverEl) {
+  var name = neighborhoodEl.getAttribute('name');
+
+  hoverEl.classList.remove('visible');  
+  hoverEl.innerHTML = neighborhoodsDisplayNames[name];
+
+  var boundingBox = neighborhoodEl.getBoundingClientRect();
+
+  if (touchActive) {
+    var top = boundingBox.top - hoverEl.offsetHeight - 30;
+  } else {
+    var top = boundingBox.top + boundingBox.height;
+  }
+
+  var left = (boundingBox.left + boundingBox.width / 2 - hoverEl.offsetWidth / 2);
+
+  hoverEl.style.top = top + 'px'; 
+  hoverEl.style.left = left + 'px';
+
+  if (neighborhoodEl.getAttribute('inactive')) {
+    hoverEl.classList.add('inactive');
+  } else {
+    hoverEl.classList.remove('inactive');
+  }
+
+  hoverEl.classList.add('visible');  
+}
+
+function hoverNeighborhoodEl(neighborhoodEl, showTooltip) {
+  var hoverEl = document.querySelector('#neighborhood-hover');
+
+  var name = neighborhoodEl.getAttribute('name');
+
+  if (showTooltip && ((hoverEl.innerHTML != neighborhoodsDisplayNames[name]) || 
+      (!hoverEl.classList.contains('visible')))) {
+    showNeighboorhoodTooltip(neighborhoodEl, hoverEl);
+  }
+}
+
+function hideNeighborhoodHover() {
+  document.querySelector('#neighborhood-hover').classList.remove('visible');
+}
+
+function createMap() {
+  var mapContents = mapSvg
+    .selectAll('path')
+    .data(geoData.features)
+    .enter()
+    .append('path')
     .attr('class', 'neighborhood unguessed')
-    .attr('name', function(d) { return d.properties.name; })
+    .attr('name', function(d) { return sanitizeName(d.properties.name); })
     .on('click', function(d) {
       var el = d3.event.target || d3.event.toElement;
 
-      if (!el.getAttribute('inactive')) {      
-        handleNeighborhoodClick(el, d.properties.name);
-      }
+      onNeighborhoodClick(el);
     })
     .on('mousedown', function(d) {
+      setTouchActive(false);
+
       d3.event.preventDefault();
     })
     .on('mouseover', function(d) {
-      // TODO make a function
-      var el = d3.event.target || d3.event.toElement;
+      if (!touchActive) {
+        var el = d3.event.target || d3.event.toElement;
+        hoverNeighborhoodEl(el, true);
 
-      if (!el.getAttribute('inactive')) {
-        var boundingBox = el.getBBox();
-
-        var hoverEl = document.querySelector('#neighborhood-hover');
-
-        hoverEl.innerHTML = d.properties.name;  
-
-        hoverEl.style.left = (boundingBox.x + boundingBox.width / 2 - hoverEl.offsetWidth / 2) + 'px';
-        hoverEl.style.top = (boundingBox.y + boundingBox.height) + 'px';
-
-        hoverEl.classList.add('visible');  
+        el.classList.add('hover');
       }
     })
     .on('mouseout', function(d) {
-      // TODO use target
-      document.querySelector('#neighborhood-hover').classList.remove('visible');  
+      if (!touchActive) {
+        var el = d3.event.target || d3.event.toElement;
+
+        el.classList.remove('hover');
+      }
+      hideNeighborhoodHover();
     });
 
   onResize();
+}
+
+function removePaddedIslandNeighborhoods() {
+  var els = document.querySelectorAll('#svg-container .unpadded');
+  for (var i = 0, el; el = els[i]; i++) {
+    el.parentNode.removeChild(el);
+  }
+
+  var els = document.querySelectorAll('#svg-container .padded');
+  for (var i = 0, el; el = els[i]; i++) {
+    el.classList.remove('padded');
+  }
+}
+
+function padIslandNeighborhoods() {
+  if (mainMenu) {
+    return;
+  }
+  if (CITY_DATA[cityId].pointsInsteadOfPolygons) {
+    return;
+  }
+
+  var els = document.querySelectorAll('#svg-container path');
+  for (var i = 0, el; el = els[i]; i++) {
+    var name = el.getAttribute('name');
+    if (smallNeighborhoodsRemoved.indexOf(name) != -1) {
+      continue;
+    }
+
+    var boundingBox = el.getBBox();
+    var boundingBoxArea = boundingBox.width * boundingBox.height;
+
+    var segs = splitPathIntoSeparateSegments(el);
+    var area = 0;
+    for (var j in segs) {
+      var seg = segs[j];
+      area += getPolygonArea(pathToPolygon(seg));
+    }
+
+    var needsPadding = (area < 100) && ((area / boundingBoxArea) < 0.1);
+
+    if (needsPadding) {
+      var secondEl = el.cloneNode(true);
+      el.parentNode.appendChild(secondEl);
+
+      el.classList.add('padded');
+
+      secondEl.classList.add('unpadded');
+    }
+  }
 }
 
 function setMapClickable(newMapClickable) {
@@ -291,27 +939,35 @@ function setMapClickable(newMapClickable) {
   }
 }
 
-function animateNeighborhood(el) {
+function animateCorrectNeighborhoodGuess(el) {
   var animEl = el.cloneNode(true);
-  if (animEl.classList) {
-    el.parentNode.appendChild(animEl);
+  el.parentNode.appendChild(animEl);
 
+  animEl.classList.remove('hover');
+  animEl.classList.remove('guessed');
+  animEl.classList.add('guessed-animation');
 
-    animEl.classList.remove('guessed');
-    animEl.classList.add('guessed-animation');
+  window.setTimeout(function() {
+    animEl.classList.add('animate');
+  }, 50);
 
-    window.setTimeout(function() {
-      animEl.classList.add('animate');
-    }, 0);
-
-    window.setTimeout(function() { animEl.parentNode.removeChild(animEl); }, 2000);
-  }
+  window.setTimeout(function() { 
+    animEl.parentNode.removeChild(animEl); 
+  }, REMOVE_NEIGHBORHOOD_ANIMATE_GUESS_DELAY);
 }
 
-function handleNeighborhoodClick(el, name) {
-  if (!mapClickable) {
+function getHighlightableNeighborhoodEl(name) {
+  //console.log(name);
+  return document.querySelector('#map svg :not(.unpadded)[name="' + name + '"]');
+}
+
+function onNeighborhoodClick(el) {
+  if (!mapClickable || el.getAttribute('inactive')) {      
     return;
   }
+
+  var name = el.getAttribute('name');
+  var el = getHighlightableNeighborhoodEl(name);
 
   // Assuming accidental click on a neighborhood already guessed
   // TODO does this still work?
@@ -321,23 +977,28 @@ function handleNeighborhoodClick(el, name) {
 
   setMapClickable(false);
 
-  if (name == neighborhoodToBeGuessedNext) {
-    if (el.classList) {
-      el.classList.remove('unguessed');
-      el.classList.add('guessed');
+  var time = new Date().getTime() - currentNeighborhoodStartTime;
 
-      animateNeighborhood(el);
+  if (name == neighborhoodToBeGuessedNext) {
+    if (time > TOOLTIP_DELAY_THRESHOLD) {
+      currentTooltipDelay -= time - TOOLTIP_DELAY_THRESHOLD;
+      if (currentTooltipDelay < 0) {
+        currentTooltipDelay = 0;
+      }
     } else {
-      // Fix for early Safari 6 not supporting classes on SVG objects
-      el.style.fill = 'rgba(0, 255, 0, .25)';
-      el.style.stroke = 'transparent';
+      currentTooltipDelay += 1000;
+      if (currentTooltipDelay > MAX_TOOLTIP_DELAY) {
+        currentTooltipDelay = MAX_TOOLTIP_DELAY;
+      }
     }
 
+    el.classList.remove('unguessed');
+    el.classList.add('guessed');
+
+    animateCorrectNeighborhoodGuess(el);
+
     neighborhoodsGuessed.push(name);
-
-    var no = neighborhoodsToBeGuessed.indexOf(name);
-
-    neighborhoodsToBeGuessed.splice(no, 1);
+    neighborhoodsToBeGuessed.splice(neighborhoodsToBeGuessed.indexOf(name), 1);
 
     updateGameProgress();
 
@@ -347,31 +1008,27 @@ function handleNeighborhoodClick(el, name) {
       window.setTimeout(nextGuess, NEXT_GUESS_DELAY);
     }
   } else {
-    if (el.classList) {
-      el.classList.remove('unguessed');
-      el.classList.add('wrong-guess');
-    } else {
-      // Fix for early Safari 6 not supporting classes on SVG objects
-      el.style.fill = 'rgba(255, 0, 0, .7)';
-      el.style.stroke = 'white';
-      el.id = 'safari-wrong-guess';
+    // Incorrect
+
+    currentTooltipDelay -= 1000;
+    if (currentTooltipDelay < 0) {
+      currentTooltipDelay = 0;
     }
 
-    var correctEl = document.querySelector('#map svg [name="' + neighborhoodToBeGuessedNext + '"]');
-    if (correctEl.classList) {
-      correctEl.classList.add('right-guess');
-    } else {
-      // Fix for early Safari 6 not supporting classes on SVG objects
-      correctEl.style.webkitAnimationName = 'blink';
-      correctEl.style.webkitAnimationDuration = '500ms';
-      correctEl.style.webkitAnimationIterationCount = 'infinite';
-      correctEl.id = 'safari-right-guess';
-    }
+    el.classList.remove('unguessed');
+    el.classList.add('wrong-guess');
+
+    var correctEl = getHighlightableNeighborhoodEl(neighborhoodToBeGuessedNext);
+    correctEl.classList.add('right-guess');
+
+    var correctNameEl = document.querySelector('#neighborhood-correct-name');
+    showNeighboorhoodTooltip(correctEl, correctNameEl);
 
     window.setTimeout(removeNeighborhoodHighlights, HIGHLIGHT_DELAY);
     window.setTimeout(nextGuess, HIGHLIGHT_DELAY + NEXT_GUESS_DELAY);
   }
 
+  neighborhoodToBeGuessedLast = neighborhoodToBeGuessedNext;
   neighborhoodToBeGuessedNext = '';
   updateNeighborhoodDisplay();
 }
@@ -380,6 +1037,8 @@ function updateGameProgress() {
   document.querySelector('#count').innerHTML = 
       neighborhoodsGuessed.length + ' of ' + 
       (neighborhoodsGuessed.length + neighborhoodsToBeGuessed.length);
+
+  document.querySelector('#count-time-wrapper-wrapper').classList.add('visible');
 }
 
 function removeNeighborhoodHighlights() {
@@ -394,50 +1053,63 @@ function removeNeighborhoodHighlights() {
     el.classList.add('unguessed');
   }
 
-  // Fix for early Safari 6 not supporting classes on SVG objects
-  var el = document.querySelector('#safari-wrong-guess');
+  var el = document.querySelector('#neighborhood-correct-name');
   if (el) {
-    el.id = '';
-    el.style.stroke = 'white';
-    el.style.fill = '';
+    el.classList.remove('visible');
   }
-  var el = document.querySelector('#safari-right-guess');
-  if (el) {
-    el.id = '';
-    el.style.webkitAnimationName = '';
-    el.style.stroke = 'white';
-    el.style.fill = '';
-  }
+}
 
+function updateNeighborhoodDisplayName() {
+  document.querySelector('#neighborhood-guess .name').innerHTML = 
+    neighborhoodsDisplayNames[neighborhoodToBeGuessedNext];  
 }
 
 function updateNeighborhoodDisplay() {
   if (neighborhoodToBeGuessedNext) {
-    document.querySelector('#neighborhood-guess').classList.add('visible');  
+    updateNeighborhoodDisplayName();
+
+    document.querySelector('#neighborhood-guess-wrapper').classList.add('visible');  
   } else {
-    document.querySelector('#neighborhood-guess').classList.remove('visible');      
+    document.querySelector('#neighborhood-guess-wrapper').classList.remove('visible');      
+    document.querySelector('#neighborhood-guess-wrapper').classList.add('invisible');  
+
+    window.setTimeout(function() {
+      document.querySelector('#neighborhood-guess-wrapper').classList.remove('invisible');
+    }, 150);
   }
 
-  document.querySelector('#neighborhood-guess span').innerHTML = 
-    neighborhoodToBeGuessedNext;  
 }
 
 function nextGuess() {
   setMapClickable(true);
 
-  var pos = Math.floor(Math.random() * neighborhoodsToBeGuessed.length);
+  currentNeighborhoodStartTime = new Date().getTime();
+  currentNeighborhoodOverThreshold = false;
+  hideTooltips();
 
-  neighborhoodToBeGuessedNext = neighborhoodsToBeGuessed[pos];
+  do {
+    var pos = Math.floor(Math.random() * neighborhoodsToBeGuessed.length);
+    neighborhoodToBeGuessedNext = neighborhoodsToBeGuessed[pos];
+  } while ((neighborhoodToBeGuessedLast == neighborhoodToBeGuessedNext) &&
+           (neighborhoodsToBeGuessed.length > 1));
   updateNeighborhoodDisplay();
 }
 
 function startIntro() {
   document.querySelector('#loading').classList.remove('visible');
-  document.querySelector('#intro').classList.add('visible');
+  document.querySelector('#select-mode').classList.add('visible');
+}
+
+function makeAllNeighborhoodsActive() {
+  var els = document.querySelectorAll('#map svg [inactive]');
+
+  for (var i = 0, el; el = els[i]; i++) {
+    el.removeAttribute('inactive');
+  } 
 }
 
 function makeNeighborhoodInactive(name) {
-  var el = document.querySelector('#map svg [name="' + name + '"]');
+  var el = getHighlightableNeighborhoodEl(name);
 
   el.setAttribute('inactive', true);
 }
@@ -459,7 +1131,10 @@ function reloadPage() {
 }
 
 function startGame(useEasyMode) {
+  gameStarted = true;
+
   document.querySelector('#intro').classList.remove('visible');  
+  document.querySelector('#select-mode').classList.remove('visible');  
   document.querySelector('#cover').classList.remove('visible');
 
   neighborhoodsToBeGuessed = [];
@@ -475,28 +1150,42 @@ function startGame(useEasyMode) {
   updateGameProgress();
 
   startTime = new Date().getTime();
-  timerIntervalId = window.setInterval(updateTimer, 100);
+  updateTimer();
+  
+  window.setTimeout(function() {
+    startTime = new Date().getTime();
+    timerIntervalId = window.setInterval(updateTimer, 100);
+  }, NEXT_GUESS_DELAY);
 
   window.setTimeout(nextGuess, NEXT_GUESS_DELAY);
 }
 
-function createTimeout(fn, data, delay){
+function createTimeout(fn, data, delay) {
   window.setTimeout(function() { fn.call(null, data); }, delay);
 }
 
-function gameOver() {
-  setMapClickable(false);
-  window.clearInterval(timerIntervalId);
+function stopTimer() {
+  timerStopped = true;
+  finalTime = new Date().getTime();
+  window.clearInterval(timerIntervalId);  
 
+  updateTimer();
+}
+
+function gameOver() {
+  stopTimer();
+
+  setMapClickable(false);
   var els = document.querySelectorAll('#map .guessed');
 
+  // TODO constants
   var timer = 300;
   var timerDelta = 100;
   var timerDeltaDiff = 5;
   var TIMER_DELTA_MIN = 10; 
 
   for (var i = 0, el; el = els[i]; i++) {
-    createTimeout(function(el) { animateNeighborhood(el); }, el, timer);
+    createTimeout(function(el) { animateCorrectNeighborhoodGuess(el); }, el, timer);
 
     timer += timerDelta;
     timerDelta -= timerDeltaDiff;
@@ -505,16 +1194,63 @@ function gameOver() {
     }
   }
 
+  // TODO constants
   window.setTimeout(gameOverPart2, timer + 1000);
 }
 
-function gameOverPart2() {
-  document.querySelector('#cover').classList.add('visible');
-  document.querySelector(easyMode ? '#congrats-easy' : '#congrats-hard').classList.add('visible');  
+function getSharingMessage() {
+  return 'I just played Click That ’Hood and identified ' + 
+      neighborhoodsGuessed.length + ' ' + CITY_DATA[cityId].locationName + ' ' + 
+      getNeighborhoodNoun(true) + ' in ' + getTimer() + '. Try to beat me!';
 }
 
-function updateTimer() {
-  var elapsedTime = Math.floor((new Date().getTime() - startTime) / 100);
+function updateFacebookLink(congratsEl) {
+  var el = congratsEl.querySelector('#share-via-facebook');
+
+  var text = getSharingMessage();
+  var url = location.href;
+
+  el.href = 'https://www.facebook.com/dialog/feed?' +
+      'app_id=' + FACEBOOK_APP_ID +
+      '&redirect_uri=' + encodeURIComponent(url) + 
+      '&link=' + encodeURIComponent(url) + 
+      '&name=' + encodeURIComponent('Click That ’Hood') +
+      '&description=' + encodeURIComponent(text);
+}
+
+function updateTwitterLink(congratsEl) {
+  var el = congratsEl.querySelector('#share-via-twitter');
+
+  var text = getSharingMessage();
+  var url = location.href;
+
+  el.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + 
+      '&url=' + encodeURIComponent(url);
+}
+
+function gameOverPart2() {
+  var el = document.querySelector('#congrats');
+  document.querySelector('#number-identified').innerHTML = 
+      easyMode ? easyModeCount : 'all';
+      
+  document.querySelector('#count-time-wrapper-wrapper').classList.remove('visible');
+  document.querySelector('#more-cities-wrapper-wrapper').classList.add('visible');
+
+  updateTwitterLink(el);
+  updateFacebookLink(el);
+
+  document.querySelector('#cover').classList.add('visible');
+  el.classList.add('visible');  
+}
+
+function getTimer() {
+  if (!timerStopped) {
+    var time = new Date().getTime();
+  } else {
+    var time = finalTime;
+  }
+
+  var elapsedTime = Math.floor((time - startTime) / 100);
 
   var tenthsOfSeconds = elapsedTime % 10;
 
@@ -525,210 +1261,520 @@ function updateTimer() {
 
   var minutes = Math.floor(elapsedTime / 600);
 
-  document.querySelector('#time').innerHTML = 
-    minutes + ':' + seconds + '.' + tenthsOfSeconds;
+  return minutes + ':' + seconds + '.' + tenthsOfSeconds;
 }
 
-function getGoogleMapsUrl(lat, lon, zoom, type) {
-  var url = 'http://maps.googleapis.com/maps/api/staticmap' +
-      '?center=' + lat + ',' + lon +
-      '&zoom=' + zoom + '&size=640x640' +
-      '&key=AIzaSyCMwHPyd0ntfh2RwROQmp_ozu1EoYo9AXk' +
-      '&sensor=false&scale=' + pixelRatio + '&maptype=' + type + '&format=jpg';
-
-  return url;
+function hideTooltips() {
+  document.querySelector('#neighborhood-hover').classList.remove('active');
 }
 
-function prepareMapOverlay() {
-  for (var x = 0; x < MAP_OVERLAY_TILES_COUNT_X; x++) {
-    for (var y = 0; y < MAP_OVERLAY_TILES_COUNT_Y; y++) {
-      var imgEl = document.createElement('img');
+function showTooltips() {
+  document.querySelector('#neighborhood-hover').classList.add('active');
+}
 
-      document.querySelector('#google-maps-overlay').appendChild(imgEl);
+function updateTimer() {
+  var timeHtml = getTimer();
+
+  var els = document.querySelectorAll('.time');
+  for (var i = 0, el; el = els[i]; i++) {
+    el.innerHTML = timeHtml;
+  } 
+
+  if (!currentNeighborhoodOverThreshold) {
+    var time = new Date().getTime() - currentNeighborhoodStartTime;
+
+    if (time > currentTooltipDelay) {
+      currentNeighborhoodOverThreshold = true;
+      showTooltips();
     }
   }
 }
 
-function long2tile(lon, zoom) { 
-  return (Math.floor((lon + 180) / 360 * Math.pow(2, zoom))); 
-}
+function prepareMapBackground() {
+  if (!geoDataLoaded) {
+    return;
+  }
 
-function lat2tile(lat, zoom) { 
-  return (Math.floor((1 - Math.log(Math.tan(lat * Math.PI / 180) + 
-      1 / Math.cos(lat * Math.PI / 180)) / Math.PI) / 2 * Math.pow(2, zoom))); 
-}
+  updateCanvasSize();
 
-function tile2long(x, zoom) {
-  return (x / Math.pow(2, zoom) * 360 - 180);
-}
+  // TODO this is the worst line of code ever written
+  var size = globalScale * 0.0012238683395795992 * 0.995 / 2 * 0.800 / 2 / 4;
 
-function tile2lat(y, zoom) {
-  var n = Math.PI - 2 * Math.PI * y / Math.pow(2, zoom);
-  return (180 / Math.PI * Math.atan(.5 * (Math.exp(n) - Math.exp(-n))));
-}
+  var zoom = MAP_BACKGROUND_DEFAULT_ZOOM + 2;
 
-function resizeMapOverlay() {
-  var canvasWidth = document.querySelector('#map').offsetWidth;
-  var canvasHeight = document.querySelector('#map').offsetHeight - MAP_VERT_PADDING * 2;
-
-  // TODO unhardcode
-  var size = globalScale * 0.0012238683395795992;
-  size = size * 0.995 / 2;
-
-  // TODO remove global
-  zoom = 12;
-
-  while (size < MAP_OVERLAY_SIZE_THRESHOLD) {
+  while (size < MAP_BACKGROUND_SIZE_THRESHOLD) {
     size *= 2;
     zoom--;
+  } 
+
+  // TODO resize properly instead of recreating every single time
+  document.querySelector('#maps-background').innerHTML = '';
+
+  var layer = mapbox.layer().id(MAPBOX_MAP_ID);
+  var map = 
+      mapbox.map(document.querySelector('#maps-background'), layer, null, []);
+
+  if (pixelRatio == 2) {
+    zoom++;
   }
 
-  var tile = lat2tile(centerLat, zoom);
-
-  var longStep = (tile2long(1, zoom) - tile2long(0, zoom)) / 256 * 640;
-  var latStep = (tile2lat(tile + 1, zoom) - tile2lat(tile, zoom)) / 256 * 640;
-
-  var lat = centerLat - latStep / 2;
-  var lon = centerLon - longStep / 2;
-
-  var offsetX = canvasWidth / 2 - size;
-  var offsetY = canvasHeight / 2 - size + 50;
-
-  var els = document.querySelectorAll('#google-maps-overlay img');
-  var elCount = 0;
-  for (var x = 0; x < MAP_OVERLAY_TILES_COUNT_X; x++) {
-    for (var y = 0; y < MAP_OVERLAY_TILES_COUNT_Y; y++) {
-      var el = els[elCount];
-      elCount++;
-
-      var url = getGoogleMapsUrl(
-          lat + y * latStep * MAP_OVERLAY_OVERLAP_RATIO, 
-          lon + x * longStep * MAP_OVERLAY_OVERLAP_RATIO, 
-          zoom, 
-          'satellite');
-      el.src = url;
-
-      el.style.width = size + 'px';
-      el.style.height = size + 'px';
-
-      el.style.left = (offsetX + size * x * MAP_OVERLAY_OVERLAP_RATIO) + 'px';
-      el.style.top = (offsetY + size * y * MAP_OVERLAY_OVERLAP_RATIO) + 'px';
-    }
+  // US cities have states and no country, but some world cities have states
+  // yet also want to match all US national maps which have no states
+  if ((CITY_DATA[cityId].stateName && !CITY_DATA[cityId].countryName) ||
+      (CITY_DATA[cityId].countryName && CITY_DATA[cityId].countryName == COUNTRY_NAME_USA)) {
+    var maxZoomLevel = MAP_BACKGROUND_MAX_ZOOM_US;
+  } else {
+    var maxZoomLevel = MAP_BACKGROUND_MAX_ZOOM_NON_US;
   }
+  while (zoom > maxZoomLevel) {
+    zoom--;
+    size *= 2;
+  }
+
+  map.tileSize = { x: Math.round(size / pixelRatio), 
+                   y: Math.round(size / pixelRatio) };
+
+  var tile = latToTile(centerLat, zoom);
+  var longStep = 
+      (tileToLon(1, zoom) - tileToLon(0, zoom)) / 256 * 128;
+  var latStep = 
+      (tileToLat(tile + 1, zoom) - tileToLat(tile, zoom)) / 256 * 128;
+
+  var lat = centerLat;
+  var lon = centerLon;
+
+  var leftMargin = BODY_MARGIN * 2 + HEADER_WIDTH;
+
+  var ratio = leftMargin / map.tileSize.x;
+
+  lon -= ratio * longStep;
+
+  map.centerzoom({ lat: lat, lon: lon }, zoom);
 }
 
 function onResize() {
-  calculateMapSize();
-  resizeMapOverlay();
+  //return;
 
-  mapSvg.attr('width', canvasWidth);
-  mapSvg.attr('height', canvasHeight);
+  if (mainMenu) {
+    var height = MAIN_MENU_HEIGHT;
+  } else {
+    var height = window.innerHeight;
+  }
 
-  mapSvg
-    .selectAll('path')
-    .attr('d', mapPath);
+  document.querySelector('body > .canvas').style.height = 
+    (height - document.querySelector('body > .canvas').offsetTop) + 'px';
+
+  if (mainMenu) {
+    calculateMapSize();
+
+    // TODO temporarily remove until we fix positioning (issue #156)
+    document.body.classList.add('no-fixed-main-menu');
+    /*if (window.innerHeight > MAIN_MENU_MIN_FIXED_HEIGHT) {
+      document.body.classList.remove('no-fixed-main-menu');
+    } else {
+      document.body.classList.add('no-fixed-main-menu');      
+    }*/
+  } else {
+    if (geoDataLoaded) {
+      calculateMapSize();
+      prepareMapBackground();
+
+      removePaddedIslandNeighborhoods();
+
+      mapSvg.attr('width', mapWidth);
+      mapSvg.attr('height', mapHeight);
+      if (CITY_DATA[cityId].pointsInsteadOfPolygons) {
+        // TODO const
+        var radius = globalScale / 75000;
+
+        // TODO const
+        if (radius < 10) {
+          radius = 10;
+        }
+        mapSvg.selectAll('path')
+          .attr('d', d3.svg.symbol().type('square').size(radius * radius))
+          .attr('transform', function(d) { 
+            return "translate(" + projection(d.geometry.coordinates)[0] + "," + 
+                projection(d.geometry.coordinates)[1] + ")"; 
+          });
+
+      } else {
+        mapSvg.selectAll('path').attr('d', geoMapPath);
+      }
+
+      if (!gameStarted) {
+        prepareNeighborhoods();
+        makeAllNeighborhoodsActive();
+        removeSmallNeighborhoods();
+        updateCount();
+      }
+
+      padIslandNeighborhoods();
+    }
+  }
 }
 
-function capitalizeName(name) {
-  return name.replace(/-/g, ' ').replace(/(?:^|\s)\S/g, function(a) { return a.toUpperCase(); });
-}
+function getCityId() {
+  var finalSlash = location.href.lastIndexOf('/');
+  var cityMatch = location.href.substr(finalSlash + 1);
 
-function getCityName() {
-  cityId = '';
-
-  var cityMatch = location.href.match(/[\?\&]city=([^&]*)/);
-
-  if (cityMatch && cityMatch[1]) {
-    if (CITY_DATA[cityMatch[1]]) {
-      cityId = cityMatch[1];
+  if (cityMatch.length > 0) {
+    if (CITY_DATA[cityMatch]) {
+      cityId = cityMatch;
     }
   }      
 
-  if (cityId) {
-    cityName = capitalizeName(cityId);
-  } else {
+  if (!cityId) {
     mainMenu = true;
   }
 }
 
 function updateFooter() {
-  document.querySelector('#data-source').href = CITY_DATA[cityId].dataUrl;
-  document.querySelector('#data-source').innerHTML = 
-      CITY_DATA[cityId].dataTitle;
+  if (CITY_DATA[cityId].dataUrl) {
+    document.querySelector('footer .data-source a').href = 
+        CITY_DATA[cityId].dataUrl;
+    document.querySelector('footer .data-source a').innerHTML = 
+        CITY_DATA[cityId].dataTitle;
+    document.querySelector('footer .data-source').classList.add('visible');
+  }
 
-  if (CITY_DATA[cityId].author) {
+  if (CITY_DATA[cityId].authorTwitter) {
     document.querySelector('footer .author a').href = 
-        'http://twitter.com/' + CITY_DATA[cityId].author;
+        'http://twitter.com/' + CITY_DATA[cityId].authorTwitter;
     document.querySelector('footer .author a').innerHTML = 
-        '@' + CITY_DATA[cityId].author;
-  } else {
-    document.querySelector('footer .author').style.display = 'none';
+        '@' + CITY_DATA[cityId].authorTwitter;
+    document.querySelector('footer .author').classList.add('visible');
+  } 
+}
+
+function resizeLogoIfNecessary() {
+  var headerEl = document.querySelector('.canvas > header');
+  var el = document.querySelector('.canvas > header .location-name');
+
+  var ratio = el.offsetWidth / headerEl.offsetWidth;
+
+  if (ratio > 1) {
+    var el = document.querySelector('.canvas > header .names');
+
+    // TODO const
+    el.querySelector('.location-name').style.fontSize = (48 / ratio) + 'px';
+    el.querySelector('.state-or-country').style.fontSize = (42 / ratio) + 'px';
   }
 }
 
-function prepareLogo() {
-  document.querySelector('header .state-abbreviation').innerHTML = 
-      CITY_DATA[cityId].stateName;
+function getNeighborhoodNoun(plural) {
+  if (!plural) {
+    return (CITY_DATA[cityId].neighborhoodNoun && CITY_DATA[cityId].neighborhoodNoun[0]) || DEFAULT_NEIGHBORHOOD_NOUN_SINGULAR;
+  } else { 
+    return (CITY_DATA[cityId].neighborhoodNoun && CITY_DATA[cityId].neighborhoodNoun[1]) || DEFAULT_NEIGHBORHOOD_NOUN_PLURAL;
+  }
+}
 
-  var els = document.querySelectorAll('.city-name');
+function preparePage() {
+  var name = CITY_DATA[cityId].stateName || CITY_DATA[cityId].countryName || '';
+
+  // TODO don’t hardcode!
+  if (!name || (name == COUNTRY_NAME_USA) || (name == CITY_DATA[cityId].locationName) || 
+      ((name == 'U.K.') && (CITY_DATA[cityId].locationName == 'United Kingdom'))) {
+    name = '';
+    document.querySelector('header .location-name').classList.add('no-state-or-country');
+  } else {
+    document.querySelector('header .location-name').classList.remove('no-state-or-country');    
+  }
+  document.querySelector('header .state-or-country').innerHTML = name;
+
+  document.querySelector('header .annotation').innerHTML = 
+      CITY_DATA[cityId].annotation || '';
+
+  var els = document.querySelectorAll('.location-name');
   for (var i = 0, el; el = els[i]; i++) {
-    el.innerHTML = cityName;
+    el.innerHTML = CITY_DATA[cityId].locationName;
+  }
+
+  var neighborhoodNoun = getNeighborhoodNoun(false);
+  var els = document.querySelectorAll('.neighborhood-noun');
+  for (var i = 0, el; el = els[i]; i++) {
+    el.innerHTML = neighborhoodNoun;
+  }
+
+  var neighborhoodNounPlural = getNeighborhoodNoun(true);
+  var els = document.querySelectorAll('.neighborhood-nouns');
+  for (var i = 0, el; el = els[i]; i++) {
+    el.innerHTML = neighborhoodNounPlural;
+  }
+
+  if (CITY_DATA[cityId].languages) {
+    for (var name in CITY_DATA[cityId].languages) {
+      var buttonEl = document.createElement('button');
+      buttonEl.innerHTML = name;
+      buttonEl.setAttribute('name', name);
+
+      buttonEl.addEventListener('click', languageChange);
+
+      document.querySelector('header .languages').appendChild(buttonEl);
+    }
+  }
+
+  resizeLogoIfNecessary();
+}
+
+function languageChange(event) {
+  var el = event.target;
+
+  var newLanguage = event.target.getAttribute('name');
+  if (language == newLanguage) {
+    return;
+  }
+
+  if (language != defaultLanguage) {
+    delete window.localStorage['prefer-' + language + '-to-' + defaultLanguage];
+  }
+
+  if (newLanguage != defaultLanguage) {
+    window.localStorage['prefer-' + newLanguage + '-to-' + defaultLanguage] = 'yes';
+  }
+
+  language = newLanguage;
+
+  updateLanguagesSelector();
+  updateNeighborhoodDisplayNames();
+  updateNeighborhoodDisplayName();
+  updateSmallNeighborhoodDisplay();
+}
+
+function prepareLocationList() {
+  var ids = [];
+  for (var id in CITY_DATA) {
+    ids.push(id);
+  }
+
+  ids.sort(function(a, b) {
+    return (CITY_DATA[a].longLocationName || CITY_DATA[a].locationName) >
+        (CITY_DATA[b].longLocationName || CITY_DATA[b].locationName) ? 1 : -1;
+  });
+
+  // filter list of sorted cities into countries
+  var countryCities = {};
+  for (var countryId in COUNTRY_NAMES) {
+    countryCities[COUNTRY_NAMES[countryId]] = [];
+  }
+
+  for (var id in ids) {
+    var city = ids[id];
+    var country = CITY_DATA[city].countryName;
+
+    if (country) {
+      countryCities[country].push(city);
+    } else if (CITY_DATA[city].stateName) {
+      countryCities[COUNTRY_NAME_USA].push(city);
+    } else {
+      countryCities[COUNTRY_NAME_WORLD].push(city);
+    }
+  }
+  
+  for (var i in COUNTRY_NAMES) {
+    var el = document.createElement('h1');
+    el.innerHTML = COUNTRY_NAMES[i];
+    document.querySelector('.menu .locations').appendChild(el);
+
+    // already did the work of filtering list of cities above
+    var cities = countryCities[COUNTRY_NAMES[i]];
+    for (var j in cities) {
+      var id = cities[j];
+      var cityData = CITY_DATA[id];
+
+      var el = document.createElement('li');
+
+      el.setAttribute('city-id', id);
+
+      var html = '<a href="' + id + '">';
+
+      html += cityData.longLocationName || cityData.locationName;
+      if (cityData.annotation) {
+        html += '<span class="annotation">' + cityData.annotation + '</span>';
+      }
+      html += '</a>';
+      el.innerHTML = html;
+
+      // TODO temporarily remove until we fix positioning (issue #156)
+
+      /*
+      el.querySelector('a').addEventListener('mouseover', animateMainMenuCity, false);
+      el.querySelector('a').addEventListener('mouseout', restoreMainMenuCity, false);
+      */
+
+      document.querySelector('.menu .locations').appendChild(el);
+    }
+  }
+
+  var el = document.createElement('h1');
+  el.innerHTML = '';
+  document.querySelector('.menu .locations').appendChild(el);
+
+  var el = document.createElement('li');
+  el.innerHTML = '<a target="_blank" class="add-your-city" href="' + 
+      ADD_YOUR_CITY_URL + '">Add your city…</a>';
+  document.querySelector('.menu .locations').appendChild(el);
+
+  if (cityId) {
+    var el = document.querySelector('li[city-id="' + cityId + '"]');
+    el.classList.add('selected');
   }
 }
 
 function prepareMainMenu() {
   document.body.classList.add('main-menu');
-
-  var ids = [];
-  for (var id in CITY_DATA) {
-    ids.push(id);
-  }
-  ids.sort();
-
-  for (var id in ids) {
-    var cityData = CITY_DATA[ids[id]];
-
-    var el = document.createElement('li');
-    el.innerHTML = 
-        '<a href="?city=' + ids[id] + '">' +
-        '<span class="map">' +
-        '<img src="http://maps.googleapis.com/maps/api/staticmap?center=' + 
-        encodeURIComponent(cityData.googleMapsQuery) + 
-        '&key=AIzaSyCMwHPyd0ntfh2RwROQmp_ozu1EoYo9AXk' +
-        '&zoom=11&maptype=terrain&size=200x240&sensor=false&scale=' + pixelRatio + '"></span>' +
-        '<header>' + 
-        '<span class="city-name">' + capitalizeName(ids[id]) + '</span>' +
-        '<span class="state-abbreviation">' + cityData.stateName + '</span>' +
-        '</header></a>';
-
-    document.querySelector('#main-menu .cities').appendChild(el);
-  }
-
-  var el = document.createElement('li');
-  el.classList.add('add');
-  el.innerHTML = '<a target="_blank" href="https://docs.google.com/document/d/1ePUmeH1jgsnjiByGfToIU1DTGqn6OPFWgkRC9m03IqE/edit?usp=sharing"><header><span class="city-name">Add your city</span></header></a>';
-  document.querySelector('#main-menu .cities').appendChild(el);
-
-  document.querySelector('#main-menu').classList.add('visible');
 }
 
-function prepare() {
+function getEnvironmentInfo() {
+  setTouchActive(Modernizr.touch);
   pixelRatio = window.devicePixelRatio || 1;
+
+  if (touchActive) {
+    smallNeighborhoodThreshold = SMALL_NEIGHBORHOOD_THRESHOLD_TOUCH;
+  } else {
+    smallNeighborhoodThreshold = SMALL_NEIGHBORHOOD_THRESHOLD_MOUSE;
+  }
 }
 
-function main() {
-  prepare();
+function removeHttpsIfPresent() {
+  // Gets out of HTTPS to do HTTP, because D3 doesn’t allow linking via 
+  // HTTPS. But there’s a better way to deal with all of this, I feel
+  // (hosting our own copy of D3?).
+  if (location.protocol == 'https:') {
+    location.replace(location.href.replace(/https:\/\//, 'http://'));
+  }
+}
 
-  getCityName();
+function checkIfEverythingLoaded() {
+  if ((geoDataLoaded || mainMenu) && bodyLoaded) {
+    everythingLoaded();
+  }
+}
+
+function onBodyLoad() {
+  bodyLoaded = true;
+  checkIfEverythingLoaded();
+}
+
+function deg2rad(deg) {
+  return deg * (Math.PI/180)
+}
+
+function geoDist(lat1, lon1, lat2, lon2) {
+  var R = 6371; // Radius of the earth in km
+  var dLat = deg2rad(lat2 - lat1);
+  var dLon = deg2rad(lon2 - lon1); 
+  var a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+    Math.sin(dLon/2) * Math.sin(dLon/2)
+    ; 
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+  var d = R * c; // Distance in km
+  return d;
+}
+
+function receiveGeolocation(position) {
+  currentGeoLat = position.coords.latitude;
+  currentGeoLon = position.coords.longitude;
+
+  for (var id in CITY_DATA) {
+    var cityData = CITY_DATA[id];
+
+    var cityLat = cityData.sampleLatLon[1];
+    var cityLon = cityData.sampleLatLon[0];
+
+    var dist = geoDist(cityLat, cityLon, currentGeoLat, currentGeoLon);
+
+    // TODO const
+    if (dist < 150) {
+      var el = document.querySelector('li[city-id="' + id + '"]');
+      el.classList.add('nearby');
+    }
+  }
+
+  if (mainMenu) {
+    createMainMenuMap();
+  }
+}
+
+function prepareGeolocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(receiveGeolocation);
+  }
+}
+
+function onMoreCitiesClick() {
+  document.body.scrollTop = window.innerHeight;
+}
+
+function testBrowser() {
+  var goodEnoughBrowser = document.body.classList;
+
+  if (!goodEnoughBrowser) {
+    document.getElementById('wrong-browser').className += ' visible';
+
+    return goodEnoughBrowser;
+  }
+
+  var mobile = window.matchMedia && window.matchMedia('(max-device-width: 568px)').matches;
+
+  if (mobile) {
+    document.getElementById('mobile').className += ' visible';
+    document.querySelector('#mobile button').addEventListener('click', ignoreMobileBrowserWarning);
+  }
+
+  return !mobile;
+}
+
+function ignoreMobileBrowserWarning() {
+  document.getElementById('mobile').className = '';
+  browserIsOkay();
+}
+
+function browserIsOkay() {
+  window.addEventListener('load', onBodyLoad, false);
+  window.addEventListener('resize', onResize, false);
+
+  document.querySelector('#more-cities-wrapper div').
+      addEventListener('click', onMoreCitiesClick, false);
+
+  getEnvironmentInfo();
+  getCityId();
+
+  prepareLocationList();
+  prepareGeolocation();
+
+  onResize();
 
   if (mainMenu) {
     prepareMainMenu();
+    prepareMainMenuMapBackground();
+
+    createSvg();
+    calculateMapSize();
+    createMainMenuMap();
   } else {
-    prepareLogo();
-    updateFooter();
     document.querySelector('#cover').classList.add('visible');
     document.querySelector('#loading').classList.add('visible');
-    prepareMap();
-    window.addEventListener('resize', onResize, false);
+    document.querySelector('#intro').classList.add('visible');
+
+    determineLanguage();
+    preparePage();
+    updateLanguagesSelector();
+    updateFooter();
+    createSvg();
+    loadGeoData();
+  }
+
+  onResize();
+}
+
+function main() {
+  removeHttpsIfPresent();
+
+  if (testBrowser()) {
+    browserIsOkay();
   }
 }

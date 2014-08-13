@@ -1,0 +1,11 @@
+{ 
+  "locationName": "Bern",
+  "countryName": "Switzerland",
+  "annotation": "Districts",
+  "neighborhoodNoun": ["district", "districts"],
+
+  "authorTwitter": "markez",
+
+  "dataUrl": "http://www.bern.ch/leben_in_bern/wohnen/planen/plaene/stadtplan",
+  "dataTitle": "Stadt Bern"
+}

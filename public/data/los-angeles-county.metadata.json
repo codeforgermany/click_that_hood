@@ -1,0 +1,8 @@
+{ 
+  "locationName": "Los Angeles",
+  "stateName": "Calif.",
+  "annotation": "County",
+
+  "dataUrl": "http://projects.latimes.com/mapping-la/about/#the-data",
+  "dataTitle": "Los Angeles Times"
+}

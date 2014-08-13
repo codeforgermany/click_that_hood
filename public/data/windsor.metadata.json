@@ -1,0 +1,7 @@
+{ 
+  "locationName": "Windsor",
+  "countryName": "Canada",
+
+  "dataUrl": "http://www.citywindsor.ca/opendata/Pages/Open-Data-Catalogue.aspx",
+  "dataTitle": "The City of Windsor Open Data Catalogue"
+}

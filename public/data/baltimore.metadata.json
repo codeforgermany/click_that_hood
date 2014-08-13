@@ -1,7 +1,7 @@
 { 
-  "dataFile": "baltimore.geojson",
-  "dataUrl": "http://www.bniajfi.org/downloads/gis_shapefiles",
-  "dataTitle": "Baltimore Neighborhood Indicators Alliance",
+  "locationName": "Baltimore",
   "stateName": "Md.",
-  "googleMapsQuery": "Baltimore, MD"
+
+  "dataUrl": "http://data.baltimorecity.gov/browse?category=Geographic",
+  "dataTitle": "OpenBaltimore"
 }

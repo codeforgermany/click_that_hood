@@ -1,0 +1,14 @@
+{ 
+  "locationName": "France",
+  "annotation": "Departments",
+  "countryName": "France",
+  "neighborhoodNoun": ["department", "departments"],
+
+  "dataUrl": "http://professionnels.ign.fr/geofla#tab-3",
+  "dataTitle": "IGN",
+
+  "languages": {
+    "departments": "name",
+    "prefectures": "name_prefecture"
+  }  
+}

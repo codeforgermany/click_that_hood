@@ -1,0 +1,12 @@
+{ 
+  "locationName": "Alaska",
+  "countryName": "U.S.",
+
+  "authorTwitter": "brendanbabb",
+
+  "annotation": "Indigenous Peoples and Languages",
+  "neighborhoodNoun": ["region", "regions"],
+
+  "dataUrl": "http://www.uaf.edu/anla/collections/search/resultDetail.xml?id=G961K2010",
+  "dataTitle": "Indigenous Peoples and Languages of Alaska"
+}

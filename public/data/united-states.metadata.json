@@ -1,0 +1,9 @@
+{ 
+  "locationName": "United States of America",
+  "annotation": "Contiguous States",
+  "countryName": "U.S.",
+  "neighborhoodNoun": ["state", "states"],
+
+  "dataUrl": "http://www.arcgis.com/home/item.html?id=f7f805eb65eb4ab787a0a3e1116ca7e5",
+  "dataTitle": "ArcGIS"
+}

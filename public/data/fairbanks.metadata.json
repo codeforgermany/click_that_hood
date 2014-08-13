@@ -1,0 +1,9 @@
+{ 
+  "locationName": "Fairbanks",
+  "stateName": "Alaska",
+
+  "authorTwitter": "brendanbabb",
+
+  "dataUrl": "http://www.census.gov/cgi-bin/geo/shapefiles2011/layers.cgi",
+  "dataTitle": "US Census Bureau"
+}

@@ -1,0 +1,9 @@
+{ 
+  "locationName": "Nordrhein-Westfalen",
+  "countryName": "Germany",
+  "annotation": "Municipalities",
+  "neighborhoodNoun": ["municipality", "municipalities"],
+
+  "dataUrl": "http://nrw-tourismus.de",
+  "dataTitle": "Tourismus NRW"
+}

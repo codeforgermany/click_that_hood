@@ -1,0 +1,7 @@
+{ 
+  "locationName": "Henderson",
+  "stateName": "Nev.",
+
+  "dataUrl": "http://www.cityofhenderson.com/gis/digital_data_sets.php",
+  "dataTitle": "City of Henderson GIS"
+}

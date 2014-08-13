@@ -1,0 +1,10 @@
+{ 
+  "locationName": "Canberra",
+  "stateName": "ACT",
+  "countryName": "Australia",
+
+  "authorTwitter": "ten10to2two",
+
+  "dataUrl": "http://www.abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/1270.0.55.003July%202011?OpenDocument",
+  "dataTitle": "Australian Bureau of Statistics"
+}

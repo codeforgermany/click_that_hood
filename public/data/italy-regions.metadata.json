@@ -1,0 +1,9 @@
+{ 
+  "locationName": "Italy",
+  "annotation": "Regions",
+  "countryName": "Italy",
+  "neighborhoodNoun": ["region", "regions"],
+
+  "dataUrl": "http://www.istat.it/it/archivio/24613",
+  "dataTitle": "Istat"
+}

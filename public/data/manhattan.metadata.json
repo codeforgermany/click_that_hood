@@ -1,8 +1,10 @@
 {
-  "dataFile": "manhattan.geojson",
-  "dataUrl": "http://www.nyc.gov/html/dcp/html/bytes/dwn_nynta.shtml",
-  "dataTitle": "New York City Department of City Planning",
+  "locationName": "Manhattan",
+  "longLocationName": "New York (Manhattan)",
   "stateName": "N.Y.",
-  "author": "ahhrrr",
-  "googleMapsQuery": "Manhattan, NY"
+
+  "authorTwitter": "ahhrrr",
+
+  "dataUrl": "http://www.nyc.gov/html/dcp/html/bytes/dwn_nynta.shtml",
+  "dataTitle": "New York City Department of City Planning"
 }

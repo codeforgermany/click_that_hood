@@ -1,0 +1,7 @@
+{ 
+  "locationName": "Salt Lake City",
+  "stateName": "Utah",
+
+  "dataUrl": "http://www.slcgov.com/engineering/engineering-download-gis-data",
+  "dataTitle": "Salt Lake City GIS"
+}

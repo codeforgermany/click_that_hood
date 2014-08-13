@@ -1,0 +1,9 @@
+{ 
+  "locationName": "Pittsburgh",
+  "stateName": "Pa.",
+
+  "authorTwitter": "allafarce",
+
+  "dataUrl": "http://pittsburghpa.gov/dcp/gis/gis-data",
+  "dataTitle": "City of Pittsburgh Department of City Planning"
+}

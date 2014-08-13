@@ -1,0 +1,11 @@
+{ 
+  "locationName": "Turkey",
+  "countryName": "Turkey",
+	"annotation": "Cities",
+  "neighborhoodNoun": ["city", "cities"],
+
+  "authorTwitter": "senburt",
+
+  "dataUrl": "http://www.gadm.org/country",
+  "dataTitle": "GADM database of Global Administrative Areas"
+}

@@ -1,0 +1,15 @@
+{ 
+  "locationName": "Taiwan",
+  "countryName": "Taiwan",  
+  "annotation": "Counties",
+  "neighborhoodNoun": ["county", "counties"],
+
+  "dataUrl": "https://github.com/g0v/twgeojson",
+  "dataTitle": "twgeojson",
+
+  "languages": {
+    "Pe̍h-ōe-jī": "name_taiwanese",
+    "繁體字": "name_traditional_chinese",
+    "english": "name"
+  }
+}

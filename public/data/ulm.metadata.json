@@ -1,0 +1,9 @@
+{ 
+  "locationName": "Ulm",
+  "countryName": "Germany",
+
+  "authorTwitter": "ulmAPI",
+
+  "dataUrl": "http://www.ulmapi.de/#datensaetze",
+  "dataTitle": "Stadt Ulm / datalove Uni Ulm"
+}

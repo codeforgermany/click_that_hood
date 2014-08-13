@@ -1,0 +1,9 @@
+{ 
+  "locationName": "Toronto",
+  "countryName": "Canada",
+
+  "authorTwitter": "marreka",
+
+  "dataUrl": "http://www1.toronto.ca/wps/portal/open_data/open_data_item_details?vgnextoid=04b489fe9c18b210VgnVCM1000003dd60f89RCRD&vgnextchannel=6e886aa8cc819210VgnVCM10000067d60f89RCRD",
+  "dataTitle": "City of Toronto Open Data Team"
+}

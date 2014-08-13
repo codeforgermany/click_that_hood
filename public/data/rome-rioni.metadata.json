@@ -1,0 +1,11 @@
+{ 
+  "locationName": "Rome",
+  "countryName": "Italy",
+  "annotation": "Rioni",
+  "neighborhoodNoun": ["rione", "rioni"],
+
+  "authorTwitter": "ilariotito",
+
+  "dataUrl": "https://mapsengine.google.com/map/edit?mid=zMS49vpq4StE.kCSL2kwO1tys",
+  "dataTitle": "Roma Rioni"
+}

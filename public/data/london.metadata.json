@@ -1,0 +1,11 @@
+{ 
+  "locationName": "London",
+  "countryName": "U.K.",
+  "annotation": "Boroughs",
+  "neighborhoodNoun": ["borough", "boroughs"],
+
+  "authorTwitter": "ahhrrr",
+
+  "dataUrl": "http://data.london.gov.uk/2011-boundary-files",
+  "dataTitle": "London Datastore"
+}

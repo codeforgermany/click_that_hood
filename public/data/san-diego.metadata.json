@@ -1,7 +1,7 @@
 { 
-  "dataFile": "san-diego.geojson",
-  "dataUrl": "http://www.sandag.org/index.asp?subclassid=100&fuseaction=home.subclasshome",
-  "dataTitle": "SANDAG",
+  "locationName": "San Diego",
   "stateName": "Calif.",
-  "googleMapsQuery": "San Diego, CA"
+
+  "dataUrl": "http://www.sandag.org/index.asp?subclassid=100&fuseaction=home.subclasshome",
+  "dataTitle": "SANDAG"
 }

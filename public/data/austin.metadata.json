@@ -1,7 +1,9 @@
 { 
-    "dataFile": "austin.geojson",
-    "dataTitle": "City of Austin GIS with modifications from Clay Smalley",
-    "stateName": "Texas",
-    "author": "claysmalley",
-    "googleMapsQuery": "Austin, TX"
+  "locationName": "Austin",
+  "stateName": "Texas",
+
+  "authorTwitter": "claysmalley",
+
+  "dataUrl": "ftp://ftp.ci.austin.tx.us/GIS-Data/Regional/coa_gis.html",
+  "dataTitle": "City of Austin GIS with modifications from Clay Smalley"
 }

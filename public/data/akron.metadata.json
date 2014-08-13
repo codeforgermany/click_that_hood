@@ -1,8 +1,9 @@
-{ 
-  "dataFile": "akron.geojson",
-  "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
-  "dataTitle": "Zillow",
+{
+  "locationName": "Akron",
   "stateName": "Ohio",
-  "author": "pzula",
-  "googleMapsQuery": "Akron, OH"
+
+  "authorTwitter": "pzula",
+
+  "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
+  "dataTitle": "Zillow"
 }

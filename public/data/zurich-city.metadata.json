@@ -1,0 +1,10 @@
+{ 
+  "locationName": "Zürich",
+  "countryName": "Switzerland",
+  "annotation": "City",
+
+  "authorTwitter": "c_bretscher",
+
+  "dataUrl": "http://data.stadt-zuerich.ch/content/portal/de/index/ogd/daten/statistisches_quartier.html#description1",
+  "dataTitle": "OGD Portal Stadt Zürich"
+}

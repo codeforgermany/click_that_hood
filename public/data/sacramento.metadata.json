@@ -1,8 +1,9 @@
 {
-  "dataFile": "sacramento.geojson",
-  "dataUrl": "http://www.cityofsacramento.org/gis/",
-  "dataTitle": "City of Sacramento GIS",
+  "locationName": "Sacramento",
   "stateName": "Calif.",
-  "author": "rjulian57",
-  "googleMapsQuery": "Sacramento, CA"
+
+  "authorTwitter": "rjulian57",
+
+  "dataUrl": "http://www.cityofsacramento.org/gis/",
+  "dataTitle": "City of Sacramento GIS"
 }

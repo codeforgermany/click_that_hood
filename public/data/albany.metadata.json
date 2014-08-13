@@ -1,0 +1,9 @@
+{ 
+  "locationName": "Albany",
+  "stateName": "N.Y.",
+
+  "authorTwitter": "scottbirdsey",
+
+  "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
+  "dataTitle": "Zillow"
+}

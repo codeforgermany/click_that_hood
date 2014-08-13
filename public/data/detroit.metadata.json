@@ -1,7 +1,7 @@
 { 
-  "dataFile": "detroit.geojson",
-  "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
-  "dataTitle": "Zillow",
+  "locationName": "Detroit",
   "stateName": "Mich.",
-  "googleMapsQuery": "Detroit, MI"
+
+  "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
+  "dataTitle": "Zillow"
 }
