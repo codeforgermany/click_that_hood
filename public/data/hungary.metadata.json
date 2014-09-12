@@ -1,0 +1,10 @@
+{ 
+  "locationName": "Hungary",
+  "annotation": "Counties",
+  "countryName": "Hungary",
+
+  "neighborhoodNoun": ["county", "counties"],
+
+  "dataUrl": "http://www.gadm.org/country",
+  "dataTitle": "gadm.org"
+}
