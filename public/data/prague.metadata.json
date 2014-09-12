@@ -1,0 +1,9 @@
+{ 
+  "locationName": "Prague",
+  "countryName": "Czech Republic",
+  "annotation": "Municipal districts",
+  "neighborhoodNoun": ["municipal district", "municipal districts"],
+
+  "dataUrl": "http://www.geoportalpraha.cz/cs/clanek/159/datove-sady-ke-stazeni#.VBK932S1aL8",
+  "dataTitle": "Geoportal Praha"
+}
