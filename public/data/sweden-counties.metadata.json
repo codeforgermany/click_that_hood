@@ -1,0 +1,6 @@
+{ 
+  "locationName": "Sweden",
+  "annotation": "Counties",
+  "countryName": "Sweden",
+  "neighborhoodNoun": ["county", "counties"]
+}
