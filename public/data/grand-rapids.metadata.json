@@ -1,0 +1,7 @@
+{ 
+  "locationName": "Grand Rapids",
+  "stateName": "MI",
+
+  "dataUrl": "http://data.grcity.us/dataset/neighborhoods/resource/ed9448f0-5b43-4eee-8539-6951063473c0",
+  "dataTitle": "Grand Rapids Open Data"
+}
