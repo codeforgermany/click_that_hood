@@ -104,6 +104,7 @@ var timerStopped = false;
 var INITIAL_TOOLTIP_DELAY = 3000; // ms
 var MAX_TOOLTIP_DELAY = 5000;
 var TOOLTIP_DELAY_THRESHOLD = 3000; // ms
+var TOOLTIP_INCREMENT = 1000;
 
 var currentTooltipDelay = INITIAL_TOOLTIP_DELAY;
 var currentNeighborhoodStartTime;
@@ -986,7 +987,7 @@ function onNeighborhoodClick(el) {
         currentTooltipDelay = 0;
       }
     } else {
-      currentTooltipDelay += 1000;
+      currentTooltipDelay += TOOLTIP_INCREMENT;
       if (currentTooltipDelay > MAX_TOOLTIP_DELAY) {
         currentTooltipDelay = MAX_TOOLTIP_DELAY;
       }
