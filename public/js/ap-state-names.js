@@ -1,4 +1,4 @@
-AP_NAMES = {
+var US_AP_STATE_NAMES = {
   'AK': 'Alaska',
   'AL': 'Ala.',
   'AR': 'Ark.',

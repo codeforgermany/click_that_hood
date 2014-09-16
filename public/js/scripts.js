@@ -1472,13 +1472,13 @@ function getNeighborhoodNoun(plural) {
 }
 
 function preparePage() {
-  var inUS = 
+  var inUnitedStates = 
     !CITY_DATA[cityId].countryName ||
     (CITY_DATA[cityId].countryName == COUNTRY_NAME_USA);
 
   var stateName = CITY_DATA[cityId].stateName;
-  if (inUS && AP_NAMES[stateName]) {
-    stateName = AP_NAMES[stateName];
+  if (inUnitedStates && US_AP_STATE_NAMES[stateName]) {
+    stateName = US_AP_STATE_NAMES[stateName];
   }
   
   var name = stateName || CITY_DATA[cityId].countryName || '';
