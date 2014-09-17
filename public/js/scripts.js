@@ -39,7 +39,7 @@ var MAP_BACKGROUND_MAX_ZOOM_NON_US = 17
 var MAP_BACKGROUND_MAX_ZOOM_US = 17
 
 var POINT_SCALE = 75000
-var MIN_POINT_RADIUS = 10
+var MIN_POINT_RADIUS = 20
 
 var MAPBOX_MAP_ID = 'codeforamerica.map-mx0iqvk2'
 
@@ -225,6 +225,15 @@ function tileToLon(x, zoom) {
 function tileToLat(y, zoom) {
   var n = Math.PI - 2 * Math.PI * y / Math.pow(2, zoom)
   return 180 / Math.PI * Math.atan(.5 * (Math.exp(n) - Math.exp(-n)))
+}
+
+function getPointRadius() { 
+  var radius = globalScale / POINT_SCALE
+  if (radius < MIN_POINT_RADIUS) {
+    radius = MIN_POINT_RADIUS
+  }
+
+  return radius
 }
 
 function updateCanvasSize() {
@@ -453,10 +462,149 @@ function updateSmallNeighborhoodDisplay() {
   }
 }
 
+function clipperPathsToSvgString(paths, scale, transformX, transformY) {
+  var svgPath = ''
+
+  if (!scale) {
+    scale = 1.0
+  }
+
+  for (var i = 0; i < paths.length; i++) {
+    for (var j = 0; j < paths[i].length; j++) {
+      /*if (!j) {
+        svgPath += 'M'
+      } else {
+        svgPath += 'L'
+      }*/
+
+      if (j == 0) {
+        svgPath += 'M'
+      } else if (j == 1) {
+        svgPath += 'L'
+      } else {
+        svgPath += ' '
+      }
+
+      svgPath += /*Math.floor*/(paths[i][j].X / scale - transformX) + 
+          ',' + /*Math.floor*/(paths[i][j].Y / scale - transformY)
+     }
+     svgPath += 'Z'
+  }
+  if (svgPath == '') {
+    svgPath = 'M0,0'
+  }
+  return svgPath
+}
+
+function getDefaultClipperPaths(x, y, radius) {
+  var paths = new ClipperLib.Paths()
+  var path = new ClipperLib.Path()
+  path.push(
+    new ClipperLib.IntPoint(x, y),
+    new ClipperLib.IntPoint(x + radius, y),
+    new ClipperLib.IntPoint(x + radius, y + radius),
+    new ClipperLib.IntPoint(x, y + radius)
+  )
+  paths.push(path)
+
+  return paths
+}
+
+function createCompositePoints() {
+  if (!CITY_DATA[cityId].pointsInsteadOfPolygons) {
+    return
+  }
+
+  var els = document.querySelectorAll('#map .neighborhood')
+  var radius = getPointRadius()
+
+  do {
+    var lastFusedCount = 0
+    console.log('AGAIn')
+
+    for (var i = 0, el1; el1 = els[i]; i++) {
+      if (el1.getAttribute('fused')) {
+        continue;
+      }
+
+      var x1 = parseFloat(el1.getAttribute('transformX')) - radius
+      var y1 = parseFloat(el1.getAttribute('transformY')) - radius
+
+      for (var j = 0, el2; el2 = els[j]; j++) {
+        if ((i == j) || el2.getAttribute('fused')) {
+          continue;
+        }
+
+        var x2 = parseFloat(el2.getAttribute('transformX')) - radius
+        var y2 = parseFloat(el2.getAttribute('transformY')) - radius
+
+        var dist = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1))
+
+        if (dist < radius) {
+
+          // DEBUG
+          continue;
+          /*if (((el1.getAttribute('name') != 'New Cross') && (el2.getAttribute('name') != 'New Cross Gate')) &&
+              ((el2.getAttribute('name') != 'Neasden') && (el1.getAttribute('name') != 'Dollis Hill'))) {
+            continue;
+          }*/
+          //console.log('a', el1.getAttribute('name'), '+', el2.getAttribute('name'))
+
+          //console.log(el1)
+
+          var paths1 = (el1.getAttribute('paths') && JSON.parse(el1.getAttribute('paths'))) || 
+              getDefaultClipperPaths(x1 - radius / 2, y1 - radius / 2, radius)
+          var paths2 = (el2.getAttribute('paths') && JSON.parse(el2.getAttribute('paths'))) || 
+              getDefaultClipperPaths(x2 - radius / 2, y2 - radius / 2, radius)
+          var cpr = new ClipperLib.Clipper()
+          //console.log(paths1)
+
+          /*var scale = 100
+          ClipperLib.JS.ScaleUpPaths(paths1, scale)
+          ClipperLib.JS.ScaleUpPaths(paths2, scale)*/
+
+          cpr.AddPaths(paths1, ClipperLib.PolyType.ptSubject, true)
+          cpr.AddPaths(paths2, ClipperLib.PolyType.ptClip, true)
+
+          var solutionPaths = []
+
+          var clipType = ClipperLib.ClipType.ctUnion
+
+          var fillType1 = ClipperLib.PolyFillType.pftNonZero
+          var fillType2 = ClipperLib.PolyFillType.pftNonZero
+
+          var succeeded = cpr.Execute(clipType, solutionPaths, fillType1, fillType2)
+
+          //console.log('zzz', solutionPaths)
+
+          //console.log(clipperPathsToSvgString(solutionPaths, 1.0, x1, y1))
+
+          el1.setAttribute('name', el1.getAttribute('name') + '+' + el2.getAttribute('name'))
+          el1.setAttribute('d', clipperPathsToSvgString(solutionPaths, 1.0, x1, y1))
+          el1.setAttribute('paths', JSON.stringify(solutionPaths))
+          //el1.setAttribu
+
+          el2.setAttribute('fused', true)
+          el2.parentNode.removeChild(el2)
+        
+          //console.log('.')
+
+          lastFusedCount++
+
+          //el1.classList.add('invisible')
+          //el2.classList.add('invisible')
+
+          //var newEl = 
+        }
+      }
+    }
+  } while (lastFusedCount > 0)
+}
+
 function removeSmallNeighborhoods() {
   smallNeighborhoodsRemoved = []
 
-  // If using points instead of polygons, there is no way for a neighbourhood to be too small.
+  // If using points instead of polygons, there is no way for a neighborhood to be too small.
   if (CITY_DATA[cityId].pointsInsteadOfPolygons) {
     return
   }
@@ -470,8 +618,8 @@ function removeSmallNeighborhoods() {
         (boundingBox.height < smallNeighborhoodThreshold)) {
 
       if (CITY_DATA[cityId].convertPolygonsToPointsIfTooSmall) {
-        console.log('a')
-        el.style.outline = '3px solid red'
+        //console.log('a')
+        //el.style.outline = '3px solid red'
       } else {
         var name = el.getAttribute('name')
         neighborhoods.splice(neighborhoods.indexOf(name), 1)
@@ -1387,12 +1535,13 @@ function onResize() {
       mapSvg.attr('width', mapWidth)
       mapSvg.attr('height', mapHeight)
       if (CITY_DATA[cityId].pointsInsteadOfPolygons) {
-        var radius = globalScale / POINT_SCALE
-        if (radius < MIN_POINT_RADIUS) {
-          radius = MIN_POINT_RADIUS
-        }
+        var radius = getPointRadius()
+
         mapSvg.selectAll('path')
           .attr('d', d3.svg.symbol().type('square').size(radius * radius))
+          .attr('radius', radius)
+          .attr('transformX', function(d) { return projection(d.geometry.coordinates)[0] - radius / 2 })
+          .attr('transformY', function(d) { return projection(d.geometry.coordinates)[1] - radius / 2 })
           .attr('transform', function(d) { 
             return "translate(" + projection(d.geometry.coordinates)[0] + "," + 
                 projection(d.geometry.coordinates)[1] + ")" 
@@ -1405,6 +1554,7 @@ function onResize() {
         prepareNeighborhoods()
         makeAllNeighborhoodsActive()
         removeSmallNeighborhoods()
+        createCompositePoints()
         updateCount()
       }
 
@@ -1666,7 +1816,7 @@ function onBodyLoad() {
 }
 
 function deg2rad(deg) {
-  return deg * (Math.PI/180)
+  return deg * (Math.PI / 180)
 }
 
 function geoDist(lat1, lon1, lat2, lon2) {
@@ -1674,11 +1824,11 @@ function geoDist(lat1, lon1, lat2, lon2) {
   var dLat = deg2rad(lat2 - lat1)
   var dLon = deg2rad(lon2 - lon1) 
   var a = 
-    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
     Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
-    Math.sin(dLon/2) * Math.sin(dLon/2) 
-  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)) 
-  var d = R * c // Distance in km
+    Math.sin(dLon / 2) * Math.sin(dLon / 2) 
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)) 
+  var d = R * c // distance in km
   return d
 }
 
