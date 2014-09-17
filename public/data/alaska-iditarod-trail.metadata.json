@@ -1,5 +1,6 @@
 { 
   "locationName": "Alaska",
+  "countryName": "U.S.",
   "annotation": "Iditarod Trail (even year)",
   "pointsInsteadOfPolygons": true,
 
