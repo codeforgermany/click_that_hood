@@ -462,15 +462,9 @@ function updateSmallNeighborhoodDisplay() {
   }
 }
 
-function updateCompositePoints() {
-  if (!CITY_DATA[cityId].pointsInsteadOfPolygons) {
-    return
-  }
+function removeCompositePoints() {
+  var els = document.querySelectorAll('#map .neighborhood[point]')
 
-  var els = document.querySelectorAll('#map .neighborhood')
-  var radius = getPointRadius()
-
-  // Restore any previous compositing
   for (var i = 0, el; el = els[i]; i++) {
     el.removeAttribute('fused')
     el.removeAttribute('composited')
@@ -483,9 +477,17 @@ function updateCompositePoints() {
       el.setAttribute('transformY', y)
       el.setAttribute('transform', "translate(" + (x + radius / 2) + ',' + (y + radius / 2) + ")")
     }*/
-  }
+  }  
+}
 
-  // New compositing
+function addCompositePoints() {
+  /*if (!CITY_DATA[cityId].pointsInsteadOfPolygons) {
+    return
+  }*/
+
+  var els = document.querySelectorAll('#map .neighborhood[point]')
+  var radius = getPointRadius()
+
   do {
     var lastFusedCount = 0
 
@@ -541,6 +543,21 @@ function updateCompositePoints() {
   } while (lastFusedCount > 0)
 }
 
+function removeAutomaticallyPointedNeighborhoods() {
+  var els = document.querySelectorAll('#map .neighborhood')
+  for (var i = 0, el; el = els[i]; i++) {
+    if (el.getAttribute('origD')) {
+      el.setAttribute('d', el.getAttribute('origD'))
+      el.removeAttribute('transformX')
+      el.removeAttribute('transformY')
+      el.removeAttribute('transform')
+      el.removeAttribute('point')
+
+      el.removeAttribute('origD')
+    }
+  }  
+}
+
 function removeSmallNeighborhoods() {
   smallNeighborhoodsRemoved = []
 
@@ -549,23 +566,46 @@ function removeSmallNeighborhoods() {
     return
   }
 
-  var els = document.querySelectorAll('#map .neighborhood')
+  var radius = getPointRadius()
 
+  var els = document.querySelectorAll('#map .neighborhood')
   for (var i = 0, el; el = els[i]; i++) {
     var boundingBox = el.getBBox()
-
     if ((boundingBox.width < smallNeighborhoodThreshold) || 
         (boundingBox.height < smallNeighborhoodThreshold)) {
 
       if (CITY_DATA[cityId].convertPolygonsToPointsIfTooSmall) {
+        var boundingBox = el.getBBox()
+        //console.log(boundingBox)
+
+        var x = boundingBox.x + boundingBox.width / 2
+        var y = boundingBox.y + boundingBox.height / 2
         //console.log('a')
         //el.style.outline = '3px solid red'
+
+        //console.log(d3.svg.symbol().type('square').size(radius * radius)())
+        //console.log('o')
+        el.setAttribute('origD', el.getAttribute('d'))
+        el.setAttribute('d', d3.svg.symbol().type('square').size(radius * radius)())
+        el.setAttribute('point', true)
+        el.setAttribute('transformX', x - radius / 2)
+        el.setAttribute('transformY', y - radius / 2)
+        el.setAttribute('transform', "translate(" + x + "," + y + ")")
+
+                /*mapSvg.selectAll('path')
+          .attr('d', d3.svg.symbol().type('square').size(radius * radius))
+          .attr('transformX', function(d) { return projection(d.geometry.coordinates)[0] - radius / 2 })
+          .attr('transformY', function(d) { return projection(d.geometry.coordinates)[1] - radius / 2 })
+          .attr('transform', function(d) { 
+            return "translate(" + projection(d.geometry.coordinates)[0] + "," + 
+                projection(d.geometry.coordinates)[1] + ")" */
       } else {
-        var name = el.getAttribute('name')
-        neighborhoods.splice(neighborhoods.indexOf(name), 1)
-        //makeNeighborhoodInactive(name)
-        totalNeighborhoodsCount--
-        smallNeighborhoodsRemoved.push(name)
+        if (!gameStarted) {
+          var name = el.getAttribute('name')
+          neighborhoods.splice(neighborhoods.indexOf(name), 1)
+          totalNeighborhoodsCount--
+          smallNeighborhoodsRemoved.push(name)
+        }
       }
     }
   }
@@ -1044,8 +1084,13 @@ function addPaddedIslandNeighborhoods() {
       area += getPolygonArea(pathToPolygon(seg))
     }
 
+
     // TODO const
-    var needsPadding = (area < 100) && ((area / boundingBoxArea) < .1)
+    var needsPadding = (area < 100) && ((area / boundingBoxArea) < .35)
+
+    if (name == 'RAINBOW BEACH') {
+      console.log('zzz', area / boundingBoxArea, needsPadding)
+    }
 
     if (needsPadding) {
       var secondEl = el.cloneNode(true)
@@ -1605,6 +1650,8 @@ function onResize() {
       prepareMapBackground()
 
       removePaddedIslandNeighborhoods()
+      removeAutomaticallyPointedNeighborhoods()
+      removeCompositePoints()
 
       mapSvg.attr('width', mapWidth)
       mapSvg.attr('height', mapHeight)
@@ -1613,11 +1660,9 @@ function onResize() {
 
         mapSvg.selectAll('path')
           .attr('d', d3.svg.symbol().type('square').size(radius * radius))
-          //.attr('radius', radius)
+          .attr('point', true)
           .attr('transformX', function(d) { return projection(d.geometry.coordinates)[0] - radius / 2 })
           .attr('transformY', function(d) { return projection(d.geometry.coordinates)[1] - radius / 2 })
-          //.attr('origTransformX', function(d) { return projection(d.geometry.coordinates)[0] - radius / 2 })
-          //.attr('origTransformY', function(d) { return projection(d.geometry.coordinates)[1] - radius / 2 })
           .attr('transform', function(d) { 
             return "translate(" + projection(d.geometry.coordinates)[0] + "," + 
                 projection(d.geometry.coordinates)[1] + ")" 
@@ -1628,14 +1673,15 @@ function onResize() {
 
       if (!gameStarted) {
         prepareNeighborhoods()
-        //makeAllNeighborhoodsActive()
-        removeSmallNeighborhoods() 
-        updateCount()
+        
       } else {
         updateGuessedAndInactiveStates()
       }
       
-      updateCompositePoints()
+      removeSmallNeighborhoods() 
+      updateCount()
+
+      addCompositePoints()
 
       addPaddedIslandNeighborhoods()
     }
