@@ -456,6 +456,7 @@ function updateSmallNeighborhoodDisplay() {
 function removeSmallNeighborhoods() {
   smallNeighborhoodsRemoved = []
 
+  // If using points instead of polygons, there is no way for a neighbourhood to be too small.
   if (CITY_DATA[cityId].pointsInsteadOfPolygons) {
     return
   }
@@ -473,13 +474,9 @@ function removeSmallNeighborhoods() {
         el.style.outline = '3px solid red'
       } else {
         var name = el.getAttribute('name')
-
         neighborhoods.splice(neighborhoods.indexOf(name), 1)
-
         makeNeighborhoodInactive(name)
-
         totalNeighborhoodsCount--
-
         smallNeighborhoodsRemoved.push(name)
       }
     }
@@ -731,7 +728,7 @@ function createMainMenuMap() {
     var feature = {}
     feature.type = 'Feature'
     feature.properties = { id: i }
-    feature.geometry = { type: 'Point', coordinates: cityData.sampleLatLon }; 
+    feature.geometry = { type: 'Point', coordinates: cityData.sampleLatLon } 
 
     features.push(feature)
   }
@@ -740,9 +737,9 @@ function createMainMenuMap() {
     var feature = {}
     feature.type = 'Feature'
     feature.properties = { id: i, current: true }
-    feature.geometry = { type: 'Point', coordinates: [currentGeoLon, currentGeoLat] }; 
+    feature.geometry = { type: 'Point', coordinates: [currentGeoLon, currentGeoLat] } 
 
-    features.push(feature);    
+    features.push(feature)    
   }
 
   mapSvg
@@ -751,7 +748,7 @@ function createMainMenuMap() {
     .enter()
     .append('path')
     .attr('d', geoMapPath.pointRadius(1))
-    .attr('city-id', function(d) { return d.properties.id; })
+    .attr('city-id', function(d) { return d.properties.id })
     .attr('class', function(d) { 
       var name = 'location'
       if (d.properties.current) {
@@ -803,7 +800,7 @@ function setTouchActive(newTouchActive) {
   if (touchActive) {
     document.body.classList.add('touch-active')
   } else {
-    document.body.classList.remove('touch-active');    
+    document.body.classList.remove('touch-active')    
   }
 
   var els = document.querySelectorAll('.click-verb')
@@ -815,7 +812,7 @@ function setTouchActive(newTouchActive) {
 function showNeighboorhoodTooltip(neighborhoodEl, hoverEl) {
   var name = neighborhoodEl.getAttribute('name')
 
-  hoverEl.classList.remove('visible');  
+  hoverEl.classList.remove('visible')  
   hoverEl.innerHTML = neighborhoodsDisplayNames[name]
 
   var boundingBox = neighborhoodEl.getBoundingClientRect()
@@ -828,7 +825,7 @@ function showNeighboorhoodTooltip(neighborhoodEl, hoverEl) {
 
   var left = (boundingBox.left + boundingBox.width / 2 - hoverEl.offsetWidth / 2)
 
-  hoverEl.style.top = top + 'px'; 
+  hoverEl.style.top = top + 'px' 
   hoverEl.style.left = left + 'px'
 
   if (neighborhoodEl.getAttribute('inactive')) {
@@ -837,7 +834,7 @@ function showNeighboorhoodTooltip(neighborhoodEl, hoverEl) {
     hoverEl.classList.remove('inactive')
   }
 
-  hoverEl.classList.add('visible');  
+  hoverEl.classList.add('visible')  
 }
 
 function hoverNeighborhoodEl(neighborhoodEl, showTooltip) {
@@ -862,7 +859,7 @@ function createMap() {
     .enter()
     .append('path')
     .attr('class', 'neighborhood unguessed')
-    .attr('name', function(d) { return sanitizeName(d.properties.name); })
+    .attr('name', function(d) { return sanitizeName(d.properties.name) })
     .on('click', function(d) {
       var el = d3.event.target || d3.event.toElement
 
@@ -948,7 +945,7 @@ function setMapClickable(newMapClickable) {
   if (mapClickable) {
     document.body.classList.remove('no-hover')
   } else {
-    document.body.classList.add('no-hover');    
+    document.body.classList.add('no-hover')    
   }
 }
 
@@ -965,7 +962,7 @@ function animateCorrectNeighborhoodGuess(el) {
   }, 50)
 
   window.setTimeout(function() { 
-    animEl.parentNode.removeChild(animEl); 
+    animEl.parentNode.removeChild(animEl) 
   }, REMOVE_NEIGHBORHOOD_ANIMATE_GUESS_DELAY)
 }
 
@@ -1074,17 +1071,17 @@ function removeNeighborhoodHighlights() {
 
 function updateNeighborhoodDisplayName() {
   document.querySelector('#neighborhood-guess .name').innerHTML = 
-    neighborhoodsDisplayNames[neighborhoodToBeGuessedNext];  
+    neighborhoodsDisplayNames[neighborhoodToBeGuessedNext]  
 }
 
 function updateNeighborhoodDisplay() {
   if (neighborhoodToBeGuessedNext) {
     updateNeighborhoodDisplayName()
 
-    document.querySelector('#neighborhood-guess-wrapper').classList.add('visible');  
+    document.querySelector('#neighborhood-guess-wrapper').classList.add('visible')  
   } else {
-    document.querySelector('#neighborhood-guess-wrapper').classList.remove('visible');      
-    document.querySelector('#neighborhood-guess-wrapper').classList.add('invisible');  
+    document.querySelector('#neighborhood-guess-wrapper').classList.remove('visible')      
+    document.querySelector('#neighborhood-guess-wrapper').classList.add('invisible')  
 
     window.setTimeout(function() {
       document.querySelector('#neighborhood-guess-wrapper').classList.remove('invisible')
@@ -1146,8 +1143,8 @@ function reloadPage() {
 function startGame(useEasyMode) {
   gameStarted = true
 
-  document.querySelector('#intro').classList.remove('visible');  
-  document.querySelector('#select-mode').classList.remove('visible');  
+  document.querySelector('#intro').classList.remove('visible')  
+  document.querySelector('#select-mode').classList.remove('visible')  
   document.querySelector('#cover').classList.remove('visible')
 
   neighborhoodsToBeGuessed = []
@@ -1174,13 +1171,13 @@ function startGame(useEasyMode) {
 }
 
 function createTimeout(fn, data, delay) {
-  window.setTimeout(function() { fn.call(null, data); }, delay)
+  window.setTimeout(function() { fn.call(null, data) }, delay)
 }
 
 function stopTimer() {
   timerStopped = true
   finalTime = new Date().getTime()
-  window.clearInterval(timerIntervalId);  
+  window.clearInterval(timerIntervalId)  
 
   updateTimer()
 }
@@ -1195,10 +1192,10 @@ function gameOver() {
   var timer = 300
   var timerDelta = 100
   var timerDeltaDiff = 5
-  var TIMER_DELTA_MIN = 10; 
+  var TIMER_DELTA_MIN = 10 
 
   for (var i = 0, el; el = els[i]; i++) {
-    createTimeout(function(el) { animateCorrectNeighborhoodGuess(el); }, el, timer)
+    createTimeout(function(el) { animateCorrectNeighborhoodGuess(el) }, el, timer)
 
     timer += timerDelta
     timerDelta -= timerDeltaDiff
@@ -1253,7 +1250,7 @@ function gameOverPart2() {
   updateFacebookLink(el)
 
   document.querySelector('#cover').classList.add('visible')
-  el.classList.add('visible');  
+  el.classList.add('visible')  
 }
 
 function getTimer() {
@@ -1384,10 +1381,11 @@ function onResize() {
 
     // TODO temporarily remove until we fix positioning (issue #156)
     document.body.classList.add('no-fixed-main-menu')
+
     /*if (window.innerHeight > MAIN_MENU_MIN_FIXED_HEIGHT) {
       document.body.classList.remove('no-fixed-main-menu')
     } else {
-      document.body.classList.add('no-fixed-main-menu');      
+      document.body.classList.add('no-fixed-main-menu')
     }*/
   } else {
     if (geoDataLoaded) {
@@ -1407,7 +1405,7 @@ function onResize() {
           .attr('d', d3.svg.symbol().type('square').size(radius * radius))
           .attr('transform', function(d) { 
             return "translate(" + projection(d.geometry.coordinates)[0] + "," + 
-                projection(d.geometry.coordinates)[1] + ")"; 
+                projection(d.geometry.coordinates)[1] + ")" 
           })
       } else {
         mapSvg.selectAll('path').attr('d', geoMapPath)
@@ -1499,7 +1497,7 @@ function preparePage() {
     name = ''
     document.querySelector('header .location-name').classList.add('no-state-or-country')
   } else {
-    document.querySelector('header .location-name').classList.remove('no-state-or-country');    
+    document.querySelector('header .location-name').classList.remove('no-state-or-country')    
   }
   document.querySelector('header .state-or-country').innerHTML = name
 
@@ -1682,16 +1680,15 @@ function deg2rad(deg) {
 }
 
 function geoDist(lat1, lon1, lat2, lon2) {
-  var R = 6371; // Radius of the earth in km
+  var R = 6371 // Radius of the earth in km
   var dLat = deg2rad(lat2 - lat1)
-  var dLon = deg2rad(lon2 - lon1); 
+  var dLon = deg2rad(lon2 - lon1) 
   var a = 
     Math.sin(dLat/2) * Math.sin(dLat/2) +
     Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
-    Math.sin(dLon/2) * Math.sin(dLon/2)
-    ; 
-  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-  var d = R * c; // Distance in km
+    Math.sin(dLon/2) * Math.sin(dLon/2) 
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)) 
+  var d = R * c // Distance in km
   return d
 }
 
