@@ -885,6 +885,10 @@ body.no-hover #neighborhood-hover {
     pointer-events: none;
   }
 
+  &[fused] {
+    display: none;
+  }
+
   &.guessed-animation {
     stroke: transparent;
     fill: @guessedNeighborhoodFillColour;
@@ -896,10 +900,11 @@ body.no-hover #neighborhood-hover {
     pointer-events: none;
     z-index: 99999;
     -webkit-transform-origin: 50% 50%;
-    -webkit-transition: -webkit-transform 500ms, fill 500ms, stroke 500ms;
     -moz-transform-origin: 50% 50%;
-    -moz-transition: -moz-transform 500ms, fill 500ms, stroke 500ms;
     transform-origin: 50% 50%;
+
+    -webkit-transition: -webkit-transform 500ms, fill 500ms, stroke 500ms;
+    -moz-transition: -moz-transform 500ms, fill 500ms, stroke 500ms;
     transition: transform 500ms, fill 500ms, stroke 500ms;
   }
   &.guessed-animation.animate {

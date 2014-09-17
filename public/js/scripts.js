@@ -39,7 +39,7 @@ var MAP_BACKGROUND_MAX_ZOOM_NON_US = 17
 var MAP_BACKGROUND_MAX_ZOOM_US = 17
 
 var POINT_SCALE = 75000
-var MIN_POINT_RADIUS = 20
+var MIN_POINT_RADIUS = 16
 
 var MAPBOX_MAP_ID = 'codeforamerica.map-mx0iqvk2'
 
@@ -462,55 +462,7 @@ function updateSmallNeighborhoodDisplay() {
   }
 }
 
-function clipperPathsToSvgString(paths, scale, transformX, transformY) {
-  var svgPath = ''
-
-  if (!scale) {
-    scale = 1.0
-  }
-
-  for (var i = 0; i < paths.length; i++) {
-    for (var j = 0; j < paths[i].length; j++) {
-      /*if (!j) {
-        svgPath += 'M'
-      } else {
-        svgPath += 'L'
-      }*/
-
-      if (j == 0) {
-        svgPath += 'M'
-      } else if (j == 1) {
-        svgPath += 'L'
-      } else {
-        svgPath += ' '
-      }
-
-      svgPath += /*Math.floor*/(paths[i][j].X / scale - transformX) + 
-          ',' + /*Math.floor*/(paths[i][j].Y / scale - transformY)
-     }
-     svgPath += 'Z'
-  }
-  if (svgPath == '') {
-    svgPath = 'M0,0'
-  }
-  return svgPath
-}
-
-function getDefaultClipperPaths(x, y, radius) {
-  var paths = new ClipperLib.Paths()
-  var path = new ClipperLib.Path()
-  path.push(
-    new ClipperLib.IntPoint(x, y),
-    new ClipperLib.IntPoint(x + radius, y),
-    new ClipperLib.IntPoint(x + radius, y + radius),
-    new ClipperLib.IntPoint(x, y + radius)
-  )
-  paths.push(path)
-
-  return paths
-}
-
-function createCompositePoints() {
+function updateCompositePoints() {
   if (!CITY_DATA[cityId].pointsInsteadOfPolygons) {
     return
   }
@@ -518,83 +470,71 @@ function createCompositePoints() {
   var els = document.querySelectorAll('#map .neighborhood')
   var radius = getPointRadius()
 
+  // Restore any previous compositing
+  for (var i = 0, el; el = els[i]; i++) {
+    el.removeAttribute('fused')
+    el.removeAttribute('composited')
+    el.removeAttribute('names')
+
+    /*if (el.getAttribute('origTransformX')) {
+      var x = el.getAttribute('origTransformX')
+      var y = el.getAttribute('origTransformY')
+      el.setAttribute('transformX', x)
+      el.setAttribute('transformY', y)
+      el.setAttribute('transform', "translate(" + (x + radius / 2) + ',' + (y + radius / 2) + ")")
+    }*/
+  }
+
+  // New compositing
   do {
     var lastFusedCount = 0
-    console.log('AGAIn')
 
     for (var i = 0, el1; el1 = els[i]; i++) {
       if (el1.getAttribute('fused')) {
         continue;
       }
 
-      var x1 = parseFloat(el1.getAttribute('transformX')) - radius
-      var y1 = parseFloat(el1.getAttribute('transformY')) - radius
+      var x1 = parseFloat(el1.getAttribute('transformX'))
+      var y1 = parseFloat(el1.getAttribute('transformY'))
 
       for (var j = 0, el2; el2 = els[j]; j++) {
         if ((i == j) || el2.getAttribute('fused')) {
           continue;
         }
 
-        var x2 = parseFloat(el2.getAttribute('transformX')) - radius
-        var y2 = parseFloat(el2.getAttribute('transformY')) - radius
+        var x2 = parseFloat(el2.getAttribute('transformX'))
+        var y2 = parseFloat(el2.getAttribute('transformY'))
 
         var dist = Math.sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1))
 
         if (dist < radius) {
+          var newX = (x1 + x2) / 2
+          var newY = (y1 + y2) / 2
+          //console.log(newX, newY)
 
-          // DEBUG
-          continue;
-          /*if (((el1.getAttribute('name') != 'New Cross') && (el2.getAttribute('name') != 'New Cross Gate')) &&
-              ((el2.getAttribute('name') != 'Neasden') && (el1.getAttribute('name') != 'Dollis Hill'))) {
-            continue;
-          }*/
-          //console.log('a', el1.getAttribute('name'), '+', el2.getAttribute('name'))
+          el1.setAttribute('composited', true)
+          if (el1.getAttribute('names')) {
+            var names = JSON.parse(el1.getAttribute('names'))
+          } else {
+            var names = [el1.getAttribute('name')]
+          }
 
-          //console.log(el1)
-
-          var paths1 = (el1.getAttribute('paths') && JSON.parse(el1.getAttribute('paths'))) || 
-              getDefaultClipperPaths(x1 - radius / 2, y1 - radius / 2, radius)
-          var paths2 = (el2.getAttribute('paths') && JSON.parse(el2.getAttribute('paths'))) || 
-              getDefaultClipperPaths(x2 - radius / 2, y2 - radius / 2, radius)
-          var cpr = new ClipperLib.Clipper()
-          //console.log(paths1)
-
-          /*var scale = 100
-          ClipperLib.JS.ScaleUpPaths(paths1, scale)
-          ClipperLib.JS.ScaleUpPaths(paths2, scale)*/
-
-          cpr.AddPaths(paths1, ClipperLib.PolyType.ptSubject, true)
-          cpr.AddPaths(paths2, ClipperLib.PolyType.ptClip, true)
-
-          var solutionPaths = []
-
-          var clipType = ClipperLib.ClipType.ctUnion
-
-          var fillType1 = ClipperLib.PolyFillType.pftNonZero
-          var fillType2 = ClipperLib.PolyFillType.pftNonZero
-
-          var succeeded = cpr.Execute(clipType, solutionPaths, fillType1, fillType2)
-
-          //console.log('zzz', solutionPaths)
-
-          //console.log(clipperPathsToSvgString(solutionPaths, 1.0, x1, y1))
-
-          el1.setAttribute('name', el1.getAttribute('name') + '+' + el2.getAttribute('name'))
-          el1.setAttribute('d', clipperPathsToSvgString(solutionPaths, 1.0, x1, y1))
-          el1.setAttribute('paths', JSON.stringify(solutionPaths))
-          //el1.setAttribu
+          if (el2.getAttribute('composited')) {
+            var newNames = JSON.parse(el2.getAttribute('names'))
+            for (var k in newNames) {
+              names.push(newNames[k])
+            }
+          } else {
+            names.push(el2.getAttribute('name'))
+          }
+          el1.setAttribute('names', JSON.stringify(names))
+          el1.setAttribute('transformX', newX)
+          el1.setAttribute('transformY', newY)
+          el1.setAttribute('transform', "translate(" + (newX + radius / 2) + ',' + (newY + radius / 2) + ")")
 
           el2.setAttribute('fused', true)
-          el2.parentNode.removeChild(el2)
         
-          //console.log('.')
-
           lastFusedCount++
-
-          //el1.classList.add('invisible')
-          //el2.classList.add('invisible')
-
-          //var newEl = 
         }
       }
     }
@@ -623,7 +563,7 @@ function removeSmallNeighborhoods() {
       } else {
         var name = el.getAttribute('name')
         neighborhoods.splice(neighborhoods.indexOf(name), 1)
-        makeNeighborhoodInactive(name)
+        //makeNeighborhoodInactive(name)
         totalNeighborhoodsCount--
         smallNeighborhoodsRemoved.push(name)
       }
@@ -837,7 +777,7 @@ function sanitizeName(name) {
 }
 
 function updateNeighborhoodDisplayNames() {
-  neighboorhoodsDisplayNames = {}
+  neighborhoodsDisplayNames = {}
 
   for (var i in geoData.features) {
     var name = sanitizeName(geoData.features[i].properties.name)
@@ -957,11 +897,44 @@ function setTouchActive(newTouchActive) {
   }
 }
 
-function showNeighboorhoodTooltip(neighborhoodEl, hoverEl) {
-  var name = neighborhoodEl.getAttribute('name')
+function getTooltipName(neighborhoodEl, correct) {
+  if (correct) {
+    return neighborhoodsDisplayNames[neighborhoodToBeGuessedNext]
+  } else {
+    if (neighborhoodEl.getAttribute('names')) {
+      //console.log('.')
+      var names = JSON.parse(neighborhoodEl.getAttribute('names'))
+      var tooltip = ''
+
+      if (names.indexOf(neighborhoodToBeGuessedNext) != -1) {
+        tooltip += neighborhoodsDisplayNames[neighborhoodToBeGuessedNext] + ' + '
+      }
+
+      for (var i in names) {
+        if (neighborhoodToBeGuessedNext != names[i]) {
+          tooltip += neighborhoodsDisplayNames[names[i]] + ' + '
+        }
+      }
+      tooltip = tooltip.substr(0, tooltip.length - 3)
+      //console.log(tooltip)
+      return tooltip
+    } else {
+      var name = neighborhoodEl.getAttribute('name')
+      return neighborhoodsDisplayNames[name]
+    }
+  }
+}
+
+function showNeighborhoodTooltip(neighborhoodEl, hoverEl, correct) {
+  //var name = neighborhoodEl.getAttribute('name')
+
+  if ((hoverEl.innerHTML == getTooltipName(neighborhoodEl, correct)) && 
+      (hoverEl.classList.contains('visible'))) {
+    return
+  }
 
   hoverEl.classList.remove('visible')  
-  hoverEl.innerHTML = neighborhoodsDisplayNames[name]
+  hoverEl.innerHTML = getTooltipName(neighborhoodEl, correct)
 
   var boundingBox = neighborhoodEl.getBoundingClientRect()
 
@@ -990,9 +963,8 @@ function hoverNeighborhoodEl(neighborhoodEl, showTooltip) {
 
   var name = neighborhoodEl.getAttribute('name')
 
-  if (showTooltip && ((hoverEl.innerHTML != neighborhoodsDisplayNames[name]) || 
-      (!hoverEl.classList.contains('visible')))) {
-    showNeighboorhoodTooltip(neighborhoodEl, hoverEl)
+  if (showTooltip) {
+    showNeighborhoodTooltip(neighborhoodEl, hoverEl, false)
   }
 }
 
@@ -1096,15 +1068,39 @@ function setMapClickable(newMapClickable) {
 
 function animateCorrectNeighborhoodGuess(el) {
   var animEl = el.cloneNode(true)
-  el.parentNode.appendChild(animEl)
+
+  console.log(el)
+  console.log(animEl)
+
+  //return
 
   animEl.classList.remove('hover')
   animEl.classList.remove('guessed')
+
+  if (el.getAttribute('transformX')) {
+    var radius = getPointRadius()
+    var x = parseFloat(el.getAttribute('transformX')) + radius / 2
+    var y = parseFloat(el.getAttribute('transformY')) + radius / 2
+    animEl.style.transform = 'translate(' + x + 'px, ' + y + 'px)'
+    animEl.style.MozTransform = 'translate(' + x + 'px, ' + y + 'px)'
+    animEl.style.webkitTransform = 'translate(' + x + 'px, ' + y + 'px)'
+    window.setTimeout(function() {
+      animEl.classList.add('animate')
+
+      animEl.style.transform = 'translate(' + x + 'px, ' + y + 'px) scale(6)'
+      animEl.style.MozTransform = 'translate(' + x + 'px, ' + y + 'px) scale(6)'
+      animEl.style.webkitTransform = 'translate(' + x + 'px, ' + y + 'px) scale(6)'
+    }, 50)    
+  } else {
+    window.setTimeout(function() {
+      animEl.classList.add('animate')
+    }, 50)    
+  }
+    
+  el.parentNode.appendChild(animEl)
   animEl.classList.add('guessed-animation')
 
-  window.setTimeout(function() {
-    animEl.classList.add('animate')
-  }, 50)
+  //animEl.style.outline = '3px solid red'
 
   window.setTimeout(function() { 
     animEl.parentNode.removeChild(animEl) 
@@ -1112,8 +1108,71 @@ function animateCorrectNeighborhoodGuess(el) {
 }
 
 function getHighlightableNeighborhoodEl(name) {
-  return document.querySelector('#map svg :not(.unpadded)[name="' + 
-      name.replace(/"/g, '\\"') + '"]')
+  var els = document.querySelectorAll('#map svg :not(.unpadded)')
+  for (var i = 0, el; el = els[i]; i++) {
+    if (el.getAttribute('composited')) {
+      var names = JSON.parse(el.getAttribute('names'))
+      if (names.indexOf(name) != -1) {
+        return el
+      }
+    } else {
+      if (el.getAttribute('name') == name) {
+        return el
+      }
+    }
+  }
+  console.log('NOOOO')
+
+  //return document.querySelector('#map svg :not(.unpadded)[name="' + 
+  //    name.replace(/"/g, '\\"') + '"]')
+}
+
+function updateGuessedAndInactiveStates() {
+  var els = document.querySelectorAll('#map .neighborhood')
+
+  for (var i = 0, el; el = els[i]; i++) {
+    var allGuessed = true
+    var someActive = false
+
+    if (el.getAttribute('composited')) {
+      var names = JSON.parse(el.getAttribute('names'))
+      for (var j in names) {
+        var name = names[j]
+        if ((neighborhoodsGuessed.indexOf(name) == -1) && (neighborhoodsToBeGuessed.indexOf(name) != -1)) {
+          allGuessed = false
+        }
+        if ((neighborhoodsGuessed.indexOf(name) != -1) || (neighborhoodsToBeGuessed.indexOf(name) != -1)) {
+          someActive = true
+        }
+
+      }
+    } else {
+      var name = el.getAttribute('name')
+
+      if ((neighborhoodsGuessed.indexOf(name) == -1) && (neighborhoodsToBeGuessed.indexOf(name) != -1)) {
+        allGuessed = false
+      }
+      if ((neighborhoodsGuessed.indexOf(name) != -1) || (neighborhoodsToBeGuessed.indexOf(name) != -1)) {
+        someActive = true
+      }
+    }
+
+    if (allGuessed && someActive) {
+      el.classList.remove('unguessed')
+      el.classList.add('guessed')
+    } else {
+      el.classList.remove('guessed')
+      el.classList.add('unguessed')      
+    }
+
+    if (someActive) {
+      el.removeAttribute('inactive')
+    } else {
+      //console.log('a')
+      el.setAttribute('inactive', true)
+    }
+
+  }
 }
 
 function onNeighborhoodClick(el) {
@@ -1121,20 +1180,23 @@ function onNeighborhoodClick(el) {
     return
   }
 
-  var name = el.getAttribute('name')
-  var el = getHighlightableNeighborhoodEl(name)
-
-  // Assuming accidental click on a neighborhood already guessed
-  // TODO does this still work?
-  if (neighborhoodsGuessed.indexOf('name') != -1) {
-    return
-  }
-
   setMapClickable(false)
+
+  if (el.getAttribute('composited')) {
+    var name = neighborhoodToBeGuessedNext
+    var names = JSON.parse(el.getAttribute('names'))
+
+    var guessed = names.indexOf(neighborhoodToBeGuessedNext) != -1
+  } else {
+    var name = el.getAttribute('name')
+    var el = getHighlightableNeighborhoodEl(name)
+
+    var guessed = (name == neighborhoodToBeGuessedNext)
+  }
 
   var time = new Date().getTime() - currentNeighborhoodStartTime
 
-  if (name == neighborhoodToBeGuessedNext) {
+  if (guessed) {
     if (time > TOOLTIP_DELAY_THRESHOLD) {
       currentTooltipDelay -= time - TOOLTIP_DELAY_THRESHOLD
       if (currentTooltipDelay < 0) {
@@ -1147,14 +1209,12 @@ function onNeighborhoodClick(el) {
       }
     }
 
-    el.classList.remove('unguessed')
-    el.classList.add('guessed')
-
-    animateCorrectNeighborhoodGuess(el)
-
     neighborhoodsGuessed.push(name)
     neighborhoodsToBeGuessed.splice(neighborhoodsToBeGuessed.indexOf(name), 1)
 
+    animateCorrectNeighborhoodGuess(el)
+
+    updateGuessedAndInactiveStates()
     updateGameProgress()
 
     if (neighborhoodsToBeGuessed.length == 0) {
@@ -1177,7 +1237,7 @@ function onNeighborhoodClick(el) {
     correctEl.classList.add('right-guess')
 
     var correctNameEl = document.querySelector('#neighborhood-correct-name')
-    showNeighboorhoodTooltip(correctEl, correctNameEl)
+    showNeighborhoodTooltip(correctEl, correctNameEl, true)
 
     window.setTimeout(removeNeighborhoodHighlights, HIGHLIGHT_DELAY)
     window.setTimeout(nextGuess, HIGHLIGHT_DELAY + NEXT_GUESS_DELAY)
@@ -1245,6 +1305,18 @@ function nextGuess() {
   do {
     var pos = Math.floor(Math.random() * neighborhoodsToBeGuessed.length)
     neighborhoodToBeGuessedNext = neighborhoodsToBeGuessed[pos]
+
+    //neighborhoodToBeGuessedNext = 'Tottenham Court Road'
+    // DEBUG
+
+    /*if (neighborhoodsGuessed.length == 0) {
+      neighborhoodToBeGuessedNext = 'Regents Park'
+      neighborhoodToBeGuessedLast = ''
+    } else if (neighborhoodsGuessed.length == 1) {
+      neighborhoodToBeGuessedNext = 'Great Portland Street'
+      neighborhoodToBeGuessedLast = ''
+    }*/
+    
   } while ((neighborhoodToBeGuessedLast == neighborhoodToBeGuessedNext) &&
            (neighborhoodsToBeGuessed.length > 1))
   updateNeighborhoodDisplay()
@@ -1255,30 +1327,32 @@ function startIntro() {
   document.querySelector('#select-mode').classList.add('visible')
 }
 
-function makeAllNeighborhoodsActive() {
+/*function makeAllNeighborhoodsActive() {
   var els = document.querySelectorAll('#map svg [inactive]')
 
   for (var i = 0, el; el = els[i]; i++) {
     el.removeAttribute('inactive')
   } 
-}
+}*/
 
-function makeNeighborhoodInactive(name) {
+/*function makeNeighborhoodInactive(name) {
   var el = getHighlightableNeighborhoodEl(name)
 
   el.setAttribute('inactive', true)
-}
+}*/
 
-function removeNeighborhoodsForEasyMode() {
+function makeNeighborhoodsInactiveForEasyMode() {
   while (neighborhoodsToBeGuessed.length > EASY_MODE_COUNT) {
     var pos = Math.floor(Math.random() * neighborhoodsToBeGuessed.length)
 
     var name = neighborhoodsToBeGuessed[pos]
 
-    makeNeighborhoodInactive(name)
+    //makeNeighborhoodInactive(name)
 
     neighborhoodsToBeGuessed.splice(pos, 1)
   }
+
+  updateGuessedAndInactiveStates()
 }
 
 function reloadPage() {
@@ -1299,7 +1373,7 @@ function startGame(useEasyMode) {
 
   easyMode = useEasyMode
   if (easyMode) {
-    removeNeighborhoodsForEasyMode()
+    makeNeighborhoodsInactiveForEasyMode()
   }
 
   updateGameProgress()
@@ -1539,9 +1613,11 @@ function onResize() {
 
         mapSvg.selectAll('path')
           .attr('d', d3.svg.symbol().type('square').size(radius * radius))
-          .attr('radius', radius)
+          //.attr('radius', radius)
           .attr('transformX', function(d) { return projection(d.geometry.coordinates)[0] - radius / 2 })
           .attr('transformY', function(d) { return projection(d.geometry.coordinates)[1] - radius / 2 })
+          //.attr('origTransformX', function(d) { return projection(d.geometry.coordinates)[0] - radius / 2 })
+          //.attr('origTransformY', function(d) { return projection(d.geometry.coordinates)[1] - radius / 2 })
           .attr('transform', function(d) { 
             return "translate(" + projection(d.geometry.coordinates)[0] + "," + 
                 projection(d.geometry.coordinates)[1] + ")" 
@@ -1552,11 +1628,14 @@ function onResize() {
 
       if (!gameStarted) {
         prepareNeighborhoods()
-        makeAllNeighborhoodsActive()
-        removeSmallNeighborhoods()
-        createCompositePoints()
+        //makeAllNeighborhoodsActive()
+        removeSmallNeighborhoods() 
         updateCount()
+      } else {
+        updateGuessedAndInactiveStates()
       }
+      
+      updateCompositePoints()
 
       addPaddedIslandNeighborhoods()
     }
@@ -1755,11 +1834,8 @@ function prepareLocationList() {
       el.innerHTML = html
 
       // TODO temporarily remove until we fix positioning (issue #156)
-
-      /*
-      el.querySelector('a').addEventListener('mouseover', animateMainMenuCity, false)
-      el.querySelector('a').addEventListener('mouseout', restoreMainMenuCity, false)
-      */
+      // el.querySelector('a').addEventListener('mouseover', animateMainMenuCity, false)
+      // el.querySelector('a').addEventListener('mouseout', restoreMainMenuCity, false)
 
       document.querySelector('.menu .locations').appendChild(el)
     }
