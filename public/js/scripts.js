@@ -902,15 +902,12 @@ function removePaddedIslandNeighborhoods() {
   }
 }
 
-function padIslandNeighborhoods() {
-  if (mainMenu) {
-    return
-  }
-  if (CITY_DATA[cityId].pointsInsteadOfPolygons) {
+function addPaddedIslandNeighborhoods() {
+  if (mainMenu || CITY_DATA[cityId].pointsInsteadOfPolygons) {
     return
   }
 
-  var els = document.querySelectorAll('#svg-container path')
+  var els = document.querySelectorAll('#svg-container .neighborhood')
   for (var i = 0, el; el = els[i]; i++) {
     var name = el.getAttribute('name')
     if (smallNeighborhoodsRemoved.indexOf(name) != -1) {
@@ -1365,13 +1362,7 @@ function prepareMapBackground() {
 }
 
 function onResize() {
-  //return
-
-  if (mainMenu) {
-    var height = MAIN_MENU_HEIGHT
-  } else {
-    var height = window.innerHeight
-  }
+  var height = mainMenu ? MAIN_MENU_HEIGHT : window.innerHeight
 
   document.querySelector('body > .canvas').style.height = 
     (height - document.querySelector('body > .canvas').offsetTop) + 'px'
@@ -1381,7 +1372,6 @@ function onResize() {
 
     // TODO temporarily remove until we fix positioning (issue #156)
     document.body.classList.add('no-fixed-main-menu')
-
     /*if (window.innerHeight > MAIN_MENU_MIN_FIXED_HEIGHT) {
       document.body.classList.remove('no-fixed-main-menu')
     } else {
@@ -1418,7 +1408,7 @@ function onResize() {
         updateCount()
       }
 
-      padIslandNeighborhoods()
+      addPaddedIslandNeighborhoods()
     }
   }
 }
