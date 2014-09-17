@@ -38,6 +38,9 @@ var MAP_BACKGROUND_DEFAULT_ZOOM = 12;
 var MAP_BACKGROUND_MAX_ZOOM_NON_US = 17;
 var MAP_BACKGROUND_MAX_ZOOM_US = 17;
 
+var POINT_SCALE = 75000;
+var MIN_POINT_RADIUS = 10;
+
 var MAPBOX_MAP_ID = 'codeforamerica.map-mx0iqvk2';
 
 var ADD_YOUR_CITY_URL = 
@@ -343,7 +346,7 @@ function calculateMapSize() {
     // TODO: not entirely sure where these magic numbers are coming from
     globalScale = 
         ((D3_DEFAULT_SCALE * 180) / latSpread * (mapHeight - 50)) / 
-            MAPS_DEFAULT_SCALE / 0.045 * (-latStep);
+            MAPS_DEFAULT_SCALE / .045 * (-latStep);
 
     // TODO this shouldn’t be hardcoded, but it is. Sue me.
 
@@ -464,15 +467,21 @@ function removeSmallNeighborhoods() {
 
     if ((boundingBox.width < smallNeighborhoodThreshold) || 
         (boundingBox.height < smallNeighborhoodThreshold)) {
-      var name = el.getAttribute('name');
 
-      neighborhoods.splice(neighborhoods.indexOf(name), 1);
+      if (CITY_DATA[cityId].convertPolygonsToPointsIfTooSmall) {
+        console.log('a');
+        el.style.outline = '3px solid red';
+      } else {
+        var name = el.getAttribute('name');
 
-      makeNeighborhoodInactive(name);
+        neighborhoods.splice(neighborhoods.indexOf(name), 1);
 
-      totalNeighborhoodsCount--;
+        makeNeighborhoodInactive(name);
 
-      smallNeighborhoodsRemoved.push(name);
+        totalNeighborhoodsCount--;
+
+        smallNeighborhoodsRemoved.push(name);
+      }
     }
   }
 
@@ -510,21 +519,25 @@ function updateCount() {
 function prepareMainMenuMapBackground() {
   updateCanvasSize();
 
-  var layer = mapbox.layer().id(MAPBOX_MAP_ID);
-  var map = mapbox.map(document.querySelector('#maps-background'), layer, null, []);
-  map.tileSize = { x: Math.round(320 / pixelRatio), 
-                   y: Math.round(320 / pixelRatio) };
-  map.centerzoom({ lat: 26 + 7, lon: 63 - 13 }, pixelRatio);
+  if (typeof mapbox != 'undefined') {
+    var layer = mapbox.layer().id(MAPBOX_MAP_ID);
+    var map = mapbox.map(document.querySelector('#maps-background'), layer, null, []);
+    map.tileSize = { x: Math.round(320 / pixelRatio), 
+                     y: Math.round(320 / pixelRatio) };
+    map.centerzoom({ lat: 26 + 7, lon: 63 - 13 }, pixelRatio);
+  }
 
   lastMapWidth = document.querySelector('#maps-background').offsetWidth;
 
-  // This keeps the map centered on the homepage
-  map.addCallback('resized', function(map, dimensions) {
-    var width = dimensions[0].x;
-    var delta = width - lastMapWidth;
-    map.panBy(-Math.floor(delta / 2), 0);
-    lastMapWidth += Math.floor(delta / 2) * 2;
-  });
+  if (typeof mapbox != 'undefined') {
+    // This keeps the map centered on the homepage
+    map.addCallback('resized', function(map, dimensions) {
+      var width = dimensions[0].x;
+      var delta = width - lastMapWidth;
+      map.panBy(-Math.floor(delta / 2), 0);
+      lastMapWidth += Math.floor(delta / 2) * 2;
+    });
+  }
 }
 
 function isString(obj) {
@@ -917,14 +930,13 @@ function padIslandNeighborhoods() {
       area += getPolygonArea(pathToPolygon(seg));
     }
 
-    var needsPadding = (area < 100) && ((area / boundingBoxArea) < 0.1);
+    // TODO const
+    var needsPadding = (area < 100) && ((area / boundingBoxArea) < .1);
 
     if (needsPadding) {
       var secondEl = el.cloneNode(true);
       el.parentNode.appendChild(secondEl);
-
       el.classList.add('padded');
-
       secondEl.classList.add('unpadded');
     }
   }
@@ -958,8 +970,8 @@ function animateCorrectNeighborhoodGuess(el) {
 }
 
 function getHighlightableNeighborhoodEl(name) {
-  //console.log(name);
-  return document.querySelector('#map svg :not(.unpadded)[name="' + name + '"]');
+  return document.querySelector('#map svg :not(.unpadded)[name="' + 
+      name.replace(/"/g, '\\"') + '"]');
 }
 
 function onNeighborhoodClick(el) {
@@ -1299,7 +1311,7 @@ function prepareMapBackground() {
   updateCanvasSize();
 
   // TODO this is the worst line of code ever written
-  var size = globalScale * 0.0012238683395795992 * 0.995 / 2 * 0.800 / 2 / 4;
+  var size = globalScale * .0012238683395795992 * .995 / 2 * .800 / 2 / 4;
 
   var zoom = MAP_BACKGROUND_DEFAULT_ZOOM + 2;
 
@@ -1311,46 +1323,48 @@ function prepareMapBackground() {
   // TODO resize properly instead of recreating every single time
   document.querySelector('#maps-background').innerHTML = '';
 
-  var layer = mapbox.layer().id(MAPBOX_MAP_ID);
-  var map = 
-      mapbox.map(document.querySelector('#maps-background'), layer, null, []);
+  if (typeof mapbox != 'undefined') {
+    var layer = mapbox.layer().id(MAPBOX_MAP_ID);
+    var map = 
+        mapbox.map(document.querySelector('#maps-background'), layer, null, []);
 
-  if (pixelRatio == 2) {
-    zoom++;
+    if (pixelRatio == 2) {
+      zoom++;
+    }
+
+    // US cities have states and no country, but some world cities have states
+    // yet also want to match all US national maps which have no states
+    if ((CITY_DATA[cityId].stateName && !CITY_DATA[cityId].countryName) ||
+        (CITY_DATA[cityId].countryName && CITY_DATA[cityId].countryName == COUNTRY_NAME_USA)) {
+      var maxZoomLevel = MAP_BACKGROUND_MAX_ZOOM_US;
+    } else {
+      var maxZoomLevel = MAP_BACKGROUND_MAX_ZOOM_NON_US;
+    }
+    while (zoom > maxZoomLevel) {
+      zoom--;
+      size *= 2;
+    }
+
+    map.tileSize = { x: Math.round(size / pixelRatio), 
+                     y: Math.round(size / pixelRatio) };
+
+    var tile = latToTile(centerLat, zoom);
+    var longStep = 
+        (tileToLon(1, zoom) - tileToLon(0, zoom)) / 256 * 128;
+    var latStep = 
+        (tileToLat(tile + 1, zoom) - tileToLat(tile, zoom)) / 256 * 128;
+
+    var lat = centerLat;
+    var lon = centerLon;
+
+    var leftMargin = BODY_MARGIN * 2 + HEADER_WIDTH;
+
+    var ratio = leftMargin / map.tileSize.x;
+
+    lon -= ratio * longStep;
+
+    map.centerzoom({ lat: lat, lon: lon }, zoom);
   }
-
-  // US cities have states and no country, but some world cities have states
-  // yet also want to match all US national maps which have no states
-  if ((CITY_DATA[cityId].stateName && !CITY_DATA[cityId].countryName) ||
-      (CITY_DATA[cityId].countryName && CITY_DATA[cityId].countryName == COUNTRY_NAME_USA)) {
-    var maxZoomLevel = MAP_BACKGROUND_MAX_ZOOM_US;
-  } else {
-    var maxZoomLevel = MAP_BACKGROUND_MAX_ZOOM_NON_US;
-  }
-  while (zoom > maxZoomLevel) {
-    zoom--;
-    size *= 2;
-  }
-
-  map.tileSize = { x: Math.round(size / pixelRatio), 
-                   y: Math.round(size / pixelRatio) };
-
-  var tile = latToTile(centerLat, zoom);
-  var longStep = 
-      (tileToLon(1, zoom) - tileToLon(0, zoom)) / 256 * 128;
-  var latStep = 
-      (tileToLat(tile + 1, zoom) - tileToLat(tile, zoom)) / 256 * 128;
-
-  var lat = centerLat;
-  var lon = centerLon;
-
-  var leftMargin = BODY_MARGIN * 2 + HEADER_WIDTH;
-
-  var ratio = leftMargin / map.tileSize.x;
-
-  lon -= ratio * longStep;
-
-  map.centerzoom({ lat: lat, lon: lon }, zoom);
 }
 
 function onResize() {
@@ -1385,12 +1399,9 @@ function onResize() {
       mapSvg.attr('width', mapWidth);
       mapSvg.attr('height', mapHeight);
       if (CITY_DATA[cityId].pointsInsteadOfPolygons) {
-        // TODO const
-        var radius = globalScale / 75000;
-
-        // TODO const
-        if (radius < 10) {
-          radius = 10;
+        var radius = globalScale / POINT_SCALE;
+        if (radius < MIN_POINT_RADIUS) {
+          radius = MIN_POINT_RADIUS;
         }
         mapSvg.selectAll('path')
           .attr('d', d3.svg.symbol().type('square').size(radius * radius))
@@ -1398,7 +1409,6 @@ function onResize() {
             return "translate(" + projection(d.geometry.coordinates)[0] + "," + 
                 projection(d.geometry.coordinates)[1] + ")"; 
           });
-
       } else {
         mapSvg.selectAll('path').attr('d', geoMapPath);
       }
