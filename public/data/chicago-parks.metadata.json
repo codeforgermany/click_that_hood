@@ -4,10 +4,5 @@
 
   "annotation": "Parks",
   "neighborhoodNoun": ["park", "parks"],
-  "convertPolygonsToPointsIfTooSmall": true,
-
-  "authorTwitter": "BLAH",
-
-  "dataUrl": "BLAH",
-  "dataTitle": "BLAH"
+  "convertPolygonsToPointsIfTooSmall": true
 }
