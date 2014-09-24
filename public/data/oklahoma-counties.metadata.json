@@ -1,0 +1,12 @@
+{ 
+  "locationName": "Oklahoma",
+  "countryName": "U.S.",
+  "annotation": "Counties",
+  "neighborhoodNoun": ["county", "counties"],
+
+  "authorTwitter": "jsatt",
+
+  "dataUrl": "http://geo.ou.edu/DataFrame.htm",
+  "dataTitle": "OU Center for Spatial Analysis"
+}
+
