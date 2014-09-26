@@ -137,7 +137,6 @@ function splitPathIntoSeparateSegments(path) {
   if (segs.length) {
     segList.push(segs)
   }
-  //console.log(segList.length)
 
   for (var i in segList) {
     segList[i].reverse()
@@ -289,6 +288,24 @@ function findBoundaries() {
     if (CITY_DATA[cityId].pointsInsteadOfPolygons) {
       var lon = geoData.features[i].geometry.coordinates[0]
       var lat = geoData.features[i].geometry.coordinates[1]
+
+      if (lon.length) {
+        lon = geoData.features[i].geometry.coordinates[0][0]
+        lat = geoData.features[i].geometry.coordinates[0][1]
+
+        if (lon.length) {
+          lon = geoData.features[i].geometry.coordinates[0][0][0]
+          lat = geoData.features[i].geometry.coordinates[0][0][1]
+
+          if (lon.length) {
+            lon = geoData.features[i].geometry.coordinates[0][0][0][0]
+            lat = geoData.features[i].geometry.coordinates[0][0][0][1]
+          }
+        }
+      }
+
+      // Rewrite
+      geoData.features[i].geometry.coordinates = [lon, lat]
 
       findMinMax(lon, lat)
     } else {
@@ -481,10 +498,6 @@ function removeCompositePoints() {
 }
 
 function addCompositePoints() {
-  /*if (!CITY_DATA[cityId].pointsInsteadOfPolygons) {
-    return
-  }*/
-
   var els = document.querySelectorAll('#map .neighborhood[point]')
   var radius = getPointRadius()
 
@@ -512,7 +525,6 @@ function addCompositePoints() {
         if (dist < radius) {
           var newX = (x1 + x2) / 2
           var newY = (y1 + y2) / 2
-          //console.log(newX, newY)
 
           el1.setAttribute('composited', true)
           if (el1.getAttribute('names')) {
@@ -576,29 +588,16 @@ function removeSmallNeighborhoods() {
 
       if (CITY_DATA[cityId].convertPolygonsToPointsIfTooSmall) {
         var boundingBox = el.getBBox()
-        //console.log(boundingBox)
 
         var x = boundingBox.x + boundingBox.width / 2
         var y = boundingBox.y + boundingBox.height / 2
-        //console.log('a')
-        //el.style.outline = '3px solid red'
 
-        //console.log(d3.svg.symbol().type('square').size(radius * radius)())
-        //console.log('o')
         el.setAttribute('origD', el.getAttribute('d'))
         el.setAttribute('d', d3.svg.symbol().type('square').size(radius * radius)())
         el.setAttribute('point', true)
         el.setAttribute('transformX', x - radius / 2)
         el.setAttribute('transformY', y - radius / 2)
         el.setAttribute('transform', "translate(" + x + "," + y + ")")
-
-                /*mapSvg.selectAll('path')
-          .attr('d', d3.svg.symbol().type('square').size(radius * radius))
-          .attr('transformX', function(d) { return projection(d.geometry.coordinates)[0] - radius / 2 })
-          .attr('transformY', function(d) { return projection(d.geometry.coordinates)[1] - radius / 2 })
-          .attr('transform', function(d) { 
-            return "translate(" + projection(d.geometry.coordinates)[0] + "," + 
-                projection(d.geometry.coordinates)[1] + ")" */
       } else {
         if (!gameStarted) {
           var name = el.getAttribute('name')
@@ -942,7 +941,6 @@ function getTooltipName(neighborhoodEl, correct) {
     return neighborhoodsDisplayNames[neighborhoodToBeGuessedNext]
   } else {
     if (neighborhoodEl.getAttribute('names')) {
-      //console.log('.')
       var names = JSON.parse(neighborhoodEl.getAttribute('names'))
       var tooltip = ''
 
@@ -956,7 +954,6 @@ function getTooltipName(neighborhoodEl, correct) {
         }
       }
       tooltip = tooltip.substr(0, tooltip.length - 3)
-      //console.log(tooltip)
       return tooltip
     } else {
       var name = neighborhoodEl.getAttribute('name')
@@ -1088,10 +1085,6 @@ function addPaddedIslandNeighborhoods() {
     // TODO const
     var needsPadding = (area < 100) && ((area / boundingBoxArea) < .35)
 
-    if (name == 'RAINBOW BEACH') {
-      console.log('zzz', area / boundingBoxArea, needsPadding)
-    }
-
     if (needsPadding) {
       var secondEl = el.cloneNode(true)
       el.parentNode.appendChild(secondEl)
@@ -1113,11 +1106,6 @@ function setMapClickable(newMapClickable) {
 
 function animateCorrectNeighborhoodGuess(el) {
   var animEl = el.cloneNode(true)
-
-  console.log(el)
-  console.log(animEl)
-
-  //return
 
   animEl.classList.remove('hover')
   animEl.classList.remove('guessed')
@@ -1166,10 +1154,6 @@ function getHighlightableNeighborhoodEl(name) {
       }
     }
   }
-  console.log('NOOOO')
-
-  //return document.querySelector('#map svg :not(.unpadded)[name="' + 
-  //    name.replace(/"/g, '\\"') + '"]')
 }
 
 function updateGuessedAndInactiveStates() {
@@ -1213,7 +1197,6 @@ function updateGuessedAndInactiveStates() {
     if (someActive) {
       el.removeAttribute('inactive')
     } else {
-      //console.log('a')
       el.setAttribute('inactive', true)
     }
 

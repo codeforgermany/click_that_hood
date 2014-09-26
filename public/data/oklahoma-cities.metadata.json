@@ -4,6 +4,8 @@
   "annotation": "Cities",
   "neighborhoodNoun": ["city", "cities"],
 
+  "pointsInsteadOfPolygons": true,
+
   "authorTwitter": "jsatt",
 
   "dataUrl": "http://geo.ou.edu/DataFrame.htm",
