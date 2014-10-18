@@ -1,6 +1,7 @@
 { 
   "locationName": "Canada",
   "annotation": "Provinces",
+  "countryName": "Canada",
   "neighborhoodNoun": ["province", "provinces"],
 
   "authorTwitter": "ahernlj",
