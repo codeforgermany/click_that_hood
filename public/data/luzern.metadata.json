@@ -1,0 +1,8 @@
+{ 
+  "locationName": "Luzern",
+  "countryName": "Switzerland",
+  "annotation": "Canton",
+
+  "dataUrl": "https://rawi.lu.ch/themen/geoportal/geodaten",
+  "dataTitle": "Geodaten – Kanton Luzern"
+}
