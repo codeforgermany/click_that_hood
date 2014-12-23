@@ -1,0 +1,9 @@
+{ 
+  "locationName": "Denmark",
+  "annotation": "Regions",
+  "countryName": "Denmark",
+  "neighborhoodNoun": ["region", "regions"],
+
+  "dataUrl": "https://code.google.com/p/danish-regional-data/source/browse/trunk/danish_regional_data.json",
+  "dataTitle": "danish-regional-data"
+}
