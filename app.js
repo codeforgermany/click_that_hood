@@ -23,8 +23,7 @@ var startApp = function() {
 
   app.use(express.compress());
 
-  app.use(lessMiddleware({
-    src: __dirname + '/public',
+  app.use(lessMiddleware(__dirname + '/public', {
     compress: (process.env.NODE_ENV == 'production'),
     once: (process.env.NODE_ENV == 'production')
   }));
