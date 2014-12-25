@@ -82,6 +82,8 @@ function getSampleLatLon(shapes) {
   }
 }
 
+console.log('Initializing…')
+
 // Write combined metadata file from individual location metadata files
 fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
 
@@ -131,6 +133,8 @@ fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
 
       // Verify whether names exist, and also whether they don’t repeat
       var names = []
+      var someLowercase = false
+      var someUppercase = false
 
       for (var i in geoJsonData.features) {
         var data = geoJsonData.features[i]
@@ -140,6 +144,13 @@ fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
           console.log('Name missing in ' + locationName + '…')
           console.log('Make sure the column with neighbourhood names is actually called “name.”')
           process.exit(1)
+        }
+
+        if (name.match(/[a-z]/)) {
+          someLowercase = true
+        }
+        if (name.match(/[A-Z]/)) {
+          someUppercase = true
         }
 
         if (names[name]) {
@@ -162,8 +173,14 @@ fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
         }
 
         names[name] = { id: data.properties.cartodb_id }
+      }
 
-        //console.log(name)
+      if (!someLowercase && someUppercase) {
+        console.log('All uppercase names for ' + locationName + '…')
+        console.log(' ')
+        console.log('Try this SQL query to fix:')
+        console.log('UPDATE ' + locationName + ' SET name=initcap(lower(name));')
+        process.exit(1)
       }
 
       var latLon = geoJsonData.features[0].geometry.coordinates[0];
@@ -182,6 +199,8 @@ fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
     'var CITY_DATA = ' + JSON.stringify(metadata) + ';\n' +
     'var COUNTRY_NAMES = ' + JSON.stringify(countryNames) + ';\n';
   fs.writeFileSync('public/js/data.js', metadataFileContents);
+
+  console.log('Done!')
 
   startApp();
 });
