@@ -129,10 +129,46 @@ fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
 
       var geoJsonData = JSON.parse(fs.readFileSync(geoJsonFilePath, 'utf8'));
 
+      // Verify whether names exist, and also whether they don’t repeat
+      var names = []
+
+      for (var i in geoJsonData.features) {
+        var data = geoJsonData.features[i]
+        var name = data.properties.name
+
+        if (!name) {
+          console.log('Name missing in ' + locationName + '…')
+          console.log('Make sure the column with neighbourhood names is actually called “name.”')
+          process.exit(1)
+        }
+
+        if (names[name]) {
+          var oldId = names[name].id
+          var newId = data.properties.cartodb_id
+
+          if (!oldId && !newId) {
+            oldId = 1
+            newId = 2
+          }
+
+          console.log('Name repetition (' + name + ') in ' + locationName + '…')
+          console.log(' ')
+          console.log('This is usually when a neighbourhood has a few disconnected/non overlapping polygons.')
+          console.log('These are two SQL commands that might unify two polygons into one.')
+          console.log(' ')
+          console.log('UPDATE ' + locationName + ' SET the_geom = ST_Union((SELECT the_geom FROM ' + locationName + ' WHERE cartodb_id = ' + oldId + '), (SELECT the_geom FROM ' + locationName + ' WHERE cartodb_id = ' + newId + ')) WHERE cartodb_id = ' + oldId + ';')
+          console.log('DELETE FROM ' + locationName + ' WHERE cartodb_id = ' + newId + ';')
+          process.exit(1)
+        }
+
+        names[name] = { id: data.properties.cartodb_id }
+
+        //console.log(name)
+      }
+
       var latLon = geoJsonData.features[0].geometry.coordinates[0];
 
       metadata[locationName].sampleLatLon = getSampleLatLon(latLon);
-
     }
   }
 
