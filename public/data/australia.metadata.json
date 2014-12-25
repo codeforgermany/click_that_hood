@@ -1,0 +1,9 @@
+{ 
+  "locationName": "Australia",
+  "annotation": "States and territories",
+  "countryName": "Australia",
+  "neighborhoodNoun": ["state or territory", "states or territories"],
+
+  "dataUrl": "https://mwichary.cartodb.com/dashboard/common_data/Administrative%20regions",
+  "dataTitle": "CartoDB Common Data"
+}
