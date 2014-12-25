@@ -263,6 +263,10 @@ body.no-difficult-game .difficult-game {
   display: none;
 }
 
+header.game .names {
+  //display: table;
+}
+
 header.game .location-name {
   display: inline-block;
   font-weight: normal;
@@ -291,13 +295,17 @@ header.game .state-or-country {
   padding: 0;
   margin: 0 auto;
   margin-top: 5px;
-  margin-left: -10px;
+  //margin-left: -10px;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
+header.game .annotation-canvas {
+  display: table;
+  margin: 0 auto;
+}
 header.game .annotation {
-  display: inline-flex;
-  flex-direction: row;
+  display: table-cell;
+  width: 10px;
 
   font-weight: 900;
   background: transparent;
@@ -308,7 +316,6 @@ header.game .annotation {
   border-radius: 6px;
   text-transform: uppercase;
   letter-spacing: 4px;
-  margin: 0 auto;
   margin-top: 5px;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
