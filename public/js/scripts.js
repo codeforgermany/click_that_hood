@@ -938,7 +938,31 @@ function setTouchActive(newTouchActive) {
 
 function getTooltipName(neighborhoodEl, correct) {
   if (correct) {
-    return neighborhoodsDisplayNames[neighborhoodToBeGuessedNext]
+    var name = neighborhoodsDisplayNames[neighborhoodToBeGuessedNext]
+
+    if (CITY_DATA[cityId].extraData) { 
+      var geoDatum
+
+      for (var i in geoData.features) {
+        if (geoData.features[i].properties['name'] == name) {
+          geoDatum = geoData.features[i]
+          break
+        }
+      }
+
+      if (geoDatum) {
+        name += '<div class="extra-data">'
+
+        for (var i in CITY_DATA[cityId].extraData) {
+          var id = CITY_DATA[cityId].extraData[i]
+
+          name += '<br>' + geoDatum.properties[id]
+        }
+        name += '</div>'
+      }
+    }    
+
+    return name
   } else {
     if (neighborhoodEl.getAttribute('names')) {
       var names = JSON.parse(neighborhoodEl.getAttribute('names'))
@@ -963,14 +987,12 @@ function getTooltipName(neighborhoodEl, correct) {
 }
 
 function showNeighborhoodTooltip(neighborhoodEl, hoverEl, correct) {
-  //var name = neighborhoodEl.getAttribute('name')
-
   if ((hoverEl.innerHTML == getTooltipName(neighborhoodEl, correct)) && 
       (hoverEl.classList.contains('visible'))) {
     return
   }
 
-  hoverEl.classList.remove('visible')  
+  hoverEl.classList.remove('visible')
   hoverEl.innerHTML = getTooltipName(neighborhoodEl, correct)
 
   var boundingBox = neighborhoodEl.getBoundingClientRect()
@@ -1235,6 +1257,13 @@ function onNeighborhoodClick(el) {
       if (currentTooltipDelay > MAX_TOOLTIP_DELAY) {
         currentTooltipDelay = MAX_TOOLTIP_DELAY
       }
+    }
+
+    if (CITY_DATA[cityId].extraData) { 
+      var correctEl = getHighlightableNeighborhoodEl(neighborhoodToBeGuessedNext)
+      var correctNameEl = document.querySelector('#neighborhood-correct-name')
+      showNeighborhoodTooltip(correctEl, correctNameEl, true)    
+      window.setTimeout(removeNeighborhoodHighlights, HIGHLIGHT_DELAY)
     }
 
     neighborhoodsGuessed.push(name)
