@@ -73,7 +73,9 @@ function normalizeCountryName(str) {
 }
 
 function getSampleLatLon(shapes) {
-  if (shapes[0] && shapes[0][0] && shapes[0][0][0]) {
+  if (shapes[0] && shapes[0][0] && shapes[0][0][0] && shapes[0][0][0][0]) {
+    return [shapes[0][0][0][0], shapes[0][0][0][1]]
+  } else if (shapes[0] && shapes[0][0] && shapes[0][0][0]) {
     return [shapes[0][0][0], shapes[0][0][1]]
   } else if (shapes[0] && shapes[0][0]) {
     return [shapes[0][0], shapes[0][1]]
@@ -191,9 +193,13 @@ fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
         process.exit(1)
       }
 
-      var latLon = geoJsonData.features[0].geometry.coordinates[0];
-
+      var latLon = geoJsonData.features[0].geometry.coordinates;
       metadata[locationName].sampleLatLon = getSampleLatLon(latLon);
+
+      if ((metadata[locationName].sampleLatLon[0] == null) || (metadata[locationName].sampleLatLon[1] == null)) {
+        console.log('------------------------------------------------------')
+        console.log('WARNING: Unknown average location for ' + locationName + '…')
+      }
     }
   }
 
