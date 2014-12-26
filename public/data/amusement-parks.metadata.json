@@ -1,0 +1,10 @@
+{ 
+  "locationName": "United States of America",
+  "countryName": "U.S.",
+  "annotation": "Amusement parks",
+  "neighborhoodNoun": ["amusement park", "amusement parks"],
+
+  "pointsInsteadOfPolygons": true,
+
+  "extraData": [ "namestate", "coasters_text" ]
+}
