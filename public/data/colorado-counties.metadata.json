@@ -1,0 +1,9 @@
+{ 
+  "locationName": "Colorado",
+  "annotation": "Counties",
+  "countryName": "U.S.",
+  "neighborhoodNoun": ["county", "counties"],
+
+  "dataUrl": "https://koordinates.com",
+  "dataTitle": "Koordinates"
+}
