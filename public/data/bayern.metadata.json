@@ -1,0 +1,11 @@
+{ 
+  "locationName": "Bayern",
+  "stateName": "",
+  "countryName": "Germany",
+  "annotation": "Landkreise",
+
+  "authorTwitter": "hey_johnnypark",
+
+  "dataUrl": "http://www.geodaten.bayern.de",
+  "dataTitle": "Bayerische Vermessungsverwaltung"
+}
