@@ -6,6 +6,6 @@
 
   "authorTwitter": "hey_johnnypark",
 
-  "dataUrl": "http://www.geodaten.bayern.de",
-  "dataTitle": "Bayerische Vermessungsverwaltung"
+  "dataUrl": "http://www.vermessung.bayern.de/opendata",
+  "dataTitle": "Bayerische Vermessungsverwaltung - www.geodaten.bayern.de"
 }
