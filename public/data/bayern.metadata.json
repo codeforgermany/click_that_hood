@@ -2,10 +2,11 @@
   "locationName": "Bayern",
   "stateName": "",
   "countryName": "Germany",
-  "annotation": "Landkreise",
+  "annotation": "counties",
+  "neighborhoodNoun": ["county", "counties"],
 
   "authorTwitter": "hey_johnnypark",
 
   "dataUrl": "http://www.vermessung.bayern.de/opendata",
-  "dataTitle": "Bayerische Vermessungsverwaltung - www.geodaten.bayern.de"
+  "dataTitle": "Bayerische Vermessungsverwaltung"
 }
