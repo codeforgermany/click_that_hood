@@ -2,8 +2,8 @@
   "locationName": "Indianapolis",
   "stateName": "IN",
 
-  "authorTwitter": "creade",
+  "authorTwitter": "cwreade",
 
-  "dataUrl": "http://maps.indy.com",
+  "dataUrl": "http://maps.indy.gov/myneighborhood/",
   "dataTitle": "City of Indianapolis Maps"
 }
