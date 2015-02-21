@@ -1,0 +1,11 @@
+{ 
+  "locationName": "California",
+  "annotation": "Vista points",
+  "countryName": "U.S.",
+  "neighborhoodNoun": ["vista point", "vista points"],
+
+  "pointsInsteadOfPolygons": true,
+
+  "dataUrl": "http://www.dot.ca.gov/hq/tsip/gis/datalibrary/Metadata/Vista.html",
+  "dataTitle": "Caltrans GIS Data Library"
+}

@@ -1,0 +1,11 @@
+{ 
+  "locationName": "North Carolina",
+  "countryName": "U.S.",
+  "annotation": "Cities over 50,000 people",
+  "neighborhoodNoun": ["city", "cities"],
+
+  "authorTwitter": "opus2008",
+
+  "dataUrl": "https://connect.ncdot.gov/resources/gis/Pages/GIS-Data-Layers.aspx",
+  "dataTitle": "Connect NCDOT"
+}

@@ -1,0 +1,11 @@
+{ 
+  "locationName": "Serbia",
+  "annotation": "Districts",
+  "countryName": "Serbia",
+  "neighborhoodNoun": ["district", "districts"],
+
+  "languages": {
+    "kириллица": "name_alt",
+    "latin": "name"
+  }
+}

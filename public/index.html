@@ -21,7 +21,7 @@
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
   <link href='css/styles.css' rel='stylesheet' type='text/css'>
 
-  <script src='js/lib/d3.v3.min.js'></script>
+  <script src='js/lib/d3.min.js'></script>
   <script src='js/lib/topojson.v0.min.js'></script>
 
   <script src='http://api.tiles.mapbox.com/mapbox.js/v0.6.7/mapbox.js'></script>
@@ -29,6 +29,7 @@
 
   <script src='js/modernizr.js'></script>
   <script src='js/scripts.js'></script>
+  <script src='js/ap-state-names.js'></script>
   <script src='js/data.js'></script>
 
   <script>
@@ -82,7 +83,9 @@
       <div class='names'>
         <span class='location-name'></span>
         <span class='state-or-country'></span>
-        <span class='annotation'></span>
+        <span class='annotation-canvas'>
+          <span class='annotation'></span>
+        </span>
         <span class='languages'></span>
       </div>
     </header>
@@ -92,9 +95,9 @@
         <img alt='Click that ’hood' class='logo' src='/images/logo.png'>
         <h1>
           <div>
-            A geo game based on open data,<br>built by 
-            <a target='_blank' href='http://codeforamerica.org'>Code for America</a>’s 
-            2013 fellowship team.
+            A geo game based on open data:
+            <br>
+            Learn neighborhoods of cities… and so much more.
           </div>
         </h1>
       </header>
@@ -203,8 +206,7 @@
   </div>
 
   <div class='menu'>
-    <div class='locations'>
-    </div>
+    <div class='locations'></div>
   </div>
 
   <footer>
@@ -212,15 +214,18 @@
       <img id='cfa' src='/images/cfa-flagtag.svg'>
       <a target='_blank' 
           href='http://www.codeforamerica.org'>Code for America</a>.
+      <span class='main-menu'>
+        Built by <a target='_blank' href='http://www.codeforamerica.org/governments/fellowship/'>2013 fellowship team</a>.
+      </span>
       Contact via <a target='_blank' href='mailto:click-that-hood@codeforamerica.org'>email</a>
       or <a target='_blank' href='http://twitter.com/mwichary'>Twitter</a>.
+      <a target='_blank' href='https://github.com/codeforamerica/click_that_hood/issues'>Report an issue</a>.
       <a target='_blank' 
           href='https://github.com/codeforamerica/click_that_hood'>Source code</a>.
-      <a target='_blank' href='https://github.com/codeforamerica/click_that_hood/issues'>Report an issue</a>.
 
       <span class='main-menu'>
         Fonts from <a href='http://www.losttype.com/browse/'>Lost Type</a>.
-        Map tiles © 2013 <a href='http://mapbox.com/'>MapBox</a>.
+        Map tiles © <a href='http://mapbox.com/'>MapBox</a>.
       </span>
       <span class='data'>    
         <span class='data-source'>
@@ -229,7 +234,7 @@
         <span class='author'>
           Added by <a target='_blank'></a>.
         </span>
-        Map tiles © 2013 <a href='http://mapbox.com/'>MapBox</a>.
+        Map tiles © <a href='http://mapbox.com/'>MapBox</a>.
       </span>
     </div>
   </footer>  

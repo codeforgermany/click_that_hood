@@ -1,0 +1,9 @@
+{ 
+  "locationName": "Aargau",
+  "countryName": "Switzerland",
+  "annotation": "Canton",
+  "neighborhoodNoun": ["municipality", "municipalities"],
+
+  "dataUrl": "https://www.ag.ch/de/dfr/geoportal/geodaten_agis/beispieldaten_1/beispieldaten.jsp",
+  "dataTitle": "Departement Finanzen und Ressourcen Kanton Aargau"
+}

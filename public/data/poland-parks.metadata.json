@@ -1,0 +1,11 @@
+{ 
+  "locationName": "Poland",
+  "countryName": "Poland",
+  "annotation": "Parks",
+  "neighborhoodNoun": ["park and protected area", "parks and protected areas"],
+
+  "pointsInsteadOfPolygons": true,
+
+  "dataUrl": "http://www.gis-support.pl/baza-wiedzy/dane/dane-do-pobrania/",
+  "dataTitle": "GIS Support"
+}

@@ -1,0 +1,9 @@
+{ 
+  "locationName": "Romania",
+  "annotation": "Counties",
+  "countryName": "Romania",
+  "neighborhoodNoun": ["county", "counties"],
+
+  "dataUrl": "http://www.arcgis.com/home/item.html?id=8a9bb1b1d4f2459f86033aae0c40ebba",
+  "dataTitle": "ArcGIS"
+}

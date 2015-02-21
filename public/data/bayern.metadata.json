@@ -1,0 +1,12 @@
+{ 
+  "locationName": "Bayern",
+  "stateName": "",
+  "countryName": "Germany",
+  "annotation": "counties",
+  "neighborhoodNoun": ["county", "counties"],
+
+  "authorTwitter": "hey_johnnypark",
+
+  "dataUrl": "http://www.vermessung.bayern.de/opendata",
+  "dataTitle": "Bayerische Vermessungsverwaltung"
+}

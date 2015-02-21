@@ -1,0 +1,9 @@
+{ 
+  "locationName": "Fargo",
+  "stateName": "ND",
+
+  "authorTwitter": "dlannoye",
+
+  "dataUrl": "http://www.cityoffargo.com/CityInfo/Departments/InformationServices/GeographicInformationSystems/",
+  "dataTitle": "City of Fargo GIS Department"
+}

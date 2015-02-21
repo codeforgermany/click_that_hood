@@ -1,0 +1,11 @@
+{ 
+  "locationName": "Canada",
+  "annotation": "Provinces",
+  "countryName": "Canada",
+  "neighborhoodNoun": ["province", "provinces"],
+
+  "authorTwitter": "ahernlj",
+
+  "dataUrl": "http://www.arcgis.com/home/item.html?id=dcbcdf86939548af81efbd2d732336db",
+  "dataTitle": "ArcGIS Canada Boundary"
+}

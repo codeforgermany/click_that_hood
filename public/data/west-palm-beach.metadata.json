@@ -1,0 +1,9 @@
+{ 
+  "locationName": "West Palm Beach",
+  "stateName": "FL",
+
+  "authorTwitter": "chrisalcantara",
+
+  "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
+  "dataTitle": "Zillow"
+}

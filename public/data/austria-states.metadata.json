@@ -1,0 +1,9 @@
+{ 
+  "locationName": "Austria",
+  "annotation": "States",
+  "countryName": "Austria",
+  "neighborhoodNoun": ["state", "states"],
+
+  "dataUrl": "http://www.statistik.at/web_de/services/geodaten/",
+  "dataTitle": "Statistik Austria"
+}

@@ -1,0 +1,9 @@
+{ 
+  "locationName": "Illinois",
+  "annotation": "Counties",
+  "countryName": "U.S.",
+  "neighborhoodNoun": ["county", "counties"],
+
+  "dataUrl": " https://koordinates.com/layer/871-illinois-county-boundaries-polygon-2003/",
+  "dataTitle": "Koordinates"
+}

@@ -1,10 +1,10 @@
 {
   "locationName": "Bronx",
   "longLocationName": "New York (Bronx)",
-  "stateName": "N.Y.",
+  "stateName": "NY",
 
-  "authorTwitter": "ahhrrr",
+  "authorTwitter": "blackmad",
 
-  "dataUrl": "http://www.nyc.gov/html/dcp/html/bytes/dwn_nynta.shtml",
-  "dataTitle": "New York City Department of City Planning"
+  "dataUrl": "http://nycdata.pediacities.com/sr_Latn/dataset/pediacities-nyc-neighborhoods/resource/0f97a739-0a9f-442f-8105-43164d3af6f8",
+  "dataTitle": "Pediacities / Zetashapes"
 }

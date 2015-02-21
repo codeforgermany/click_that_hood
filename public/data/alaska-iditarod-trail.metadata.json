@@ -1,0 +1,13 @@
+{ 
+  "locationName": "Alaska",
+  "countryName": "U.S.",
+  "annotation": "Iditarod Trail (even year)",
+  "pointsInsteadOfPolygons": true,
+
+  "neighborhoodNoun": ["checkpoint", "checkpoints"],
+  
+  "authorTwitter": "brendanbabb",
+  
+  "dataUrl": "http://mushingtech.blogspot.com/2014/02/the-iditarod-track-file.html",
+  "dataTitle": "Mushing Tech Blog"
+}

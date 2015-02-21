@@ -1,0 +1,9 @@
+{ 
+  "locationName": "Florida",
+  "stateName": "FL",
+
+  "annotation": "keys",
+  "neighborhoodNoun": ["key", "keys"],
+
+  "convertPolygonsToPointsIfTooSmall": true
+}

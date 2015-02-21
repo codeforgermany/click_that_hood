@@ -1,0 +1,11 @@
+{ 
+  "locationName": "New York",
+  "stateName": "NY",
+  "annotation": "Areas of interest",
+  "neighborhoodNoun": ["area of interest", "areas of interest"],
+
+  "pointsInsteadOfPolygons": true,
+
+  "dataUrl": "https://mwichary.cartodb.com/dashboard/common_data/Cultural%20datasets",
+  "dataTitle": "CartoDB Common Data"
+}

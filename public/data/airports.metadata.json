@@ -1,0 +1,10 @@
+{ 
+  "locationName": "World",
+  "neighborhoodNoun": ["airport", "airports"],
+  "annotation": "Major airports",
+
+  "pointsInsteadOfPolygons": true,
+
+  "dataUrl": "https://mwichary.cartodb.com/dashboard/common_data/Cultural%20datasets",
+  "dataTitle": "CartoDB Common Data"  
+}

@@ -1,6 +1,6 @@
 { 
   "locationName": "Miami",
-  "stateName": "Fla.",
+  "stateName": "FL",
 
   "dataUrl": "http://www.zillow.com/howto/api/neighborhood-boundaries.htm",
   "dataTitle": "Zillow"

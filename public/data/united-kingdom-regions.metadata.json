@@ -1,0 +1,9 @@
+{ 
+  "locationName": "United Kingdom",
+  "annotation": "Regions",
+  "countryName": "U.K.",
+  "neighborhoodNoun": ["region", "regions"],
+
+  "dataUrl": "https://mwichary.cartodb.com/dashboard/common_data/Administrative%20regions",
+  "dataTitle": "CartoDB Common Data"
+}

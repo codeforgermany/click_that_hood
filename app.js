@@ -23,8 +23,7 @@ var startApp = function() {
 
   app.use(express.compress());
 
-  app.use(lessMiddleware({
-    src: __dirname + '/public',
+  app.use(lessMiddleware(__dirname + '/public', {
     compress: (process.env.NODE_ENV == 'production'),
     once: (process.env.NODE_ENV == 'production')
   }));
@@ -74,7 +73,9 @@ function normalizeCountryName(str) {
 }
 
 function getSampleLatLon(shapes) {
-  if (shapes[0] && shapes[0][0] && shapes[0][0][0]) {
+  if (shapes[0] && shapes[0][0] && shapes[0][0][0] && shapes[0][0][0][0]) {
+    return [shapes[0][0][0][0], shapes[0][0][0][1]]
+  } else if (shapes[0] && shapes[0][0] && shapes[0][0][0]) {
     return [shapes[0][0][0], shapes[0][0][1]]
   } else if (shapes[0] && shapes[0][0]) {
     return [shapes[0][0], shapes[0][1]]
@@ -82,6 +83,8 @@ function getSampleLatLon(shapes) {
     return [shapes[0], shapes[1]]
   }
 }
+
+console.log('Initializing…')
 
 // Write combined metadata file from individual location metadata files
 fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
@@ -130,10 +133,73 @@ fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
 
       var geoJsonData = JSON.parse(fs.readFileSync(geoJsonFilePath, 'utf8'));
 
-      var latLon = geoJsonData.features[0].geometry.coordinates[0];
+      // Verify whether names exist, and also whether they don’t repeat
+      var names = []
+      var someLowercase = false
+      var someUppercase = false
+      var someErrors = false
 
+      for (var i in geoJsonData.features) {
+        var data = geoJsonData.features[i]
+        var name = data.properties.name
+
+        if (!name) {
+          console.log('------------------------------------------------------')
+          console.log('Name missing in ' + locationName + '…')
+          console.log('Make sure the column with neighbourhood names is actually called “name.”')
+          process.exit(1)
+        }
+
+        if (name.match(/[a-z]/)) {
+          someLowercase = true
+        }
+        if (name.match(/[A-Z]/)) {
+          someUppercase = true
+        }
+
+        if (names[name]) {
+          var oldId = names[name].id
+          var newId = data.properties.cartodb_id
+
+          if (!oldId && !newId) {
+            oldId = 1
+            newId = 2
+          }
+
+          console.log('------------------------------------------------------')
+          console.log('Name repetition (' + name + ') in ' + locationName + '…')
+          console.log(' ')
+          console.log('This is usually when a neighbourhood has a few disconnected/non overlapping polygons.')
+          console.log('These are two SQL commands that might unify two polygons into one.')
+          console.log(' ')
+          console.log('UPDATE ' + locationName + ' SET the_geom = ST_Union((SELECT the_geom FROM ' + locationName + ' WHERE cartodb_id = ' + oldId + '), (SELECT the_geom FROM ' + locationName + ' WHERE cartodb_id = ' + newId + ')) WHERE cartodb_id = ' + oldId + ';')
+          console.log('DELETE FROM ' + locationName + ' WHERE cartodb_id = ' + newId + ';')
+          someErrors = true
+        }
+
+        names[name] = { id: data.properties.cartodb_id }
+      }
+
+      if (someErrors) {
+        process.exit(1)
+      }
+
+      if (!someLowercase && someUppercase) {
+        console.log('------------------------------------------------------')
+        console.log('All uppercase names for ' + locationName + '…')
+        console.log(' ')
+        console.log('Try this SQL query to fix:')
+        console.log('UPDATE ' + locationName + ' SET name=initcap(lower(name));')
+        process.exit(1)
+      }
+
+      var latLon = geoJsonData.features[0].geometry.coordinates;
       metadata[locationName].sampleLatLon = getSampleLatLon(latLon);
 
+      if ((metadata[locationName].sampleLatLon[0] == null) || (metadata[locationName].sampleLatLon[1] == null)) {
+        console.log('------------------------------------------------------')
+        console.log('WARNING: Unknown average location for ' + locationName + '…')
+      }
     }
   }
 
@@ -147,6 +213,8 @@ fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
     'var CITY_DATA = ' + JSON.stringify(metadata) + ';\n' +
     'var COUNTRY_NAMES = ' + JSON.stringify(countryNames) + ';\n';
   fs.writeFileSync('public/js/data.js', metadataFileContents);
+
+  console.log('Done!')
 
   startApp();
 });

@@ -1,0 +1,7 @@
+{ 
+  "locationName": "Turku",
+  "countryName": "Finland",
+
+  "dataUrl": "http://paikkatietokeskus.lounaispaikka.fi/fi/aineistot/",
+  "dataTitle": "Lounaispaikka – Open Data"
+}
