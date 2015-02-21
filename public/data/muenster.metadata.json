@@ -1,0 +1,10 @@
+{
+  "locationName": "Münster (Westf)",
+  "stateName": "NW",
+  "countryName": "Germany",
+
+  "authorTwitter": "@codeformuenster",
+
+  "dataUrl": "https://github.com/codeformuenster/open-data/blob/master/Statistische%20Gebietsgliederung/Ebene_2_Stadtteil.geojson",
+  "dataTitle": "Statistische Gebietsgliederung Ebene 2"
+}
