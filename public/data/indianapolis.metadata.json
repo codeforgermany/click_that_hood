@@ -1,0 +1,9 @@
+{ 
+  "locationName": "Indianapolis",
+  "stateName": "IN",
+
+  "authorTwitter": "creade",
+
+  "dataUrl": "http://maps.indy.com",
+  "dataTitle": "City of Indianapolis Maps"
+}
