@@ -1,0 +1,8 @@
+{ 
+  "locationName": "Cuba",
+  "annotation": "Provinces",
+  "countryName": "Cuba",
+  "neighborhoodNoun": ["province", "provinces"],
+  "dataUrl": "http://www.diva-gis.org/",
+  "dataTitle": "cub_adm"
+}
