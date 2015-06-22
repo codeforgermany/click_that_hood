@@ -1,0 +1,16 @@
+{ 
+  "locationName": "Greece",
+  "annotation": "Regions",
+  "countryName": "Greece",
+  "neighborhoodNoun": ["region", "regions"],
+
+  "authorTwitter": "anest_v",
+
+  "dataUrl": "http://geodata.gov.gr/geodata/index.php?option=com_sobi2&sobi2Task=sobi2Details&catid=19&sobi2Id=33",
+  "dataTitle": "geodata.gov.gr",
+  
+  "languages": {
+    "Ελληνικά": "name_greek",
+    "english": "name"
+  }
+}
