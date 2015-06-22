@@ -1,0 +1,16 @@
+{ 
+  "locationName": "Greece",
+  "annotation": "Prefectures",
+  "countryName": "Greece",
+  "neighborhoodNoun": ["prefecture", "prefectures"],
+
+  "authorTwitter": "anest_v",
+
+  "dataUrl": "http://geodata.gov.gr/geodata/index.php?option=com_sobi2&sobi2Task=sobi2Details&catid=16&sobi2Id=21",
+  "dataTitle": "geodata.gov.gr",
+  
+  "languages": {
+    "Ελληνικά": "name_greek",
+    "english": "name"
+  }
+}
