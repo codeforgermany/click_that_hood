@@ -1,0 +1,11 @@
+{ 
+  "locationName": "Portugal (without islands)",
+  "annotation": "Districts",
+  "countryName": "Portugal",
+  "neighborhoodNoun": ["district", "districts"],
+
+  "authorTwitter": "72mal72",
+
+  "dataUrl": "http://www.openstreetmap.org/",
+  "dataTitle": "OpenStreetMap"
+}
