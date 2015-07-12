@@ -1,0 +1,9 @@
+{
+  "locationName": "California",
+  "annotation": "Counties",
+  "countryName": "U.S.",
+  "neighborhoodNoun": ["county", "counties"],
+  "authorTwitter": "allafarce",
+  "dataUrl": "http://boundaries.latimes.com/sets/",
+  "dataTitle": "Los Angeles Times Mapping L.A. Boundaries API"
+}
