@@ -1,0 +1,11 @@
+{ 
+  "locationName": "Belgium",
+  "annotation": "Arrondissements",
+  "countryName": "Belgium",
+  "neighborhoodNoun": ["arrondissement", "arrondissements"],
+
+  "authorTwitter": "72mal72",
+
+  "dataUrl": "http://www.openstreetmap.org/",
+  "dataTitle": "OpenStreetMap"
+}

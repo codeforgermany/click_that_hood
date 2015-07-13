@@ -1,0 +1,11 @@
+{
+  "locationName": "Isle of Man",
+  "countryName": "Isle of Man",
+  "neighborhoodNoun": ["district", "districts"],
+  "annotation": "Districts",
+
+  "authorTwitter": "72mal72",
+
+  "dataUrl": "http://www.openstreetmap.org/",
+  "dataTitle": "OpenStreetMap"
+}

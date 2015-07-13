@@ -1,0 +1,11 @@
+{ 
+  "locationName": "Denmark",
+  "annotation": "Municipalities",
+  "countryName": "Denmark",
+  "neighborhoodNoun": ["municipality", "municipalities"],
+
+  "authorTwitter": "72mal72",
+
+  "dataUrl": "http://www.openstreetmap.org/",
+  "dataTitle": "OpenStreetMap"
+}

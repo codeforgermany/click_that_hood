@@ -1,0 +1,11 @@
+{ 
+  "locationName": "South Africa",
+  "annotation": "Municipalities",
+  "countryName": "South Africa",
+  "neighborhoodNoun": ["municipality", "municipalities"],
+
+  "authorTwitter": "72mal72",
+
+  "dataUrl": "http://www.openstreetmap.org/",
+  "dataTitle": "OpenStreetMap"
+}
