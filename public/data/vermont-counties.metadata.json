@@ -1,0 +1,9 @@
+{
+  "locationName": "Vermont",
+  "annotation": "Counties",
+  "countryName": "U.S.",
+  "neighborhoodNoun": ["county", "counties"],
+  "authorTwitter": "tkpwaeub",
+  "dataUrl": "http://catalog.opendata.city/dataset/vermont-counties-polygon/resource/b2234bde-3806-49d0-8ef0-b7103d4d3e33",
+  "dataTitle": "Vermont Counties"
+}
