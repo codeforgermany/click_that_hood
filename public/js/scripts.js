@@ -123,7 +123,6 @@ function splitPathIntoSeparateSegments(path) {
 
   var segs = []
   var s = path.pathSegList
-  console.warn(path)
   var count = s.numberOfItems
   for (var i = 0; i < count; i++) {
     var item = s.getItem(i)
