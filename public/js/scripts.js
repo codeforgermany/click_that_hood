@@ -1,10 +1,10 @@
 /*
  * Click That ’Hood
  *
- * Front-end written (mostly) by Marcin Wichary, Code for America fellow 
+ * Front-end written (mostly) by Marcin Wichary, Code for America fellow
  * in the year 2013.
  *
- * Note: This code is really gnarly. It’s been done under a lot of time 
+ * Note: This code is really gnarly. It’s been done under a lot of time
  * pressure and there’s a lot of shortcut and tech debt. It might be improved
  * later if there’s time later.
  */
@@ -43,7 +43,7 @@ var MIN_POINT_RADIUS = 16
 
 var MAPBOX_MAP_ID = 'codeforamerica.map-mx0iqvk2'
 
-var ADD_YOUR_CITY_URL = 
+var ADD_YOUR_CITY_URL =
     'https://github.com/codeforamerica/click_that_hood/wiki/How-to-add-a-city-to-Click-That-%E2%80%99Hood'
 
 var MAPS_DEFAULT_SCALE = 512
@@ -123,6 +123,7 @@ function splitPathIntoSeparateSegments(path) {
 
   var segs = []
   var s = path.pathSegList
+  console.warn(path)
   var count = s.numberOfItems
   for (var i = 0; i < count; i++) {
     var item = s.getItem(i)
@@ -147,7 +148,7 @@ function splitPathIntoSeparateSegments(path) {
 
 //*** This code is copyright 2011 by Gavin Kistner, !@phrogz.net
 //*** It is covered under the license viewable at http://phrogz.net/JS/_ReuseLicense.txt
-// The following function is taken from Gavin Kistner as above. 
+// The following function is taken from Gavin Kistner as above.
 // It’s been modified in the following ways:
 // · assuming local document
 // · sampling every point (removing sampling logic)
@@ -171,7 +172,7 @@ function pathToPolygon(segs) {
       } else {
         x = s.x
         y = s.y
-      }         
+      }
       var lastPoint = points[points.length - 1]
       if (!lastPoint || x != lastPoint[0] || y != lastPoint[1]) {
         points.push([x, y])
@@ -190,7 +191,7 @@ function pathToPolygon(segs) {
   }
 
   poly.setAttribute('points', points.join(' '))
-  
+
   return poly
 }
 
@@ -208,12 +209,12 @@ function getPolygonArea(poly) {
   return Math.abs(area / 2)
 }
 
-function lonToTile(lon, zoom) { 
+function lonToTile(lon, zoom) {
   return Math.floor((lon + 180) / 360 * Math.pow(2, zoom))
 }
 
-function latToTile(lat, zoom) { 
-  return Math.floor((1 - Math.log(Math.tan(lat * Math.PI / 180) + 
+function latToTile(lat, zoom) {
+  return Math.floor((1 - Math.log(Math.tan(lat * Math.PI / 180) +
       1 / Math.cos(lat * Math.PI / 180)) / Math.PI) / 2 * Math.pow(2, zoom))
 }
 
@@ -226,7 +227,7 @@ function tileToLat(y, zoom) {
   return 180 / Math.PI * Math.atan(.5 * (Math.exp(n) - Math.exp(-n)))
 }
 
-function getPointRadius() { 
+function getPointRadius() {
   var radius = globalScale / POINT_SCALE
   if (radius < MIN_POINT_RADIUS) {
     radius = MIN_POINT_RADIUS
@@ -311,7 +312,7 @@ function findBoundaries() {
     } else {
       for (var z in geoData.features[i].geometry.coordinates) {
         for (var j in geoData.features[i].geometry.coordinates[z]) {
-          if (geoData.features[i].geometry.coordinates[z][j].length && 
+          if (geoData.features[i].geometry.coordinates[z][j].length &&
               typeof geoData.features[i].geometry.coordinates[z][j][0] != 'number') {
             for (var k in geoData.features[i].geometry.coordinates[z][j]) {
               var lon = geoData.features[i].geometry.coordinates[z][j][k][0]
@@ -330,7 +331,7 @@ function findBoundaries() {
     }
   }
 
-  return { 
+  return {
     minLat: minLat,
     maxLat: maxLat,
     minLon: minLon,
@@ -370,8 +371,8 @@ function calculateMapSize() {
 
     // Calculate for height first
     // TODO: not entirely sure where these magic numbers are coming from
-    globalScale = 
-        ((D3_DEFAULT_SCALE * 180) / latSpread * (mapHeight - 50)) / 
+    globalScale =
+        ((D3_DEFAULT_SCALE * 180) / latSpread * (mapHeight - 50)) /
             MAPS_DEFAULT_SCALE / .045 * (-latStep)
 
     // TODO this shouldn’t be hardcoded, but it is. Sue me.
@@ -405,7 +406,7 @@ function calculateMapSize() {
         centerLat = 55.444707
         centerLon = 5.8151245
         break
-      case 'europe-1938': 
+      case 'europe-1938':
         // To match contemporary Europe above
         globalScale *= 1.0915321079
         centerLat = 55.444707
@@ -420,11 +421,11 @@ function calculateMapSize() {
     }
 
     // Calculate width according to that scale
-    var width = globalScale / (D3_DEFAULT_SCALE * 360) * 
+    var width = globalScale / (D3_DEFAULT_SCALE * 360) *
         lonSpread * MAPS_DEFAULT_SCALE
 
     if (width > mapWidth) {
-      globalScale = ((D3_DEFAULT_SCALE * 360) / lonSpread * mapWidth) / 
+      globalScale = ((D3_DEFAULT_SCALE * 360) / lonSpread * mapWidth) /
           MAPS_DEFAULT_SCALE
     }
 
@@ -494,7 +495,7 @@ function removeCompositePoints() {
       el.setAttribute('transformY', y)
       el.setAttribute('transform', "translate(" + (x + radius / 2) + ',' + (y + radius / 2) + ")")
     }*/
-  }  
+  }
 }
 
 function addCompositePoints() {
@@ -547,7 +548,7 @@ function addCompositePoints() {
           el1.setAttribute('transform', "translate(" + (newX + radius / 2) + ',' + (newY + radius / 2) + ")")
 
           el2.setAttribute('fused', true)
-        
+
           lastFusedCount++
         }
       }
@@ -567,7 +568,7 @@ function removeAutomaticallyPointedNeighborhoods() {
 
       el.removeAttribute('origD')
     }
-  }  
+  }
 }
 
 function removeSmallNeighborhoods() {
@@ -583,7 +584,7 @@ function removeSmallNeighborhoods() {
   var els = document.querySelectorAll('#map .neighborhood')
   for (var i = 0, el; el = els[i]; i++) {
     var boundingBox = el.getBBox()
-    if ((boundingBox.width < smallNeighborhoodThreshold) || 
+    if ((boundingBox.width < smallNeighborhoodThreshold) ||
         (boundingBox.height < smallNeighborhoodThreshold)) {
 
       if (CITY_DATA[cityId].convertPolygonsToPointsIfTooSmall) {
@@ -615,7 +616,7 @@ function removeSmallNeighborhoods() {
     document.body.classList.add('neighborhoods-removed')
 
     updateSmallNeighborhoodDisplay()
-  } else {    
+  } else {
     document.body.classList.remove('neighborhoods-removed')
   }
 }
@@ -646,7 +647,7 @@ function prepareMainMenuMapBackground() {
   if (typeof mapbox != 'undefined') {
     var layer = mapbox.layer().id(MAPBOX_MAP_ID)
     var map = mapbox.map(document.querySelector('#maps-background'), layer, null, [])
-    map.tileSize = { x: Math.round(320 / pixelRatio), 
+    map.tileSize = { x: Math.round(320 / pixelRatio),
                      y: Math.round(320 / pixelRatio) }
     map.centerzoom({ lat: 26 + 7, lon: 63 - 13 }, pixelRatio)
   }
@@ -682,7 +683,7 @@ function findNeighborhoodByPoint(x, y) {
     if (className && className.indexOf('neighborhood') != -1) {
       return el
     }
-  } 
+  }
 
   return false
 }
@@ -767,7 +768,7 @@ function determineLanguage() {
     }
 
     for (var name in CITY_DATA[cityId].languages) {
-      if ((name != defaultLanguage) && 
+      if ((name != defaultLanguage) &&
           (window.localStorage['prefer-' + name + '-to-' + defaultLanguage] === 'yes')) {
         language = name
         return
@@ -796,7 +797,7 @@ function everythingLoaded() {
 function onGeoDataLoad(data) {
   geoDataLoaded = true
   geoData = JSON.parse(this.responseText)
-  
+
   checkIfEverythingLoaded()
 }
 
@@ -828,7 +829,7 @@ function updateNeighborhoodDisplayNames() {
     }
 
     neighborhoodsDisplayNames[name] = geoData.features[i].properties[id]
-  }  
+  }
 }
 
 function prepareNeighborhoods() {
@@ -855,7 +856,7 @@ function createMainMenuMap() {
     var feature = {}
     feature.type = 'Feature'
     feature.properties = { id: i }
-    feature.geometry = { type: 'Point', coordinates: cityData.sampleLatLon } 
+    feature.geometry = { type: 'Point', coordinates: cityData.sampleLatLon }
 
     features.push(feature)
   }
@@ -864,9 +865,9 @@ function createMainMenuMap() {
     var feature = {}
     feature.type = 'Feature'
     feature.properties = { id: i, current: true }
-    feature.geometry = { type: 'Point', coordinates: [currentGeoLon, currentGeoLat] } 
+    feature.geometry = { type: 'Point', coordinates: [currentGeoLon, currentGeoLat] }
 
-    features.push(feature)    
+    features.push(feature)
   }
 
   mapSvg
@@ -876,7 +877,7 @@ function createMainMenuMap() {
     .append('path')
     .attr('d', geoMapPath.pointRadius(1))
     .attr('city-id', function(d) { return d.properties.id })
-    .attr('class', function(d) { 
+    .attr('class', function(d) {
       var name = 'location'
       if (d.properties.current) {
         name += ' current'
@@ -927,7 +928,7 @@ function setTouchActive(newTouchActive) {
   if (touchActive) {
     document.body.classList.add('touch-active')
   } else {
-    document.body.classList.remove('touch-active')    
+    document.body.classList.remove('touch-active')
   }
 
   var els = document.querySelectorAll('.click-verb')
@@ -940,7 +941,7 @@ function getTooltipName(neighborhoodEl, correct) {
   if (correct) {
     var name = neighborhoodsDisplayNames[neighborhoodToBeGuessedNext]
 
-    if (CITY_DATA[cityId].extraData) { 
+    if (CITY_DATA[cityId].extraData) {
       var geoDatum
 
       for (var i in geoData.features) {
@@ -960,7 +961,7 @@ function getTooltipName(neighborhoodEl, correct) {
         }
         name += '</div>'
       }
-    }    
+    }
 
     return name
   } else {
@@ -987,7 +988,7 @@ function getTooltipName(neighborhoodEl, correct) {
 }
 
 function showNeighborhoodTooltip(neighborhoodEl, hoverEl, correct) {
-  if ((hoverEl.innerHTML == getTooltipName(neighborhoodEl, correct)) && 
+  if ((hoverEl.innerHTML == getTooltipName(neighborhoodEl, correct)) &&
       (hoverEl.classList.contains('visible'))) {
     return
   }
@@ -1005,7 +1006,7 @@ function showNeighborhoodTooltip(neighborhoodEl, hoverEl, correct) {
 
   var left = (boundingBox.left + boundingBox.width / 2 - hoverEl.offsetWidth / 2)
 
-  hoverEl.style.top = top + 'px' 
+  hoverEl.style.top = top + 'px'
   hoverEl.style.left = left + 'px'
 
   if (neighborhoodEl.getAttribute('inactive')) {
@@ -1014,7 +1015,7 @@ function showNeighborhoodTooltip(neighborhoodEl, hoverEl, correct) {
     hoverEl.classList.remove('inactive')
   }
 
-  hoverEl.classList.add('visible')  
+  hoverEl.classList.add('visible')
 }
 
 function hoverNeighborhoodEl(neighborhoodEl, showTooltip) {
@@ -1122,7 +1123,7 @@ function setMapClickable(newMapClickable) {
   if (mapClickable) {
     document.body.classList.remove('no-hover')
   } else {
-    document.body.classList.add('no-hover')    
+    document.body.classList.add('no-hover')
   }
 }
 
@@ -1145,20 +1146,20 @@ function animateCorrectNeighborhoodGuess(el) {
       animEl.style.transform = 'translate(' + x + 'px, ' + y + 'px) scale(6)'
       animEl.style.MozTransform = 'translate(' + x + 'px, ' + y + 'px) scale(6)'
       animEl.style.webkitTransform = 'translate(' + x + 'px, ' + y + 'px) scale(6)'
-    }, 50)    
+    }, 50)
   } else {
     window.setTimeout(function() {
       animEl.classList.add('animate')
-    }, 50)    
+    }, 50)
   }
-    
+
   el.parentNode.appendChild(animEl)
   animEl.classList.add('guessed-animation')
 
   //animEl.style.outline = '3px solid red'
 
-  window.setTimeout(function() { 
-    animEl.parentNode.removeChild(animEl) 
+  window.setTimeout(function() {
+    animEl.parentNode.removeChild(animEl)
   }, REMOVE_NEIGHBORHOOD_ANIMATE_GUESS_DELAY)
 }
 
@@ -1213,7 +1214,7 @@ function updateGuessedAndInactiveStates() {
       el.classList.add('guessed')
     } else {
       el.classList.remove('guessed')
-      el.classList.add('unguessed')      
+      el.classList.add('unguessed')
     }
 
     if (someActive) {
@@ -1226,7 +1227,7 @@ function updateGuessedAndInactiveStates() {
 }
 
 function onNeighborhoodClick(el) {
-  if (!mapClickable || el.getAttribute('inactive')) {      
+  if (!mapClickable || el.getAttribute('inactive')) {
     return
   }
 
@@ -1259,10 +1260,10 @@ function onNeighborhoodClick(el) {
       }
     }
 
-    if (CITY_DATA[cityId].extraData) { 
+    if (CITY_DATA[cityId].extraData) {
       var correctEl = getHighlightableNeighborhoodEl(neighborhoodToBeGuessedNext)
       var correctNameEl = document.querySelector('#neighborhood-correct-name')
-      showNeighborhoodTooltip(correctEl, correctNameEl, true)    
+      showNeighborhoodTooltip(correctEl, correctNameEl, true)
       window.setTimeout(removeNeighborhoodHighlights, HIGHLIGHT_DELAY)
     }
 
@@ -1306,8 +1307,8 @@ function onNeighborhoodClick(el) {
 }
 
 function updateGameProgress() {
-  document.querySelector('#count').innerHTML = 
-      neighborhoodsGuessed.length + ' of ' + 
+  document.querySelector('#count').innerHTML =
+      neighborhoodsGuessed.length + ' of ' +
       (neighborhoodsGuessed.length + neighborhoodsToBeGuessed.length)
 
   document.querySelector('#count-time-wrapper-wrapper').classList.add('visible')
@@ -1332,18 +1333,18 @@ function removeNeighborhoodHighlights() {
 }
 
 function updateNeighborhoodDisplayName() {
-  document.querySelector('#neighborhood-guess .name').innerHTML = 
-    neighborhoodsDisplayNames[neighborhoodToBeGuessedNext]  
+  document.querySelector('#neighborhood-guess .name').innerHTML =
+    neighborhoodsDisplayNames[neighborhoodToBeGuessedNext]
 }
 
 function updateNeighborhoodDisplay() {
   if (neighborhoodToBeGuessedNext) {
     updateNeighborhoodDisplayName()
 
-    document.querySelector('#neighborhood-guess-wrapper').classList.add('visible')  
+    document.querySelector('#neighborhood-guess-wrapper').classList.add('visible')
   } else {
-    document.querySelector('#neighborhood-guess-wrapper').classList.remove('visible')      
-    document.querySelector('#neighborhood-guess-wrapper').classList.add('invisible')  
+    document.querySelector('#neighborhood-guess-wrapper').classList.remove('visible')
+    document.querySelector('#neighborhood-guess-wrapper').classList.add('invisible')
 
     window.setTimeout(function() {
       document.querySelector('#neighborhood-guess-wrapper').classList.remove('invisible')
@@ -1373,7 +1374,7 @@ function nextGuess() {
       neighborhoodToBeGuessedNext = 'Great Portland Street'
       neighborhoodToBeGuessedLast = ''
     }*/
-    
+
   } while ((neighborhoodToBeGuessedLast == neighborhoodToBeGuessedNext) &&
            (neighborhoodsToBeGuessed.length > 1))
   updateNeighborhoodDisplay()
@@ -1389,7 +1390,7 @@ function startIntro() {
 
   for (var i = 0, el; el = els[i]; i++) {
     el.removeAttribute('inactive')
-  } 
+  }
 }*/
 
 /*function makeNeighborhoodInactive(name) {
@@ -1419,8 +1420,8 @@ function reloadPage() {
 function startGame(useEasyMode) {
   gameStarted = true
 
-  document.querySelector('#intro').classList.remove('visible')  
-  document.querySelector('#select-mode').classList.remove('visible')  
+  document.querySelector('#intro').classList.remove('visible')
+  document.querySelector('#select-mode').classList.remove('visible')
   document.querySelector('#cover').classList.remove('visible')
 
   neighborhoodsToBeGuessed = []
@@ -1437,7 +1438,7 @@ function startGame(useEasyMode) {
 
   startTime = new Date().getTime()
   updateTimer()
-  
+
   window.setTimeout(function() {
     startTime = new Date().getTime()
     timerIntervalId = window.setInterval(updateTimer, 100)
@@ -1453,7 +1454,7 @@ function createTimeout(fn, data, delay) {
 function stopTimer() {
   timerStopped = true
   finalTime = new Date().getTime()
-  window.clearInterval(timerIntervalId)  
+  window.clearInterval(timerIntervalId)
 
   updateTimer()
 }
@@ -1468,7 +1469,7 @@ function gameOver() {
   var timer = 300
   var timerDelta = 100
   var timerDeltaDiff = 5
-  var TIMER_DELTA_MIN = 10 
+  var TIMER_DELTA_MIN = 10
 
   for (var i = 0, el; el = els[i]; i++) {
     createTimeout(function(el) { animateCorrectNeighborhoodGuess(el) }, el, timer)
@@ -1485,8 +1486,8 @@ function gameOver() {
 }
 
 function getSharingMessage() {
-  return 'I just played Click That ’Hood and identified ' + 
-      neighborhoodsGuessed.length + ' ' + CITY_DATA[cityId].locationName + ' ' + 
+  return 'I just played Click That ’Hood and identified ' +
+      neighborhoodsGuessed.length + ' ' + CITY_DATA[cityId].locationName + ' ' +
       getNeighborhoodNoun(true) + ' in ' + getTimer() + '. Try to beat me!'
 }
 
@@ -1498,8 +1499,8 @@ function updateFacebookLink(congratsEl) {
 
   el.href = 'https://www.facebook.com/dialog/feed?' +
       'app_id=' + FACEBOOK_APP_ID +
-      '&redirect_uri=' + encodeURIComponent(url) + 
-      '&link=' + encodeURIComponent(url) + 
+      '&redirect_uri=' + encodeURIComponent(url) +
+      '&link=' + encodeURIComponent(url) +
       '&name=' + encodeURIComponent('Click That ’Hood') +
       '&description=' + encodeURIComponent(text)
 }
@@ -1510,15 +1511,15 @@ function updateTwitterLink(congratsEl) {
   var text = getSharingMessage()
   var url = location.href
 
-  el.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) + 
+  el.href = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text) +
       '&url=' + encodeURIComponent(url)
 }
 
 function gameOverPart2() {
   var el = document.querySelector('#congrats')
-  document.querySelector('#number-identified').innerHTML = 
+  document.querySelector('#number-identified').innerHTML =
       easyMode ? easyModeCount : 'all'
-      
+
   document.querySelector('#count-time-wrapper-wrapper').classList.remove('visible')
   document.querySelector('#more-cities-wrapper-wrapper').classList.add('visible')
 
@@ -1526,7 +1527,7 @@ function gameOverPart2() {
   updateFacebookLink(el)
 
   document.querySelector('#cover').classList.add('visible')
-  el.classList.add('visible')  
+  el.classList.add('visible')
 }
 
 function getTimer() {
@@ -1564,7 +1565,7 @@ function updateTimer() {
   var els = document.querySelectorAll('.time')
   for (var i = 0, el; el = els[i]; i++) {
     el.innerHTML = timeHtml
-  } 
+  }
 
   if (!currentNeighborhoodOverThreshold) {
     var time = new Date().getTime() - currentNeighborhoodStartTime
@@ -1591,14 +1592,14 @@ function prepareMapBackground() {
   while (size < MAP_BACKGROUND_SIZE_THRESHOLD) {
     size *= 2
     zoom--
-  } 
+  }
 
   // TODO resize properly instead of recreating every single time
   document.querySelector('#maps-background').innerHTML = ''
 
   if (typeof mapbox != 'undefined') {
     var layer = mapbox.layer().id(MAPBOX_MAP_ID)
-    var map = 
+    var map =
         mapbox.map(document.querySelector('#maps-background'), layer, null, [])
 
     if (pixelRatio == 2) {
@@ -1618,13 +1619,13 @@ function prepareMapBackground() {
       size *= 2
     }
 
-    map.tileSize = { x: Math.round(size / pixelRatio), 
+    map.tileSize = { x: Math.round(size / pixelRatio),
                      y: Math.round(size / pixelRatio) }
 
     var tile = latToTile(centerLat, zoom)
-    var longStep = 
+    var longStep =
         (tileToLon(1, zoom) - tileToLon(0, zoom)) / 256 * 128
-    var latStep = 
+    var latStep =
         (tileToLat(tile + 1, zoom) - tileToLat(tile, zoom)) / 256 * 128
 
     var lat = centerLat
@@ -1643,7 +1644,7 @@ function prepareMapBackground() {
 function onResize() {
   var height = mainMenu ? MAIN_MENU_HEIGHT : window.innerHeight
 
-  document.querySelector('body > .canvas').style.height = 
+  document.querySelector('body > .canvas').style.height =
     (height - document.querySelector('body > .canvas').offsetTop) + 'px'
 
   if (mainMenu) {
@@ -1675,9 +1676,9 @@ function onResize() {
           .attr('point', true)
           .attr('transformX', function(d) { return projection(d.geometry.coordinates)[0] - radius / 2 })
           .attr('transformY', function(d) { return projection(d.geometry.coordinates)[1] - radius / 2 })
-          .attr('transform', function(d) { 
-            return "translate(" + projection(d.geometry.coordinates)[0] + "," + 
-                projection(d.geometry.coordinates)[1] + ")" 
+          .attr('transform', function(d) {
+            return "translate(" + projection(d.geometry.coordinates)[0] + "," +
+                projection(d.geometry.coordinates)[1] + ")"
           })
       } else {
         mapSvg.selectAll('path').attr('d', geoMapPath)
@@ -1685,12 +1686,12 @@ function onResize() {
 
       if (!gameStarted) {
         prepareNeighborhoods()
-        
+
       } else {
         updateGuessedAndInactiveStates()
       }
-      
-      removeSmallNeighborhoods() 
+
+      removeSmallNeighborhoods()
       updateCount()
 
       addCompositePoints()
@@ -1708,7 +1709,7 @@ function getCityId() {
     if (CITY_DATA[cityMatch]) {
       cityId = cityMatch
     }
-  }      
+  }
 
   if (!cityId) {
     mainMenu = true
@@ -1717,20 +1718,20 @@ function getCityId() {
 
 function updateFooter() {
   if (CITY_DATA[cityId].dataUrl) {
-    document.querySelector('footer .data-source a').href = 
+    document.querySelector('footer .data-source a').href =
         CITY_DATA[cityId].dataUrl
-    document.querySelector('footer .data-source a').innerHTML = 
+    document.querySelector('footer .data-source a').innerHTML =
         CITY_DATA[cityId].dataTitle
     document.querySelector('footer .data-source').classList.add('visible')
   }
 
   if (CITY_DATA[cityId].authorTwitter) {
-    document.querySelector('footer .author a').href = 
+    document.querySelector('footer .author a').href =
         'http://twitter.com/' + CITY_DATA[cityId].authorTwitter
-    document.querySelector('footer .author a').innerHTML = 
+    document.querySelector('footer .author a').innerHTML =
         '@' + CITY_DATA[cityId].authorTwitter
     document.querySelector('footer .author').classList.add('visible')
-  } 
+  }
 }
 
 function resizeLogoIfNecessary() {
@@ -1751,13 +1752,13 @@ function resizeLogoIfNecessary() {
 function getNeighborhoodNoun(plural) {
   if (!plural) {
     return (CITY_DATA[cityId].neighborhoodNoun && CITY_DATA[cityId].neighborhoodNoun[0]) || DEFAULT_NEIGHBORHOOD_NOUN_SINGULAR
-  } else { 
+  } else {
     return (CITY_DATA[cityId].neighborhoodNoun && CITY_DATA[cityId].neighborhoodNoun[1]) || DEFAULT_NEIGHBORHOOD_NOUN_PLURAL
   }
 }
 
 function preparePage() {
-  var inUnitedStates = 
+  var inUnitedStates =
     !CITY_DATA[cityId].countryName ||
     (CITY_DATA[cityId].countryName == COUNTRY_NAME_USA)
 
@@ -1765,20 +1766,20 @@ function preparePage() {
   if (inUnitedStates && US_AP_STATE_NAMES[stateName]) {
     stateName = US_AP_STATE_NAMES[stateName]
   }
-  
+
   var name = stateName || CITY_DATA[cityId].countryName || ''
 
   // TODO don’t hardcode!
-  if (!name || (name == COUNTRY_NAME_USA) || (name == CITY_DATA[cityId].locationName) || 
+  if (!name || (name == COUNTRY_NAME_USA) || (name == CITY_DATA[cityId].locationName) ||
       ((name == 'U.K.') && (CITY_DATA[cityId].locationName == 'United Kingdom'))) {
     name = ''
     document.querySelector('header .location-name').classList.add('no-state-or-country')
   } else {
-    document.querySelector('header .location-name').classList.remove('no-state-or-country')    
+    document.querySelector('header .location-name').classList.remove('no-state-or-country')
   }
   document.querySelector('header .state-or-country').innerHTML = name
 
-  document.querySelector('header .annotation').innerHTML = 
+  document.querySelector('header .annotation').innerHTML =
       CITY_DATA[cityId].annotation || ''
 
   var els = document.querySelectorAll('.location-name')
@@ -1866,7 +1867,7 @@ function prepareLocationList() {
       countryCities[COUNTRY_NAME_WORLD].push(city)
     }
   }
-  
+
   for (var i in COUNTRY_NAMES) {
     var el = document.createElement('h1')
     el.innerHTML = COUNTRY_NAMES[i]
@@ -1904,7 +1905,7 @@ function prepareLocationList() {
   document.querySelector('.menu .locations').appendChild(el)
 
   var el = document.createElement('li')
-  el.innerHTML = '<a target="_blank" class="add-your-city" href="' + 
+  el.innerHTML = '<a target="_blank" class="add-your-city" href="' +
       ADD_YOUR_CITY_URL + '">Add your city…</a>'
   document.querySelector('.menu .locations').appendChild(el)
 
@@ -1930,7 +1931,7 @@ function getEnvironmentInfo() {
 }
 
 function removeHttpsIfPresent() {
-  // Gets out of HTTPS to do HTTP, because D3 doesn’t allow linking via 
+  // Gets out of HTTPS to do HTTP, because D3 doesn’t allow linking via
   // HTTPS. But there’s a better way to deal with all of this, I feel
   // (hosting our own copy of D3?).
   if (location.protocol == 'https:') {
@@ -1956,12 +1957,12 @@ function deg2rad(deg) {
 function geoDist(lat1, lon1, lat2, lon2) {
   var R = 6371 // Radius of the earth in km
   var dLat = deg2rad(lat2 - lat1)
-  var dLon = deg2rad(lon2 - lon1) 
-  var a = 
+  var dLon = deg2rad(lon2 - lon1)
+  var a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
-    Math.sin(dLon / 2) * Math.sin(dLon / 2) 
-  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)) 
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2)
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
   var d = R * c // distance in km
   return d
 }
