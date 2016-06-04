@@ -1,0 +1,10 @@
+{ 
+  "locationName": "<<NAME OF THE LOCATION (CITY)>>",
+  "stateName": "<<IF U.S., STATE ABBREVIATION>>",
+  "countryName": "<<IF NOT U.S., COUNTRY NAME>>",
+
+  "authorTwitter": "<<YOUR TWITTER ID, WITHOUT THE @>>",
+
+  "dataUrl": "<<URL OF DATA SOURCE (LINK TO A PARENT SITE, NOT DIRECTLY TO A DATA FILE)>>",
+  "dataTitle": "<<NAME OF DATA SOURCE>>"
+}
