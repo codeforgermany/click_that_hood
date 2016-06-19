@@ -1,0 +1,9 @@
+{ 
+  "locationName": "Brandenburg",
+  "countryName": "Germany",
+  "annotation": "Counties",
+  "neighborhoodNoun": ["county", "counties"],
+
+  "dataUrl": "http://www.geo.brandenburg.de",
+  "dataTitle": "LBGR Brandenburg"
+}
