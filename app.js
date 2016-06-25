@@ -128,8 +128,6 @@ fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
       if (!fs.existsSync(geoJsonFilePath)) {
         console.error('GeoJSON file not found for \'' + locationName +
                       '\'. Aborting server start.');
-		console.error('metadataFilePath: ' + metadataFilePath + ' idxOf(): ' +
-		  metadataFilePath.indexOf('/_'));
         process.exit(1);
       }
 
