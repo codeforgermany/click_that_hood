@@ -1,0 +1,10 @@
+{ 
+  "locationName": "Middle East",
+  "annotation": "Countries",
+  "neighborhoodNoun": ["country", "countries"],
+
+  "authorTwitter": "lars@huttar.net",
+
+  "dataUrl": "",
+  "dataTitle": "Unknown"
+}
