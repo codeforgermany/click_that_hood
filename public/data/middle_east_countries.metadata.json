@@ -3,8 +3,8 @@
   "annotation": "Countries",
   "neighborhoodNoun": ["country", "countries"],
 
-  "authorTwitter": "lars@huttar.net",
+  "authorEmail": "lars@huttar.net",
 
-  "dataUrl": "",
-  "dataTitle": "Unknown"
+  "dataUrl": "http://thematicmapping.org/downloads/world_borders.php",
+  "dataTitle": "World Borders Dataset"
 }
