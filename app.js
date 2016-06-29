@@ -191,13 +191,14 @@ function readMetadataFile(file, metadata, countryNames) {
     process.exit(1)
   }
 
-  var latLon = geoJsonData.features[0].geometry.coordinates;
-  metadata[locationName].sampleLatLon = getSampleLatLon(latLon);
+  var latLon = getSampleLatLon(geoJsonData.features[0].geometry.coordinates)
 
-  if ((metadata[locationName].sampleLatLon[0] === null) || (metadata[locationName].sampleLatLon[1] === null)) {
+  if (latLon[0] === null || latLon[1] === null) {
     console.log('------------------------------------------------------')
-    console.log('WARNING: Unknown average location for ' + locationName + '…')
+    console.log('WARNING: Cannot obtain average coordinates for ' + locationName + '…')
   }
+
+  metadata[locationName].sampleLatLon = latLon
 }
 
 console.log('Initializing…')
