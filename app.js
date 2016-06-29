@@ -71,15 +71,11 @@ function normalizeCountryName(str) {
   return str;
 }
 
-function getSampleLatLon(shapes) {
-  if (shapes[0] && shapes[0][0] && shapes[0][0][0] && shapes[0][0][0][0]) {
-    return [shapes[0][0][0][0], shapes[0][0][0][1]]
-  } else if (shapes[0] && shapes[0][0] && shapes[0][0][0]) {
-    return [shapes[0][0][0], shapes[0][0][1]]
-  } else if (shapes[0] && shapes[0][0]) {
-    return [shapes[0][0], shapes[0][1]]
+function getFeatureCoords(data) {
+  if (data[0][0]) {
+    return getFeatureCoords(data[0])
   } else {
-    return [shapes[0], shapes[1]]
+    return [data[0], data[1]]
   }
 }
 
@@ -192,7 +188,7 @@ function readMetadataFile(file, metadata, countryNames) {
     process.exit(1)
   }
 
-  var latLon = getSampleLatLon(geoJsonData.features[0].geometry.coordinates)
+  var latLon = getFeatureCoords(geoJsonData.features[0].geometry.coordinates)
 
   if (latLon[0] === null || latLon[1] === null) {
     console.log('------------------------------------------------------')
