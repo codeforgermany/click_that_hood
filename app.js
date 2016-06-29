@@ -1,5 +1,6 @@
 var express = require('express'),
     lessMiddleware = require('less-middleware'),
+    compression = require('compression'),
     fs = require('fs'),
     path = require('path'),
     fsTools = require('fs-tools'),
@@ -8,18 +9,18 @@ var express = require('express'),
 var engineLightStatusEndpoint = function(req, res) {
   var response = {
     'status': 'ok',
-    'updated': Math.round( Date.now() / 1000 ),
-    'dependencies': [ 'MapBox' ],
+    'updated': Math.round(Date.now() / 1000),
+    'dependencies': ['MapBox'],
     'resources': []
   };
 
   res.send(response);
 }
 
-var startApp = function() {
+function startApp() {
   var app = express();
 
-  app.use(express.compress());
+  app.use(compression());
 
   app.use(lessMiddleware(__dirname + '/public', {
     compress: (process.env.NODE_ENV == 'production'),
@@ -41,7 +42,7 @@ var startApp = function() {
   app.get('/.well-known/status', engineLightStatusEndpoint);
 
   app.get('/:location', function(req, res) {
-    res.sendfile(__dirname + '/public/index.html');
+    res.sendFile(__dirname + '/public/index.html');
   });
 
   app.get('/', function(req, res) {
@@ -51,7 +52,7 @@ var startApp = function() {
     } else if (req.query.city) {
       res.redirect(301, req.query.city);
     } else {
-      res.sendfile(__dirname + '/public/index.html');
+      res.sendFile(__dirname + '/public/index.html');
     }
   });
 
