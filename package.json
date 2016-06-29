@@ -4,7 +4,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "lint": "jshint .",
+    "lint": "node_modules/jshint/bin/jshint .",
     "start": "node app.js"
   },
   "dependencies": {
@@ -14,10 +14,6 @@
     "config": "0.4.18"
   },
   "devDependencies": {
-    "jshint": "1.1.0"
-  },
-  "engines": {
-    "node": "0.10.x",
-    "npm": "1.2.x"
+    "jshint": "2.9.2"
   }
 }
