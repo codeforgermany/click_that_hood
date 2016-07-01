@@ -1,0 +1,14 @@
+{ 
+  "locationName": "Iran",
+  "annotation": "provinces",
+  "countryName": "Iran",
+  "neighborhoodNoun": ["province", "provinces"],
+
+  "dataUrl": "http://www.gadm.org/country",
+  "dataTitle": "Global Administrative Areas",
+
+  "languages": {
+    "فارسی": "name_persian",
+    "Latin": "name"
+  }
+}
