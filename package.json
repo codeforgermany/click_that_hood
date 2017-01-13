@@ -1,7 +1,7 @@
 {
     "name": "click_that_hood",
     "version": "0.0.1",
-    "private": true,
+    "private": false,
     "dependencies": {
         "express": "3.0.6",
         "less-middleware": "1.0.4",
