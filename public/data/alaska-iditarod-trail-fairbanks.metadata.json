@@ -1,0 +1,13 @@
+{ 
+  "locationName": "Alaska",
+  "countryName": "U.S.",
+  "annotation": "Iditarod Trail (Fairbanks route)",
+  "pointsInsteadOfPolygons": true,
+
+  "neighborhoodNoun": ["checkpoint", "checkpoints"],
+  
+  "authorTwitter": "benmatheson",
+  
+  "dataUrl": "http://wikipedia.com",
+  "dataTitle": "wikipedia"
+}
