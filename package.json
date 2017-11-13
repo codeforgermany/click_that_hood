@@ -3,18 +3,19 @@
     "version": "0.0.1",
     "private": false,
     "dependencies": {
+        "config": "0.4.18",
         "express": "3.0.6",
-        "less-middleware": "1.0.4",
         "fs-tools": "0.2.8",
-        "config": "0.4.18"
+        "less-middleware": "1.0.4",
+        "uuid": "^3.1.0"
     },
-  "devDependencies": {
-    "jshint": "1.1.0"
-  },
-  "scripts": {
-    "lint": "jshint .",
-    "start": "node app.js"
-  },
+    "devDependencies": {
+        "jshint": "1.1.0"
+    },
+    "scripts": {
+        "lint": "jshint .",
+        "start": "node app.js"
+    },
     "engines": {
         "node": "0.10.x",
         "npm": "1.2.x"
