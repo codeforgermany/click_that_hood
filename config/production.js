@@ -1,3 +1,3 @@
 module.exports = {
-  'app_host_port': 'click-that-hood.com'
+  'app_host_port': 'savannahthathood.herokuapp.com'
 }
