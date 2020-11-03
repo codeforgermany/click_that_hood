@@ -1041,8 +1041,7 @@ function createMap() {
     .attr('name', function(d) { return sanitizeName(d.properties.name) })
     .on('click', function(d) {
       var el = d3.event.target || d3.event.toElement
-
-      onNeighborhoodClick(el)
+      onNeighborhoodClick(el, d3.event)
     })
     .on('mousedown', function(d) {
       setTouchActive(false)
@@ -1225,9 +1224,41 @@ function updateGuessedAndInactiveStates() {
   }
 }
 
-function onNeighborhoodClick(el) {
+function onNeighborhoodClick(el, ev) {
   if (!mapClickable || el.getAttribute('inactive')) {
     return
+  }
+
+  if (ev && el.classList.contains('guessed')) {
+    const expectedEl = getHighlightableNeighborhoodEl(neighborhoodToBeGuessedNext)
+    const { clientX, clientY } = ev
+    const maxDist = 10
+    const expectedRect = expectedEl ? expectedEl.getBoundingClientRect() : {}
+    const leftDist = clientX - expectedRect.left
+    const rightDist = clientX - expectedRect.right
+    const topDist = clientY - expectedRect.top
+    const bottomDist = clientY - expectedRect.bottom
+    const betweenTopBottom = Math.sign(topDist) !== Math.sign(bottomDist)
+    const betweenLeftRight = Math.sign(leftDist) !== Math.sign(rightDist)
+    let isCloseClick = false
+    if (Math.abs(leftDist) < maxDist && betweenTopBottom) {
+      isCloseClick = true
+    }
+    else if (Math.abs(rightDist) < maxDist && betweenTopBottom) {
+      isCloseClick = true
+    }
+    else if (Math.abs(topDist) < maxDist && betweenLeftRight) {
+      isCloseClick = true
+    }
+    else if (Math.abs(bottomDist) < maxDist && betweenLeftRight) {
+      isCloseClick = true
+    }
+    else if (betweenTopBottom && betweenLeftRight && [leftDist, rightDist, topDist, bottomDist].find(dist => Math.abs(dist) < maxDist * 3)) {
+      isCloseClick = true
+    }
+    if (isCloseClick) {
+      return
+    }
   }
 
   setMapClickable(false)
