@@ -1462,7 +1462,7 @@ function gameOver() {
   stopTimer()
 
   setMapClickable(false)
-  var els = document.querySelectorAll('#map .guessed')
+  var els = document.querySelectorAll('#map .guessed:not(.guessed-animation)')
 
   // TODO constants
   var timer = 300
