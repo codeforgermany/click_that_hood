@@ -10,5 +10,5 @@
   "trailing": true,
   "maxdepth": 3,
   "maxstatements": 40,
-  "maxcomplexity": 8
+  "maxcomplexity": 10
 }

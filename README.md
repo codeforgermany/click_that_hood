@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/codeforamerica/click_that_hood.png?branch=master)](click_that_hood)
+[![Build Status](https://img.shields.io/travis/codeforgermany/click_that_hood/master.svg)](https://travis-ci.org/codeforgermany/click_that_hood)
 
 # Click That 'Hood
 
