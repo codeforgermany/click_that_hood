@@ -2,24 +2,23 @@
 
 # Click That 'Hood
 
-## Development Setup
+![logo](public/images/logo.png?raw=)
 
-Please follow the instructions below to setup your development environment.
+## Give it a go
 
-1) Clone this repository onto your local development machine:
+Clone this repository onto your local development machine:
 
-    $ git clone <REPLACE THIS WITH REPO CLONE LOCATION>
-    $ cd click_that_hood
+- `git clone https://github.com/codeforgermany/click_that_hood.git`
+- `cd click_that_hood`
 
-2) Install [Node](http://nodejs.org/#download).
+Install dependencies:
 
-3) Install dependencies. This will take a while.
+- `npm i`
 
-    $ npm install
+Start the server:
 
-4) Start the Web Application. It runs on port 8020 by default. (The port
-can be changed by setting the `PORT` environment variable.)
+- `npm start`
 
-    $ npm start
+Open it in a browser: <http://localhost:8020>
 
-5) Open your website at http://localhost:8020
+It runs on port 8020 by default, but it can be changed by setting the `PORT=` environment variable.
