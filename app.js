@@ -123,13 +123,13 @@ function checkFeature(locationName, feature, names, flags) {
 
 function isTemplateFile(file) {
   // TODO: find a less obscure way to detect this file
-  return file.indexOf('/_') !== -1
+  return file.indexOf(path.sep + '_') !== -1
 }
 
 function readMetadataFile(file, metadata, countryNames) {
   var locationName = path.basename(file, '.metadata.json');
 
-  console.log('Reading metadata: ' + locationName)
+  console.log('Loading data: ' + locationName)
 
   // Flag error and exit if metadata is not found
   if (!fs.existsSync(file)) {
@@ -224,7 +224,7 @@ fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
     'var COUNTRY_NAMES = ' + JSON.stringify(countryNames) + ';\n';
   fs.writeFileSync('public/js/data.js', metadataFileContents);
 
-  console.log('Done!')
+  console.log()
 
   startApp();
 });
