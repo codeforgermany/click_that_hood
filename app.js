@@ -59,7 +59,7 @@ function startApp() {
   app.use(express.static(__dirname + '/public'));
 
   app.listen(config.port, null, null, function() {
-    console.log('Listening on port ' + config.port);
+    console.log('The app is running: http://' + config.app_host_port);
   });
 }
 
