@@ -3,11 +3,5 @@
   "annotation": "International Airports",
   "countryName": "U.S.",
   "neighborhoodNoun": ["airport", "airports"],
-
-  "pointsInsteadOfPolygons": true,
-
-  "languages": {
-    "name": "name",
-    "code": "code"
-  }  
+  "pointsInsteadOfPolygons": true
 }
