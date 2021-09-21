@@ -7,7 +7,7 @@
     "config": "^3.3.6",
     "express": "^3.21.2",
     "glob": "^7.1.7",
-    "less-middleware": "1.0.4"
+    "less-middleware": "^3.1.0"
   },
   "devDependencies": {
     "jshint": "^2.13.1"
