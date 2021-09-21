@@ -3,7 +3,7 @@ var express = require('express'),
     compression = require('compression'),
     fs = require('fs'),
     path = require('path'),
-    fsTools = require('fs-tools'),
+    glob = require('glob'),
     config = require('config')
 
 var engineLightStatusEndpoint = function(req, res) {
@@ -201,7 +201,7 @@ function readMetadataFile(file, metadata, countryNames) {
 console.log('Initializing…')
 
 // Write combined metadata file from individual location metadata files
-fsTools.findSorted('public/data', /[^.]+\.metadata.json/, function(err, files) {
+glob('public/data/**/*.metadata.json', function(err, files) {
   var metadata = {};
   var countryNames = ['U.S.'];
   var totalNumFilesToUpload = 0;

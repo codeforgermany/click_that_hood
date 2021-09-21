@@ -6,7 +6,7 @@
     "compression": "^1.7.4",
     "config": "^3.3.6",
     "express": "^3.21.2",
-    "fs-tools": "0.2.8",
+    "glob": "^7.1.7",
     "less-middleware": "1.0.4"
   },
   "devDependencies": {
