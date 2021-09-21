@@ -1,9 +1,8 @@
 { 
-    "locationName": "Kaiserslautern",
-    "countryName": "Germany",
-    "annotation": "Bezirksgrenzen",
+  "locationName": "Kaiserslautern",
+  "countryName": "Germany",
+  "annotation": "Bezirksgrenzen",
   
-    "dataUrl": "https://opendata.kaiserslautern.de/dataset/ortsbezirksgrenzen-kaiserslautern",
-    "dataTitle": "Ortsbezirksgrenzen Kaiserslautern"
-  }
-  
+  "dataUrl": "https://opendata.kaiserslautern.de/dataset/ortsbezirksgrenzen-kaiserslautern",
+  "dataTitle": "Ortsbezirksgrenzen Kaiserslautern"
+}
