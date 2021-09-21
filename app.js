@@ -42,7 +42,7 @@ function startApp() {
   app.get('/.well-known/status', engineLightStatusEndpoint);
 
   app.get('/:location', function(req, res) {
-    res.sendfile(__dirname + '/public/index.html');
+    res.sendFile(__dirname + '/public/index.html');
   });
 
   app.get('/', function(req, res) {
@@ -52,7 +52,7 @@ function startApp() {
     } else if (req.query.city) {
       res.redirect(301, req.query.city);
     } else {
-      res.sendfile(__dirname + '/public/index.html');
+      res.sendFile(__dirname + '/public/index.html');
     }
   });
 

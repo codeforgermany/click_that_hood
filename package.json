@@ -5,7 +5,7 @@
   "dependencies": {
     "compression": "^1.7.4",
     "config": "^3.3.6",
-    "express": "^3.21.2",
+    "express": "^4.17.1",
     "glob": "^7.1.7",
     "less-middleware": "^3.1.0"
   },
