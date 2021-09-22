@@ -7,10 +7,10 @@
   "pointsInsteadOfPolygons": true,
 
   "dataUrl": "http://geocommons.com/overlays/186781",
-  "dataTitle": "GeoCommons",  
+  "dataTitle": "GeoCommons",
 
   "languages": {
     "stadium names": "name",
     "teams": "team"
-  }  
+  }
 }

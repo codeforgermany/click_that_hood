@@ -1,7 +1,7 @@
 {
   "locationName": "Turkey",
   "countryName": "Turkey",
-	"annotation": "Cities",
+  "annotation": "Cities",
   "neighborhoodNoun": ["city", "cities"],
 
   "authorTwitter": "senburt",

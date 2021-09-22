@@ -6,5 +6,5 @@
 
   "pointsInsteadOfPolygons": true,
 
-  "extraData": [ "namestate", "coasters_text" ]
+  "extraData": ["namestate", "coasters_text"]
 }

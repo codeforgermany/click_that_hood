@@ -1,12 +1,12 @@
 /*@import 'http://fonts.googleapis.com/css?family=Open+Sans:400,300,600';*/
 
 @font-face {
-  font-family: 'Homestead';
-  src: url('../fonts/Homestead-Regular.ttf');
+  font-family: "Homestead";
+  src: url("../fonts/Homestead-Regular.ttf");
 }
 @font-face {
-  font-family: 'Wisdom Script';
-  src: url('../fonts/Wisdom-Script.otf');
+  font-family: "Wisdom Script";
+  src: url("../fonts/Wisdom-Script.otf");
 }
 @headerWidth: 320px;
 @footerHeight: 30px;
@@ -26,10 +26,10 @@
 @fontSize: 14px;
 
 @hoverNeighborhoodFillColour: fadeout(@highlightColour, 50%);
-@guessedNeighborhoodFillColour: rgba(0, 255, 0, .25);
-@unguessedNeighborhoodFillColour: rgba(0, 0, 0, .6);
-@inactiveNeighborhoodFillColour: rgba(128, 128, 128, .75);
-@correctNameBackground: desaturate(rgba(0, 255, 0, .95), 70%);
+@guessedNeighborhoodFillColour: rgba(0, 255, 0, 0.25);
+@unguessedNeighborhoodFillColour: rgba(0, 0, 0, 0.6);
+@inactiveNeighborhoodFillColour: rgba(128, 128, 128, 0.75);
+@correctNameBackground: desaturate(rgba(0, 255, 0, 0.95), 70%);
 
 html {
   height: 100%;
@@ -39,7 +39,7 @@ body {
   padding: 0;
   margin: 0;
 
-  font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
   font-size: @fontSize;
 
   overflow-x: hidden;
@@ -221,8 +221,7 @@ header.main-menu h1 {
   font-size: @fontSize * 2;
   font-weight: 300;
 
-  text-shadow: 0 0 2px black,
-               0 0 5px black;
+  text-shadow: 0 0 2px black, 0 0 5px black;
 
   display: table;
   height: 100%;
@@ -231,7 +230,7 @@ header.main-menu h1 div {
   padding-left: 215px;
   padding-right: 50px;
   display: table-cell;
-  vertical-align: middle;  
+  vertical-align: middle;
 }
 
 header.game {
@@ -245,8 +244,7 @@ header.game {
   width: @headerWidth;
 
   color: white;
-  text-shadow: 0 0 2px black,
-               0 0 5px black;
+  text-shadow: 0 0 2px black, 0 0 5px black;
 
   z-index: 10000;
 
@@ -270,10 +268,10 @@ header.game .names {
 header.game .location-name {
   display: inline-block;
   font-weight: normal;
-  font-family: 'Homestead';
+  font-family: "Homestead";
   font-size: 48px;
 
-  line-height: .9;
+  line-height: 0.9;
   letter-spacing: 1px;
   text-align: center;
   padding: 0;
@@ -283,13 +281,13 @@ header.game .location-name {
 }
 
 header.game .location-name:not(.no-state-or-country)::after {
-  content: ',';
+  content: ",";
   position: absolute;
 }
 header.game .state-or-country {
   display: block;
   font-weight: normal;
-  font-family: 'Wisdom Script';
+  font-family: "Wisdom Script";
   letter-spacing: -1px;
   font-size: 42px;
   padding: 0;
@@ -320,10 +318,8 @@ header.game .annotation {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 
-  box-shadow: 0 0 2px black,
-              0 0 5px black,
-              inset 0 0 2px black,
-              inset 0 0 5px black;
+  box-shadow: 0 0 2px black, 0 0 5px black, inset 0 0 2px black,
+    inset 0 0 5px black;
 }
 header.game .annotation:empty {
   display: none;
@@ -346,7 +342,7 @@ header .languages {
     margin-left: 6px;
     text-shadow: 0 0 1px black, 0 0 2px black;
 
-    text-transform: uppercase;   
+    text-transform: uppercase;
 
     font-weight: 300;
 
@@ -448,10 +444,10 @@ footer a:visited {
   transition: color 150ms;
 }
 footer:hover a {
-  color: darken(rgb(120, 140, 120), 10%); 
+  color: darken(rgb(120, 140, 120), 10%);
 }
 footer:hover a:hover {
-  color: darken(rgb(120, 140, 120), 25%); 
+  color: darken(rgb(120, 140, 120), 25%);
 }
 
 body:not(.main-menu) footer .main-menu {
@@ -475,14 +471,14 @@ footer #cfa {
   margin-right: -5px;
   margin-left: -3px;
 
-  opacity: .3;
+  opacity: 0.3;
 
   -webkit-transition: opacity 150ms;
   -moz-transition: opacity 150ms;
   transition: opacity 150ms;
 }
 footer:hover #cfa {
-  opacity: .4;
+  opacity: 0.4;
 }
 
 .logo {
@@ -494,7 +490,7 @@ footer:hover #cfa {
   border: none;
 
   // Prevents the filter from de-retina-izing the image.
-  -webkit-transform: translateZ(0); 
+  -webkit-transform: translateZ(0);
 
   -webkit-filter: drop-shadow(0 0 1px black) drop-shadow(0 0 2px black);
   -moz-filter: drop-shadow(0 0 1px black) drop-shadow(0 0 2px black);
@@ -560,7 +556,7 @@ body.main-menu #count-time-wrapper-wrapper {
 }
 
 #neighborhood-guess {
-  background: rgba(0, 0, 0, .75);
+  background: rgba(0, 0, 0, 0.75);
 
   float: left;
   position: relative;
@@ -641,7 +637,7 @@ body.main-menu #count-time-wrapper-wrapper {
 }
 
 #count-time {
-  background: rgba(0, 0, 0, .75);
+  background: rgba(0, 0, 0, 0.75);
 
   float: left;
   position: relative;
@@ -704,7 +700,7 @@ body.main-menu #count-time-wrapper-wrapper {
 #more-cities-wrapper div {
   float: left;
   position: relative;
-  right: 50%;  
+  right: 50%;
 
   background: @mainBackgroundColour;
   color: black;
@@ -736,9 +732,9 @@ body.no-hover #neighborhood-hover {
 
   background: fadeout(lighten(@highlightColour, 10%), 20%);
 
-  box-shadow: 0 2px 3px rgba(0, 0, 0, .5);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
 
-  padding: .38em .75em;
+  padding: 0.38em 0.75em;
   box-sizing: border-box;
 
   color: black;
@@ -764,7 +760,7 @@ body.no-hover #neighborhood-hover {
 
   &.inactive {
     background: fadein(@inactiveNeighborhoodFillColour, 15%);
-    font-size: @fontSize * 1.5 * .75;
+    font-size: @fontSize * 1.5 * 0.75;
   }
 
   .extra-data {
@@ -772,7 +768,7 @@ body.no-hover #neighborhood-hover {
     text-align: center;
     font-size: 75%;
     line-height: 1.2;
-    opacity: .75;
+    opacity: 0.75;
 
     margin-top: -1em;
   }
@@ -844,7 +840,11 @@ body.no-hover #neighborhood-hover {
   body:not(.touch-active) &.guessed.hover {
     stroke: white;
 
-    fill: mix(@guessedNeighborhoodFillColour, @hoverNeighborhoodFillColour, 50%);
+    fill: mix(
+      @guessedNeighborhoodFillColour,
+      @hoverNeighborhoodFillColour,
+      50%
+    );
   }
 
   &.right-guess {
@@ -865,7 +865,7 @@ body.no-hover #neighborhood-hover {
     animation-iteration-count: infinite;
   }
   &.wrong-guess {
-    fill: rgba(255, 0, 0, .7) !important;
+    fill: rgba(255, 0, 0, 0.7) !important;
 
     stroke: white;
   }
@@ -890,10 +890,14 @@ body.no-hover #neighborhood-hover {
       stroke: @guessedNeighborhoodFillColour !important;
     }
     &.guessed.hover {
-      stroke: mix(@guessedNeighborhoodFillColour, @hoverNeighborhoodFillColour, 50%) !important;
+      stroke: mix(
+        @guessedNeighborhoodFillColour,
+        @hoverNeighborhoodFillColour,
+        50%
+      ) !important;
     }
     &.wrong-guess {
-      stroke: rgba(255, 0, 0, .7) !important;
+      stroke: rgba(255, 0, 0, 0.7) !important;
     }
     &.right-guess {
       -webkit-animation-name: padded-blink;
@@ -941,29 +945,65 @@ body.no-hover #neighborhood-hover {
 }
 
 @-webkit-keyframes blink {
-  0%, 49.99% { fill: rgba(0, 255, 0, .25); }
-  50%, 100% { fill: rgba(0, 0, 0, .6); }
+  0%,
+  49.99% {
+    fill: rgba(0, 255, 0, 0.25);
+  }
+  50%,
+  100% {
+    fill: rgba(0, 0, 0, 0.6);
+  }
 }
 @-ms-keyframes blink {
-  0%, 49.99% { fill: rgba(0, 255, 0, .25); }
-  50%, 100% { fill: rgba(0, 0, 0, .6); }
+  0%,
+  49.99% {
+    fill: rgba(0, 255, 0, 0.25);
+  }
+  50%,
+  100% {
+    fill: rgba(0, 0, 0, 0.6);
+  }
 }
 @keyframes blink {
-  0%, 49.99% { fill: rgba(0, 255, 0, .25); }
-  50%, 100% { fill: rgba(0, 0, 0, .6); }
+  0%,
+  49.99% {
+    fill: rgba(0, 255, 0, 0.25);
+  }
+  50%,
+  100% {
+    fill: rgba(0, 0, 0, 0.6);
+  }
 }
 
 @-webkit-keyframes padded-blink {
-  0%, 49.99% { stroke: rgba(0, 255, 0, .25); }
-  50%, 100% { stroke: rgba(0, 0, 0, .6); }
+  0%,
+  49.99% {
+    stroke: rgba(0, 255, 0, 0.25);
+  }
+  50%,
+  100% {
+    stroke: rgba(0, 0, 0, 0.6);
+  }
 }
 @-ms-keyframes padded-blink {
-  0%, 49.99% { stroke: rgba(0, 255, 0, .25); }
-  50%, 100% { stroke: rgba(0, 0, 0, .6); }
+  0%,
+  49.99% {
+    stroke: rgba(0, 255, 0, 0.25);
+  }
+  50%,
+  100% {
+    stroke: rgba(0, 0, 0, 0.6);
+  }
 }
 @keyframes padded-blink {
-  0%, 49.99% { stroke: rgba(0, 255, 0, .25); }
-  50%, 100% { stroke: rgba(0, 0, 0, .6); }
+  0%,
+  49.99% {
+    stroke: rgba(0, 255, 0, 0.25);
+  }
+  50%,
+  100% {
+    stroke: rgba(0, 0, 0, 0.6);
+  }
 }
 
 #cover {
@@ -1002,7 +1042,7 @@ a.button {
   padding: 10px 50px;
   margin: 0;
 
-  font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
 
   border: none;
 
@@ -1020,7 +1060,7 @@ a.button {
   outline: none;
 
   cursor: pointer;
-  
+
   &:hover {
     background: mix(@highlightColour, white, 50%);
   }
@@ -1099,7 +1139,7 @@ button .neighborhoods-removed-disclaimer {
   display: none;
 
   width: 500px;
- 
+
   vertical-align: middle;
 
   &.visible {
@@ -1128,7 +1168,7 @@ button .neighborhoods-removed-disclaimer {
   height: 30px;
   vertical-align: middle;
   margin: 0 5px;
-  outline: 1px solid rgba(0, 0, 0, .5);
+  outline: 1px solid rgba(0, 0, 0, 0.5);
 }
 a {
   color: inherit;
@@ -1157,7 +1197,7 @@ a {
 footer .author,
 footer .data-source {
   display: none;
-  
+
   &.visible {
     display: inline;
   }
@@ -1169,8 +1209,8 @@ body:not(.neighborhoods-removed) .neighborhoods-removed-disclaimer {
 
 body.main-menu #map .location {
   fill: black;
-  fill-opacity: .1;
-  stroke: white; 
+  fill-opacity: 0.1;
+  stroke: white;
 }
 body.main-menu #map .location.current {
   fill: @highlightColour;
@@ -1194,7 +1234,7 @@ body.main-menu #map .location.current {
   margin: 20px auto;
   z-index: 9999999;
 
-  font-family: 'Open Sans', Arial;
+  font-family: "Open Sans", Arial;
   font-size: 20px;
   color: black;
   background: @mainBackgroundColour;
