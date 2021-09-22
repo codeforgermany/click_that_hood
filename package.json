@@ -10,11 +10,13 @@
     "less-middleware": "^3.1.0"
   },
   "devDependencies": {
-    "jshint": "^2.13.1"
+    "prettier": "2.4.1"
   },
   "scripts": {
-    "lint": "jshint .",
-    "start": "node app.js"
+    "check": "prettier --check \".\"",
+    "format": "prettier --write \".\"",
+    "start": "node app.js",
+    "test": "npm run check"
   },
   "license": "MIT"
 }
