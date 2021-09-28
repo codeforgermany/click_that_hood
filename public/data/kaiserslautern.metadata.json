@@ -3,7 +3,6 @@
   "countryName": "Germany",
   "annotation": "Districts",
   "neighborhoodNoun": ["district", "districts"],
-
   "dataUrl": "https://opendata.kaiserslautern.de/dataset/ortsbezirksgrenzen-kaiserslautern",
   "dataTitle": "Ortsbezirksgrenzen Kaiserslautern"
 }

@@ -3,7 +3,6 @@
   "countryName": "Germany",
   "annotation": "Counties",
   "neighborhoodNoun": ["county", "counties"],
-
   "dataUrl": "http://www.geodatenzentrum.de",
   "dataTitle": "GeoBasis-DE / BKG 2013 (data edited)"
 }

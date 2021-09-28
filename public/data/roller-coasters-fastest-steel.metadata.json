@@ -5,8 +5,6 @@
     "fastest steel roller coaster",
     "fastest steel roller coasters"
   ],
-
   "pointsInsteadOfPolygons": true,
-
   "extraData": ["location", "speed"]
 }

@@ -3,7 +3,6 @@
   "locationName": "Liberia",
   "annotation": "Counties",
   "neighborhoodNoun": ["county", "counties"],
-
   "dataUrl": "http://www.tlcafrica.com/lisgis/lisgis.htm",
   "dataTitle": "LISGIS"
 }

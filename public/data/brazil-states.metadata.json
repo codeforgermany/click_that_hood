@@ -3,7 +3,6 @@
   "annotation": "States",
   "countryName": "Brazil",
   "neighborhoodNoun": ["state", "states"],
-
   "dataUrl": "http://www.codegeo.com.br/2013/04/shapefiles-do-brasil-para-download.html",
   "dataTitle": "CodeGeo"
 }

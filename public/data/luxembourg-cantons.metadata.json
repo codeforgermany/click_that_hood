@@ -3,9 +3,7 @@
   "annotation": "Cantons",
   "countryName": "Luxembourg",
   "neighborhoodNoun": ["canton", "cantons"],
-
   "authorTwitter": "72mal72",
-
   "dataUrl": "http://www.openstreetmap.org/",
   "dataTitle": "OpenStreetMap"
 }

@@ -3,9 +3,7 @@
   "annotation": "Communes",
   "countryName": "Luxembourg",
   "neighborhoodNoun": ["commune", "communes"],
-
   "authorTwitter": "72mal72",
-
   "dataUrl": "http://www.openstreetmap.org/",
   "dataTitle": "OpenStreetMap"
 }

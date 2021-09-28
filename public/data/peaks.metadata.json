@@ -2,11 +2,8 @@
   "locationName": "World",
   "neighborhoodNoun": ["peak", "peaks"],
   "annotation": "100 tallest peaks",
-
   "authorTwitter": "nichom",
-
   "pointsInsteadOfPolygons": true,
-
   "dataUrl": "http://www.peaklist.org/lists.html",
   "dataTitle": "PEAKLIST"
 }
