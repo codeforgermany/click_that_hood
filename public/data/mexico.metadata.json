@@ -3,7 +3,6 @@
   "countryName": "Mexico",
   "annotation": "States",
   "neighborhoodNoun": ["state", "states"],
-
   "dataUrl": "http://www.numeroslocos.com/2013/07/10/shapefile/",
   "dataTitle": "Números Locos"
 }

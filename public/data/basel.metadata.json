@@ -2,9 +2,7 @@
   "locationName": "Basel",
   "countryName": "Switzerland",
   "annotation": "Canton",
-
   "authorTwitter": "davidbauer",
-
   "dataUrl": "http://www.bfs.admin.ch/bfs/portal/de/index/dienstleistungen/geostat/datenbeschreibung/generalisierte_gemeindegrenzen.html",
   "dataTitle": "Bundesamt für Statistik"
 }

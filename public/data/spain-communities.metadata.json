@@ -3,7 +3,6 @@
   "annotation": "Autonomous communities",
   "countryName": "Spain",
   "neighborhoodNoun": ["community", "communities"],
-
   "dataUrl": "https://mwichary.cartodb.com/dashboard/common_data/Administrative%20regions",
   "dataTitle": "CartoDB Common Data"
 }

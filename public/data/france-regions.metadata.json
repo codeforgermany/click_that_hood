@@ -3,7 +3,6 @@
   "annotation": "Metropolitan regions",
   "countryName": "France",
   "neighborhoodNoun": ["metropolitan region", "metropolitan regions"],
-
   "dataUrl": "https://mwichary.cartodb.com/dashboard/common_data/Administrative%20regions",
   "dataTitle": "CartoDB Common Data"
 }

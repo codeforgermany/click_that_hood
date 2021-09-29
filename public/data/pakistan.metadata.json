@@ -3,9 +3,7 @@
   "countryName": "Pakistan",
   "annotation": "Districts",
   "neighborhoodNoun": ["district", "districts"],
-
   "authorTwitter": "aliirz",
-
   "dataUrl": "http://www.diva-gis.org/gdata",
   "dataTitle": "DIVA-GIS"
 }
