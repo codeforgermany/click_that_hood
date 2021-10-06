@@ -13,6 +13,7 @@
     "prettier": "2.4.1"
   },
   "scripts": {
+    "build": "node build.js",
     "check": "prettier --check \".\"",
     "format": "prettier --write \".\"",
     "start": "node app.js",

@@ -15,6 +15,10 @@ Install dependencies:
 
 - `npm i`
 
+Build the `data.js` file:
+
+- `npm run build`
+
 Start the server:
 
 - `npm start`
