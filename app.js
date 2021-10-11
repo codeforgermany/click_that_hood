@@ -3,17 +3,6 @@ var express = require("express"),
   compression = require("compression"),
   config = require("config");
 
-var engineLightStatusEndpoint = function (req, res) {
-  var response = {
-    status: "ok",
-    updated: Math.round(Date.now() / 1000),
-    dependencies: ["MapBox"],
-    resources: [],
-  };
-
-  res.send(response);
-};
-
 function startApp() {
   var app = express();
 
@@ -36,9 +25,6 @@ function startApp() {
       next("route");
     }
   });
-
-  // Engine-light endpoint
-  app.get("/.well-known/status", engineLightStatusEndpoint);
 
   app.get("/:location", function (req, res) {
     res.sendFile(__dirname + "/public/index.html");
