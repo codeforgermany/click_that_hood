@@ -1,5 +1,3 @@
-[![Build Status](https://img.shields.io/travis/codeforgermany/click_that_hood/master.svg)](https://travis-ci.org/codeforgermany/click_that_hood)
-
 # Click That 'Hood
 
 ![logo](public/images/logo.png?raw=)
