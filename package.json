@@ -10,10 +10,11 @@
     "less-middleware": "^3.1.0"
   },
   "devDependencies": {
+    "less": "^4.1.2",
     "prettier": "2.4.1"
   },
   "scripts": {
-    "build": "node build.js",
+    "build": "node build.js && lessc public/css/styles.less public/css/styles.css",
     "check": "prettier --check \".\"",
     "format": "prettier --write \".\"",
     "start": "node app.js",
