@@ -1,0 +1,7 @@
+{
+  "locationName": "Chicago",
+  "stateName": "IL",
+  "annotation": "Parks",
+  "neighborhoodNoun": ["park", "parks"],
+  "convertPolygonsToPointsIfTooSmall": true
+}

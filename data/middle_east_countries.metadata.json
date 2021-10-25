@@ -1,0 +1,8 @@
+{
+  "locationName": "Middle East",
+  "annotation": "Countries",
+  "neighborhoodNoun": ["country", "countries"],
+  "authorEmail": "lars@huttar.net",
+  "dataUrl": "http://thematicmapping.org/downloads/world_borders.php",
+  "dataTitle": "World Borders Dataset"
+}

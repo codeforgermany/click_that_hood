@@ -1,0 +1,7 @@
+{
+  "locationName": "Arlington",
+  "stateName": "VA",
+  "neighborhoodNoun": ["civic association", "civic associations"],
+  "dataUrl": "https://gisdata-arlgis.opendata.arcgis.com",
+  "dataTitle": "Arlington County Open Data Site"
+}

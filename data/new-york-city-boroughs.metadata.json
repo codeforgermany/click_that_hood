@@ -1,0 +1,8 @@
+{
+  "locationName": "New York",
+  "stateName": "NY",
+  "annotation": "Boroughs",
+  "neighborhoodNoun": ["borough", "boroughs"],
+  "dataUrl": "http://www.nyc.gov/html/dcp/html/bytes/dwndistricts.shtml",
+  "dataTitle": "New York City Department of City Planning"
+}

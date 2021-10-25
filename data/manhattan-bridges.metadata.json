@@ -1,0 +1,7 @@
+{
+  "locationName": "New York",
+  "countryName": "U.S.",
+  "annotation": "Manhattan bridges",
+  "neighborhoodNoun": ["Manhattan bridge", "Manhattan bridges"],
+  "pointsInsteadOfPolygons": true
+}

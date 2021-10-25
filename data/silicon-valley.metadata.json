@@ -1,0 +1,8 @@
+{
+  "locationName": "Silicon Valley",
+  "stateName": "CA",
+  "annotation": "Cities",
+  "neighborhoodNoun": ["city", "cities"],
+  "dataUrl": "http://www.census.gov/geo/maps-data/data/cbf/cbf_place.html",
+  "dataTitle": "U.S. Census Bureau"
+}

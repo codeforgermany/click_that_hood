@@ -1,0 +1,8 @@
+{
+  "locationName": "Brandenburg",
+  "countryName": "Germany",
+  "annotation": "Municipalities",
+  "neighborhoodNoun": ["municipality", "municipalities"],
+  "dataUrl": "http://www.geodatenzentrum.de",
+  "dataTitle": "GeoBasis-DE / BKG 2013 (data edited)"
+}

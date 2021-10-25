@@ -1,0 +1,10 @@
+{
+  "locationName": "Moscow",
+  "countryName": "Russia",
+  "dataUrl": "http://gis-lab.info/qa/osm-adm.html",
+  "dataTitle": "GIS-Lab/OpenStreetMap",
+  "languages": {
+    "kириллица": "name",
+    "latin": "name_lat"
+  }
+}

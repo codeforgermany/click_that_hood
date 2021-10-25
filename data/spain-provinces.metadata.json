@@ -1,0 +1,8 @@
+{
+  "locationName": "Spain",
+  "annotation": "Administrative provinces",
+  "countryName": "Spain",
+  "neighborhoodNoun": ["province", "provinces"],
+  "dataUrl": "https://mwichary.cartodb.com/dashboard/common_data/Administrative%20regions",
+  "dataTitle": "CartoDB Common Data"
+}
