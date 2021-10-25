@@ -2051,7 +2051,7 @@ function prepareLocationList() {
 
       el.setAttribute("city-id", id);
 
-      var html = '<a href="' + id + '">';
+      var html = '<a href="?' + id + '">';
 
       html += cityData.longLocationName || cityData.locationName;
       if (cityData.annotation) {
