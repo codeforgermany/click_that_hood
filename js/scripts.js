@@ -1876,7 +1876,7 @@ function updateFooter() {
 
   if (CITY_DATA[cityId].authorTwitter) {
     document.querySelector("footer .author a").href =
-      "http://twitter.com/" + CITY_DATA[cityId].authorTwitter;
+      "https://twitter.com/" + CITY_DATA[cityId].authorTwitter;
     document.querySelector("footer .author a").innerHTML =
       "@" + CITY_DATA[cityId].authorTwitter;
     document.querySelector("footer .author").classList.add("visible");
@@ -2100,15 +2100,6 @@ function getEnvironmentInfo() {
   }
 }
 
-function removeHttpsIfPresent() {
-  // Gets out of HTTPS to do HTTP, because D3 doesn’t allow linking via
-  // HTTPS. But there’s a better way to deal with all of this, I feel
-  // (hosting our own copy of D3?).
-  if (location.protocol == "https:") {
-    location.replace(location.href.replace(/https:\/\//, "http://"));
-  }
-}
-
 function checkIfEverythingLoaded() {
   if ((geoDataLoaded || mainMenu) && bodyLoaded) {
     everythingLoaded();
@@ -2243,8 +2234,6 @@ function browserIsOkay() {
 }
 
 function main() {
-  removeHttpsIfPresent();
-
   if (testBrowser()) {
     browserIsOkay();
   }
