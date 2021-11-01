@@ -44,7 +44,7 @@ var MIN_POINT_RADIUS = 16;
 var MAPBOX_MAP_ID = "codeforamerica.map-mx0iqvk2";
 
 var ADD_YOUR_CITY_URL =
-  "https://github.com/codeforamerica/click_that_hood/wiki/How-to-add-a-city-to-Click-That-%E2%80%99Hood";
+  "https://github.com/codeforgermany/click_that_hood/wiki/How-to-add-a-city-to-Click-That-%E2%80%99Hood";
 
 var MAPS_DEFAULT_SCALE = 512;
 var D3_DEFAULT_SCALE = 500;
