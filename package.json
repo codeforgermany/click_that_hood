@@ -1,6 +1,6 @@
 {
   "name": "click_that_hood",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "compression": "^1.7.4",
