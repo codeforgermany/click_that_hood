@@ -41,8 +41,6 @@ var MAP_BACKGROUND_MAX_ZOOM_US = 17;
 var POINT_SCALE = 75000;
 var MIN_POINT_RADIUS = 16;
 
-var MAPBOX_MAP_ID = "codeforamerica.map-mx0iqvk2";
-
 var ADD_YOUR_CITY_URL =
   "https://github.com/codeforgermany/click_that_hood/wiki/How-to-add-a-city-to-Click-That-%E2%80%99Hood";
 
@@ -115,6 +113,10 @@ var currentNeighborhoodOverThreshold = false;
 
 var defaultLanguage = "";
 var language = "";
+
+var TILE_URL =
+  "https://{s}.basemaps.cartocdn.com/rastertiles/voyager_nolabels/{z}/{x}/{y}.png";
+var map;
 
 // ---
 
@@ -678,19 +680,11 @@ function updateCount() {
 function prepareMainMenuMapBackground() {
   updateCanvasSize();
 
-  if (typeof mapbox != "undefined") {
-    var layer = mapbox.layer().id(MAPBOX_MAP_ID);
-    var map = mapbox.map(
-      document.querySelector("#maps-background"),
-      layer,
-      null,
-      []
-    );
-    map.tileSize = {
-      x: Math.round(320 / pixelRatio),
-      y: Math.round(320 / pixelRatio),
-    };
-    map.centerzoom({ lat: 26 + 7, lon: 63 - 13 }, pixelRatio);
+  if (typeof L != "undefined" && typeof map == "undefined") {
+    map = L.map("maps-background", { zoomControl: false }).setView([30, 0], 3);
+    L.tileLayer(TILE_URL, {
+      maxZoom: 18,
+    }).addTo(map);
   }
 
   lastMapWidth = document.querySelector("#maps-background").offsetWidth;
@@ -1705,17 +1699,13 @@ function prepareMapBackground() {
     zoom--;
   }
 
-  // TODO resize properly instead of recreating every single time
-  document.querySelector("#maps-background").innerHTML = "";
-
-  if (typeof mapbox != "undefined") {
-    var layer = mapbox.layer().id(MAPBOX_MAP_ID);
-    var map = mapbox.map(
-      document.querySelector("#maps-background"),
-      layer,
-      null,
-      []
-    );
+  if (typeof L != "undefined") {
+    if (typeof map == "undefined") {
+      map = L.map("maps-background", { zoomControl: false });
+      L.tileLayer(TILE_URL, {
+        maxZoom: 18,
+      }).addTo(map);
+    }
 
     if (pixelRatio == 2) {
       zoom++;
@@ -1737,7 +1727,7 @@ function prepareMapBackground() {
       size *= 2;
     }
 
-    map.tileSize = {
+    let tileSize = {
       x: Math.round(size / pixelRatio),
       y: Math.round(size / pixelRatio),
     };
@@ -1752,11 +1742,12 @@ function prepareMapBackground() {
 
     var leftMargin = BODY_MARGIN * 2 + HEADER_WIDTH;
 
-    var ratio = leftMargin / map.tileSize.x;
+    var ratio = leftMargin / tileSize.x;
 
     lon -= ratio * longStep;
 
-    map.centerzoom({ lat: lat, lon: lon }, zoom);
+    // map.centerzoom({ lat: lat, lon: lon }, zoom);
+    map.setView(new L.LatLng(lat, lon), zoom);
   }
 }
 
