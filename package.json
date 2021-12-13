@@ -3,11 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "compression": "^1.7.4",
     "config": "^3.3.6",
-    "express": "^4.17.1",
-    "glob": "^7.1.7",
-    "less-middleware": "^3.1.0"
+    "glob": "^7.1.7"
   },
   "devDependencies": {
     "less": "^4.1.2",
@@ -17,7 +14,6 @@
     "build": "node build.js && lessc public/css/styles.less public/css/styles.css",
     "check": "prettier --check \".\"",
     "format": "prettier --write \".\"",
-    "start": "node app.js",
     "test": "npm run check"
   },
   "license": "MIT"
