@@ -17,10 +17,12 @@ Build the `data.js` file:
 
 - `npm run build`
 
-Start the server:
+The resulting site is entirely static and can be served with any HTTP server you like.
+The server that is built into Python is a good way to get started.
 
-- `npm start`
+- `cd public`
+- `python -m http.server 8020`
 
 Open it in a browser: <http://localhost:8020>
 
-It runs on port 8020 by default, but it can be changed by setting the `PORT=` environment variable.
+Traditionally the demo server has run on port 8020, but you can use any port you want. You may need to use 'python3' instead of 'python', depending on your local setup.
