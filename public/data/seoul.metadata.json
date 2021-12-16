@@ -1,0 +1,8 @@
+{
+  "locationName": "Seoul",
+  "annotation": "Dongs",
+  "countryName": "Korea",
+  "neighborhoodNoun": ["Dong", "Dongs"],
+  "dataUrl": "https://github.com/vuski/admdongkor",
+  "dataTitle": "admdongkor"
+}
