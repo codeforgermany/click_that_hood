@@ -1,0 +1,8 @@
+{
+  "locationName": "Korea",
+  "annotation": "Provinces",
+  "countryName": "Korea",
+  "neighborhoodNoun": ["Province", "Provinces"],
+  "dataUrl": "http://www.gisdeveloper.co.kr/?p=2332",
+  "dataTitle": "GEOSERVICE"
+}
