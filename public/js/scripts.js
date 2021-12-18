@@ -41,7 +41,8 @@ var MAP_BACKGROUND_MAX_ZOOM_US = 17;
 var POINT_SCALE = 75000;
 var MIN_POINT_RADIUS = 16;
 
-var MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoiZXBhdWxzb24iLCJhIjoiY2t2bzVkcHRpMWJlazJucW41YndqYmZhMCJ9.nEyn_qkwrcwLi8T-jVFpew';
+var MAPBOX_ACCESS_TOKEN =
+  "pk.eyJ1IjoiZXBhdWxzb24iLCJhIjoiY2t2bzVkcHRpMWJlazJucW41YndqYmZhMCJ9.nEyn_qkwrcwLi8T-jVFpew";
 
 var ADD_YOUR_CITY_URL =
   "https://github.com/codeforgermany/click_that_hood/wiki/How-to-add-a-city-to-Click-That-%E2%80%99Hood";
@@ -351,7 +352,8 @@ function findBoundaries() {
 function calculateMapSize() {
   if (mainMenu) {
     geoMapPath = d3.geoPath().projection(
-      d3.geoMercator()
+      d3
+        .geoMercator()
         .center([0, 0])
         .scale(640 / 6.3)
         .translate([256 + 512 + 213 - 88 + (mapWidth % 640) / 2 - 621 / 2, 256])
@@ -389,7 +391,7 @@ function calculateMapSize() {
       -latStep;
 
     // TODO this shouldn’t be hardcoded, but it is. Sue me.
-/*
+    /*
     switch (cityId) {
       case "africa":
         globalScale *= 0.8;
@@ -443,11 +445,9 @@ function calculateMapSize() {
         MAPS_DEFAULT_SCALE;
     }
 
-
     // Basically nothing uses globalScale anymore, EXCEPT the code the calculates how big
     // the markers should be for "point" maps, like the airports. Othewise most of the code
     // above could be removed.
-
 
     //sw = [boundaries.minLat, boundaries.minLon];
     //ne = [boundaries.maxLat, boundaries.maxLon];
@@ -464,14 +464,16 @@ function calculateMapSize() {
     */
 
     // We expand the bounding box of point-only maps, because if we
-    // don't, the marker(s) on the boundary get cut off. 
+    // don't, the marker(s) on the boundary get cut off.
     if (CITY_DATA[cityId].pointsInsteadOfPolygons) {
       bufferRatio = 0.05;
     } else {
       bufferRatio = 0.0;
     }
-    heightBuffer = Math.abs(boundaries.minLat - boundaries.maxLat) * bufferRatio,
-		widthBuffer = Math.abs(boundaries.minLon - boundaries.maxLon) * bufferRatio;
+    (heightBuffer =
+      Math.abs(boundaries.minLat - boundaries.maxLat) * bufferRatio),
+      (widthBuffer =
+        Math.abs(boundaries.minLon - boundaries.maxLon) * bufferRatio);
 
     new_minlon = boundaries.minLon - heightBuffer;
     new_minlat = boundaries.minLat - widthBuffer;
@@ -483,19 +485,23 @@ function calculateMapSize() {
     // make the bulk of europe hard to read, and russia/asia don't
     // center correctly if they go too far north - i think d3 and mapbox
     // do something slightly different internally.
-    // for the moment only the europe-1914 and -1938, canada, and north-america maps use this 
-    if(CITY_DATA[cityId].minLat ) {
-      if(new_minlat < CITY_DATA[cityId].minLat ) { new_minlat = CITY_DATA[cityId].minLat;}
+    // for the moment only the europe-1914 and -1938, canada, and north-america maps use this
+    if (CITY_DATA[cityId].minLat) {
+      if (new_minlat < CITY_DATA[cityId].minLat) {
+        new_minlat = CITY_DATA[cityId].minLat;
+      }
     }
-    if(CITY_DATA[cityId].maxLat ) {
-      if(new_maxlat > CITY_DATA[cityId].maxLat ) { new_maxlat = CITY_DATA[cityId].maxLat;}
+    if (CITY_DATA[cityId].maxLat) {
+      if (new_maxlat > CITY_DATA[cityId].maxLat) {
+        new_maxlat = CITY_DATA[cityId].maxLat;
+      }
     }
     centerLat = (new_minlat + new_maxlat) / 2;
     centerLon = (new_minlon + new_maxlon) / 2;
 
-    newbounds = [new_minlon, new_minlat, new_maxlon, new_maxlat];  
+    newbounds = [new_minlon, new_minlat, new_maxlon, new_maxlat];
     projection = d3.geoMercator();
-    
+
     switch (mapHorizontalOffset) {
       case MAP_HORIZONTAL_OFFSET_NORMAL:
         projection = projection.center([centerLon, centerLat]);
@@ -509,23 +515,29 @@ function calculateMapSize() {
 
     //
     // Some of the maps need to use different bounding boxes that what would be computed from the data
-    //    
-    if (CITY_DATA[cityId].pointsInsteadOfPolygons || CITY_DATA[cityId].convertPolygonsToPointsIfTooSmall) {
+    //
+    if (
+      CITY_DATA[cityId].pointsInsteadOfPolygons ||
+      CITY_DATA[cityId].convertPolygonsToPointsIfTooSmall
+    ) {
       // We need an object to stand in for the bounding box for points, but for whatever reason bboxPolygon doesn't
       // work - so from this stackoverflow - using a lingstring object instead of a bboxPolygon
       // https://stackoverflow.com/questions/67258820/d3-fitsize-doesnt-fit-the-extent-as-expected-using-a-geojson-polygon
-      geoBoundsObj = turf.lineString([[newbounds[0], newbounds[1]], [newbounds[2], newbounds[3]]]);
-    } else if ((CITY_DATA[cityId].minLat) || CITY_DATA[cityId].maxLat) {
+      geoBoundsObj = turf.lineString([
+        [newbounds[0], newbounds[1]],
+        [newbounds[2], newbounds[3]],
+      ]);
+    } else if (CITY_DATA[cityId].minLat || CITY_DATA[cityId].maxLat) {
       // Note that the turfbox bboxClip function doesn't (yet) support GeometryCollection types
       // see https://github.com/Turfjs/turf/issues/1565
       // but for now, only the africa data has a GeometryCollection,
-      // so we should be OK - most of the maps won't use this clipping feature - 
+      // so we should be OK - most of the maps won't use this clipping feature -
       // only europe-1914 and -1938 are for now
       newGeoData = turf.featureCollection([]);
-      turf.featureEach(geoData, function(f, i) { 
+      turf.featureEach(geoData, function (f, i) {
         x = turf.bboxClip(f, newbounds);
         newGeoData.features.push(x);
-      })
+      });
       geoData = newGeoData;
       geoBoundsObj = newGeoData;
     } else {
@@ -705,7 +717,8 @@ function removeSmallNeighborhoods() {
         el.setAttribute("origD", el.getAttribute("d"));
         el.setAttribute(
           "d",
-          d3.symbol()
+          d3
+            .symbol()
             .type(d3.symbolSquare)
             .size(radius * radius)()
         );
@@ -759,12 +772,13 @@ function prepareMainMenuMapBackground() {
   updateCanvasSize();
 
   if (typeof mapboxgl != "undefined") {
-  mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
-  map = new mapboxgl.Map({
-    container: 'maps-background',
-    style: 'mapbox://styles/mapbox/satellite-v9',
-    center: [50, 33],
-    zoom: pixelRatio});
+    mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
+    map = new mapboxgl.Map({
+      container: "maps-background",
+      style: "mapbox://styles/mapbox/satellite-v9",
+      center: [50, 33],
+      zoom: pixelRatio,
+    });
   }
 
   lastMapWidth = document.querySelector("#maps-background").offsetWidth;
@@ -1785,7 +1799,6 @@ function prepareMapBackground() {
   document.querySelector("#maps-background").innerHTML = "";
 
   if (typeof mapboxgl != "undefined") {
-
     if (pixelRatio == 2) {
       zoom++;
     }
@@ -1806,7 +1819,7 @@ function prepareMapBackground() {
       size *= 2;
     }
 
-/*
+    /*
     map.tileSize = {
       x: Math.round(size / pixelRatio),
       y: Math.round(size / pixelRatio),
@@ -1822,38 +1835,50 @@ function prepareMapBackground() {
 
     var leftMargin = BODY_MARGIN * 2 + HEADER_WIDTH;
 
-
     // we don't have map.tileSize.x here anymore
     //var ratio = leftMargin / map.tileSize.x
     var ratio = leftMargin / Math.round(size / pixelRatio);
-
 
     // we mostly don't use ratio or longStep or latStep anymore
     // a lot of the code in the section above could be deleted
     lon -= ratio * longStep;
 
     mapboxgl.accessToken = MAPBOX_ACCESS_TOKEN;
-    
-    // this was originally inspired by 
+
+    // this was originally inspired by
     // https://stackoverflow.com/questions/35586360/mapbox-gl-js-getbounds-fitbounds
     // but we're trying not to need turfbox
     // d3 geobounds doesn't deal with the antimeridian
-    // but the internal findBoundaries for whatever reason has problems with Africa 
+    // but the internal findBoundaries for whatever reason has problems with Africa
     // The africa map is the only one that uses a GeometryCollection feature in the geojson
     // so maybe a TODO to figure out why findBoundaries is a bit off for africa
 
     tempboundaries = findBoundaries();
-    geoBounds = [tempboundaries.minLon, tempboundaries.minLat, tempboundaries.maxLon, tempboundaries.maxLat];
-    if((cityId === "africa") || CITY_DATA[cityId].pointsInsteadOfPolygons) {geoBounds = d3.geoBounds(geoBoundsObj); }
+    geoBounds = [
+      tempboundaries.minLon,
+      tempboundaries.minLat,
+      tempboundaries.maxLon,
+      tempboundaries.maxLat,
+    ];
+    if (cityId === "africa" || CITY_DATA[cityId].pointsInsteadOfPolygons) {
+      geoBounds = d3.geoBounds(geoBoundsObj);
+    }
 
     // by settings bounds when we create the map, it overrides anything we might have
     // provided for centering/zooming, so we don' provide that anymore
     map = new mapboxgl.Map({
-      container: 'maps-background',
-      style: 'mapbox://styles/mapbox/satellite-v9',
+      container: "maps-background",
+      style: "mapbox://styles/mapbox/satellite-v9",
       bounds: geoBounds,
-      fitBoundsOptions: {padding: {left: ((BODY_MARGIN * 2)+ HEADER_WIDTH), top: MAP_VERT_PADDING, bottom: MAP_VERT_PADDING, right: 0}},
-      interactive: false
+      fitBoundsOptions: {
+        padding: {
+          left: BODY_MARGIN * 2 + HEADER_WIDTH,
+          top: MAP_VERT_PADDING,
+          bottom: MAP_VERT_PADDING,
+          right: 0,
+        },
+      },
+      interactive: false,
     });
 
     // for debugging, kind of helpful - remember to remove the 'interactive'
@@ -1862,7 +1887,6 @@ function prepareMapBackground() {
 
     // I don't think we need this anymore
     lastMapWidth = document.querySelector("#maps-background").offsetWidth;
-
   }
 }
 
@@ -1896,13 +1920,14 @@ function onResize() {
       if (CITY_DATA[cityId].pointsInsteadOfPolygons) {
         var radius = getPointRadius();
 
-       // of note: transformX is not actually CSS, it's a placeholder to stash some values that animation code uses later
-       // the browser uses the transform-translate bit, but ignores transformX and transformY 
+        // of note: transformX is not actually CSS, it's a placeholder to stash some values that animation code uses later
+        // the browser uses the transform-translate bit, but ignores transformX and transformY
         mapSvg
           .selectAll("path")
           .attr(
             "d",
-            d3.symbol()
+            d3
+              .symbol()
               .type(d3.symbolSquare)
               .size(radius * radius)
           )
