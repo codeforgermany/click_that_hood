@@ -445,8 +445,8 @@ function calculateMapSize() {
         MAPS_DEFAULT_SCALE;
     }
 
-    // Basically nothing uses globalScale anymore, EXCEPT the code the calculates how big
-    // the markers should be for "point" maps, like the airports. Othewise most of the code
+    // Basically nothing uses globalScale anymore, EXCEPT the code that calculates how big
+    // the markers should be for "point" maps, like the airports. Otherwise most of the code
     // above could be removed.
 
     //sw = [boundaries.minLat, boundaries.minLon];
@@ -454,7 +454,7 @@ function calculateMapSize() {
     //nw = [boundaries.maxLat, boundaries.minLon];
     //se = [boundaries.minLat, boundaries.maxLon];
 
-    /* mapbox.js has a handy 'pad' function, but mapboxgl doesn't have it. 
+    /* mapbox.js has a handy 'pad' function, but mapboxgl doesn't have it.
        The meat of the code from the leaflet "pad" function:
           heightBuffer = Math.abs(sw.lat - ne.lat) * bufferRatio,
 	        widthBuffer = Math.abs(sw.lng - ne.lng) * bufferRatio;
@@ -481,11 +481,11 @@ function calculateMapSize() {
     new_maxlat = boundaries.maxLat + widthBuffer;
 
     // Optionally, clip at northern lats. The mercator projection distortion
-    // is pretty extreme - the european maps that include Svalbard
-    // make the bulk of europe hard to read, and russia/asia don't
+    // is pretty extreme - the European maps that include Svalbard
+    // make the bulk of Europe hard to read, and Russia/Asia don't
     // center correctly if they go too far north - i think d3 and mapbox
     // do something slightly different internally.
-    // for the moment only the europe-1914 and -1938, canada, and north-america maps use this
+    // for the moment only the Europe-1914 and -1938, Canada, and North-America maps use this
     if (CITY_DATA[cityId].minLat) {
       if (new_minlat < CITY_DATA[cityId].minLat) {
         new_minlat = CITY_DATA[cityId].minLat;
@@ -530,9 +530,9 @@ function calculateMapSize() {
     } else if (CITY_DATA[cityId].minLat || CITY_DATA[cityId].maxLat) {
       // Note that the turfbox bboxClip function doesn't (yet) support GeometryCollection types
       // see https://github.com/Turfjs/turf/issues/1565
-      // but for now, only the africa data has a GeometryCollection,
+      // but for now, only the Africa data has a GeometryCollection,
       // so we should be OK - most of the maps won't use this clipping feature -
-      // only europe-1914 and -1938 are for now
+      // only Europe-1914 and -1938 are for now
       newGeoData = turf.featureCollection([]);
       turf.featureEach(geoData, function (f, i) {
         x = turf.bboxClip(f, newbounds);
@@ -783,9 +783,9 @@ function prepareMainMenuMapBackground() {
 
   lastMapWidth = document.querySelector("#maps-background").offsetWidth;
 
-  /* 
+  /*
       This doesn't seem to be necessary anymore - maybe mapbox.js 0.6.7 didn't keep the map
-      centered? but it seems to stay centered in mapboxgl. 
+      centered? but it seems to stay centered in mapboxgl.
       But we if we do need it, we have to switch this code to be map.on("resize", function(event) {})
     map.addCallback("resized", function (map, dimensions) {
       var width = dimensions[0].x;
@@ -1850,8 +1850,8 @@ function prepareMapBackground() {
     // but we're trying not to need turfbox
     // d3 geobounds doesn't deal with the antimeridian
     // but the internal findBoundaries for whatever reason has problems with Africa
-    // The africa map is the only one that uses a GeometryCollection feature in the geojson
-    // so maybe a TODO to figure out why findBoundaries is a bit off for africa
+    // The Africa map is the only one that uses a GeometryCollection feature in the geojson
+    // so maybe a TODO to figure out why findBoundaries is a bit off for Africa
 
     tempboundaries = findBoundaries();
     geoBounds = [
