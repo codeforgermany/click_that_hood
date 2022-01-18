@@ -1,4 +1,5 @@
 public/css/styles.css
+public/css/mapbox-gl.css
 public/js/lib
 public/js/modernizr.js
 public/js/data.js
