@@ -3,5 +3,6 @@
   "annotation": "Countries",
   "neighborhoodNoun": ["country", "countries"],
   "dataUrl": "https://mwichary.cartodb.com/dashboard/common_data/Cultural%20datasets",
-  "dataTitle": "CartoDB Common Data"
+  "dataTitle": "CartoDB Common Data",
+  "maxLat": 75.0
 }
