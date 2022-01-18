@@ -1,6 +1,6 @@
 {
   "name": "click_that_hood",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "dependencies": {
     "config": "^3.3.6",
