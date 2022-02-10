@@ -1,0 +1,10 @@
+{
+  "locationName": "Dane County",
+  "stateName": "WI",
+  "countryName": "U.S.",
+  "annotation": "Municipalities",
+  "neighborhoodNoun": ["municipality", "municipalities"],
+  "authorTwitter": "erik_paulson",
+  "dataUrl": "https://gis-countyofdane.opendata.arcgis.com/datasets/municipal-boundaries/",
+  "dataTitle": "Cities, Villages, and Towns of Dane County, WI"
+}
