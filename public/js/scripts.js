@@ -1663,7 +1663,7 @@ function gameOver() {
 
 function getSharingMessage() {
   return (
-    "Click That ’Hood - a geography challenge game \n" +
+    "Click That ’Hood – a geography challenge game \n" +
     neighborhoodsGuessed.length +
     " " +
     CITY_DATA[cityId].locationName +
