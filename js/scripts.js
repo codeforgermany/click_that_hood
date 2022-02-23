@@ -50,8 +50,6 @@ var ADD_YOUR_CITY_URL =
 var MAPS_DEFAULT_SCALE = 512;
 var D3_DEFAULT_SCALE = 500;
 
-var FACEBOOK_APP_ID = "179106222254519";
-
 var startTime = 0;
 var timerIntervalId;
 
@@ -1665,7 +1663,7 @@ function gameOver() {
 
 function getSharingMessage() {
   return (
-    "I just played Click That ’Hood and identified " +
+    "Click That ’Hood – a geography challenge game \n" +
     neighborhoodsGuessed.length +
     " " +
     CITY_DATA[cityId].locationName +
@@ -1673,41 +1671,17 @@ function getSharingMessage() {
     getNeighborhoodNoun(true) +
     " in " +
     getTimer() +
-    ". Try to beat me!"
+    ". \n🟩 \n"
   );
 }
 
-function updateFacebookLink(congratsEl) {
-  var el = congratsEl.querySelector("#share-via-facebook");
+function updateShareLink(congratsEl) {
+  var el = congratsEl.querySelector("#share-results");
 
   var text = getSharingMessage();
   var url = location.href;
 
-  el.href =
-    "https://www.facebook.com/dialog/feed?" +
-    "app_id=" +
-    FACEBOOK_APP_ID +
-    "&redirect_uri=" +
-    encodeURIComponent(url) +
-    "&link=" +
-    encodeURIComponent(url) +
-    "&name=" +
-    encodeURIComponent("Click That ’Hood") +
-    "&description=" +
-    encodeURIComponent(text);
-}
-
-function updateTwitterLink(congratsEl) {
-  var el = congratsEl.querySelector("#share-via-twitter");
-
-  var text = getSharingMessage();
-  var url = location.href;
-
-  el.href =
-    "https://twitter.com/intent/tweet?text=" +
-    encodeURIComponent(text) +
-    "&url=" +
-    encodeURIComponent(url);
+  el.dataset.clipboardText = text + " \n" + url;
 }
 
 function gameOverPart2() {
@@ -1723,8 +1697,7 @@ function gameOverPart2() {
     .querySelector("#more-cities-wrapper-wrapper")
     .classList.add("visible");
 
-  updateTwitterLink(el);
-  updateFacebookLink(el);
+  updateShareLink(el);
 
   document.querySelector("#cover").classList.add("visible");
   el.classList.add("visible");
@@ -2330,6 +2303,16 @@ function browserIsOkay() {
   document
     .querySelector("#more-cities-wrapper div")
     .addEventListener("click", onMoreCitiesClick, false);
+
+  clipboard = new ClipboardJS("#share-results");
+
+  clipboard.on("success", function (e) {
+    window.setTimeout(function () {
+      document.querySelector("#copied-to-clipboard").style.visibility =
+        "hidden";
+    }, 1500);
+    document.querySelector("#copied-to-clipboard").style.visibility = "visible";
+  });
 
   getEnvironmentInfo();
   cityId = getCityId();
