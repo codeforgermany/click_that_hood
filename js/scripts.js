@@ -42,7 +42,7 @@ var POINT_SCALE = 75000;
 var MIN_POINT_RADIUS = 16;
 
 var MAPBOX_ACCESS_TOKEN =
-  "pk.eyJ1IjoiZXBhdWxzb24iLCJhIjoiY2t2bzVkcHRpMWJlazJucW41YndqYmZhMCJ9.nEyn_qkwrcwLi8T-jVFpew";
+  "pk.eyJ1IjoiY29kZWZvcmFtZXJpY2EiLCJhIjoiY2t3ZHczc2NmaDVtaDJvcGdsNjhrODkxaSJ9.y6y6vtD3EMy4eRt9n3GefA";
 
 var ADD_YOUR_CITY_URL =
   "https://github.com/codeforgermany/click_that_hood/wiki/How-to-add-a-city-to-Click-That-%E2%80%99Hood";
