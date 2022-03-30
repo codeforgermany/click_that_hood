@@ -1969,13 +1969,11 @@ function getCityId() {
     // ?dane-county-municipalities&fbclid=IwAR3_xoxxxxx
     // so as a last option let's look at all the params and see if
     // we find a city
-    bareParam = false;
-    urlParams.forEach(function (searchVal, searchKey) {
+    for (let searchKey of urlParams.keys()) {
       if (CITY_DATA[searchKey]) {
-        bareParam = searchKey;
+        return searchKey;
       }
-    });
-    return bareParam;
+    }
   }
 
   return false;
