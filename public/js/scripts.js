@@ -1965,6 +1965,17 @@ function getCityId() {
     if (CITY_DATA[locationParam]) {
       return locationParam;
     }
+    // it might be a bare parameter mixed in with non-cth params, e.g.
+    // ?dane-county-municipalities&fbclid=IwAR3_xoxxxxx
+    // so as a last option let's look at all the params and see if
+    // we find a city
+    bareParam = false;
+    urlParams.forEach(function (searchVal, searchKey) {
+      if (CITY_DATA[searchKey]) {
+        bareParam = searchKey;
+      }
+    });
+    return bareParam;
   }
 
   return false;
