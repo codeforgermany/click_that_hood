@@ -1,20 +1,23 @@
 {
   "name": "click_that_hood",
   "version": "1.0.1",
+  "description": "A game where users must identify a city's neighborhoods as quickly as possible",
   "private": true,
+  "license": "MIT",
   "dependencies": {
     "config": "^3.3.6",
-    "glob": "^7.1.7"
+    "glob": "^8.0.3"
   },
   "devDependencies": {
     "less": "^4.1.2",
-    "prettier": "2.6.1"
+    "prettier": "2.7.1"
   },
   "scripts": {
     "build": "node build.js && lessc public/css/styles.less public/css/styles.css",
-    "check": "prettier --check \".\"",
-    "format": "prettier --write \".\"",
+    "check": "prettier --check {*.js,public/{js,css}}",
+    "check-data": "NODE_OPTIONS=--max_old_space_size=8192 prettier --check public/data",
+    "format": "prettier --write {*.js,public/{js,css}}",
+    "format-data": "NODE_OPTIONS=--max_old_space_size=8192 prettier --write public/data",
     "test": "npm run check"
-  },
-  "license": "MIT"
+  }
 }
