@@ -1,0 +1,20 @@
+name: Check Code And Data Formatting
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check-formatting:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Run code and data formatting checks
+        run: |
+          npm ci
+          npm run check
+          npm run check-data
