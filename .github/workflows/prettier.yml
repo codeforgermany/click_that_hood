@@ -1,4 +1,4 @@
-name: Ensure Prettier Format
+name: Ensure Code Formatting
 
 on:
   workflow_dispatch:

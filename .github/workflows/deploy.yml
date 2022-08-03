@@ -11,14 +11,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Install and Build
+      - name: Install dependencies and build
         run: |
           npm ci
           npm run build
 
-      - name: Create 404.html
+      - name: Create 404.html alias for index.html
         run: |
-          cp public/index.html public/404.html
+          ln -s public/index.html public/404.html
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.5
