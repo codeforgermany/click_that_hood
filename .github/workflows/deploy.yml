@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch: # Makes it also possible to manually trigger deployment
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -21,7 +23,7 @@ jobs:
 
       - name: Create 404.html alias for index.html
         run: |
-          ln -s public/index.html public/404.html
+          ln -sr public/index.html public/404.html
 
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@v4
