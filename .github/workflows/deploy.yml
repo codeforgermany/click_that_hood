@@ -25,7 +25,11 @@ jobs:
         run: |
           ln -sr public/index.html public/404.html
 
-      - name: Deploy
+      - name: Prevent GitHub from building Jekyll artifacts when publishing gh-pages
+        run: |
+          touch public/.nojekyll
+
+      - name: Deploy /public to gh-pages branch
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
