@@ -90,7 +90,7 @@ function isTemplateFile(file) {
 function readMetadataFile(file, metadata, countryNames) {
   var locationName = path.basename(file, ".metadata.json");
 
-  console.log("Loading data: " + locationName);
+  console.log("Reading data:", locationName);
 
   // Flag error and exit if metadata is not found
   if (!fs.existsSync(file)) {
@@ -169,7 +169,9 @@ function readMetadataFile(file, metadata, countryNames) {
   metadata[locationName].sampleLatLon = latLon;
 }
 
-// Write combined metadata file from individual location metadata files
+//
+// Build a single metadata file
+//
 glob("public/data/**/*.metadata.json", function (err, files) {
   var metadata = {};
   var countryNames = ["U.S."];
@@ -187,15 +189,16 @@ glob("public/data/**/*.metadata.json", function (err, files) {
   });
 
   var metadataFileContents =
-    "//\n// This file is AUTO-GENERATED each time the " +
-    "application is restarted.\n//\n\n" +
+    "//\n// This file is AUTO-GENERATED each time by the build system.\n//\n\n" +
     "var CITY_DATA = " +
     JSON.stringify(metadata) +
     ";\n" +
     "var COUNTRY_NAMES = " +
     JSON.stringify(countryNames) +
     ";\n";
-  fs.writeFileSync("public/js/data.js", metadataFileContents);
 
   console.log();
+  console.log("Writing file: public/js/data.js");
+
+  fs.writeFileSync("public/js/data.js", metadataFileContents);
 });
