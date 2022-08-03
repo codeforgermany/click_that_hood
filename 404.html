@@ -1,1 +1,1 @@
-public/index.html
+index.html
