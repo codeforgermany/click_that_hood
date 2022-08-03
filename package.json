@@ -14,9 +14,9 @@
   },
   "scripts": {
     "build": "node build.js && lessc public/css/styles.less public/css/styles.css",
-    "check": "prettier --check {*.js,public/{js,css}}",
+    "check": "prettier --check {*.js,public/{*.html,js,css,data/*.json}}",
     "check-data": "NODE_OPTIONS=--max_old_space_size=8192 prettier --check public/data",
-    "format": "prettier --write {*.js,public/{js,css}}",
+    "format": "prettier --write {*.js,public/{*.html,js,css,data/*.json}}",
     "format-data": "NODE_OPTIONS=--max_old_space_size=8192 prettier --write public/data",
     "test": "npm run check"
   }
